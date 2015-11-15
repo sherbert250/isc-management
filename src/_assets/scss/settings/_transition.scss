@@ -1,0 +1,14 @@
+//
+// Transition
+//
+
+$transition-speed: .25s;
+
+$transition-backgroundColor: background-color $transition-speed;
+$transition-borderColor: border-color $transition-speed;
+$transition-color: color $transition-speed;
+$transition-opacity: opacity $transition-speed;
+$transition-transform: transform ($transition-speed * 2);
+
+$transition-all: all $transition-speed, $transition-transform;
+$transition-base: $transition-backgroundColor, $transition-borderColor, $transition-color, $transition-opacity, $transition-transform;

@@ -1,0 +1,34 @@
+//
+// App Styles
+//
+
+// bootstrap theme variables
+@import 'bootstrap/themes/flatly/variables';
+@import 'bootstrap/themes/flatly/bootswatch';
+
+// custom bootstrap variables
+@import 'bootstrap/variables';
+
+// bootstrap core styles (via bootstrap-sass package)
+@import '../../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
+
+// mixins
+@import 'mixins';
+
+// settings
+@import 'settings/color';
+@import 'settings/font-awesome';
+@import 'settings/spacing';
+@import 'settings/transition';
+@import 'settings/type';
+
+// global
+@import 'global/base';
+@import 'global/type';
+
+// elements
+@import 'elements/button';
+@import 'elements/input';
+
+// components
+@import 'components/navbar';
