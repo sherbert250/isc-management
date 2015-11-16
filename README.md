@@ -11,7 +11,7 @@ First, make sure you have node installed. I'm on version 5.0.0. See: https://nod
 Next, you'll need to install some project dependencies. If installs fail, try running with **sudo**:
 
     # install global dependencies
-    npm install --global http-server
+    npm install --global pushstate-server
     npm install --global gulp
 
     # install local dependencies
