@@ -23,6 +23,16 @@ iscApp.controller('PreferencesController', PreferencesController);
 iscApp.controller('AddEmployeeController', AddEmployeeController);
 
 //
+// Directives
+//
+
+iscApp.directive('navbar', function() {
+  return {
+    templateUrl: 'views/navbar.html'
+  }
+});
+
+//
 // Routes
 //
 

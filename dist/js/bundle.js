@@ -354,6 +354,16 @@ iscApp.controller('PreferencesController', _PreferencesController2.default);
 iscApp.controller('AddEmployeeController', _AddEmployeeController2.default);
 
 //
+// Directives
+//
+
+iscApp.directive('navbar', function () {
+  return {
+    templateUrl: 'views/navbar.html'
+  };
+});
+
+//
 // Routes
 //
 
@@ -415,6 +425,9 @@ exports.default = [{
 }, {
   href: '/team-members',
   text: 'Team Members'
+}, {
+  href: 'add-employee',
+  text: 'Add Employee'
 }, {
   href: '/seating-charts',
   text: 'Seating Charts'

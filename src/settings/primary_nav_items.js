@@ -12,6 +12,10 @@ export default [
     text: 'Team Members'
   },
   {
+    href: 'add-employee',
+    text: 'Add Employee'
+  },
+  {
     href: '/seating-charts',
     text: 'Seating Charts'
   }

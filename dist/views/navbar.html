@@ -1,0 +1,34 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="javascript:void(0)">Ideal Seating Chart</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li
+            ng-class="navLinkClass('{{item.href}}')"
+            ng-repeat="item in primaryNavItems">
+            <a ng-href="{{item.href}}">{{item.text}}</a>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown">
+            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">My Account <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li
+                ng-class="navLinkClass('{{item.href}}')"
+                ng-repeat="item in accountNavItems">
+                <a ng-href="{{item.href}}">{{item.text}}</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+</nav>
