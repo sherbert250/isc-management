@@ -1,0 +1,96 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-10 col-xs-12">
+			<form class="form">
+				<h3>General Imformation</h3>
+				<span class="text-danger bottom-fix">* - Required</span>
+				<div class="row">
+					<div class="form-group col-sm-4">
+						<label for="firstName">First Name *</label><input type="text"
+							class="form-control" name="firstName" placeholder="First Name"
+							ng-model="employee.firstName" required />
+					</div>
+					<div class="form-group col-sm-4">
+						<label for="lastName">Last Name *</label><input type="text"
+							class="form-control" name="lastName" placeholder="Last Name"
+							ng-model="employee.lastName" required />
+					</div>
+					<div class="form-group col-sm-4">
+						<label for="email">Email</label><input type="text"
+							class="form-control" name="email" ng-model="employee.email"
+							placeholder="example@lucidagency.com" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-sm-4">
+						<label for="temperature">Temperature Preference</label><select
+							class="form-control" ng-model="employee.temperaturePreference">
+							<option value="">-- Select a Temperature Range --</option>
+							<option ng-repeat="range in ranges">{{range.trim()}}
+							</option></select>
+					</div>
+					<div class="form-group col-sm-4">
+						<label for="restroom">Restroom Usage</label><select
+							class="form-control" ng-model="employee.restroomUsage">
+							<option value="">-- Select Usage --</option>
+							<option ng-repeat="uses in usages">{{uses.trim()}}
+							</option></select>
+					</div>
+					<div class="form-group col-sm-4">
+						<label for="noise">Noise Preference</label><select
+							class="form-control" ng-model="employee.noisePreference">
+							<option value="">-- Select Noise Preference --</option>
+							<option ng-repeat="noise in noises">{{noise.trim()}}
+							</option></select>
+					</div>
+				</div>
+				<h3>Company Information</h3>
+				<div class="row">
+					<div class="form-group col-sm-4">
+						<label for="department">Department *</label><input type="text"
+						ng-model="employee.department" placeholder="add department"
+						typeahead="department for department in departments | filter:$viewValue | limitTo:10"
+						class="form-control">
+					</div>
+					<div class="form-group col-sm-4">
+						<label for="title">Work Title *</label><input type="text"
+						ng-model="employee.title" placeholder="add title"
+						typeahead="title for title in titles | filter:$viewValue | limitTo:10"
+						class="form-control">
+					</div>
+					<div class="form-group col-sm-4">
+						<label for="team">Team Members *</label><tags-input ng-model="teammates"
+						replace-spaces-with-dashes="false" add-from-autocomplete-only="true"
+						placeholder="add a team member"><auto-complete sources="loadTeamMembers($query)"
+						load-on-focus="true" load-on-empty="true" max-results-to-show="10"></auto-complete></tags-input>
+					</div>
+				</div>
+				<h3>Miscellaneous</h3>
+				<div class="row">
+					<div class="form-group col-sm-4">
+						<label for="inhabitancy">Desk Inhabitancy</label><select
+							class="form-control" ng-model="employee.deskInhabitancy">
+							<option value="">-- How Often Are You At Your Desk? --</option>
+							<option ng-repeat="frequency in frequencies">{{frequency.trim()}}
+							</option></select>
+					</div>
+					<div class="form-group col-sm-4">
+						<label for="team">White List</label><tags-input ng-model="employee.whiteList"
+						replace-spaces-with-dashes="false" add-from-autocomplete-only="true"
+						placeholder="add a friend"><auto-complete sources="loadWhiteList($query)"
+						load-on-focus="true" load-on-empty="true" max-results-to-show="10"></auto-complete></tags-input>
+					</div>
+					<div class="form-group col-sm-4">
+						<label for="team">Black List</label><tags-input ng-model="employee.blackList"
+						replace-spaces-with-dashes="false" add-from-autocomplete-only="true"
+						placeholder="add an enemy"><auto-complete sources="loadBlackList($query)"
+						load-on-focus="true" load-on-empty="true" max-results-to-show="10"></auto-complete></tags-input>
+					</div>
+				<div class="col-sm-12">
+					<button type="submit" class="btn btn-primary top-fix">Add Employee</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
