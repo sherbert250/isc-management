@@ -27,6 +27,8 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "bootstrap-sass": "^3.3.5"
+    "bootstrap-sass": "^3.3.5",
+    "express": "^4.13.3",
+    "ng-tags-input": "^3.0.0"
   }
 }
