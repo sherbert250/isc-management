@@ -1,0 +1,1 @@
+export default ["Marketing", "Social Media", "Management", "Web Development"];

@@ -1,0 +1,1 @@
+export default ["All the time", "Often", "Not very often", "Almost Never"];

@@ -1,0 +1,1 @@
+export default ["Developer", "Analyst", "Manager", "President", "Director"];

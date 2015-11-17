@@ -1,0 +1,1 @@
+export default ["Darth Vader", "Luke Skywalker", "Princess Leia", "Han Solo", "Chewbacca", "Emperor Palpatine"];
