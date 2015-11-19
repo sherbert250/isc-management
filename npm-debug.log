@@ -7,7 +7,7 @@
 6 silly lifecycle ids@1.0.0~prestart: no script for prestart, continuing
 7 info lifecycle ids@1.0.0~start: ids@1.0.0
 8 verbose lifecycle ids@1.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle ids@1.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/Jerry/Desktop/Dev/source/isc-management/node_modules/.bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/git/bin:/Library/TeX/texbin:/Users/Jerry/Maven/bin
+9 verbose lifecycle ids@1.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/Jerry/Desktop/Dev/source/isc-management/node_modules/.bin:/Users/Jerry/Library/Enthought/Canopy_64bit/User/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/git/bin:/Library/TeX/texbin:/Users/Jerry/Maven/bin
 10 verbose lifecycle ids@1.0.0~start: CWD: /Users/Jerry/Desktop/Dev/source/isc-management
 11 silly lifecycle ids@1.0.0~start: Args: [ '-c', 'pushstate-server ./dist 3000 & gulp && fg' ]
 12 silly lifecycle ids@1.0.0~start: Returned: code: 1  signal: null
