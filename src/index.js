@@ -13,13 +13,11 @@ import HomeController from './controllers/HomeController';
 import TeamMembersController from './controllers/TeamMembersController';
 import SeatingChartsController from './controllers/SeatingChartsController';
 import PreferencesController from './controllers/MyAccount/PreferencesController';
-import ViewEmployeesController from './controllers/ViewEmployeesController';
 
 iscApp.controller('MainController', MainController);
 iscApp.controller('HomeController', HomeController);
 iscApp.controller('TeamMembersController', TeamMembersController);
 iscApp.controller('SeatingChartsController', SeatingChartsController);
-iscApp.controller('ViewEmployeesController', ViewEmployeesController);
 iscApp.controller('PreferencesController', PreferencesController);
 
 //
@@ -44,10 +42,6 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   .when('/my-account/preferences', {
     templateUrl: 'views/my-account/preferences.html',
     controller: 'PreferencesController'
-  })
-  .when('/view-employees', {
-    templateUrl: 'views/view-employees.html',
-    controller: 'ViewEmployeesController'
   })
   .otherwise({
     redirectTo: '/'
