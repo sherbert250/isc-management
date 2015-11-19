@@ -101,7 +101,7 @@ exports.default = ['$scope', function ($scope) {
   };
 }];
 
-},{"../data/departments":7,"../data/desk_inhabitancies":8,"../data/employees":9,"../data/noise_preferences":10,"../data/restroom_usages":11,"../data/temperature_ranges":13,"../data/titles":14}],2:[function(require,module,exports){
+},{"../data/departments":8,"../data/desk_inhabitancies":9,"../data/employees":10,"../data/noise_preferences":11,"../data/restroom_usages":12,"../data/temperature_ranges":14,"../data/titles":15}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -151,7 +151,7 @@ exports.default = ['$scope', '$route', '$routeParams', '$location', function ($s
   $scope.primaryNavItems = _primary_nav_items2.default;
 }];
 
-},{"../settings/account_nav_items":16,"../settings/primary_nav_items":17}],4:[function(require,module,exports){
+},{"../settings/account_nav_items":17,"../settings/primary_nav_items":18}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -207,7 +207,30 @@ exports.default = ['$scope', function ($scope) {
   $scope.collection = _team_members2.default;
 }];
 
-},{"../data/team_members":12}],7:[function(require,module,exports){
+},{"../data/team_members":13}],7:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _employees = require('../data/employees');
+
+var _employees2 = _interopRequireDefault(_employees);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// View Employees Controller
+//
+// Show a list of employees
+//
+
+exports.default = ['$scope', function ($scope) {
+  $scope.emps = _employees2.default;
+}];
+
+},{"../data/employees":10}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -215,7 +238,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = ["Marketing", "Social Media", "Management", "Web Development"];
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -223,21 +246,69 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = ["All the time", "Often", "Not very often", "Almost Never"];
 
-},{}],9:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = ["Darth Vader", "Luke Skywalker", "Princess Leia", "Han Solo", "Chewbacca", "Emperor Palpatine"];
-
 },{}],10:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = ["Loud", "Ambient", "Quiet", "Silent"];
+exports.default = [{
+  id: 1,
+  firstName: 'Allen',
+  lastName: 'Kawanzaruwa',
+  name: 'Allen Kawanzaruwa',
+  position: 'Developer',
+  temp: '74-76'
+}, {
+  id: 2,
+  firstName: 'Daniel',
+  lastName: 'Graca',
+  name: 'Daniel Graca',
+  position: 'Developer',
+  temp: '71-73'
+}, {
+  id: 3,
+  firstName: 'Garrett',
+  lastName: 'Gutierrez',
+  name: 'Garrett Gutierrez',
+  position: 'Developer',
+  temp: '74-76'
+}, {
+  id: 4,
+  firstName: 'Jack',
+  lastName: 'Bankston',
+  name: 'Jack Bankston',
+  position: 'Developer',
+  temp: '74-76'
+}, {
+  id: 5,
+  firstName: 'Jeff',
+  lastName: 'Tribble',
+  name: 'Jeff Tribble',
+  position: 'Developer',
+  temp: '77-79'
+}, {
+  id: 6,
+  firstName: 'Jerry',
+  lastName: 'Trayer',
+  name: 'Jerry Trayer',
+  position: 'Developer',
+  temp: '71-73'
+}, {
+  id: 7,
+  firstName: 'Bob',
+  lastName: 'Dylan',
+  name: 'Bob Dylan',
+  position: 'Manager',
+  temp: '77-79'
+}, {
+  id: 8,
+  firstName: 'Inspector',
+  lastName: 'Gadget',
+  name: 'Inspector Gadget',
+  position: 'Director',
+  temp: '71-73'
+}];
 
 },{}],11:[function(require,module,exports){
 "use strict";
@@ -245,9 +316,17 @@ exports.default = ["Loud", "Ambient", "Quiet", "Silent"];
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = ["All the time", "Often", "Not very often", "Almost Never"];
+exports.default = ["Loud", "Ambient", "Quiet", "Silent"];
 
 },{}],12:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = ["All the time", "Often", "Not very often", "Almost Never"];
+
+},{}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -291,7 +370,7 @@ exports.default = [{
   email: 'jtrayer1@asu.edu'
 }];
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -299,7 +378,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = ["68-70", "71-73", "74-76", "77-79", "80-82"];
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -307,7 +386,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = ["Developer", "Analyst", "Manager", "President", "Director"];
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 var _MainController = require('./controllers/MainController');
@@ -334,6 +413,10 @@ var _AddEmployeeController = require('./controllers/AddEmployeeController');
 
 var _AddEmployeeController2 = _interopRequireDefault(_AddEmployeeController);
 
+var _ViewEmployeesController = require('./controllers/ViewEmployeesController');
+
+var _ViewEmployeesController2 = _interopRequireDefault(_ViewEmployeesController);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -350,6 +433,7 @@ iscApp.controller('MainController', _MainController2.default);
 iscApp.controller('HomeController', _HomeController2.default);
 iscApp.controller('TeamMembersController', _TeamMembersController2.default);
 iscApp.controller('SeatingChartsController', _SeatingChartsController2.default);
+iscApp.controller('ViewEmployeesController', _ViewEmployeesController2.default);
 iscApp.controller('PreferencesController', _PreferencesController2.default);
 iscApp.controller('AddEmployeeController', _AddEmployeeController2.default);
 
@@ -384,6 +468,9 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   }).when('/add-employee', {
     templateUrl: 'views/add-employee.html',
     controller: 'AddEmployeeController'
+  }).when('/view-employees', {
+    templateUrl: 'views/view-employees.html',
+    controller: 'ViewEmployeesController'
   }).otherwise({
     redirectTo: '/'
   });
@@ -391,7 +478,7 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   $locationProvider.html5Mode(true);
 });
 
-},{"./controllers/AddEmployeeController":1,"./controllers/HomeController":2,"./controllers/MainController":3,"./controllers/MyAccount/PreferencesController":4,"./controllers/SeatingChartsController":5,"./controllers/TeamMembersController":6}],16:[function(require,module,exports){
+},{"./controllers/AddEmployeeController":1,"./controllers/HomeController":2,"./controllers/MainController":3,"./controllers/MyAccount/PreferencesController":4,"./controllers/SeatingChartsController":5,"./controllers/TeamMembersController":6,"./controllers/ViewEmployeesController":7}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -409,7 +496,7 @@ exports.default = [{
   text: 'Sign Out'
 }];
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -423,8 +510,8 @@ exports.default = [{
   href: '/',
   text: 'Home'
 }, {
-  href: '/team-members',
-  text: 'Team Members'
+  href: '/view-employees',
+  text: 'View Employees'
 }, {
   href: 'add-employee',
   text: 'Add Employee'
@@ -433,7 +520,7 @@ exports.default = [{
   text: 'Seating Charts'
 }];
 
-},{}]},{},[15])
+},{}]},{},[16])
 
 
 //# sourceMappingURL=bundle.js.map
