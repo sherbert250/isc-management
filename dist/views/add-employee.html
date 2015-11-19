@@ -37,10 +37,10 @@
 						class="form-control">
 					</div>
 					<div class="form-group col-sm-4">
-						<label for="team">Team Members *</label><tags-input ng-model="teammates"
-						replace-spaces-with-dashes="false" add-from-autocomplete-only="true"
-						placeholder="add a team member"><auto-complete sources="loadTeamMembers($query)"
-						load-on-focus="true" load-on-empty="true" max-results-to-show="10"></auto-complete></tags-input>
+						<label for="title">Team Member(s) *</label><input type="text"
+						ng-model="employee.teammate" placeholder="add teammate"
+						typeahead="mate for mate in teammates | filter:$viewValue | limitTo:10"
+						class="form-control">
 					</div>
 				</div>
 				<h3>Preferences</h3>
@@ -76,16 +76,16 @@
 							</option></select>
 					</div>
 					<div class="form-group col-sm-4">
-						<label for="team">White List</label><tags-input ng-model="employee.whiteList"
-						replace-spaces-with-dashes="false" add-from-autocomplete-only="true"
-						placeholder="add a friend"><auto-complete sources="loadWhiteList($query)"
-						load-on-focus="true" load-on-empty="true" max-results-to-show="10"></auto-complete></tags-input>
+						<label for="title">White List</label><input type="text"
+						ng-model="employee.whiteList" placeholder="add employee"
+						typeahead="member for member in whiteList | filter:$viewValue | limitTo:10"
+						class="form-control">
 					</div>
 					<div class="form-group col-sm-4">
-						<label for="team">Black List</label><tags-input ng-model="employee.blackList"
-						replace-spaces-with-dashes="false" add-from-autocomplete-only="true"
-						placeholder="add an enemy"><auto-complete sources="loadBlackList($query)"
-						load-on-focus="true" load-on-empty="true" max-results-to-show="10"></auto-complete></tags-input>
+						<label for="title">Black List</label><input type="text"
+						ng-model="employee.blackList" placeholder="add employee"
+						typeahead="member for member in blackList | filter:$viewValue | limitTo:10"
+						class="form-control">
 					</div>
 				<div class="col-sm-12">
 					<button type="submit" class="btn btn-primary top-fix">Add Employee</button>
