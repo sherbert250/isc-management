@@ -8,6 +8,13 @@ import employees from '../data/employees';
 
 export default ['$scope', ($scope) => {
   $scope.emps = employees;
+  $scope.positions= [{
+    'position': 'CEO'
+  }, {
+    'position': 'Manager'
+  }, {
+    'position': 'Developer'
+  }];
   $scope.orderProperty='firstName'
   $scope.setOrderProperty = function(propertyName) {
     if ($scope.orderProperty === propertyName) {
@@ -17,8 +24,7 @@ export default ['$scope', ($scope) => {
     } else {
         $scope.orderProperty = propertyName;
     }
-return $scope.orderProperty;
-};
+  return $scope.orderProperty;};
 
 }];
 

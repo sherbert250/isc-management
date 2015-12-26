@@ -4,9 +4,10 @@
     <input ng-model="query" type="text"
       placeholder="Filter by" autofocus>
   </form>
-  <!--<select data-ng-options="model.temp for model in emps | unique:'temp'" data-ng-model="position" >
-     <option value="">--Select a Postion--</option>
-  </select>-->
+  <select ng-model="position" >
+     <option value="">--Select a Position--</option>
+     <option ng-repeat="model in positions" value="{{model.position}}">{{model.position}}</option>
+  </select>
   <table class="table table-striped"  >
     <thead>
       <th><button ng-click="setOrderProperty('firstName')">First name</button></th>
@@ -14,7 +15,7 @@
       <th><button ng-click="setOrderProperty('position')">Position</button></th>
       <th><button ng-click="setOrderProperty('temp')">Temp</button></th>
     </thead>
-    <tbody ng-repeat="model in emps | filter: query | orderBy:orderProperty">
+    <tbody ng-repeat="model in emps | filter: query | filter:position | orderBy:orderProperty">
       <tr>
         <td>{{model.firstName}}</td>
         <td>{{model.lastName}}</td>

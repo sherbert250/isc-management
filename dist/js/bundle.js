@@ -108,7 +108,7 @@ exports.default = ['$scope', function ($scope) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _employees = require('../data/employees');
@@ -124,18 +124,25 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$scope', function ($scope) {
-    $scope.emps = _employees2.default;
-    $scope.orderProperty = 'firstName';
-    $scope.setOrderProperty = function (propertyName) {
-        if ($scope.orderProperty === propertyName) {
-            $scope.orderProperty = '-' + propertyName;
-        } else if ($scope.orderProperty === '-' + propertyName) {
-            $scope.orderProperty = propertyName;
-        } else {
-            $scope.orderProperty = propertyName;
-        }
-        return $scope.orderProperty;
-    };
+  $scope.emps = _employees2.default;
+  $scope.positions = [{
+    'position': 'CEO'
+  }, {
+    'position': 'Manager'
+  }, {
+    'position': 'Developer'
+  }];
+  $scope.orderProperty = 'firstName';
+  $scope.setOrderProperty = function (propertyName) {
+    if ($scope.orderProperty === propertyName) {
+      $scope.orderProperty = '-' + propertyName;
+    } else if ($scope.orderProperty === '-' + propertyName) {
+      $scope.orderProperty = propertyName;
+    } else {
+      $scope.orderProperty = propertyName;
+    }
+    return $scope.orderProperty;
+  };
 }];
 
 },{"../data/employees":7}],7:[function(require,module,exports){
