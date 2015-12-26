@@ -7,12 +7,12 @@
   <!--<select data-ng-options="model.temp for model in emps | unique:'temp'" data-ng-model="position" >
      <option value="">--Select a Postion--</option>
   </select>-->
-  <table class="table table-striped"  >
+  <table class="table table-striped" ng-model="order='firstName'" >
     <thead>
-      <th><button ng-click="setOrderProperty('firstName')">First name</button></th>
-      <th><button ng-click="setOrderProperty('lastName')">Last name</button></th>
-      <th><button ng-click="setOrderProperty('position')">Position</button></th>
-      <th><button ng-click="setOrderProperty('temp')">Temp</button></th>
+      <th><button ng-click="order=setOrderProperty('firstName')">First name</button></th>
+      <th><a href="" ng-click="order=setOrderProperty('lastName')">Last name</a></th>
+      <th>Position</th>
+      <th>Temp</th>
     </thead>
     <tbody ng-repeat="model in emps | filter: query | orderBy:orderProperty">
       <tr>

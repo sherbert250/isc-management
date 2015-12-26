@@ -48,7 +48,7 @@ exports.default = ['$scope', '$route', '$routeParams', '$location', function ($s
   $scope.primaryNavItems = _primary_nav_items2.default;
 }];
 
-},{"../settings/account_nav_items":8,"../settings/primary_nav_items":9}],3:[function(require,module,exports){
+},{"../settings/account_nav_items":10,"../settings/primary_nav_items":11}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -104,7 +104,97 @@ exports.default = ['$scope', function ($scope) {
   $scope.collection = _team_members2.default;
 }];
 
-},{"../data/team_members":6}],6:[function(require,module,exports){
+},{"../data/team_members":8}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _employees = require('../data/employees');
+
+var _employees2 = _interopRequireDefault(_employees);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// View Employees Controller
+//
+// Show a list of employees
+//
+
+exports.default = ['$scope', function ($scope) {
+    $scope.emps = _employees2.default;
+    $scope.orderProperty = 'firstName';
+    $scope.setOrderProperty = function (propertyName) {
+        if ($scope.orderProperty === propertyName) {
+            $scope.orderProperty = '-' + propertyName;
+        } else if ($scope.orderProperty === '-' + propertyName) {
+            $scope.orderProperty = propertyName;
+        } else {
+            $scope.orderProperty = propertyName;
+        }
+        return $scope.orderProperty;
+    };
+}];
+
+},{"../data/employees":7}],7:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = [{
+  id: 1,
+  firstName: 'Allen',
+  lastName: 'Kawanzaruwa',
+  position: 'Developer',
+  temp: '76'
+}, {
+  id: 2,
+  firstName: 'Daniel',
+  lastName: 'Graca',
+  position: 'Developer',
+  temp: '72'
+}, {
+  id: 3,
+  firstName: 'Garrett',
+  lastName: 'Gutierrez',
+  position: 'Developer',
+  temp: '74'
+}, {
+  id: 4,
+  firstName: 'Jack',
+  lastName: 'Bankston',
+  position: 'Developer',
+  temp: '75'
+}, {
+  id: 5,
+  firstName: 'Jeff',
+  lastName: 'Tribble',
+  position: 'Developer',
+  temp: '76'
+}, {
+  id: 6,
+  firstName: 'Jerry',
+  lastName: 'Trayer',
+  position: 'Developer',
+  temp: '74'
+}, {
+  id: 7,
+  firstName: 'Bob',
+  lastName: 'Dylan',
+  position: 'Manager',
+  temp: '76'
+}, {
+  id: 8,
+  firstName: 'Inspector',
+  lastName: 'Gadget',
+  position: 'CEO',
+  temp: '74'
+}];
+
+},{}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -148,7 +238,7 @@ exports.default = [{
   email: 'jtrayer1@asu.edu'
 }];
 
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 var _MainController = require('./controllers/MainController');
@@ -171,6 +261,10 @@ var _PreferencesController = require('./controllers/MyAccount/PreferencesControl
 
 var _PreferencesController2 = _interopRequireDefault(_PreferencesController);
 
+var _ViewEmployeesController = require('./controllers/ViewEmployeesController');
+
+var _ViewEmployeesController2 = _interopRequireDefault(_ViewEmployeesController);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -187,6 +281,7 @@ iscApp.controller('MainController', _MainController2.default);
 iscApp.controller('HomeController', _HomeController2.default);
 iscApp.controller('TeamMembersController', _TeamMembersController2.default);
 iscApp.controller('SeatingChartsController', _SeatingChartsController2.default);
+iscApp.controller('ViewEmployeesController', _ViewEmployeesController2.default);
 iscApp.controller('PreferencesController', _PreferencesController2.default);
 
 //
@@ -207,6 +302,9 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   }).when('/my-account/preferences', {
     templateUrl: 'views/my-account/preferences.html',
     controller: 'PreferencesController'
+  }).when('/view-employees', {
+    templateUrl: 'views/view-employees.html',
+    controller: 'ViewEmployeesController'
   }).otherwise({
     redirectTo: '/'
   });
@@ -214,7 +312,7 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   $locationProvider.html5Mode(true);
 });
 
-},{"./controllers/HomeController":1,"./controllers/MainController":2,"./controllers/MyAccount/PreferencesController":3,"./controllers/SeatingChartsController":4,"./controllers/TeamMembersController":5}],8:[function(require,module,exports){
+},{"./controllers/HomeController":1,"./controllers/MainController":2,"./controllers/MyAccount/PreferencesController":3,"./controllers/SeatingChartsController":4,"./controllers/TeamMembersController":5,"./controllers/ViewEmployeesController":6}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -232,7 +330,7 @@ exports.default = [{
   text: 'Sign Out'
 }];
 
-},{}],9:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -251,9 +349,12 @@ exports.default = [{
 }, {
   href: '/seating-charts',
   text: 'Seating Charts'
+}, {
+  href: '/view-employees',
+  text: 'View Employees'
 }];
 
-},{}]},{},[7])
+},{}]},{},[9])
 
 
 //# sourceMappingURL=bundle.js.map

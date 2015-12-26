@@ -8,7 +8,6 @@ import employees from '../data/employees';
 
 export default ['$scope', ($scope) => {
   $scope.emps = employees;
-  $scope.orderProperty='firstName'
   $scope.setOrderProperty = function(propertyName) {
     if ($scope.orderProperty === propertyName) {
         $scope.orderProperty = '-' + propertyName;
