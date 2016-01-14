@@ -35,7 +35,18 @@ var config = {
 
 // scripts task
 
-gulp.task('scripts', function () {
+gulp.task('scripts', function() {
+  // verify that env.js exists
+  var defaultEnvFile = './env.default.js';
+  var userEnvFile = './env.js';
+  var fs = require('fs');
+  fs.access(userEnvFile, fs.F_OK, function(err) {
+    if (err) {
+      console.log('\nenv.js does not exist\ncreating one...\n');
+      fs.createReadStream(defaultEnvFile).pipe(fs.createWriteStream(userEnvFile));
+    }
+  });
+
   var b = browserify({
     entries: config.scripts.entries,
     debug: true,
@@ -55,7 +66,7 @@ gulp.task('scripts', function () {
 
 // styles task
 
-gulp.task('styles', function () {
+gulp.task('styles', function() {
   gulp.src(config.styles.src)
     .pipe(sourcemaps.init())
       .pipe(sass().on('error', sass.logError))
@@ -69,7 +80,7 @@ gulp.task('styles', function () {
 
 // views task
 
-gulp.task('views', function () {
+gulp.task('views', function() {
   gulp.src(config.views.src)
     .pipe(gulp.dest(config.views.dest))
     .pipe(livereload());
@@ -77,7 +88,7 @@ gulp.task('views', function () {
 
 // watch task
 
-gulp.task('watch', function () {
+gulp.task('watch', function() {
   livereload.listen();
   gulp.watch(config.styles.src, ['styles']);
   gulp.watch(config.scripts.src, ['scripts']);

@@ -9,12 +9,12 @@ import env from '../core/env';
 
 export default ['$http', '$scope', ($http, $scope) => {
   $scope.collection = teamMembers;
-  // $http({
-  //   method: 'GET',
-  //   url: `${env.api.root}/Api/AllClusters`
-  // }).then(response => {
-  //   console.log(response);
-  // }, err => {
-  //   console.log(err);
-  // });
+  $http({
+    method: 'GET',
+    url: `${env.api.root}/Api/AllClusters`
+  }).then(response => {
+    console.log(response);
+  }, err => {
+    console.log(err);
+  });
 }];
