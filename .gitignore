@@ -1,4 +1,8 @@
 node_modules
+npm-debug.log
 .DS_Store
 .localized
 ~.swp
+
+# ignore the custom env settings
+/env.js
