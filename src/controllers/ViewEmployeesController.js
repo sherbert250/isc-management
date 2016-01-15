@@ -1,4 +1,5 @@
 import employees from '../data/employees';
+import env from '../core/env';
 
 //
 // View Employees Controller
@@ -6,8 +7,19 @@ import employees from '../data/employees';
 // Show a list of employees
 //
 
-export default ['$scope', ($scope) => {
-  $scope.emps = employees;
+export default ['$scope', '$http', ($scope, $http) => {
+  $scope.emps = [];
+
+  $http({
+    method: 'GET',
+    url: `${env.api.root}/Api/AllEmployees`
+  }).then(response => {
+    console.log(response);
+    $scope.emps = response.data;
+  }, err => {
+    console.log(err);
+  });
+
   $scope.positions= [{
     'position': 'CEO'
   }, {
@@ -27,4 +39,3 @@ export default ['$scope', ($scope) => {
   return $scope.orderProperty;};
 
 }];
-
