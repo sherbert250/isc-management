@@ -8,19 +8,29 @@ let iscApp = angular.module('iscApp', ['ngRoute']);
 // Controllers
 //
 
-import MainController from './controllers/MainController';
+import AddEmployeeController from './controllers/AddEmployeeController';
+import EditEmployeeController from './controllers/EditEmployeeController'
+import EmployeeBlacklistController from './controllers/EmployeeBlacklistController';
+import EmployeeDetailController from './controllers/EmployeeDetailController';
+import EmployeeWhitelistController from './controllers/EmployeeWhitelistController';
 import HomeController from './controllers/HomeController';
-import TeamMembersController from './controllers/TeamMembersController';
-import SeatingChartsController from './controllers/SeatingChartsController';
+import MainController from './controllers/MainController';
 import PreferencesController from './controllers/MyAccount/PreferencesController';
+import SeatingChartsController from './controllers/SeatingChartsController';
+import TeamMembersController from './controllers/TeamMembersController';
 import ViewEmployeesController from './controllers/ViewEmployeesController';
 
-iscApp.controller('MainController', MainController);
+iscApp.controller('AddEmployeeController', AddEmployeeController);
+iscApp.controller('EditEmployeeController', EditEmployeeController);
+iscApp.controller('EmployeeBlacklistController', EmployeeBlacklistController);
+iscApp.controller('EmployeeDetailController', EmployeeDetailController);
+iscApp.controller('EmployeeWhitelistController', EmployeeWhitelistController);
 iscApp.controller('HomeController', HomeController);
-iscApp.controller('TeamMembersController', TeamMembersController);
-iscApp.controller('SeatingChartsController', SeatingChartsController);
-iscApp.controller('ViewEmployeesController', ViewEmployeesController);
+iscApp.controller('MainController', MainController);
 iscApp.controller('PreferencesController', PreferencesController);
+iscApp.controller('SeatingChartsController', SeatingChartsController);
+iscApp.controller('TeamMembersController', TeamMembersController);
+iscApp.controller('ViewEmployeesController', ViewEmployeesController);
 
 //
 // Routes
@@ -33,17 +43,37 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     templateUrl: 'views/home.html',
     controller: 'HomeController'
   })
-  .when('/team-members', {
-    templateUrl: 'views/team-members.html',
-    controller: 'TeamMembersController'
+  .when('/add-employee', {
+    templateUrl: 'views/add-employee.html',
+    controller: 'AddEmployeeController'
+  })
+  .when('/edit-employee/:id', {
+    templateUrl: 'views/edit-employee.html',
+    controller: 'EditEmployeeController'
+  })
+  .when('/employee-blacklist/:id', {
+    templateUrl: 'views/employee-blacklist.html',
+    controller: 'EmployeeBlacklistController'
+  })
+  .when('/employee-detail/:id', {
+    templateUrl: 'views/employee-detail.html',
+    controller: 'EmployeeDetailController'
+  })
+  .when('/employee-whitelist/:id', {
+    templateUrl: 'views/employee-whitelist.html',
+    controller: 'EmployeeWhitelistController'
+  })
+  .when('/my-account/preferences', {
+    templateUrl: 'views/my-account/preferences.html',
+    controller: 'PreferencesController'
   })
   .when('/seating-charts', {
     templateUrl: 'views/seating-charts.html',
     controller: 'SeatingChartsController'
   })
-  .when('/my-account/preferences', {
-    templateUrl: 'views/my-account/preferences.html',
-    controller: 'PreferencesController'
+  .when('/team-members/:id', {
+    templateUrl: 'views/team-members.html',
+    controller: 'TeamMembersController'
   })
   .when('/view-employees', {
     templateUrl: 'views/view-employees.html',

@@ -8,7 +8,7 @@ export default [
     text: 'Home'
   },
   {
-    href: '/team-members',
+    href: '/team-members/0',
     text: 'Team Members'
   },
   {

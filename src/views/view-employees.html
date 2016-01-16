@@ -1,9 +1,14 @@
 
 <div class="container">
-  <form class="form-inline">
+  <div style="float: left;">
+    <form class="form-inline">
     <input ng-model="query" type="text"
       placeholder="Filter by" autofocus>
-  </form>
+    </form>
+  </div>
+  <div style="float: right;">
+    <button ng-click="add()">Add Employee+</button>
+  </div>
   <!--<select data-ng-options="model.temp for model in emps | unique:'temp'" data-ng-model="position" >
      <option value="">--Select a Postion--</option>
   </select>-->
@@ -11,15 +16,19 @@
     <thead>
       <th>First name</th>
       <th>Last name</th>
-      <th>Position</th>
-      <th>Temp</th>
+      <th>Job Title</th>
+      <th>Email</th>
+      <th colspan="3">Action</th>
     </thead>
-    <tbody ng-repeat="model in emps | filter: query | orderBy:'name'">
+    <tbody ng-repeat="model in emps | filter: query">
       <tr>
         <td>{{model.firstName}}</td>
         <td>{{model.lastName}}</td>
-        <td>{{model.position}}</td>
-        <td>{{model.temp}}</td>
+        <td>{{model.title}}</td>
+        <td>{{model.email}}</td>
+        <td><button ng-click="view(model.employeeID)">View</button></td>
+        <td><button ng-click="edit(model.employeeID)">Edit</button></td>
+        <td><button ng-click="delete(model.employeeID)">Delete</button></td>
       </tr>
     </tbody>
   </table>

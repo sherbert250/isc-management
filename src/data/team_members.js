@@ -1,45 +1,45 @@
 
 export default [
   {
-    id: 1,
+    employeeID: 1,
     firstName: 'Allen',
     lastName: 'Kawanzaruwa',
-    position: 'Genius',
+    title: 'Genius',
     email: 'akawanza@asu.edu'
   },
   {
-    id: 2,
+    employeeID: 2,
     firstName: 'Daniel',
     lastName: 'Graca',
-    position: 'Bad Boy',
+    title: 'Bad Boy',
     email: 'djgraca08@gmail.com'
   },
   {
-    id: 3,
+    employeeID: 3,
     firstName: 'Garrett',
     lastName: 'Gutierrez',
-    position: 'Slayer',
+    title: 'Slayer',
     email: 'gdgutier@asu.edu'
   },
   {
-    id: 4,
+    employeeID: 4,
     firstName: 'Jack',
     lastName: 'Bankston',
-    position: 'Captain',
+    title: 'Captain',
     email: 'jeffwtribble@gmail.com'
   },
   {
-    id: 5,
+    employeeID: 5,
     firstName: 'Jeff',
     lastName: 'Tribble',
-    position: 'Water Boy',
+    title: 'Water Boy',
     email: 'jeffwtribble@gmail.com'
   },
   {
-    id: 6,
+    employeeID: 6,
     firstName: 'Jerry',
     lastName: 'Trayer',
-    position: 'Chancellor',
+    title: 'Chancellor',
     email: 'jtrayer1@asu.edu'
   }
 ];

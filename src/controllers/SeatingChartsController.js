@@ -6,5 +6,5 @@
 //
 
 export default ['$scope', ($scope) => {
-  $scope.message = 'What\'s it gonna be?';
+  $scope.message = 'What\'s it gonna be, bud?';
 }];

@@ -1,18 +1,21 @@
 
 <div class="container">
+  <h1>{{header}}</h1>
   <table class="table table-striped">
     <thead>
+      <th>Employee ID</th>
       <th>First name</th>
       <th>Last name</th>
-      <th>Position</th>
       <th>Email address</th>
+      <th>Action</th>
     </thead>
-    <tbody ng-repeat="model in collection track by model.id">
+    <tbody ng-repeat="model in collection">
       <tr>
+        <td>{{model.employeeID}}</td>
         <td>{{model.firstName}}</td>
         <td>{{model.lastName}}</td>
-        <td>{{model.position}}</td>
         <td>{{model.email}}</td>
+        <td><button ng-click="view(model.employeeID)">View</button></td>
       </tr>
     </tbody>
   </table>

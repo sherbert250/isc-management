@@ -1,0 +1,50 @@
+
+<div class="container">
+  <h1>{{header}}</h1>
+  <table class="table table-hover" ng-repeat="item in collection">
+      <tr>
+        <th>First Name</th>
+        <td>{{item.firstName}}</td>
+      </tr>
+      <tr>
+        <th>Last Name</th>
+        <td>{{item.lastName}}</td>
+      </tr>
+      <tr>
+        <th>Email Address</th>
+        <td>{{item.email}}</td>
+      </tr>
+      <tr>
+        <th>Job Title</th>
+        <td>{{item.title}}</td>
+      </tr>
+      <tr>
+        <th>Department</th>
+        <td>{{item.department}}</td>
+      </tr>
+      <tr>
+        <th>Restroom Usage</th>
+        <td>{{item.restroomUsage}}</td>
+      </tr>
+      <tr>
+        <th>Noise Preference</th>
+        <td>{{item.noisePreference}}</td>
+      </tr>
+      <tr>
+        <th>Out of Desk</th>
+        <td>{{item.outOfDesk}}</td>
+      </tr>
+      <tr>
+        <th>Black List</th>
+        <td><button ng-click="viewBlacklist(item.employeeID)">View</button></td>
+      </tr>
+      <tr>
+        <th>Team Members</th>
+        <td><button ng-click="viewTeamMembers(item.employeeID)">View</button></td>
+      </tr>
+      <tr>
+        <th>White List</th>
+        <td><button ng-click="viewWhitelist(item.employeeID)">View</button></td>
+      </tr>
+    </table>
+</div>

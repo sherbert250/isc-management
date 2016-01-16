@@ -1,59 +1,58 @@
-
 export default [
   {
     id: 1,
     firstName: 'Allen',
     lastName: 'Kawanzaruwa',
-    position: 'Developer',
-    temp: '76'
+    title: 'Developer',
+    email: 'allen@asu.edu'
   },
   {
     id: 2,
     firstName: 'Daniel',
     lastName: 'Graca',
-    position: 'Developer',
-    temp: '72'
+    title: 'Developer',
+    email: 'daniel@asu.edu'
   },
   {
     id: 3,
     firstName: 'Garrett',
     lastName: 'Gutierrez',
-    position: 'Developer',
-    temp: '74'
+    title: 'Developer',
+    email: 'garrett@asu.edu'
   },
   {
     id: 4,
     firstName: 'Jack',
     lastName: 'Bankston',
-    position: 'Developer',
-    temp: '75'
+    title: 'Developer',
+    email: 'jack@asu.edu'
   },
   {
     id: 5,
     firstName: 'Jeff',
     lastName: 'Tribble',
-    position: 'Developer',
-    temp: '76'
+    title: 'Developer',
+    email: 'jeff@asu.edu'
   },
   {
     id: 6,
     firstName: 'Jerry',
     lastName: 'Trayer',
-    position: 'Developer',
-    temp: '74'
+    title: 'Developer',
+    email: 'jerry@asu.edu'
   },
   {
     id: 7,
     firstName: 'Bob',
     lastName: 'Dylan',
-    position: 'Manager',
-    temp: '76'
+    title: 'bob@gmail.com',
+    email: '76'
   },
   {
     id: 8,
     firstName: 'Inspector',
     lastName: 'Gadget',
-    position: 'CEO',
-    temp: '74'
+    title: 'CEO',
+    email: 'inspector@gmail.com'
   }
 ];

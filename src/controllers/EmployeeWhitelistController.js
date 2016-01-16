@@ -1,15 +1,14 @@
-import teamMembers from '../data/team_members';
 import env from '../core/env';
 
 //
-// Team Members Controller
+// Employee Whitelist Controller
 //
-// Show a list of all team members
+// Show a list of all employees in an employee's whitelist
 //
 
 export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, $location, $routeParams) => {
   $scope.employeeID = $routeParams.id;
-  $scope.header = 'Team Members for Employee ID ' + $scope.employeeID;
+  $scope.header = 'Whitelist for Employee ID ' + $scope.employeeID;
   $scope.isEmpty = function (obj) {
     for(var prop in obj) {
         if(obj.hasOwnProperty(prop))
@@ -22,14 +21,10 @@ export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, 
   };
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/EmployeeTeammates/` + $scope.employeeID
+    url: `${env.api.root}/Api/EmployeeWhitelist/` + $scope.employeeID
   }).then(response => {
     console.log(response);
-    if (!$scope.isEmpty(response.data)) {
-      $scope.collection = response.data;
-    } else {
-      $scope.collection = teamMembers;
-    }
+    $scope.collection = response.data;
   }, err => {
     console.log(err);
   });
