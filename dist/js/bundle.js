@@ -31133,111 +31133,6 @@ function wrappy (fn, cb) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _employees = require('../data/employees');
-
-var _employees2 = _interopRequireDefault(_employees);
-
-var _env = require('../core/env');
-
-var _env2 = _interopRequireDefault(_env);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//
-// Add Employee Controller
-//
-// Display a form for adding employees
-//
-
-// firstName, lastName, email, password, department, title, restroomUsage, noisePreference, outOfDesk, pictureAddress, permissionLevel
-
-// import temperatureRanges from '../data/temperature_ranges';
-// import restroomUsages from '../data/restroom_usages';
-// import noisePreferences from '../data/noise_preferences';
-// import departmentsList from '../data/departments';
-// import titlesList from '../data/titles';
-// import inhabitancies from '../data/desk_inhabitancies';
-exports.default = ['$http', '$scope', function ($http, $scope) {
-  $scope.employee = {
-    firstName: 'Jack',
-    lastName: 'Dan',
-    email: 'jackdan@jack.daniels',
-    password: 'whiskey',
-    // teammates : [],
-    pictureAddress: 'https://camo.githubusercontent.com/98ed65187a84ecf897273d9fa18118ce45845057/68747470733a2f2f7261772e6769746875622e636f6d2f676f6c616e672d73616d706c65732f676f706865722d766563746f722f6d61737465722f676f706865722e706e67',
-    // temperaturePreference : '',
-    department: 'alcohol',
-    title: 'tennessee',
-    restroomUsage: 'frequent',
-    noisePreference: 'country',
-    outOfDesk: 'dancer'
-  };
-
-  // whiteList : [],
-  // blackList : []
-  $scope.addEmployee = function () {
-    $http({
-      method: 'POST',
-      data: $scope.employee,
-      url: _env2.default.api.root + '/Api/employees/add'
-    }).then(function (response) {
-      console.log(response);
-    }, function (err) {
-      console.log(err);
-    });
-  };
-
-  $scope.ranges = temperatureRanges;
-  $scope.usages = restroomUsages;
-  $scope.noises = noisePreferences;
-  $scope.departments = departmentsList;
-  $scope.titles = titlesList;
-  $scope.frequencies = inhabitancies;
-  $scope.teammates = _employees2.default;
-  $scope.whiteList = _employees2.default;
-  $scope.blackList = _employees2.default;
-
-  $scope.loadTeamMembers = function (query) {
-    $scope.relevantMembers = $scope.teammates.slice();
-    for (var i = 0; i < $scope.relevantMembers; i++) {
-      if (!$scope.relevantMembers[i].toLowerCase().includes(query.toLowerCase())) {
-        $scope.relevantMembers.splice(i, 1);
-        i--;
-      }
-    }
-    return $scope.relevantMembers;
-  };
-
-  $scope.loadWhiteList = function (query) {
-    $scope.relevantWhiteList = $scope.whiteList.slice();
-    for (var i = 0; i < $scope.relevantWhiteList; i++) {
-      if (!$scope.relevantWhiteList[i].toLowerCase().includes(query.toLowerCase())) {
-        $scope.relevantWhiteList.splice(i, 1);
-        i--;
-      }
-    }
-    return $scope.relevantWhiteList;
-  };
-
-  $scope.loadBlackList = function (query) {
-    $scope.relevantBlackList = $scope.blackList.slice();
-    for (var i = 0; i < $scope.relevantBlackList; i++) {
-      if (!$scope.relevantBlackList[i].toLowerCase().includes(query.toLowerCase())) {
-        $scope.relevantBlackList.splice(i, 1);
-        i--;
-      }
-    }
-    return $scope.relevantBlackList;
-  };
-}];
-
-},{"../core/env":119,"../data/employees":120}],113:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 //
 // Home Controller
 //
@@ -31248,7 +31143,7 @@ exports.default = ['$scope', function ($scope) {
   $scope.message = 'Everyone come and see how good I look!';
 }];
 
-},{}],114:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31282,7 +31177,7 @@ exports.default = ['$scope', '$route', '$routeParams', '$location', function ($s
   $scope.primaryNavItems = _primary_nav_items2.default;
 }];
 
-},{"../settings/account_nav_items":123,"../settings/primary_nav_items":124}],115:[function(require,module,exports){
+},{"../settings/account_nav_items":122,"../settings/primary_nav_items":123}],114:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31298,7 +31193,7 @@ exports.default = ['$scope', function ($scope) {
   $scope.message = 'What would you like?';
 }];
 
-},{}],116:[function(require,module,exports){
+},{}],115:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31315,7 +31210,7 @@ exports.default = ['$scope', function ($scope) {
   $scope.message = 'What\'s it gonna be?';
 }];
 
-},{}],117:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31350,7 +31245,7 @@ exports.default = ['$http', '$scope', function ($http, $scope) {
   });
 }];
 
-},{"../core/env":119,"../data/team_members":121}],118:[function(require,module,exports){
+},{"../core/env":118,"../data/team_members":120}],117:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31406,7 +31301,7 @@ exports.default = ['$scope', '$http', function ($scope, $http) {
   };
 }];
 
-},{"../core/env":119,"../data/employees":120}],119:[function(require,module,exports){
+},{"../core/env":118,"../data/employees":119}],118:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31439,7 +31334,7 @@ var env = _lodash2.default.assign({}, _env2.default, _env4.default);
 
 exports.default = env;
 
-},{"../../env":2,"../../env.default":1,"browserify-fs":9,"lodash":83}],120:[function(require,module,exports){
+},{"../../env":2,"../../env.default":1,"browserify-fs":9,"lodash":83}],119:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31495,7 +31390,7 @@ exports.default = [{
   temp: '74'
 }];
 
-},{}],121:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31539,7 +31434,7 @@ exports.default = [{
   email: 'jtrayer1@asu.edu'
 }];
 
-},{}],122:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 'use strict';
 
 var _MainController = require('./controllers/MainController');
@@ -31566,10 +31461,6 @@ var _ViewEmployeesController = require('./controllers/ViewEmployeesController');
 
 var _ViewEmployeesController2 = _interopRequireDefault(_ViewEmployeesController);
 
-var _AddEmployeeController = require('./controllers/AddEmployeeController');
-
-var _AddEmployeeController2 = _interopRequireDefault(_AddEmployeeController);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -31588,7 +31479,6 @@ iscApp.controller('TeamMembersController', _TeamMembersController2.default);
 iscApp.controller('SeatingChartsController', _SeatingChartsController2.default);
 iscApp.controller('ViewEmployeesController', _ViewEmployeesController2.default);
 iscApp.controller('PreferencesController', _PreferencesController2.default);
-iscApp.controller('AddEmployeeController', _AddEmployeeController2.default);
 
 //
 // Routes
@@ -31611,9 +31501,6 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   }).when('/view-employees', {
     templateUrl: 'views/view-employees.html',
     controller: 'ViewEmployeesController'
-  }).when('/add-employee', {
-    templateUrl: 'views/add-employee.html',
-    controller: 'AddEmployeeController'
   }).otherwise({
     redirectTo: '/'
   });
@@ -31621,7 +31508,7 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   $locationProvider.html5Mode(true);
 });
 
-},{"./controllers/AddEmployeeController":112,"./controllers/HomeController":113,"./controllers/MainController":114,"./controllers/MyAccount/PreferencesController":115,"./controllers/SeatingChartsController":116,"./controllers/TeamMembersController":117,"./controllers/ViewEmployeesController":118}],123:[function(require,module,exports){
+},{"./controllers/HomeController":112,"./controllers/MainController":113,"./controllers/MyAccount/PreferencesController":114,"./controllers/SeatingChartsController":115,"./controllers/TeamMembersController":116,"./controllers/ViewEmployeesController":117}],122:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31639,7 +31526,7 @@ exports.default = [{
   text: 'Sign Out'
 }];
 
-},{}],124:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31661,12 +31548,9 @@ exports.default = [{
 }, {
   href: '/view-employees',
   text: 'View Employees'
-}, {
-  href: '/add-employee',
-  text: 'Add Employee'
 }];
 
-},{}]},{},[122])
+},{}]},{},[121])
 
 
 //# sourceMappingURL=bundle.js.map
