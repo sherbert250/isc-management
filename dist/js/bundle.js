@@ -2057,7 +2057,7 @@ function utf8ToBytes (string, units) {
       }
 
       // valid surrogate pair
-      codePoint = leadSurrogate - 0xD800 << 10 | codePoint - 0xDC00 | 0x10000
+      codePoint = (leadSurrogate - 0xD800 << 10 | codePoint - 0xDC00) + 0x10000
     } else if (leadSurrogate) {
       // valid bmp char, but last char was a lead
       if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
@@ -14334,13 +14334,12 @@ module.exports={
   "_args": [
     [
       "levelup@^0.18.2",
-      "/Users/JTribble/Apps/github.com/sherbert250/isc-management/node_modules/browserify-fs"
+      "/Users/Jerry/Desktop/Dev/source/isc-management/node_modules/browserify-fs"
     ]
   ],
   "_from": "levelup@>=0.18.2 <0.19.0",
   "_id": "levelup@0.18.6",
   "_inCache": true,
-  "_installable": true,
   "_location": "/levelup",
   "_npmUser": {
     "email": "rod@vagg.org",
@@ -14368,7 +14367,7 @@ module.exports={
   "_shasum": "e6a01cb089616c8ecc0291c2a9bd3f0c44e3e5eb",
   "_shrinkwrap": null,
   "_spec": "levelup@^0.18.2",
-  "_where": "/Users/JTribble/Apps/github.com/sherbert250/isc-management/node_modules/browserify-fs",
+  "_where": "/Users/Jerry/Desktop/Dev/source/isc-management/node_modules/browserify-fs",
   "browser": {
     "leveldown": false,
     "leveldown/package": false,
@@ -14479,6 +14478,7 @@ module.exports={
   },
   "gitHead": "213e989e2b75273e2b44c23f84f95e35bff7ea11",
   "homepage": "https://github.com/rvagg/node-levelup",
+  "installable": true,
   "keywords": [
     "database",
     "db",
@@ -14498,10 +14498,9 @@ module.exports={
   ],
   "name": "levelup",
   "optionalDependencies": {},
-  "readme": "ERROR: No README data found!",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rvagg/node-levelup.git"
+    "url": "https://github.com/rvagg/node-levelup.git"
   },
   "scripts": {
     "alltests": "npm test && npm run-script functionaltests",
@@ -31134,6 +31133,60 @@ function wrappy (fn, cb) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Create Seating Chart Controller
+//
+// Functionality for creating seating charts
+//
+
+exports.default = ['$http', '$scope', function ($http, $scope) {
+  var element = document.getElementById('grid-snap'),
+      x = 0,
+      y = 0;
+
+  interact(element).draggable({
+    snap: {
+      targets: [interact.createSnapGrid({ x: 30, y: 30 })],
+      range: Infinity,
+      relativePoints: [{ x: 0, y: 0 }]
+    },
+    inertia: true,
+    restrict: {
+      restriction: element.parentNode,
+      elementRect: { top: 0, left: 0, bottom: 1, right: 1 },
+      endOnly: true
+    }
+  }).on('dragmove', function (event) {
+    x += event.dx;
+    y += event.dy;
+
+    event.target.style.webkitTransform = event.target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+  });
+
+  // $scope.collection = teamMembers;
+  // $http({
+  //   method: 'GET',
+  //   url: `${env.api.root}/Api/AllClusters`
+  // }).then(response => {
+  //   console.log(response);
+  // }, err => {
+  //   console.log(err);
+  // });
+}];
+
+},{"../core/env":119}],113:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 //
 // Home Controller
 //
@@ -31144,7 +31197,7 @@ exports.default = ['$scope', function ($scope) {
   $scope.message = 'Everyone come and see how good I look!';
 }];
 
-},{}],113:[function(require,module,exports){
+},{}],114:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31178,7 +31231,7 @@ exports.default = ['$scope', '$route', '$routeParams', '$location', function ($s
   $scope.primaryNavItems = _primary_nav_items2.default;
 }];
 
-},{"../settings/account_nav_items":122,"../settings/primary_nav_items":123}],114:[function(require,module,exports){
+},{"../settings/account_nav_items":123,"../settings/primary_nav_items":124}],115:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31194,7 +31247,7 @@ exports.default = ['$scope', function ($scope) {
   $scope.message = 'What would you like?';
 }];
 
-},{}],115:[function(require,module,exports){
+},{}],116:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31211,7 +31264,7 @@ exports.default = ['$scope', function ($scope) {
   $scope.message = 'What\'s it gonna be?';
 }];
 
-},{}],116:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31246,7 +31299,7 @@ exports.default = ['$http', '$scope', function ($http, $scope) {
   });
 }];
 
-},{"../core/env":118,"../data/team_members":120}],117:[function(require,module,exports){
+},{"../core/env":119,"../data/team_members":121}],118:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31269,7 +31322,7 @@ exports.default = ['$scope', function ($scope) {
   $scope.emps = _employees2.default;
 }];
 
-},{"../data/employees":119}],118:[function(require,module,exports){
+},{"../data/employees":120}],119:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31302,7 +31355,7 @@ var env = _lodash2.default.assign({}, _env2.default, _env4.default);
 
 exports.default = env;
 
-},{"../../env":2,"../../env.default":1,"browserify-fs":9,"lodash":83}],119:[function(require,module,exports){
+},{"../../env":2,"../../env.default":1,"browserify-fs":9,"lodash":83}],120:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31358,7 +31411,7 @@ exports.default = [{
   temp: '74'
 }];
 
-},{}],120:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31402,7 +31455,7 @@ exports.default = [{
   email: 'jtrayer1@asu.edu'
 }];
 
-},{}],121:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 'use strict';
 
 var _MainController = require('./controllers/MainController');
@@ -31429,6 +31482,10 @@ var _ViewEmployeesController = require('./controllers/ViewEmployeesController');
 
 var _ViewEmployeesController2 = _interopRequireDefault(_ViewEmployeesController);
 
+var _CreateSeatingController = require('./controllers/CreateSeatingController');
+
+var _CreateSeatingController2 = _interopRequireDefault(_CreateSeatingController);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -31447,6 +31504,7 @@ iscApp.controller('TeamMembersController', _TeamMembersController2.default);
 iscApp.controller('SeatingChartsController', _SeatingChartsController2.default);
 iscApp.controller('ViewEmployeesController', _ViewEmployeesController2.default);
 iscApp.controller('PreferencesController', _PreferencesController2.default);
+iscApp.controller('CreateSeatingController', _CreateSeatingController2.default);
 
 //
 // Routes
@@ -31469,6 +31527,9 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   }).when('/view-employees', {
     templateUrl: 'views/view-employees.html',
     controller: 'ViewEmployeesController'
+  }).when('/create', {
+    templateUrl: 'views/create-chart.html',
+    controller: 'CreateSeatingController'
   }).otherwise({
     redirectTo: '/'
   });
@@ -31476,7 +31537,7 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   $locationProvider.html5Mode(true);
 });
 
-},{"./controllers/HomeController":112,"./controllers/MainController":113,"./controllers/MyAccount/PreferencesController":114,"./controllers/SeatingChartsController":115,"./controllers/TeamMembersController":116,"./controllers/ViewEmployeesController":117}],122:[function(require,module,exports){
+},{"./controllers/CreateSeatingController":112,"./controllers/HomeController":113,"./controllers/MainController":114,"./controllers/MyAccount/PreferencesController":115,"./controllers/SeatingChartsController":116,"./controllers/TeamMembersController":117,"./controllers/ViewEmployeesController":118}],123:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31494,7 +31555,7 @@ exports.default = [{
   text: 'Sign Out'
 }];
 
-},{}],123:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31516,9 +31577,12 @@ exports.default = [{
 }, {
   href: '/view-employees',
   text: 'View Employees'
+}, {
+  href: '/create',
+  text: 'Create Seating Chart'
 }];
 
-},{}]},{},[121])
+},{}]},{},[122])
 
 
 //# sourceMappingURL=bundle.js.map

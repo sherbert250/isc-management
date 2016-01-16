@@ -18,5 +18,9 @@ export default [
   {
     href: '/view-employees',
     text: 'View Employees'
+  },
+  {
+    href: '/create',
+    text: 'Create Seating Chart'
   }
 ];

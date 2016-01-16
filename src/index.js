@@ -14,6 +14,7 @@ import TeamMembersController from './controllers/TeamMembersController';
 import SeatingChartsController from './controllers/SeatingChartsController';
 import PreferencesController from './controllers/MyAccount/PreferencesController';
 import ViewEmployeesController from './controllers/ViewEmployeesController';
+import CreateSeatingController from './controllers/CreateSeatingController';
 
 iscApp.controller('MainController', MainController);
 iscApp.controller('HomeController', HomeController);
@@ -21,6 +22,7 @@ iscApp.controller('TeamMembersController', TeamMembersController);
 iscApp.controller('SeatingChartsController', SeatingChartsController);
 iscApp.controller('ViewEmployeesController', ViewEmployeesController);
 iscApp.controller('PreferencesController', PreferencesController);
+iscApp.controller('CreateSeatingController', CreateSeatingController);
 
 //
 // Routes
@@ -48,6 +50,10 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   .when('/view-employees', {
     templateUrl: 'views/view-employees.html',
     controller: 'ViewEmployeesController'
+  })
+  .when('/create', {
+    templateUrl: 'views/create-chart.html',
+    controller: 'CreateSeatingController'
   })
   .otherwise({
     redirectTo: '/'
