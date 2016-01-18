@@ -1,6 +1,16 @@
 
 <div class="container">
-  <h1>{{header}}</h1>
+  <div class="row">
+    <div class="col-md-12">
+      <h1>{{header}}</h1>
+    </div>
+  </div>
+  <hr />
+  <ul class="nav nav-tabs">
+    <li><a data-toggle="tab" href="office-detail/{{officeID}}">Details</a></li>
+    <li class="active"><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
+    <li><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplan</a></li>
+  </ul>
   <div class="row">
     <div class="col-md-6">
       <form class="form-inline">

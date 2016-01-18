@@ -1,0 +1,39 @@
+
+<div class="container">
+  <h1>{{header}}</h1>
+  <hr />
+  <div style="float: left;">
+    <form class="form-inline">
+    <input ng-model="query" type="text"
+      placeholder="Search for" autofocus>
+    </form>
+  </div>
+  <div style="float: right;">
+    <button ng-click="add()">+Add Office</button>
+  </div>
+  <!--<select data-ng-options="model.temp for model in emps | unique:'temp'" data-ng-model="position" >
+     <option value="">--Select a Postion--</option>
+  </select>-->
+  <table class="table table-striped">
+    <thead>
+      <th>Company Name</th>
+      <th>Office Name</th>
+      <th>Office Address</th>
+      <th>Office Phone</th>
+      <th>Office Email</th>
+      <th colspan="3">Action</th>
+    </thead>
+    <tbody ng-repeat="model in offices | filter: query">
+      <tr>
+        <td>{{model.companyName}}</td>
+        <td>{{model.officeName}}</td>
+        <td>{{model.officeStreetAddress}} {{model.officeCity}} {{model.officeState}} {{model.officeZipcode}}</td>
+        <td>{{model.officePhoneNumber}}</td>
+        <td>{{model.officeEmail}}</td>
+        <td><button ng-click="view(model.officeID)">View</button></td>
+        <td><button ng-click="edit(model.officeID)">Edit</button></td>
+        <td><button ng-click="delete(model.officeID)">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

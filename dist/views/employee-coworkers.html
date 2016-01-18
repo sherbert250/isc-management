@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>{{companyName}}</h1>
+    </div>
+  </div>
+  <hr />
+  <ul class="nav nav-tabs">
+    <li><a data-toggle="tab" href="office-detail/{{officeID}}">Details</a></li>
+    <li class="active"><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
+    <li><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplan</a></li>
+  </ul>
+  <div class="row">
+    <div class="col-md-3">
+      <ul class="nav nav-pills nav-stacked">
+        <li><a href="/employee-detail/{{employeeID}}">Employee Details</a></li>
+        <li><a href="/team-members/{{employeeID}}">Department and Team</a></li>
+        <li><a href="/employee-preferences/{{employeeID}}">Preferences</a></li>
+        <li class="active"><a href="#">Coworkers</a></li>
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-md-6">
+          <h3><strong>{{header}}</strong></h3>
+        </div>
+        <div class="col-md-6">
+          <button style="margin:15px">Edit Employee</button>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h3>Whitelist</h3>
+        <table class="table table-striped">
+          <thead>
+            <th>Name</th>
+            <th>Email Address</th>
+            <th>Job Title</th>
+            <th>Department</th>
+            <th>Action</th>
+          </thead>
+          <tbody ng-repeat="model in whitelist">
+            <tr>
+              <td>{{model.firstName}} {{model.lastName}}</td>
+              <td>{{model.email}}</td>
+              <td>{{model.title}}</td>
+              <td>{{model.department}}</td>
+              <td><button ng-click="view(model.employeeID)">View</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <h3>Blacklist</h3>
+        <table class="table table-striped">
+          <thead>
+            <th>Name</th>
+            <th>Email Address</th>
+            <th>Job Title</th>
+            <th>Department</th>
+            <th>Action</th>
+          </thead>
+          <tbody ng-repeat="model in blacklist">
+            <tr>
+              <td>{{model.firstName}} {{model.lastName}}</td>
+              <td>{{model.email}}</td>
+              <td>{{model.title}}</td>
+              <td>{{model.department}}</td>
+              <td><button ng-click="view(model.employeeID)">View</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

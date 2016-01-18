@@ -1,13 +1,16 @@
 
 <div class="container">
-  <div style="float: left;">
-    <form class="form-inline">
-    <input ng-model="query" type="text"
-      placeholder="Filter by" autofocus>
-    </form>
-  </div>
-  <div style="float: right;">
-    <button ng-click="add()">Add Employee+</button>
+  <h1>{{header}}</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <form class="form-inline">
+      <input ng-model="query" type="text"
+        placeholder="Search for" autofocus>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <button ng-click="add()">+Add Employee</button>
+    </div>
   </div>
   <!--<select data-ng-options="model.temp for model in emps | unique:'temp'" data-ng-model="position" >
      <option value="">--Select a Postion--</option>

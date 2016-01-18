@@ -2,14 +2,14 @@ import employees from '../data/employees';
 import env from '../core/env';
 
 //
-// View Employees Controller
+// Office Employees Controller
 //
 // Show a list of employees
 //
 
-export default ['$http', '$scope', '$location', ($http, $scope, $location) => {
+export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, $location, $routeParams) => {
   $scope.emps = employees;
-  $scope.header = "All Employees";
+  $scope.officeID = $routeParams.id;
   $scope.add = function() {
     $location.path('/add-employee');
   };
@@ -19,6 +19,7 @@ export default ['$http', '$scope', '$location', ($http, $scope, $location) => {
       url: `${env.api.root}/Api/DeleteEmployee/` + employeeID
     }).then(response => {
       console.log(response);
+      $scope.emps = response.data;
     }, err => {
       console.log(err);
     });
@@ -44,6 +45,15 @@ export default ['$http', '$scope', '$location', ($http, $scope, $location) => {
   }).then(response => {
     console.log(response);
     $scope.emps = response.data;
+  }, err => {
+    console.log(err);
+  });
+  $http({
+    method: 'GET',
+    url: `${env.api.root}/Api/Office/` + $scope.officeID
+  }).then(response => {
+    console.log(response);
+    $scope.header = response.data[0].companyName;
   }, err => {
     console.log(err);
   });

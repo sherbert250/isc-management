@@ -1,10 +1,9 @@
-import teamMembers from '../data/team_members';
 import env from '../core/env';
 
 //
-// Team Members Controller
+// Employee  Coworkers Controller
 //
-// Show a list of all team members
+// Show a list of all employees in an employee's whitelist
 //
 
 export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, $location, $routeParams) => {
@@ -21,14 +20,19 @@ export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, 
   };
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/EmployeeTeammates/` + $scope.employeeID
+    url: `${env.api.root}/Api/EmployeeWhitelist/` + $scope.employeeID
   }).then(response => {
     console.log(response);
-    if (!$scope.isEmpty(response.data)) {
-      $scope.collection = response.data;
-    } else {
-      $scope.collection = teamMembers;
-    }
+    $scope.whitelist = response.data;
+  }, err => {
+    console.log(err);
+  });
+  $http({
+    method: 'GET',
+    url: `${env.api.root}/Api/EmployeeBlacklist/` + $scope.employeeID
+  }).then(response => {
+    console.log(response);
+    $scope.blacklist = response.data;
   }, err => {
     console.log(err);
   });

@@ -2,21 +2,20 @@ import employees from '../data/employees';
 import env from '../core/env';
 
 //
-// View Employees Controller
+// View Offices Controller
 //
-// Show a list of employees
+// Show a list of offices
 //
 
 export default ['$http', '$scope', '$location', ($http, $scope, $location) => {
-  $scope.emps = employees;
-  $scope.header = "All Employees";
+  $scope.header = 'All Offices';
   $scope.add = function() {
-    $location.path('/add-employee');
+    $location.path('/add-office');
   };
-  $scope.delete = function(employeeID) {
+  $scope.delete = function(officeID) {
     $http({
       method: 'GET',
-      url: `${env.api.root}/Api/DeleteEmployee/` + employeeID
+      url: `${env.api.root}/Api/DeleteOffice/` + officeID
     }).then(response => {
       console.log(response);
     }, err => {
@@ -24,26 +23,26 @@ export default ['$http', '$scope', '$location', ($http, $scope, $location) => {
     });
     $http({
       method: 'GET',
-      url: `${env.api.root}/Api/AllEmployees`
+      url: `${env.api.root}/Api/AllOffices`
     }).then(response => {
       console.log(response);
-      $scope.emps = response.data;
+      $scope.offices= response.data;
     }, err => {
       console.log(err);
     });
   };
-  $scope.edit = function(employeeID) {
-    $location.path('/edit-employee/' + employeeID);
+  $scope.edit = function(officeID) {
+    $location.path('/edit-office/' + officeID);
   };
-  $scope.view = function(employeeID) {
-    $location.path('/employee-detail/' + employeeID);
+  $scope.view = function(officeID) {
+    $location.path('/office-detail/' + officeID);
   };
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/AllEmployees`
+    url: `${env.api.root}/Api/AllOffices`
   }).then(response => {
     console.log(response);
-    $scope.emps = response.data;
+    $scope.offices = response.data;
   }, err => {
     console.log(err);
   });

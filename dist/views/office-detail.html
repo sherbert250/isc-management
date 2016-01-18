@@ -1,0 +1,35 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-9">
+      <h1>{{header}}</h1>
+    </div>
+    <div class="col-sm-3">
+      <button ng-click="edit(office.officeID)">Edit Office</button>
+    </div>
+  </div>
+  <hr />
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="office-detail/{{officeID}}">Details</a></li>
+    <li><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
+    <li><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplan</a></li>
+  </ul>
+  <table class="table table-striped">
+    <tr>
+      <th>Office Name</th>
+      <td>{{office.officeName}}</td>
+    </tr>
+    <tr>
+      <th>Office Address</th>
+      <td>{{office.officeStreetAddress}} {{office.officeCity}} {{office.officeState}} {{office.officeZipcode}}</td>
+    </tr>
+    <tr>
+      <th>Office Phone</th>
+      <td>{{office.officePhoneNumber}}</td>
+    </tr>
+    <tr>
+      <th>Office Email</th>
+      <td>{{office.officeEmail}}</td>
+    </tr>
+  </table>
+</div>

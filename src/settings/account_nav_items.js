@@ -4,7 +4,7 @@
 
 export default [
   {
-    href: '/my-account/preferences',
+    href: 'employee-preferences/1',
     text: 'Preferences'
   },
   {

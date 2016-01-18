@@ -1,3 +1,4 @@
+
 <div class="container">
   <div class="row">
     <div class="col-md-12">
@@ -14,8 +15,8 @@
     <div class="col-md-3">
       <ul class="nav nav-pills nav-stacked">
         <li><a href="/employee-detail/{{employeeID}}">Employee Details</a></li>
-        <li class="active"><a href="#">Department and Team</a></li>
-        <li><a href="/employee-preferences/{{employeeID}}">Preferences</a></li>
+        <li><a href="/team-members/{{employeeID}}">Department and Team</a></li>
+        <li class="active"><a href="#">Preferences</a></li>
         <li><a href="/employee-coworkers/{{employeeID}}">Coworkers</a></li>
       </ul>
     </div>
@@ -28,32 +29,25 @@
           <button style="margin:15px">Edit Employee</button>
         </div>
       </div>
-      <table class="table">
-        <tr>
-          <th>Department</th>
-          <td>{{employee.department}}</td>
-        </tr>
-      </table>
-      <table class="table table-striped">
-        <thead>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>Email address</th>
-          <th>Job Title</th>
-          <th>Department</th>
-          <th>Action</th>
-        </thead>
-        <tbody ng-repeat="model in collection">
+      <table class="table table-hover" ng-repeat="item in collection">
           <tr>
-            <td>{{model.firstName}}</td>
-            <td>{{model.lastName}}</td>
-            <td>{{model.email}}</td>
-            <td>{{model.title}}</td>
-            <td>{{model.department}}</td>
-            <td><button ng-click="view(model.employeeID)">View</button></td>
+            <th>Temperature Preference</th>
+            <td>Lower: {{temperatureRange.lower}}</td>
+            <td>Upper: {{temperatureRange.upper}}</td>
           </tr>
-        </tbody>
-      </table>
+          <tr>
+            <th>Restroom Usage</th>
+            <td colspan="2">{{item.restroomUsage}}</td>
+          </tr>
+          <tr>
+            <th>Noise Preference</th>
+            <td colspan="2">{{item.noisePreference}}</td>
+          </tr>
+          <tr>
+            <th>Out of Desk</th>
+            <td colspan="2">{{item.outOfDesk}}</td>
+          </tr>
+        </table>
     </div>
   </div>
 </div>

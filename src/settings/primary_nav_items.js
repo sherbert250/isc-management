@@ -8,15 +8,15 @@ export default [
     text: 'Home'
   },
   {
-    href: '/team-members/0',
-    text: 'Team Members'
+    href: '/view-employees',
+    text: 'Employees'
+  },
+  {
+    href: '/offices',
+    text: 'Offices'
   },
   {
     href: '/seating-charts',
     text: 'Seating Charts'
-  },
-  {
-    href: '/view-employees',
-    text: 'View Employees'
   }
 ];
