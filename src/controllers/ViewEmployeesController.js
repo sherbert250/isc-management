@@ -9,6 +9,7 @@ import env from '../core/env';
 
 export default ['$scope', '$http', ($scope, $http) => {
   $scope.emps = [];
+  $scope.departments = [];
 
   $http({
     method: 'GET',
@@ -16,6 +17,16 @@ export default ['$scope', '$http', ($scope, $http) => {
   }).then(response => {
     console.log(response);
     $scope.emps = response.data;
+  }, err => {
+    console.log(err);
+  });
+
+  $http({
+    method: 'GET',
+    url: `${env.api.root}/Api/AllDepartments`
+  }).then(response => {
+    console.log(response);
+    $scope.departments = response.data;
   }, err => {
     console.log(err);
   });

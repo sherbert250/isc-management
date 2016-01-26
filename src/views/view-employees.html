@@ -1,27 +1,34 @@
-
-<div class="container">
-  <form class="form-inline">
-    <input ng-model="query" type="text"
-      placeholder="Filter by" autofocus>
-  </form>
-  <select ng-model="position" >
-     <option value="">--Select a Position--</option>
-     <option ng-repeat="model in positions" value="{{model.position}}">{{model.position}}</option>
-  </select>
-  <table class="table table-striped"  >
-    <thead>
-      <th><button ng-click="setOrderProperty('firstName')">First name</button></th>
-      <th><button ng-click="setOrderProperty('lastName')">Last name</button></th>
-      <th><button ng-click="setOrderProperty('position')">Position</button></th>
-      <th><button ng-click="setOrderProperty('temp')">Temp</button></th>
-    </thead>
-    <tbody ng-repeat="model in emps | filter: query | filter:position | orderBy:orderProperty">
-      <tr>
-        <td>{{model.firstName}}</td>
-        <td>{{model.lastName}}</td>
-        <td>{{model.position}}</td>
-        <td>{{model.temp}}</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="col-md-1">
+	<div class="row" ng-repeat="deps in departments">{{deps.department}}
+	</div>
+	<div class="row">
+	</div>
+</div>
+<div class="col-md-11">
+	<div class="container">
+	  <form class="form-inline">
+	    <input ng-model="query" type="text"
+	      placeholder="Filter by" autofocus>
+	  </form>
+	  <!--<select ng-model="position" >
+	     <option value="">--Select a Position--</option>
+	     <option ng-repeat="model in positions" value="{{model.position}}">{{model.position}}</option>!-->
+	  </select>
+	  <table class="table table-striped"  >
+	    <thead>
+	      <th><a href="" ng-click="setOrderProperty('firstName')">First name</a></th>
+	      <th><a href="" ng-click="setOrderProperty('lastName')">Last name</a></th>
+	      <th><a href="" ng-click="setOrderProperty('department')">Department</a></th>
+	      <th><a href="" ng-click="setOrderProperty('title')">Title</a></th>
+	    </thead>
+	    <tbody ng-repeat="model in emps | filter: query | filter:position | orderBy:orderProperty">
+	      <tr>
+		<td>{{model.firstName}}</td>
+		<td>{{model.lastName}}</td>
+		<td>{{model.department}}</td>
+		<td>{{model.title}}</td>
+	      </tr>
+	    </tbody>
+	  </table>
+	</div>
 </div>
