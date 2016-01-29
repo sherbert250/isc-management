@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <h1>{{companyName}}</h1>
+      <h1 class="rounded-header">{{companyName}}</h1>
     </div>
   </div>
   <hr />
@@ -21,11 +21,11 @@
     </div>
     <div class="col-md-9">
       <div class="row">
-        <div class="col-md-6">
-          <h3><strong>{{header}}</strong></h3>
+        <div class="col-md-9">
+          <h3 class="employee-name">{{header}}</h3>
         </div>
-        <div class="col-md-6">
-          <button style="margin:15px">Edit Employee</button>
+        <div class="col-md-3">
+          <button class="btn btn-success btn-md" ng-click="editEmployee(employeeID)" style="margin:15px">Edit Employee</button>
         </div>
       </div>
       <table class="table">
@@ -34,11 +34,12 @@
           <td>{{employee.department}}</td>
         </tr>
       </table>
-      <table class="table table-striped">
+      <h4 class="team-members-header">Team Members</h4>
+      <table class="table table-striped table-hover">
         <thead>
-          <th>First name</th>
-          <th>Last name</th>
-          <th>Email address</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email Address</th>
           <th>Job Title</th>
           <th>Department</th>
           <th>Action</th>
@@ -50,7 +51,7 @@
             <td>{{model.email}}</td>
             <td>{{model.title}}</td>
             <td>{{model.department}}</td>
-            <td><button ng-click="view(model.employeeID)">View</button></td>
+            <td><button class="btn btn-info btn-sm" ng-click="view(model.employeeID)">View</button></td>
           </tr>
         </tbody>
       </table>

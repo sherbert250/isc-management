@@ -1,4 +1,3 @@
-import employees from '../data/employees';
 import env from '../core/env';
 
 //
@@ -8,7 +7,6 @@ import env from '../core/env';
 //
 
 export default ['$http', '$scope', '$location', ($http, $scope, $location) => {
-  $scope.emps = employees;
   $scope.header = "All Employees";
   $scope.add = function() {
     $location.path('/add-employee');

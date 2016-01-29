@@ -1,55 +1,55 @@
 
 <div class="container">
-  <h1>{{header}}</h1>
+  <h1 class="rounded-header">{{header}}</h1>
   <form name="addEmployeeForm" ng-submit="submit()">
   <table class="table table-hover">
     <tr>
        <th>First Name</th>
-       <td><input type="text" name="firstName" ng-model="employee.firstName" required /></td>
+       <td><input class="form-control" type="text" name="firstName" ng-model="employee.firstName" required /></td>
      </tr>
      <tr>
        <th>Last Name</th>
-       <td><input type="text" name="lastName" ng-model="employee.lastName" required /></td>
+       <td><input class="form-control" type="text" name="lastName" ng-model="employee.lastName" required /></td>
      </tr>
      <tr>
        <th>Email Address</th>
-       <td><input type="email" name="email" ng-model="employee.email" required /></td>
+       <td><input class="form-control" type="email" name="email" ng-model="employee.email" required /></td>
      </tr>
      <tr>
        <th>Password</th>
-       <td><input type="password" name="password" ng-model="employee.password" required /></td>
+       <td><input class="form-control" type="password" name="password" ng-model="employee.password" required /></td>
      </tr>
      <tr>
        <th>Job Title</th>
-       <td><input type="text" name="title" ng-model="employee.title" required /></td>
+       <td><input class="form-control" type="text" name="title" ng-model="employee.title" required /></td>
      </tr>
      <tr>
        <th>Department</th>
-       <td><input type="text" name="department" ng-model="employee.department" required /></td>
+       <td><input class="form-control" type="text" name="department" ng-model="employee.department" required /></td>
      </tr>
      <tr>
        <th>Restroom Usage</th>
-       <td><input type="number" step="0.01" name="restroomUsage" ng-model="employee.restroomUsage" required /></td>
+       <td><input class="form-control" type="number" step="0.01" name="restroomUsage" ng-model="employee.restroomUsage" required /></td>
      </tr>
      <tr>
        <th>Noise Preference</th>
-       <td><input type="number" step="0.01" name="noisePreference" ng-model="employee.noisePreference" required /></td>
+       <td><input class="form-control" type="number" step="0.01" name="noisePreference" ng-model="employee.noisePreference" required /></td>
      </tr>
      <tr>
        <th>Out of Desk</th>
-       <td><input type="number" step="0.01" name="outOfDesk" ng-model="employee.outOfDesk" required /></td>
+       <td><input class="form-control" type="number" step="0.01" name="outOfDesk" ng-model="employee.outOfDesk" required /></td>
      </tr>
      <tr>
        <th>Image</th>
-       <td><input type="text" name="pictureAddress" ng-model="employee.pictureAddress" required /></td>
+       <td><input class="form-control" type="text" name="pictureAddress" ng-model="employee.pictureAddress" required /></td>
      </tr>
      <tr>
        <th>Permission Level</th>
-       <td><input type="text" nmae="permissionLevel" ng-model="employee.permissionLevel" required /></td>
+       <td><input class="form-control" type="text" nmae="permissionLevel" ng-model="employee.permissionLevel" required /></td>
      </tr>
      <tr>
-       <td><button ng-click="reset()">Reset</button></td>
-       <td><input type="submit" name="submit" value="submit" /></td>
+       <th>Submit New Employee</th>
+       <td><input  class="btn btn-success btn-md" type="submit" name="submit" value="submit" /></td>
      </tr>
   </table>
   </form>

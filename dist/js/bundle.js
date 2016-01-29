@@ -32355,32 +32355,16 @@ exports.default = ['$http', '$scope', '$location', function ($http, $scope, $loc
     pictureAddress: "",
     permissionLevel: ""
   };
-  $scope.reset = function () {
-    $scope.employee = {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      department: "",
-      title: "",
-      restroomUsage: 0,
-      noisePreference: 0,
-      outOfDesk: 0,
-      pictureAddress: "",
-      permissionLevel: ""
-    };
-  };
   $scope.submit = function () {
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddEmployee',
       data: $scope.employee
     }).then(function (response) {
-      alert('success');
-    }, function (response) {
-      alert('error');
+      $location.path('/view-employees');
+    }, function (err) {
+      alert('Error');
     });
-    $location.path('/view-employees');
   };
 }];
 
@@ -32404,7 +32388,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', function ($http, $scope, $location) {
-  $scope.header = "Add a Office";
+  $scope.header = "Add an Office";
   $scope.office = {
     companyName: "",
     officeName: "",
@@ -32415,29 +32399,16 @@ exports.default = ['$http', '$scope', '$location', function ($http, $scope, $loc
     officeState: "",
     officeZipcode: ""
   };
-  $scope.reset = function () {
-    $scope.office = {
-      companyName: "",
-      officeName: "",
-      officePhoneNumber: "",
-      officeEmail: "",
-      officeStreetAddress: "",
-      officeCity: "",
-      officeState: "",
-      officeZipcode: ""
-    };
-  };
   $scope.submit = function () {
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddOffice',
       data: $scope.office
     }).then(function (response) {
-      alert('success');
-    }, function (response) {
-      alert('error');
+      $location.path('/offices');
+    }, function (err) {
+      alert('Error');
     });
-    $location.path('/offices');
   };
 }];
 
@@ -32469,24 +32440,19 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
   }).then(function (response) {
     console.log(response);
     $scope.employee = response.data[0];
-    $scope.master = response.data[0];
   }, function (err) {
     console.log(err);
   });
-  $scope.reset = function () {
-    $scope.employee = $scope.master;
-  };
   $scope.submit = function () {
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/EditEmployee/' + $scope.employeeID,
       data: $scope.employee
     }).then(function (response) {
-      alert('success');
+      $location.path('/view-employees');
     }, function (response) {
       alert('error');
     });
-    $location.path('/view-employees');
   };
 }];
 
@@ -32518,24 +32484,19 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
   }).then(function (response) {
     console.log(response);
     $scope.office = response.data[0];
-    $scope.master = response.data[0];
   }, function (err) {
     console.log(err);
   });
-  $scope.reset = function () {
-    $scope.office = $scope.master;
-  };
   $scope.submit = function () {
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/EditOffice/' + $scope.officeID,
       data: $scope.office
     }).then(function (response) {
-      alert('success');
+      $location.path('/offices');
     }, function (response) {
       alert('error');
     });
-    $location.path('/offices');
   };
 }];
 
@@ -32602,6 +32563,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', function ($http, $scope, $location, $routeParams) {
   $scope.employeeID = $routeParams.id;
+  $scope.editEmployee = function (employeeID) {
+    $location.path('/edit-employee/' + employeeID);
+  };
   $scope.isEmpty = function (obj) {
     for (var prop in obj) {
       if (obj.hasOwnProperty(prop)) return false;
@@ -32615,7 +32579,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     method: 'GET',
     url: _env2.default.api.root + '/Api/EmployeeWhitelist/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response);
+    console.log(response.data);
     $scope.whitelist = response.data;
   }, function (err) {
     console.log(err);
@@ -32624,7 +32588,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     method: 'GET',
     url: _env2.default.api.root + '/Api/EmployeeBlacklist/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response);
+    console.log(response.data);
     $scope.blacklist = response.data;
   }, function (err) {
     console.log(err);
@@ -32633,7 +32597,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     method: 'GET',
     url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response);
+    console.log(response.data);
     $scope.employee = response.data[0];
     $scope.header = $scope.employee.firstName + ' ' + $scope.employee.lastName;
   }, function (err) {
@@ -32643,9 +32607,13 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     method: 'GET',
     url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response);
-    $scope.officeID = response.data[0].officeID;
-    $scope.companyName = response.data[0].companyName;
+    if ($scope.isEmpty(response.data)) {
+      $scope.companyName = "No Company Assigned";
+    } else {
+      console.log(response.data);
+      $scope.officeID = response.data[0].officeID;
+      $scope.companyName = response.data[0].companyName;
+    }
   }, function (err) {
     console.log(err);
   });
@@ -32672,6 +32640,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', function ($http, $scope, $location, $routeParams) {
   $scope.employeeID = $routeParams.id;
+  $scope.editEmployee = function (employeeID) {
+    $location.path('/edit-employee/' + employeeID);
+  };
+  $scope.isEmpty = function (obj) {
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) return false;
+    }
+    return true;
+  };
   $scope.viewBlacklist = function (employeeID) {
     $location.path('/employee-blacklist/' + employeeID);
   };
@@ -32685,7 +32662,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     method: 'GET',
     url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response);
+    console.log(response.data);
     $scope.collection = response.data;
     $scope.header = $scope.collection[0].firstName + ' ' + $scope.collection[0].lastName;
   }, function (err) {
@@ -32695,9 +32672,13 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     method: 'GET',
     url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response);
-    $scope.officeID = response.data[0].officeID;
-    $scope.companyName = response.data[0].companyName;
+    if ($scope.isEmpty(response.data)) {
+      $scope.companyName = "No Company Assigned";
+    } else {
+      console.log(response.data);
+      $scope.officeID = response.data[0].officeID;
+      $scope.companyName = response.data[0].companyName;
+    }
   }, function (err) {
     console.log(err);
   });
@@ -32802,8 +32783,8 @@ Object.defineProperty(exports, "__esModule", {
 //
 
 exports.default = ['$scope', function ($scope) {
-  $scope.welcome = 'Welcome to the Ideal Seating Chart web application. Lucid Agency contacted Arizona State University in order to request that an ASU capstone team create a project that addresses a major problem that they were facing: creating an seating chart that considers employee preferences using a web application. Team Mantis Shrimp from ASU gladly took up the task of addressing this request. This is a major issue in many corporate environments. Without tools such as the one requested, the office manager must assign employees to seats manually. In addition, if the seating chart was to accomodate the employee preferences, the office manager would also have to collect those preferences themselves. Then, the office manager would have to find a method to rank and then reflect those changes in the seating chart they would soon create. This web application addresses all of those issues.';
-  $scope.objective = 'The primary objective is to provide a web application that uses employees and a floor plan to create an optimized seating chart based on the employee preferences. The application would aggregate the database of employees and use a clustering algorithm based on the available seats in the floor plan to assign employees to seats. The seating arrangement should optimally match seats to employees by preferences and related jobs, but will limit the tradeoffs of working in a cross functional environment.';
+  $scope.welcome = ['Welcome to the Ideal Seating Chart web application. Lucid Agency contacted Arizona State University in order to request that an ASU capstone team create a project that addresses a major problem that they were facing.', 'They wanted a web application that could create an seating chart that considers employee preferences. This is a major issue in many corporate environments. Without tools such as the one requested, the office manager must assign employees to seats manually. In addition, if the seating chart was to accomodate the employee preferences, the office manager would also have to collect those preferences themselves. Then, the office manager would have to find a method to rank and then reflect those changes in the seating chart they would soon create. This web application addresses all of those issues.'];
+  $scope.objective = ['The primary objective is to provide a web application that uses employees, their preferences, and a floor plan to create an optimized seating chart.', 'The application would aggregate the database of employees and use a clustering algorithm based on the available seats in the floor plan to assign employees to seats. The seating arrangement should optimally match seats to employees by preferences and related jobs, but will limit the tradeoffs of working in a cross functional environment.'];
   $scope.benefits = ['Save time automating the seating chart creation process.', 'Automatically gather employee preferences instead of doing so manually', 'Employ seating chart that create conducive working environments by meeting employee preferences.', 'Quickly modify seating chart to reflect current changes in the office layout', 'Tailor office layout to needs of projects, employees, etc.', 'Easily manage and scale to large office spaces with numerous employees.'];
 }];
 
@@ -32841,7 +32822,7 @@ exports.default = ['$scope', '$route', '$routeParams', '$location', function ($s
   $scope.primaryNavItems = _primary_nav_items2.default;
 }];
 
-},{"../settings/account_nav_items":146,"../settings/primary_nav_items":147}],135:[function(require,module,exports){
+},{"../settings/account_nav_items":145,"../settings/primary_nav_items":146}],135:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32862,11 +32843,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', function ($http, $scope, $location, $routeParams) {
   $scope.employeeID = $routeParams.id;
+  $scope.editEmployee = function (employeeID) {
+    $location.path('/edit-employee/' + employeeID);
+  };
+  $scope.isEmpty = function (obj) {
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) return false;
+    }
+    return true;
+  };
   $http({
     method: 'GET',
     url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response);
+    console.log(response.data);
     $scope.collection = response.data;
     $scope.header = $scope.collection[0].firstName + ' ' + $scope.collection[0].lastName;
   }, function (err) {
@@ -32876,7 +32866,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     method: 'GET',
     url: _env2.default.api.root + '/Api/EmployeeTemperatureRange/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response);
+    console.log(response.data);
     $scope.temperatureRange = response.data[0];
   }, function (err) {
     console.log(err);
@@ -32885,9 +32875,13 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     method: 'GET',
     url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response);
-    $scope.officeID = response.data[0].officeID;
-    $scope.companyName = response.data[0].companyName;
+    if ($scope.isEmpty(response.data)) {
+      $scope.companyName = "No Company Assigned";
+    } else {
+      console.log(response.data);
+      $scope.officeID = response.data[0].officeID;
+      $scope.companyName = response.data[0].companyName;
+    }
   }, function (err) {
     console.log(err);
   });
@@ -32979,7 +32973,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     });
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/AllEmployees'
+      url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.officeID
     }).then(function (response) {
       console.log(response);
       $scope.emps = response.data;
@@ -32995,7 +32989,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
   };
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/AllEmployees'
+    url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.officeID
   }).then(function (response) {
     console.log(response);
     $scope.emps = response.data;
@@ -33101,10 +33095,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _team_members = require('../data/team_members');
-
-var _team_members2 = _interopRequireDefault(_team_members);
-
 var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
@@ -33125,6 +33115,9 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     }
     return true;
   };
+  $scope.editEmployee = function (employeeID) {
+    $location.path('/edit-employee/' + employeeID);
+  };
   $scope.view = function (employeeID) {
     $location.path('/employee-detail/' + employeeID);
   };
@@ -33132,12 +33125,8 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     method: 'GET',
     url: _env2.default.api.root + '/Api/EmployeeTeammates/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response);
-    if (!$scope.isEmpty(response.data)) {
-      $scope.collection = response.data;
-    } else {
-      $scope.collection = _team_members2.default;
-    }
+    console.log(response.data);
+    $scope.collection = response.data;
   }, function (err) {
     console.log(err);
   });
@@ -33145,7 +33134,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     method: 'GET',
     url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response);
+    console.log(response.data);
     $scope.employee = response.data[0];
     $scope.header = $scope.employee.firstName + ' ' + $scope.employee.lastName;
   }, function (err) {
@@ -33155,24 +33144,24 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     method: 'GET',
     url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response);
-    $scope.officeID = response.data[0].officeID;
-    $scope.companyName = response.data[0].companyName;
+    if ($scope.isEmpty(response.data)) {
+      $scope.companyName = "No Company Assigned";
+    } else {
+      console.log(response.data);
+      $scope.officeID = response.data[0].officeID;
+      $scope.companyName = response.data[0].companyName;
+    }
   }, function (err) {
     console.log(err);
   });
 }];
 
-},{"../core/env":142,"../data/team_members":144}],141:[function(require,module,exports){
+},{"../core/env":142}],141:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _employees = require('../data/employees');
-
-var _employees2 = _interopRequireDefault(_employees);
 
 var _env = require('../core/env');
 
@@ -33187,7 +33176,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', function ($http, $scope, $location) {
-  $scope.emps = _employees2.default;
   $scope.header = "All Employees";
   $scope.add = function () {
     $location.path('/add-employee');
@@ -33228,7 +33216,7 @@ exports.default = ['$http', '$scope', '$location', function ($http, $scope, $loc
   });
 }];
 
-},{"../core/env":142,"../data/employees":143}],142:[function(require,module,exports){
+},{"../core/env":142}],142:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33331,50 +33319,6 @@ exports.default = [{
 }];
 
 },{}],144:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = [{
-  employeeID: 1,
-  firstName: 'Allen',
-  lastName: 'Kawanzaruwa',
-  title: 'Genius',
-  email: 'akawanza@asu.edu'
-}, {
-  employeeID: 2,
-  firstName: 'Daniel',
-  lastName: 'Graca',
-  title: 'Bad Boy',
-  email: 'djgraca08@gmail.com'
-}, {
-  employeeID: 3,
-  firstName: 'Garrett',
-  lastName: 'Gutierrez',
-  title: 'Slayer',
-  email: 'gdgutier@asu.edu'
-}, {
-  employeeID: 4,
-  firstName: 'Jack',
-  lastName: 'Bankston',
-  title: 'Captain',
-  email: 'jeffwtribble@gmail.com'
-}, {
-  employeeID: 5,
-  firstName: 'Jeff',
-  lastName: 'Tribble',
-  title: 'Water Boy',
-  email: 'jeffwtribble@gmail.com'
-}, {
-  employeeID: 6,
-  firstName: 'Jerry',
-  lastName: 'Trayer',
-  title: 'Chancellor',
-  email: 'jtrayer1@asu.edu'
-}];
-
-},{}],145:[function(require,module,exports){
 'use strict';
 
 var _AddEmployeeController = require('./controllers/AddEmployeeController');
@@ -33544,7 +33488,7 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   $locationProvider.html5Mode(true);
 });
 
-},{"./controllers/AddEmployeeController":124,"./controllers/AddOfficeController":125,"./controllers/EditEmployeeController":126,"./controllers/EditOfficeController":127,"./controllers/EmployeeBlacklistController":128,"./controllers/EmployeeCoworkersController":129,"./controllers/EmployeeDetailController":130,"./controllers/EmployeeWhitelistController":131,"./controllers/FloorplanController":132,"./controllers/HomeController":133,"./controllers/MainController":134,"./controllers/MyAccount/EmployeePreferencesController":135,"./controllers/OfficeDetailController":136,"./controllers/OfficeEmployeesController":137,"./controllers/OfficesController":138,"./controllers/SeatingChartsController":139,"./controllers/TeamMembersController":140,"./controllers/ViewEmployeesController":141}],146:[function(require,module,exports){
+},{"./controllers/AddEmployeeController":124,"./controllers/AddOfficeController":125,"./controllers/EditEmployeeController":126,"./controllers/EditOfficeController":127,"./controllers/EmployeeBlacklistController":128,"./controllers/EmployeeCoworkersController":129,"./controllers/EmployeeDetailController":130,"./controllers/EmployeeWhitelistController":131,"./controllers/FloorplanController":132,"./controllers/HomeController":133,"./controllers/MainController":134,"./controllers/MyAccount/EmployeePreferencesController":135,"./controllers/OfficeDetailController":136,"./controllers/OfficeEmployeesController":137,"./controllers/OfficesController":138,"./controllers/SeatingChartsController":139,"./controllers/TeamMembersController":140,"./controllers/ViewEmployeesController":141}],145:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33562,7 +33506,7 @@ exports.default = [{
   text: 'Sign Out'
 }];
 
-},{}],147:[function(require,module,exports){
+},{}],146:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33586,7 +33530,7 @@ exports.default = [{
   text: 'Seating Charts'
 }];
 
-},{}]},{},[145])
+},{}]},{},[144])
 
 
 //# sourceMappingURL=bundle.js.map

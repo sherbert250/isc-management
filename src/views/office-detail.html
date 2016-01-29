@@ -1,11 +1,8 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-md-9">
-      <h1>{{header}}</h1>
-    </div>
-    <div class="col-sm-3">
-      <button ng-click="edit(office.officeID)">Edit Office</button>
+    <div class="col-md-12">
+      <h1 class="rounded-header">{{header}}</h1>
     </div>
   </div>
   <hr />
@@ -14,22 +11,29 @@
     <li><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
     <li><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplan</a></li>
   </ul>
-  <table class="table table-striped">
-    <tr>
-      <th>Office Name</th>
-      <td>{{office.officeName}}</td>
-    </tr>
-    <tr>
-      <th>Office Address</th>
-      <td>{{office.officeStreetAddress}} {{office.officeCity}} {{office.officeState}} {{office.officeZipcode}}</td>
-    </tr>
-    <tr>
-      <th>Office Phone</th>
-      <td>{{office.officePhoneNumber}}</td>
-    </tr>
-    <tr>
-      <th>Office Email</th>
-      <td>{{office.officeEmail}}</td>
-    </tr>
-  </table>
+  <div class="row">
+    <div class="col-md-9">
+      <table class="table table-striped">
+        <tr>
+          <th>Office Name</th>
+          <td>{{office.officeName}}</td>
+        </tr>
+        <tr>
+          <th>Office Address</th>
+          <td>{{office.officeStreetAddress}}, {{office.officeCity}}, {{office.officeState}} {{office.officeZipcode}}</td>
+        </tr>
+        <tr>
+          <th>Office Phone</th>
+          <td>{{office.officePhoneNumber}}</td>
+        </tr>
+        <tr>
+          <th>Office Email</th>
+          <td>{{office.officeEmail}}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-success btn-md" ng-click="edit(office.officeID)">Edit Office</button>
+    </div>
+  </div>
 </div>

@@ -1,21 +1,25 @@
 
 <div class="container">
-  <h1>{{header}}</h1>
+  <h1 class="rounded-header">{{header}}</h1>
+  <hr />
+  <form class="form-inline">
+  <input ng-model="query" type="text" class="form-control" placeholder="Search for" autofocus>
+  </form>
   <table class="table table-striped">
     <thead>
       <th>Employee ID</th>
       <th>First name</th>
       <th>Last Name</th>
       <th>Email Address</th>
-      <th>Action</th>
+      <th class="action-header">Action</th>
     </thead>
-    <tbody ng-repeat="model in collection">
+    <tbody ng-repeat="model in collection | filter:query">
       <tr>
         <td>{{model.employeeID}}</td>
         <td>{{model.firstName}}</td>
         <td>{{model.lastName}}</td>
         <td>{{model.email}}</td>
-        <td><button ng-click="view(model.employeeID)">View</button></td>
+        <td class="action-header"><button class="btn btn-info btn-sm" ng-click="view(model.employeeID)">View</button></td>
       </tr>
     </tbody>
   </table>

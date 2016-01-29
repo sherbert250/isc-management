@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <h1>{{companyName}}</h1>
+      <h1 class="rounded-header">{{companyName}}</h1>
     </div>
   </div>
   <hr />
@@ -22,11 +22,11 @@
     </div>
     <div class="col-md-9">
       <div class="row">
-        <div class="col-md-6">
-          <h3><strong>{{header}}</strong></h3>
+        <div class="col-md-9">
+          <h3 class="employee-name">{{header}}</h3>
         </div>
-        <div class="col-md-6">
-          <button style="margin:15px">Edit Employee</button>
+        <div class="col-md-3">
+          <button class="btn btn-success btn-md" ng-click="editEmployee(employeeID)" style="margin:15px">Edit Employee</button>
         </div>
       </div>
       <table class="table table-hover" ng-repeat="item in collection">
@@ -44,15 +44,15 @@
           </tr>
           <tr>
             <th>Black List</th>
-            <td><button ng-click="viewBlacklist(item.employeeID)">View</button></td>
+            <td><button class="btn btn-info btn-sm" ng-click="viewBlacklist(item.employeeID)">View</button></td>
           </tr>
           <tr>
             <th>Team Members</th>
-            <td><button ng-click="viewTeamMembers(item.employeeID)">View</button></td>
+            <td><button class="btn btn-info btn-sm" ng-click="viewTeamMembers(item.employeeID)">View</button></td>
           </tr>
           <tr>
             <th>White List</th>
-            <td><button ng-click="viewWhitelist(item.employeeID)">View</button></td>
+            <td><button class="btn btn-info btn-sm" ng-click="viewWhitelist(item.employeeID)">View</button></td>
           </tr>
         </table>
     </div>

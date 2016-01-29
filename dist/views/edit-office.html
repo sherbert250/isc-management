@@ -1,44 +1,44 @@
 
 <div class="container">
-  <h1>{{header}}</h1>
+  <h1 class="rounded-header">{{header}}</h1>
   <form name="editOfficeForm" ng-submit="submit()">
-  <table class="table table-hover">
-    <tr>
-       <th>Company Name</th>
-       <td><input type="text" name="companyName" ng-model="office.companyName" required /></td>
-     </tr>
-     <tr>
-       <th>Office Name</th>
-       <td><input type="text" name="officeName" ng-model="office.officeName" required /></td>
-     </tr>
-     <tr>
-       <th>Office Phone Number</th>
-       <td><input type="text" name="officePhoneNumber" ng-model="office.officePhoneNumber" required /></td>
-     </tr>
-     <tr>
-       <th>Office Email</th>
-       <td><input type="email" name="officeEmail" ng-model="office.officeEmail" required /></td>
-     </tr>
-     <tr>
-       <th>Street Address</th>
-       <td><input type="text" name="officeStreetAddress" ng-model="office.officeStreetAddress" required /></td>
-     </tr>
-     <tr>
-       <th>City</th>
-       <td><input type="text" name="officeCity" ng-model="office.officeCity" required /></td>
-     </tr>
-     <tr>
-       <th>State</th>
-       <td><input type="text" name="officeState" ng-model="office.officeState" required /></td>
-     </tr>
-     <tr>
-       <th>Zipcode</th>
-       <td><input type="text" name="officeZipcode" ng-model="office.officeZipcode" required /></td>
-     </tr>
-     <tr>
-       <td><button ng-click="reset()">Reset</button></td>
-       <td><input type="submit" name="submit" value="submit" /></td>
-     </tr>
-  </table>
+    <table class="table table-hover">
+      <tr>
+         <th>Company Name</th>
+         <td><input class="form-control" type="text" name="companyName" ng-model="office.companyName" required /></td>
+       </tr>
+       <tr>
+         <th>Office Name</th>
+         <td><input class="form-control" type="text" name="officeName" ng-model="office.officeName" required /></td>
+       </tr>
+       <tr>
+         <th>Office Phone Number</th>
+         <td><input class="form-control" type="text" name="officePhoneNumber" ng-model="office.officePhoneNumber" required /></td>
+       </tr>
+       <tr>
+         <th>Office Email</th>
+         <td><input class="form-control" type="email" name="officeEmail" ng-model="office.officeEmail" required /></td>
+       </tr>
+       <tr>
+         <th>Street Address</th>
+         <td><input class="form-control" type="text" name="officeStreetAddress" ng-model="office.officeStreetAddress" required /></td>
+       </tr>
+       <tr>
+         <th>City</th>
+         <td><input class="form-control" type="text" name="officeCity" ng-model="office.officeCity" required /></td>
+       </tr>
+       <tr>
+         <th>State</th>
+         <td><input class="form-control" type="text" name="officeState" ng-model="office.officeState" required /></td>
+       </tr>
+       <tr>
+         <th>Zipcode</th>
+         <td><input class="form-control" type="text" name="officeZipcode" ng-model="office.officeZipcode" required /></td>
+       </tr>
+       <tr>
+         <th>Submit Changes</th>
+         <td><input  class="btn btn-success btn-md" type="submit" name="submit" value="submit" /></td>
+       </tr>
+    </table>
   </form>
 </div>

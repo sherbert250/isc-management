@@ -1,4 +1,3 @@
-import teamMembers from '../data/team_members';
 import env from '../core/env';
 
 //
@@ -16,6 +15,9 @@ export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, 
     }
     return true;
   };
+  $scope.editEmployee = function(employeeID) {
+    $location.path('/edit-employee/' + employeeID);
+  };
   $scope.view = function(employeeID) {
     $location.path('/employee-detail/' + employeeID);
   };
@@ -23,12 +25,8 @@ export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, 
     method: 'GET',
     url: `${env.api.root}/Api/EmployeeTeammates/` + $scope.employeeID
   }).then(response => {
-    console.log(response);
-    if (!$scope.isEmpty(response.data)) {
-      $scope.collection = response.data;
-    } else {
-      $scope.collection = teamMembers;
-    }
+    console.log(response.data);
+    $scope.collection = response.data;
   }, err => {
     console.log(err);
   });
@@ -36,7 +34,7 @@ export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, 
     method: 'GET',
     url: `${env.api.root}/Api/Employee/` + $scope.employeeID
   }).then(response => {
-    console.log(response);
+    console.log(response.data);
     $scope.employee = response.data[0];
     $scope.header = $scope.employee.firstName + ' ' + $scope.employee.lastName;
   }, err => {
@@ -46,9 +44,13 @@ export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, 
     method: 'GET',
     url: `${env.api.root}/Api/OfficeOfEmployee/` + $scope.employeeID
   }).then(response => {
-    console.log(response);
-    $scope.officeID = response.data[0].officeID;
-    $scope.companyName = response.data[0].companyName;
+    if ($scope.isEmpty(response.data)) {
+      $scope.companyName = "No Company Assigned";
+    } else {
+      console.log(response.data);
+      $scope.officeID = response.data[0].officeID;
+      $scope.companyName = response.data[0].companyName;
+    }
   }, err => {
     console.log(err);
   });

@@ -1,21 +1,29 @@
-
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-       <h1 class="roundedBanner">Ideal Seating Chart Home</h1>
-       <p class="section">{{welcome}}</p>
+       <h1 class="rounded-header">Ideal Seating Chart Home</h1>
+       <p class="homepage-text">{{welcome[0]}}</p>
+       <p id="welcome" class="homepage-text collapse">{{welcome[1]}}</p>
+       <button data-toggle="collapse" data-target="#welcome" class="btn btn-info btn-md homepage-see-more">See More</button>
     </div>
   </div>
   <div class="row">
     <div class="col-md-6">
-      <h2 class="roundedHeader">Objective</h2>
-      <p class="section">{{objective}}</p>
+      <h2 class="rounded-banner">Objective</h2>
+      <p class="homepage-text">{{objective[0]}}</p>
+      <p id="objective" class="homepage-text collapse">{{objective[1]}}</p>
+      <button data-toggle="collapse" data-target="#objective" class="btn btn-info btn-md homepage-see-more">See More</button>
     </div>
-        <div class="col-md-6">
-          <h2 class="roundedHeader">Benefits</h2>
-          <ul>
-      <li ng-repeat="benefit in benefits" class="section">{{benefit}}</li>
-    </ul>
-       </div>
+    <div class="col-md-6">
+      <h2 class="rounded-banner">Benefits</h2>
+      <ul>
+        <li ng-repeat="i in [0, 1]" class="homepage-text">{{benefits[i]}}</li>
+        <span id="benef" class="collapse">
+          <li ng-repeat="j in [2, 3, 4, 5]" class="homepage-text">{{benefits[j]}}</li>
+        </span>
+      </ul>
+      <button data-toggle="collapse" data-target="#benef" class="btn btn-info btn-md homepage-see-more">See More</button>
+    </div>
+    </div>
   </div>
 </div>

@@ -1,0 +1,37 @@
+//
+// Styling for the headers
+//
+.action-header {
+  text-align: center;
+}
+
+.employee-name {
+  font-weight: bold;
+}
+
+.rounded-banner {
+  border-radius: 30px 30px 30px 30px;
+  background: #42586E;
+  color: #FFF;
+  padding: 20px;
+}
+
+h1.rounded-banner {
+	text-align: center;
+}
+
+.rounded-header {
+  border-radius: 15px 50px;
+  background: #617487;
+  color: #FFF;
+  padding: 20px;
+}
+
+.team-members-header {
+  border-radius: 30px 30px 30px 30px;
+  background: #42586E;
+  color: #FFF;
+  font-weight: bold;
+  padding: 5px;
+  text-align: center;
+}

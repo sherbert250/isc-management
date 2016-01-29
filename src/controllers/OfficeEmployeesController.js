@@ -25,7 +25,7 @@ export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, 
     });
     $http({
       method: 'GET',
-      url: `${env.api.root}/Api/AllEmployees`
+      url: `${env.api.root}/Api/EmployeesOfOffice/` + $scope.officeID
     }).then(response => {
       console.log(response);
       $scope.emps = response.data;
@@ -41,7 +41,7 @@ export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, 
   };
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/AllEmployees`
+    url: `${env.api.root}/Api/EmployeesOfOffice/` + $scope.officeID
   }).then(response => {
     console.log(response);
     $scope.emps = response.data;
