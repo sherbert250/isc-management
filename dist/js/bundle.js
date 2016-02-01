@@ -63382,6 +63382,21 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
   $scope.editEmployee = function (employeeID) {
     $location.path('/edit-employee/' + employeeID);
   };
+  $scope.updateCoworkers = function (employeeID, officeID) {
+    var coworkers = {
+      blacklist: $scope.blacklist,
+      whitelist: $scope.whitelist
+    };
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/UpdateCoworkers/' + employeeID,
+      data: coworkers
+    }).then(function (response) {
+      $location.path('/employee-coworkers/' + employeeID + '/' + officeID);
+    }, function (err) {
+      alert('Error');
+    });
+  };
   $scope.isEmpty = function (obj) {
     for (var prop in obj) {
       if (obj.hasOwnProperty(prop)) return false;

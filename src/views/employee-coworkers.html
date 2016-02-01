@@ -15,7 +15,7 @@
       <ul class="nav nav-pills nav-stacked">
         <li><a href="/employee-detail/{{employeeID}}">Employee Details</a></li>
         <li><a href="/team-members/{{employeeID}}">Department and Team</a></li>
-        <li><a href="/employee-preferences/{{employeeID}}/{{officeID}}">Preferences</a></li>
+        <li><a href="/employee-preferences/{{employeeID}}">Preferences</a></li>
         <li class="active"><a href="#">Coworkers</a></li>
       </ul>
     </div>
@@ -25,7 +25,7 @@
           <h3 class="employee-name">{{header}}</h3>
         </div>
         <div class="col-md-4">
-          <button class="btn btn-warning btn-md" ng-click="updateCoworkers(employeeID)">Update Coworkers</button>
+          <button class="btn btn-warning btn-md" ng-click="updateCoworkers(employeeID, officeID)">Update Coworkers</button>
         </div>
         <div class="col-md-4">
           <button class="btn btn-success btn-md" ng-click="editEmployee(employeeID)">Edit Employee</button>

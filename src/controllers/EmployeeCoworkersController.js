@@ -42,6 +42,22 @@ export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, 
   $scope.editEmployee = function(employeeID) {
     $location.path('/edit-employee/' + employeeID);
   };
+  $scope.updateCoworkers = function(employeeID, officeID) {
+    var coworkers = {
+      blacklist : $scope.blacklist,
+      whitelist : $scope.whitelist
+    };
+    $http({
+      method: 'POST',
+      url: `${env.api.root}/Api/UpdateCoworkers/` + employeeID,
+      data : coworkers
+    })
+    .then(response => {
+      $location.path('/employee-coworkers/' + employeeID + '/' + officeID);
+    }, err => {
+      alert('Error');
+    });
+  };
   $scope.isEmpty = function (obj) {
     for(var prop in obj) {
         if(obj.hasOwnProperty(prop))
