@@ -31149,20 +31149,37 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = ['$http', '$scope', function ($http, $scope) {
 
   $scope.createWall = function () {
-    $('<div class="draggable drag"><i class="fa fa-stop fa-2x default"></i><i class="fa fa-stop fa-2x default"></i><i class="fa fa-stop fa-2x default"></i></div>').appendTo(".live-demo");
+    $('<div class="draggable drag" data-x="0" data-y="0" style="transform: translate(0px, 0px) rotate(0deg)"><i class="fa fa-stop fa-2x default"></i><i class="fa fa-stop fa-2x default"></i><i class="fa fa-stop fa-2x default"></i></div>').appendTo(".live-demo");
   };
 
   $scope.createDesk = function () {
-    $('<div class="draggable drag"><i class="fa fa-simplybuilt fa-3x info"></i></div>').appendTo(".live-demo");
+    $('<div class="draggable drag" data-x="0" data-y="0" style="transform: translate(0px, 0px) rotate(0deg)"><i class="fa fa-simplybuilt fa-3x info"></i></div>').appendTo(".live-demo");
   };
 
   $scope.createUser = function () {
-    $('<div class="draggable drag"><i class="fa fa-user fa-3x danger"></i></div>').appendTo(".live-demo");
+    $('<div class="draggable drag user" data-x="0" data-y="0" style="transform: translate(0px, 0px) rotate(0deg)"><i class="fa fa-user fa-3x danger"></i></div>').appendTo(".live-demo");
+  };
+
+  $scope.submit = function () {
+    var positions = [];
+    var users = document.getElementsByClassName('user');
+    for (var i = 0; i < users.length; i++) {
+      var value = $(users[i]).attr("style");
+      positions.push(value.match(/translate\((.*?)\)/)[1]);
+    }
+    console.log(positions);
+  };
+
+  $scope.getRotate = function (target) {
+    var value = $(target).attr("style");
+    return parseInt(value.match(/rotate\((.*?)\)/)[1]);
   };
 
   // target elements with the "draggable" class
   interact('.draggable').on('doubletap', function (event) {
-    event.currentTarget.classList.toggle('rotate');
+    var newRotate = $scope.getRotate(event.currentTarget) + 90;
+    $(event.currentTarget).css("transform", 'translate(' + event.currentTarget.getAttribute('data-x') + 'px, ' + event.currentTarget.getAttribute('data-y') + 'px) rotate(' + newRotate + 'deg)');
+    $(event.currentTarget).css("webkitTransform", 'translate(' + event.currentTarget.getAttribute('data-x') + 'px, ' + event.currentTarget.getAttribute('data-y') + 'px) rotate(' + newRotate + 'deg)');
   }).draggable({
     snap: {
       targets: [interact.createSnapGrid({
@@ -31203,7 +31220,7 @@ exports.default = ['$http', '$scope', function ($http, $scope) {
         y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
 
     // translate the element
-    target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+    target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px) ' + 'rotate(' + $scope.getRotate(target) + 'deg)';
 
     // update the posiion attributes
     target.setAttribute('data-x', x);

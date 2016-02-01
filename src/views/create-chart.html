@@ -28,6 +28,7 @@
     height: 0%;
     -webkit-transform: translate(0px, 0px);
     transform: translate(0px, 0px);
+    transition: all 0.2s;
   }
 
   .info {
@@ -60,11 +61,7 @@
   }
 
   .rotate {
-    transition: all 0.2s;
     -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
     transform: rotate(90deg);
   }
 
@@ -75,16 +72,21 @@
 </style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
+<script type="text/javascript" src="http://beneposto.pl/jqueryrotate/js/jQueryRotateCompressed.js"></script>
+
 <div class="row">
   <div class="col-md-1 col-sm-0">
     <div class="row space">
-      <button class="btn btn-info" ng-click="createDesk()">Add Desk</button>
+      <button class="btn btn-danger" ng-click="createUser()">Person</button>
     </div>
     <div class="row space">
-      <button class="btn btn-danger" ng-click="createUser()">Add Person</button>
+      <button class="btn btn-info" ng-click="createDesk()">Desk</button>
     </div>
     <div class="row space">
-      <button class="btn btn-default" ng-click="createWall()">Add Wall</button>
+      <button class="btn btn-default" ng-click="createWall()">Wall</button>
+    </div>
+    <div class="row space">
+      <button class="btn btn-primary" ng-click="submit()">Submit</button>
     </div>
   </div>
   <div class="col-md-10 col-sm-12">
