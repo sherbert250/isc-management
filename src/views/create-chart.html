@@ -1,3 +1,96 @@
-<div id="grid-snap">
-  hi
+<style>
+  .demo-area {
+    width: 100%;
+    position: relative;
+    display: inline-block;
+    background-color: #e8e9e8;
+  }
+
+  .demo-area::before {
+    width: 0.25em;
+    background-color: #272822;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .live-demo {
+    display: inline-block;
+    vertical-align: top;
+    width: 100%;
+    background-color: #e8e9e8;
+  }
+
+  .drag {
+    width: 0%;
+    height: 0%;
+    -webkit-transform: translate(0px, 0px);
+    transform: translate(0px, 0px);
+  }
+
+  .info {
+    color: #3498DB;
+  }
+
+  .success {
+    color: #18BC9C;
+  }
+
+  .danger {
+    color: #E74C3C;
+  }
+
+  .primary {
+    color: #2C3E50;
+  }
+
+  .default {
+    color: #95a5a6;
+  }
+
+  .space {
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+  }
+
+  .fill {
+    height: 50rem;
+  }
+
+  .rotate {
+    transition: all 0.2s;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+  }
+
+  #drag-me::before {
+    content: "#" attr(id);
+    font-weight: bold;
+  }
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<div class="row">
+  <div class="col-md-1 col-sm-0">
+    <div class="row space">
+      <button class="btn btn-info" ng-click="createDesk()">Add Desk</button>
+    </div>
+    <div class="row space">
+      <button class="btn btn-danger" ng-click="createUser()">Add Person</button>
+    </div>
+    <div class="row space">
+      <button class="btn btn-default" ng-click="createWall()">Add Wall</button>
+    </div>
+  </div>
+  <div class="col-md-10 col-sm-12">
+    <div class="demo-area">
+      <div class="live-demo fill">
+      </div>
+    </div>
+  </div>
 </div>
