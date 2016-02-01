@@ -1,8 +1,9 @@
 //
 // Modules
 //
-
-let iscApp = angular.module('iscApp', ['ngRoute']);
+var angular = require('angular');
+var angularDragula = require('angular-dragula');
+let iscApp = angular.module('iscApp', ['ngRoute', angularDragula(angular)]);
 
 //
 // Controllers
@@ -77,7 +78,7 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     templateUrl: 'views/employee-blacklist.html',
     controller: 'EmployeeBlacklistController'
   })
-  .when('/employee-coworkers/:id', {
+  .when('/employee-coworkers/:employeeID/:officeID', {
     templateUrl: 'views/employee-coworkers.html',
     controller: 'EmployeeCoworkersController'
   })

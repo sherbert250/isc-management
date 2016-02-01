@@ -12,11 +12,11 @@ export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, 
   $scope.header = 'hello';
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/Office/` + $scope.officeID
+    url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID
   }).then(response => {
     console.log(response);
     $scope.office = response.data[0];
-    $scope.header = $scope.office.companyName;
+    $scope.header = response.data[0].companyName;
   }, err => {
     console.log(err);
   });

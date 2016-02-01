@@ -9,7 +9,6 @@ import env from '../core/env';
 export default ['$http', '$scope', '$location', ($http, $scope, $location) => {
   $scope.header = "Add an Office";
   $scope.office = {
-    companyName: "",
     officeName: "",
     officePhoneNumber: "",
     officeEmail: "",

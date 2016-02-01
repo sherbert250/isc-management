@@ -7,10 +7,41 @@ import env from '../core/env';
 //
 
 export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, $location, $routeParams) => {
-  $scope.employeeID = $routeParams.id;
+  $scope.employeeID = $routeParams.employeeID;
+  $scope.officeID = $routeParams.officeID;
+  $scope.employees = [
+    {
+      employeeID: 0,
+      firstName : " ",
+      lastName : " ",
+      email : " ",
+      title: " ",
+      department: " "
+    }
+  ];
+  $scope.blacklist = [
+    {
+      employeeID: 0,
+      firstName : " ",
+      lastName : " ",
+      email : " ",
+      title: " ",
+      department: " "
+    }
+  ];
+  $scope.whitelist = [
+    {
+      employeeID: 0,
+      firstName : " ",
+      lastName : " ",
+      email : " ",
+      title: " ",
+      department: " "
+    }
+  ];
   $scope.editEmployee = function(employeeID) {
     $location.path('/edit-employee/' + employeeID);
-  }
+  };
   $scope.isEmpty = function (obj) {
     for(var prop in obj) {
         if(obj.hasOwnProperty(prop))
@@ -23,6 +54,16 @@ export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, 
   };
   $http({
     method: 'GET',
+    url: `${env.api.root}/Api/EmployeesNotInWhiteListOrBlackList/` + $scope.employeeID + '/' + $scope.officeID
+  }).then(response => {
+    console.log(response.data);
+    $scope.employees = response.data;
+    $scope.employeesCopy = response.data;
+  }, err => {
+    console.log(err);
+  });
+  $http({
+    method: 'GET',
     url: `${env.api.root}/Api/EmployeeWhitelist/` + $scope.employeeID
   }).then(response => {
     console.log(response.data);
@@ -31,13 +72,13 @@ export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, 
     console.log(err);
   });
   $http({
-    method: 'GET',
-    url: `${env.api.root}/Api/EmployeeBlacklist/` + $scope.employeeID
+   method: 'GET',
+   url: `${env.api.root}/Api/EmployeeBlacklist/` + $scope.employeeID
   }).then(response => {
-    console.log(response.data)
-    $scope.blacklist = response.data;
+   console.log(response.data)
+   $scope.blacklist = response.data;
   }, err => {
-    console.log(err);
+   console.log(err);
   });
   $http({
     method: 'GET',
@@ -51,14 +92,13 @@ export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, 
   });
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/OfficeOfEmployee/` + $scope.employeeID
+    url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID
   }).then(response => {
     if ($scope.isEmpty(response.data)) {
       $scope.companyName = "No Company Assigned";
     } else {
       console.log(response.data);
-      $scope.officeID = response.data[0].officeID;
-      $scope.companyName = response.data[0].companyName;
+      $scope.companyName = response.data[0].companyName
     }
   }, err => {
     console.log(err);

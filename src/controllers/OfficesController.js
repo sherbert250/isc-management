@@ -23,7 +23,7 @@ export default ['$http', '$scope', '$location', ($http, $scope, $location) => {
     });
     $http({
       method: 'GET',
-      url: `${env.api.root}/Api/AllOffices`
+      url: `${env.api.root}/Api/AllCompaniesForAllOffices`
     }).then(response => {
       console.log(response);
       $scope.offices= response.data;
@@ -39,7 +39,7 @@ export default ['$http', '$scope', '$location', ($http, $scope, $location) => {
   };
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/AllOffices`
+    url: `${env.api.root}/Api/AllCompaniesForAllOffices`
   }).then(response => {
     console.log(response);
     $scope.offices = response.data;

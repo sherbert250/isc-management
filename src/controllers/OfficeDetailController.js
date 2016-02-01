@@ -13,7 +13,7 @@ export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, 
   };
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/Office/` + $scope.officeID
+    url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID
   }).then(response => {
     console.log(response);
     $scope.office = response.data[0];

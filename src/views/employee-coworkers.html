@@ -15,61 +15,66 @@
       <ul class="nav nav-pills nav-stacked">
         <li><a href="/employee-detail/{{employeeID}}">Employee Details</a></li>
         <li><a href="/team-members/{{employeeID}}">Department and Team</a></li>
-        <li><a href="/employee-preferences/{{employeeID}}">Preferences</a></li>
+        <li><a href="/employee-preferences/{{employeeID}}/{{officeID}}">Preferences</a></li>
         <li class="active"><a href="#">Coworkers</a></li>
       </ul>
     </div>
     <div class="col-md-9">
       <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-4">
           <h3 class="employee-name">{{header}}</h3>
         </div>
-        <div class="col-md-3">
-          <button class="btn btn-success btn-md" ng-click="editEmployee(employeeID)" style="margin:15px">Edit Employee</button>
+        <div class="col-md-4">
+          <button class="btn btn-warning btn-md" ng-click="updateCoworkers(employeeID)">Update Coworkers</button>
+        </div>
+        <div class="col-md-4">
+          <button class="btn btn-success btn-md" ng-click="editEmployee(employeeID)">Edit Employee</button>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-6">
-          <h3>Whitelist</h3>
-          <table class="table table-striped table-hover">
-            <thead>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Job</th>
-              <th>Dept</th>
-              <th>Action</th>
-            </thead>
-            <tbody ng-repeat="model in whitelist">
-              <tr>
-                <td>{{model.firstName}} {{model.lastName}}</td>
-                <td>{{model.email}}</td>
-                <td>{{model.title}}</td>
-                <td>{{model.department}}</td>
-                <td><button class="btn btn-info btn-sm" ng-click="view(model.employeeID)">View</button></td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="col-md-3">
+          <h4>Available Employees</h4>
         </div>
-        <div class="col-md-6">
-          <h3>Blacklist</h3>
-          <table class="table table-striped table-hover">
-            <thead>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Job</th>
-              <th>Dept</th>
-              <th>Action</th>
-            </thead>
-            <tbody ng-repeat="model in blacklist">
-              <tr>
-                <td>{{model.firstName}} {{model.lastName}}</td>
-                <td>{{model.email}}</td>
-                <td>{{model.title}}</td>
-                <td>{{model.department}}</td>
-                <td><button class="btn btn-info btn-sm" ng-click="view(model.employeeID)">View</button></td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="col-md-3">
+          <h4 class="coworker-header">Blacklist</h4>
+        </div>
+        <div class="col-md-3">
+          <h4>Available Employees</h4>
+        </div>
+        <div class="col-md-3">
+          <h4 class="coworker-header">Whitelist</h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class='parent1'>
+          <div class="col-md-6">
+            <div class='wrapper1'>
+             <div class='container1' dragula='"bag1"' dragula-model='employees'>
+               <div ng-repeat='employee in employees'>
+                 <span>{{employee.firstName}} {{employee.lastName}}, {{employee.email}}, {{employee.title}}, {{employee.department}}</span>
+               </div>
+             </div>
+             <div class='container1' dragula='"bag1"' dragula-model='blacklist'>
+                <div ng-repeat='employee in blacklist'>
+                  <span>{{employee.firstName}} {{employee.lastName}}, {{employee.email}}, {{employee.title}}, {{employee.department}}</span>
+                </div>
+             </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class='wrapper1'>
+              <div class='container2' dragula='"bag2"' dragula-model='employees'>
+                 <div ng-repeat='employee in employees'>
+                   <span>{{employee.firstName}} {{employee.lastName}}, {{employee.email}}, {{employee.title}}, {{employee.department}}</span>
+                 </div>
+               </div>
+               <div class='container2' dragula='"bag2"' dragula-model='whitelist'>
+                 <div ng-repeat='employee in whitelist'>
+                   <span>{{employee.firstName}} {{employee.lastName}}, {{employee.email}}, {{employee.title}}, {{employee.department}}</span>
+                 </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

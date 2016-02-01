@@ -49,7 +49,19 @@ export default ['$http', '$scope', '$location', '$routeParams', ($http, $scope, 
     } else {
       console.log(response.data);
       $scope.officeID = response.data[0].officeID;
-      $scope.companyName = response.data[0].companyName;
+      $http({
+        method: 'GET',
+        url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID
+      }).then(response => {
+        if ($scope.isEmpty(response.data)) {
+          $scope.companyName = "No Company Assigned";
+        } else {
+          console.log(response.data);
+          $scope.companyName = response.data[0].companyName
+        }
+      }, err => {
+        console.log(err);
+      });
     }
   }, err => {
     console.log(err);
