@@ -4,8 +4,8 @@
 
 export default [
   {
-    href: 'employee-preferences/1',
-    text: 'Preferences'
+    href: '/my-info',
+    text: 'My Info'
   },
   {
     href: '/sign-out',

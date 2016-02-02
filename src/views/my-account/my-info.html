@@ -1,0 +1,60 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="rounded-header">{{companyName}}</h1>
+    </div>
+  </div>
+  <hr />
+  <ul class="nav nav-tabs">
+    <li><a data-toggle="tab" href="office-detail/{{officeID}}">Details</a></li>
+    <li class="active"><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
+    <li><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplan</a></li>
+  </ul>
+  <div class="row">
+    <div class="col-md-3">
+      <ul class="nav nav-pills nav-stacked">
+        <li class="active"><a href="#">Employee Details</a></li>
+        <li><a href="/team-members/{{employeeID}}">Department and Team</a></li>
+        <li><a href="/employee-preferences/{{employeeID}}">Preferences</a></li>
+        <li><a href="/employee-coworkers/{{employeeID}}/{{officeID}}">Coworkers</a></li>
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-md-9">
+          <h3 class="employee-name">{{header}}</h3>
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-success btn-md" ng-click="editEmployee(employeeID)">Edit Employee</button>
+        </div>
+      </div>
+      <table class="table table-hover" ng-repeat="item in collection">
+          <tr>
+            <th>Job Title</th>
+            <td>{{item.title}}</td>
+          </tr>
+          <tr>
+            <th>Email Address</th>
+            <td>{{item.email}}</td>
+          </tr>
+          <tr>
+            <th>Department</th>
+            <td>{{item.department}}</td>
+          </tr>
+          <tr>
+            <th>Black List</th>
+            <td><button class="btn btn-info btn-sm" ng-click="viewBlacklist(item.employeeID)">View</button></td>
+          </tr>
+          <tr>
+            <th>Team Members</th>
+            <td><button class="btn btn-info btn-sm" ng-click="viewTeamMembers(item.employeeID)">View</button></td>
+          </tr>
+          <tr>
+            <th>White List</th>
+            <td><button class="btn btn-info btn-sm" ng-click="viewWhitelist(item.employeeID)">View</button></td>
+          </tr>
+        </table>
+    </div>
+  </div>
+</div>

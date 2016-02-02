@@ -16,15 +16,18 @@ import EditOfficeController from './controllers/EditOfficeController'
 import EmployeeBlacklistController from './controllers/EmployeeBlacklistController';
 import EmployeeCoworkersController from './controllers/EmployeeCoworkersController';
 import EmployeeDetailController from './controllers/EmployeeDetailController';
-import EmployeePreferencesController from './controllers/MyAccount/EmployeePreferencesController';
+import EmployeePreferencesController from './controllers/EmployeePreferencesController';
 import EmployeeWhitelistController from './controllers/EmployeeWhitelistController';
 import FloorplanController from './controllers/FloorplanController';
 import HomeController from './controllers/HomeController';
+import LoginController from './controllers/LoginController';
 import MainController from './controllers/MainController';
+import MyInfoController from './controllers/MyAccount/MyInfoController';
 import OfficesController from './controllers/OfficesController';
 import OfficeDetailController from './controllers/OfficeDetailController';
 import OfficeEmployeesController from './controllers/OfficeEmployeesController';
 import SeatingChartsController from './controllers/SeatingChartsController';
+import SignOutController from './controllers/SignOutController';
 import TeamMembersController from './controllers/TeamMembersController';
 import ViewEmployeesController from './controllers/ViewEmployeesController';
 
@@ -39,11 +42,14 @@ iscApp.controller('EmployeePreferencesController', EmployeePreferencesController
 iscApp.controller('EmployeeWhitelistController', EmployeeWhitelistController);
 iscApp.controller('FloorplanController', FloorplanController);
 iscApp.controller('HomeController', HomeController);
+iscApp.controller('LoginController', LoginController);
 iscApp.controller('MainController', MainController);
+iscApp.controller('MyInfoController', MyInfoController);
 iscApp.controller('OfficesController', OfficesController);
 iscApp.controller('OfficeDetailController', OfficeDetailController);
 iscApp.controller('OfficeEmployeesController', OfficeEmployeesController);
 iscApp.controller('SeatingChartsController', SeatingChartsController);
+iscApp.controller('SignOutController', SignOutController);
 iscApp.controller('TeamMembersController', TeamMembersController);
 iscApp.controller('ViewEmployeesController', ViewEmployeesController);
 
@@ -87,7 +93,7 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     controller: 'EmployeeDetailController'
   })
   .when('/employee-preferences/:id', {
-    templateUrl: 'views/my-account/employee-preferences.html',
+    templateUrl: 'views/employee-preferences.html',
     controller: 'EmployeePreferencesController'
   })
   .when('/employee-whitelist/:id', {
@@ -97,6 +103,14 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   .when('/floorplan/:id', {
     templateUrl: 'views/floorplan.html',
     controller: 'FloorplanController'
+  })
+  .when('/login', {
+    templateUrl: 'views/login.html',
+    controller: 'LoginController'
+  })
+  .when('/my-info', {
+    templateUrl: 'views/my-account/my-info.html',
+    controller: 'MyInfoController'
   })
   .when('/offices', {
     templateUrl: 'views/offices.html',
@@ -113,6 +127,10 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   .when('/seating-charts', {
     templateUrl: 'views/seating-charts.html',
     controller: 'SeatingChartsController'
+  })
+  .when('/sign-out', {
+    templateUrl: 'views/sign-out.html',
+    controller: 'SignOutController'
   })
   .when('/team-members/:id', {
     templateUrl: 'views/team-members.html',

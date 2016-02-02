@@ -1,0 +1,53 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="rounded-header">{{companyName}}</h1>
+    </div>
+  </div>
+  <hr />
+  <ul class="nav nav-tabs">
+    <li><a data-toggle="tab" href="office-detail/{{officeID}}">Details</a></li>
+    <li class="active"><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
+    <li><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplan</a></li>
+  </ul>
+  <div class="row">
+    <div class="col-md-3">
+      <ul class="nav nav-pills nav-stacked">
+        <li><a href="/employee-detail/{{employeeID}}">Employee Details</a></li>
+        <li><a href="/team-members/{{employeeID}}">Department and Team</a></li>
+        <li class="active"><a href="#">Preferences</a></li>
+        <li><a href="/employee-coworkers/{{employeeID}}/{{officeID}}">Coworkers</a></li>
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-md-9">
+          <h3 class="employee-name">{{header}}</h3>
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-success btn-md" ng-click="editEmployee(employeeID)" style="margin:15px">Edit Employee</button>
+        </div>
+      </div>
+      <table class="table table-hover" ng-repeat="item in collection">
+          <tr>
+            <th>Temperature Preference</th>
+            <td>Lower: {{temperatureRange.lower}}</td>
+            <td>Upper: {{temperatureRange.upper}}</td>
+          </tr>
+          <tr>
+            <th>Restroom Usage</th>
+            <td colspan="2">{{item.restroomUsage}}</td>
+          </tr>
+          <tr>
+            <th>Noise Preference</th>
+            <td colspan="2">{{item.noisePreference}}</td>
+          </tr>
+          <tr>
+            <th>Out of Desk</th>
+            <td colspan="2">{{item.outOfDesk}}</td>
+          </tr>
+        </table>
+    </div>
+  </div>
+</div>

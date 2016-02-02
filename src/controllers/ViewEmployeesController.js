@@ -6,7 +6,42 @@ import env from '../core/env';
 // Show a list of employees
 //
 
-export default ['$http', '$scope', '$location', ($http, $scope, $location) => {
+export default ['$http', '$scope', '$location', '$window', ($http, $scope, $location, $window) => {
+  // Handle Permissions
+  if(!$window.sessionStorage.token){
+      $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url : `${env.api.root}/Api/Verify`,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(response => {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          $location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+          // Redirect them to their info page
+          $location.path('/my-info');
+        } else {
+          alert('Invalid permission level');
+          $location.path('/')
+        }
+      }
+    }).then(err => {
+      //console.log('Error: ', err);
+    });
+  }
   $scope.header = "All Employees";
   $scope.add = function() {
     $location.path('/add-employee');
@@ -16,18 +51,18 @@ export default ['$http', '$scope', '$location', ($http, $scope, $location) => {
       method: 'GET',
       url: `${env.api.root}/Api/DeleteEmployee/` + employeeID
     }).then(response => {
-      console.log(response);
+      //console.log(response);
     }, err => {
-      console.log(err);
+      //console.log(err);
     });
     $http({
       method: 'GET',
       url: `${env.api.root}/Api/AllEmployees`
     }).then(response => {
-      console.log(response);
+      //console.log(response);
       $scope.emps = response.data;
     }, err => {
-      console.log(err);
+      //console.log(err);
     });
   };
   $scope.edit = function(employeeID) {
@@ -40,9 +75,9 @@ export default ['$http', '$scope', '$location', ($http, $scope, $location) => {
     method: 'GET',
     url: `${env.api.root}/Api/AllEmployees`
   }).then(response => {
-    console.log(response);
+    //console.log(response);
     $scope.emps = response.data;
   }, err => {
-    console.log(err);
+    //console.log(err);
   });
 }];

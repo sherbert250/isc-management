@@ -63132,7 +63132,41 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Call Query to add employee to the database
 //
 
-exports.default = ['$http', '$scope', '$location', function ($http, $scope, $location) {
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            $location.path('/my-info');
+          } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
   $scope.header = "Add an Employee";
   $scope.employee = {
     firstName: "",
@@ -63155,12 +63189,12 @@ exports.default = ['$http', '$scope', '$location', function ($http, $scope, $loc
     }).then(function (response) {
       $location.path('/view-employees');
     }, function (err) {
-      alert('Error');
+      //console.log(err);
     });
   };
 }];
 
-},{"../core/env":157}],140:[function(require,module,exports){
+},{"../core/env":160}],140:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63179,7 +63213,41 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Call Query to add employee to the database
 //
 
-exports.default = ['$http', '$scope', '$location', function ($http, $scope, $location) {
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            $location.path('/my-info');
+          } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
   $scope.header = "Add an Office";
   $scope.office = {
     officeName: "",
@@ -63198,12 +63266,12 @@ exports.default = ['$http', '$scope', '$location', function ($http, $scope, $loc
     }).then(function (response) {
       $location.path('/offices');
     }, function (err) {
-      alert('Error');
+      //console.log(err);
     });
   };
 }];
 
-},{"../core/env":157}],141:[function(require,module,exports){
+},{"../core/env":160}],141:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63222,17 +63290,52 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Call Query to add employee to the database
 //
 
-exports.default = ['$http', '$scope', '$location', '$routeParams', function ($http, $scope, $location, $routeParams) {
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            if ($routeParams.id != response.data[0].employeeID) {
+              $location.path('/my-info');
+            }
+          } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
   $scope.header = "Edit an Employee";
   $scope.employeeID = $routeParams.id;
   $http({
     method: 'GET',
     url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response);
+    //console.log(response);
     $scope.employee = response.data[0];
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
   $scope.submit = function () {
     $http({
@@ -63241,13 +63344,13 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
       data: $scope.employee
     }).then(function (response) {
       $location.path('/view-employees');
-    }, function (response) {
-      alert('error');
+    }, function (err) {
+      //console.log(err);
     });
   };
 }];
 
-},{"../core/env":157}],142:[function(require,module,exports){
+},{"../core/env":160}],142:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63266,17 +63369,51 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Call Query to add employee to the database
 //
 
-exports.default = ['$http', '$scope', '$location', '$routeParams', function ($http, $scope, $location, $routeParams) {
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            $location.path('/my-info');
+          } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
   $scope.header = "Edit an Office";
   $scope.officeID = $routeParams.id;
   $http({
     method: 'GET',
     url: _env2.default.api.root + '/Api/Office/' + $scope.officeID
   }).then(function (response) {
-    console.log(response);
+    ////console.log(response);
     $scope.office = response.data[0];
   }, function (err) {
-    console.log(err);
+    ////console.log(err);
   });
   $scope.submit = function () {
     $http({
@@ -63285,13 +63422,13 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
       data: $scope.office
     }).then(function (response) {
       $location.path('/offices');
-    }, function (response) {
-      alert('error');
+    }, function (err) {
+      //console.log(err);
     });
   };
 }];
 
-},{"../core/env":157}],143:[function(require,module,exports){
+},{"../core/env":160}],143:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63310,7 +63447,42 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Show a list of all employees in an employee's blacklist
 //
 
-exports.default = ['$http', '$scope', '$location', '$routeParams', function ($http, $scope, $location, $routeParams) {
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  // Handle Permissions
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            //$location.path('/my-info');
+          } else {
+              alert('Invalid permission level');
+              $location.path('/');
+            }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
   $scope.employeeID = $routeParams.id;
   $scope.header = 'Blacklist for Employee ID ' + $scope.employeeID;
   $scope.isEmpty = function (obj) {
@@ -63326,14 +63498,14 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     method: 'GET',
     url: _env2.default.api.root + '/Api/EmployeeBlacklist/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response);
+    //console.log(response);
     $scope.collection = response.data;
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
 }];
 
-},{"../core/env":157}],144:[function(require,module,exports){
+},{"../core/env":160}],144:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63352,7 +63524,42 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Show a list of all employees in an employee's whitelist
 //
 
-exports.default = ['$http', '$scope', '$location', '$routeParams', function ($http, $scope, $location, $routeParams) {
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  // Handle Permissions
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            //$location.path('/my-info');
+          } else {
+              alert('Invalid permission level');
+              $location.path('/');
+            }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
   $scope.employeeID = $routeParams.employeeID;
   $scope.officeID = $routeParams.officeID;
   $scope.employees = [{
@@ -63410,39 +63617,39 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     method: 'GET',
     url: _env2.default.api.root + '/Api/EmployeesNotInWhiteListOrBlackList/' + $scope.employeeID + '/' + $scope.officeID
   }).then(function (response) {
-    console.log(response.data);
+    //console.log(response.data);
     $scope.employees = response.data;
     $scope.employeesCopy = response.data;
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
   $http({
     method: 'GET',
     url: _env2.default.api.root + '/Api/EmployeeWhitelist/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response.data);
+    //console.log(response.data);
     $scope.whitelist = response.data;
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
   $http({
     method: 'GET',
     url: _env2.default.api.root + '/Api/EmployeeBlacklist/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response.data);
+    //console.log(response.data)
     $scope.blacklist = response.data;
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
   $http({
     method: 'GET',
     url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response.data);
+    //console.log(response.data);
     $scope.employee = response.data[0];
     $scope.header = $scope.employee.firstName + ' ' + $scope.employee.lastName;
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
   $http({
     method: 'GET',
@@ -63451,15 +63658,15 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     if ($scope.isEmpty(response.data)) {
       $scope.companyName = "No Company Assigned";
     } else {
-      console.log(response.data);
+      //console.log(response.data);
       $scope.companyName = response.data[0].companyName;
     }
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
 }];
 
-},{"../core/env":157}],145:[function(require,module,exports){
+},{"../core/env":160}],145:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63478,7 +63685,42 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Show all properties for an employee
 //
 
-exports.default = ['$http', '$scope', '$location', '$routeParams', function ($http, $scope, $location, $routeParams) {
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  // Handle Permissions
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            //$location.path('/my-info');
+          } else {
+              alert('Invalid permission level');
+              $location.path('/');
+            }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
   $scope.employeeID = $routeParams.id;
   $scope.editEmployee = function (employeeID) {
     $location.path('/edit-employee/' + employeeID);
@@ -63502,11 +63744,11 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     method: 'GET',
     url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response.data);
+    //console.log(response.data);
     $scope.collection = response.data;
     $scope.header = $scope.collection[0].firstName + ' ' + $scope.collection[0].lastName;
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
   $http({
     method: 'GET',
@@ -63515,7 +63757,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     if ($scope.isEmpty(response.data)) {
       $scope.companyName = "No Company Assigned";
     } else {
-      console.log(response.data);
+      //console.log(response.data);
       $scope.officeID = response.data[0].officeID;
       $http({
         method: 'GET',
@@ -63524,19 +63766,131 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
         if ($scope.isEmpty(response.data)) {
           $scope.companyName = "No Company Assigned";
         } else {
-          console.log(response.data);
+          //console.log(response.data);
           $scope.companyName = response.data[0].companyName;
         }
       }, function (err) {
-        console.log(err);
+        //console.log(err);
       });
     }
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
 }];
 
-},{"../core/env":157}],146:[function(require,module,exports){
+},{"../core/env":160}],146:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Employee Detail Controller
+//
+// Show all properties for an employee
+//
+
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  // Handle Permissions
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            //$location.path('/my-info');
+          } else {
+              alert('Invalid permission level');
+              $location.path('/');
+            }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
+  $scope.employeeID = $routeParams.id;
+  $scope.editEmployee = function (employeeID) {
+    $location.path('/edit-employee/' + employeeID);
+  };
+  $scope.isEmpty = function (obj) {
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) return false;
+    }
+    return true;
+  };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
+  }).then(function (response) {
+    //console.log(response.data);
+    $scope.collection = response.data;
+    $scope.header = $scope.collection[0].firstName + ' ' + $scope.collection[0].lastName;
+  }, function (err) {
+    //console.log(err);
+  });
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/EmployeeTemperatureRange/' + $scope.employeeID
+  }).then(function (response) {
+    //console.log(response.data);
+    $scope.temperatureRange = response.data[0];
+  }, function (err) {
+    //console.log(err);
+  });
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
+  }).then(function (response) {
+    if ($scope.isEmpty(response.data)) {
+      $scope.companyName = "No Company Assigned";
+    } else {
+      //console.log(response.data);
+      $scope.officeID = response.data[0].officeID;
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+      }).then(function (response) {
+        if ($scope.isEmpty(response.data)) {
+          $scope.companyName = "No Company Assigned";
+        } else {
+          //console.log(response.data);
+          $scope.companyName = response.data[0].companyName;
+        }
+      }, function (err) {
+        //console.log(err);
+      });
+    }
+  }, function (err) {
+    //console.log(err);
+  });
+}];
+
+},{"../core/env":160}],147:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63555,7 +63909,42 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Show a list of all employees in an employee's whitelist
 //
 
-exports.default = ['$http', '$scope', '$location', '$routeParams', function ($http, $scope, $location, $routeParams) {
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  // Handle Permissions
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            //$location.path('/my-info');
+          } else {
+              alert('Invalid permission level');
+              $location.path('/');
+            }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
   $scope.employeeID = $routeParams.id;
   $scope.header = 'Whitelist for Employee ID ' + $scope.employeeID;
   $scope.isEmpty = function (obj) {
@@ -63571,14 +63960,14 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     method: 'GET',
     url: _env2.default.api.root + '/Api/EmployeeWhitelist/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response);
+    //console.log(response);
     $scope.collection = response.data;
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
 }];
 
-},{"../core/env":157}],147:[function(require,module,exports){
+},{"../core/env":160}],148:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63598,31 +63987,66 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Provide actions to create/modify charts
 //
 
-exports.default = ['$http', '$scope', '$location', '$routeParams', function ($http, $scope, $location, $routeParams) {
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  // Handle Permissions
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            $location.path('/my-info');
+          } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
   $scope.officeID = $routeParams.id;
   $scope.header = 'hello';
   $http({
     method: 'GET',
     url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
   }).then(function (response) {
-    console.log(response);
+    //console.log(response);
     $scope.office = response.data[0];
     $scope.header = response.data[0].companyName;
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
   $http({
     method: 'GET',
     url: _env2.default.api.root + '/Api/FloorPlanOfOffice/' + $scope.officeID
   }).then(function (response) {
-    console.log(response);
+    //console.log(response);
     $scope.floor_plan = response.data[0];
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
 }];
 
-},{"../core/env":157}],148:[function(require,module,exports){
+},{"../core/env":160}],149:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63634,13 +64058,87 @@ Object.defineProperty(exports, "__esModule", {
 // The home page
 //
 
-exports.default = ['$scope', function ($scope) {
+exports.default = ['$scope', '$location', function ($scope, $location) {
   $scope.welcome = ['Welcome to the Ideal Seating Chart web application. Lucid Agency contacted Arizona State University in order to request that an ASU capstone team create a project that addresses a major problem that they were facing.', 'They wanted a web application that could create an seating chart that considers employee preferences. This is a major issue in many corporate environments. Without tools such as the one requested, the office manager must assign employees to seats manually. In addition, if the seating chart was to accomodate the employee preferences, the office manager would also have to collect those preferences themselves. Then, the office manager would have to find a method to rank and then reflect those changes in the seating chart they would soon create. This web application addresses all of those issues.'];
   $scope.objective = ['The primary objective is to provide a web application that uses employees, their preferences, and a floor plan to create an optimized seating chart.', 'The application would aggregate the database of employees and use a clustering algorithm based on the available seats in the floor plan to assign employees to seats. The seating arrangement should optimally match seats to employees by preferences and related jobs, but will limit the tradeoffs of working in a cross functional environment.'];
   $scope.benefits = ['Save time automating the seating chart creation process.', 'Automatically gather employee preferences instead of doing so manually', 'Employ seating chart that create conducive working environments by meeting employee preferences.', 'Quickly modify seating chart to reflect current changes in the office layout', 'Tailor office layout to needs of projects, employees, etc.', 'Easily manage and scale to large office spaces with numerous employees.'];
+  $scope.login = function () {
+    $location.path('/login');
+  };
 }];
 
-},{}],149:[function(require,module,exports){
+},{}],150:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Add Login Controller
+//
+// Allows users to login in
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  if ($window.sessionStorage.token) {
+    //Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+    $location.path('/my-info');
+  }
+  $scope.header = "Login to Ideal Seating Chart";
+  $scope.employee = {
+    email: "",
+    password: ""
+  };
+  $scope.incorrectLogin = false;
+  $scope.submit = function (employee) {
+    var payload = JSON.stringify(employee);
+    $http({
+      method: "POST",
+      url: _env2.default.api.root + '/Api/Authenticate',
+      data: payload,
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      $window.sessionStorage.token = response.data.token;
+      $scope.message = response.data.message;
+      if ($window.sessionStorage.token === 'undefined' || $window.sessionStorage.token === null) {
+        $scope.incorrectLogin = true;
+      } else {
+        $location.path('/my-info');
+      }
+    }, function (err) {
+      delete $window.sessionStorage.token;
+      $scope.message = err.data.message;
+    });
+  };
+}];
+
+},{"../core/env":160}],151:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63674,7 +64172,7 @@ exports.default = ['$scope', '$route', '$routeParams', '$location', function ($s
   $scope.primaryNavItems = _primary_nav_items2.default;
 }];
 
-},{"../settings/account_nav_items":160,"../settings/primary_nav_items":161}],150:[function(require,module,exports){
+},{"../settings/account_nav_items":163,"../settings/primary_nav_items":164}],152:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63688,13 +64186,12 @@ var _env2 = _interopRequireDefault(_env);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Employee Detail Controller
+// My Information Controller
 //
 // Show all properties for an employee
 //
 
-exports.default = ['$http', '$scope', '$location', '$routeParams', function ($http, $scope, $location, $routeParams) {
-  $scope.employeeID = $routeParams.id;
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.editEmployee = function (employeeID) {
     $location.path('/edit-employee/' + employeeID);
   };
@@ -63704,54 +64201,63 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     }
     return true;
   };
-  $http({
-    method: 'GET',
-    url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
-  }).then(function (response) {
-    console.log(response.data);
-    $scope.collection = response.data;
-    $scope.header = $scope.collection[0].firstName + ' ' + $scope.collection[0].lastName;
-  }, function (err) {
-    console.log(err);
-  });
-  $http({
-    method: 'GET',
-    url: _env2.default.api.root + '/Api/EmployeeTemperatureRange/' + $scope.employeeID
-  }).then(function (response) {
-    console.log(response.data);
-    $scope.temperatureRange = response.data[0];
-  }, function (err) {
-    console.log(err);
-  });
-  $http({
-    method: 'GET',
-    url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
-  }).then(function (response) {
-    if ($scope.isEmpty(response.data)) {
-      $scope.companyName = "No Company Assigned";
-    } else {
-      console.log(response.data);
-      $scope.officeID = response.data[0].officeID;
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log(response.data);
+      $scope.collection = response.data;
+      $scope.employee = response.data[0];
+      $scope.employeeID = $scope.employee.employeeID;
+      $scope.header = $scope.employee.firstName + " " + $scope.employee.lastName;
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+        url: _env2.default.api.root + '/Api/EmployeeTemperatureRange/' + $scope.employeeID
+      }).then(function (response) {
+        //console.log(response.data);
+        $scope.temperatureRange = response.data[0];
+      }, function (err) {
+        //console.log(err);
+      });
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
       }).then(function (response) {
         if ($scope.isEmpty(response.data)) {
           $scope.companyName = "No Company Assigned";
         } else {
-          console.log(response.data);
-          $scope.companyName = response.data[0].companyName;
+          //console.log(response.data);
+          $scope.officeID = response.data[0].officeID;
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+          }).then(function (response) {
+            if ($scope.isEmpty(response.data)) {
+              $scope.companyName = "No Company Assigned";
+            } else {
+              //console.log(response.data);
+              $scope.companyName = response.data[0].companyName;
+            }
+          }, function (err) {
+            //console.log(err);
+          });
         }
       }, function (err) {
-        console.log(err);
+        //console.log(err);
       });
-    }
-  }, function (err) {
-    console.log(err);
-  });
+    }, function (err) {
+      //console.log(err);
+    });
+  }
 }];
 
-},{"../../core/env":157}],151:[function(require,module,exports){
+},{"../../core/env":160}],153:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63770,7 +64276,42 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Show all properties for an employee
 //
 
-exports.default = ['$http', '$scope', '$location', '$routeParams', function ($http, $scope, $location, $routeParams) {
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  // Handle Permissions
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            $location.path('/my-info');
+          } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
   $scope.officeID = $routeParams.id;
   $scope.edit = function (officeID) {
     $location.path('/edit-office/' + officeID);
@@ -63779,24 +64320,24 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     method: 'GET',
     url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
   }).then(function (response) {
-    console.log(response);
+    //console.log(response);
     $scope.office = response.data[0];
     $scope.header = $scope.office.companyName;
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
   $http({
     method: 'GET',
     url: _env2.default.api.root + '/Api/FloorPlanOfOffice/' + $scope.officeID
   }).then(function (response) {
-    console.log(response);
+    //console.log(response);
     $scope.floor_plan = response.data[0];
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
 }];
 
-},{"../core/env":157}],152:[function(require,module,exports){
+},{"../core/env":160}],154:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63819,9 +64360,62 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Show a list of employees
 //
 
-exports.default = ['$http', '$scope', '$location', '$routeParams', function ($http, $scope, $location, $routeParams) {
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  // Handle Permissions
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            $location.path('/my-info');
+          } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
   $scope.emps = _employees2.default;
   $scope.officeID = $routeParams.id;
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.officeID
+  }).then(function (response) {
+    //console.log(response);
+    $scope.emps = response.data;
+  }, function (err) {
+    //console.log(err);
+  });
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+  }).then(function (response) {
+    //console.log(response);
+    $scope.header = response.data[0].companyName;
+  }, function (err) {
+    //console.log(err);
+  });
   $scope.add = function () {
     $location.path('/add-employee');
   };
@@ -63830,19 +64424,19 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
       method: 'GET',
       url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID
     }).then(function (response) {
-      console.log(response);
+      //console.log(response);
       $scope.emps = response.data;
     }, function (err) {
-      console.log(err);
+      //console.log(err);
     });
     $http({
       method: 'GET',
       url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.officeID
     }).then(function (response) {
-      console.log(response);
+      //console.log(response);
       $scope.emps = response.data;
     }, function (err) {
-      console.log(err);
+      //console.log(err);
     });
   };
   $scope.edit = function (employeeID) {
@@ -63851,27 +64445,9 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
   $scope.view = function (employeeID) {
     $location.path('/employee-detail/' + employeeID);
   };
-  $http({
-    method: 'GET',
-    url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.officeID
-  }).then(function (response) {
-    console.log(response);
-    $scope.emps = response.data;
-  }, function (err) {
-    console.log(err);
-  });
-  $http({
-    method: 'GET',
-    url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
-  }).then(function (response) {
-    console.log(response);
-    $scope.header = response.data[0].companyName;
-  }, function (err) {
-    console.log(err);
-  });
 }];
 
-},{"../core/env":157,"../data/employees":158}],153:[function(require,module,exports){
+},{"../core/env":160,"../data/employees":161}],155:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63894,7 +64470,42 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Show a list of offices
 //
 
-exports.default = ['$http', '$scope', '$location', function ($http, $scope, $location) {
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  // Handle Permissions
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          $location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+          // Redirect them to their info page
+          $location.path('/my-info');
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
   $scope.header = 'All Offices';
   $scope.add = function () {
     $location.path('/add-office');
@@ -63904,18 +64515,18 @@ exports.default = ['$http', '$scope', '$location', function ($http, $scope, $loc
       method: 'GET',
       url: _env2.default.api.root + '/Api/DeleteOffice/' + officeID
     }).then(function (response) {
-      console.log(response);
+      //console.log(response);
     }, function (err) {
-      console.log(err);
+      //console.log(err);
     });
     $http({
       method: 'GET',
       url: _env2.default.api.root + '/Api/AllCompaniesForAllOffices'
     }).then(function (response) {
-      console.log(response);
+      //console.log(response);
       $scope.offices = response.data;
     }, function (err) {
-      console.log(err);
+      //console.log(err);
     });
   };
   $scope.edit = function (officeID) {
@@ -63928,19 +64539,26 @@ exports.default = ['$http', '$scope', '$location', function ($http, $scope, $loc
     method: 'GET',
     url: _env2.default.api.root + '/Api/AllCompaniesForAllOffices'
   }).then(function (response) {
-    console.log(response);
+    //console.log(response);
     $scope.offices = response.data;
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
 }];
 
-},{"../core/env":157,"../data/employees":158}],154:[function(require,module,exports){
+},{"../core/env":160,"../data/employees":161}],156:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 //
 // Seating Charts Controller
 //
@@ -63948,11 +64566,74 @@ Object.defineProperty(exports, "__esModule", {
 // Provide actions to create/modify charts
 //
 
-exports.default = ['$scope', function ($scope) {
-  $scope.message = 'What\'s it gonna be, bud?';
+exports.default = ['$scope', '$http', '$location', '$window', function ($scope, $http, $location, $window) {
+  // Handle Permissions
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          $location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+          // Redirect them to their info page
+          $location.path('/my-info');
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
+  $scope.message = 'Under Construction';
 }];
 
-},{}],155:[function(require,module,exports){
+},{"../core/env":160}],157:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Sign Out Controller
+//
+// Show a list of employees
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    delete $window.sessionStorage.token;
+    $location.path('/login');
+  }
+}];
+
+},{"../core/env":160}],158:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63971,7 +64652,42 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Show a list of all team members
 //
 
-exports.default = ['$http', '$scope', '$location', '$routeParams', function ($http, $scope, $location, $routeParams) {
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  // Handle Permissions
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            //$location.path('/my-info');
+          } else {
+              alert('Invalid permission level');
+              $location.path('/');
+            }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
   $scope.employeeID = $routeParams.id;
   $scope.isEmpty = function (obj) {
     for (var prop in obj) {
@@ -63989,20 +64705,20 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     method: 'GET',
     url: _env2.default.api.root + '/Api/EmployeeTeammates/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response.data);
+    //console.log(response.data);
     $scope.collection = response.data;
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
   $http({
     method: 'GET',
     url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID
   }).then(function (response) {
-    console.log(response.data);
+    //console.log(response.data);
     $scope.employee = response.data[0];
     $scope.header = $scope.employee.firstName + ' ' + $scope.employee.lastName;
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
   $http({
     method: 'GET',
@@ -64011,7 +64727,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
     if ($scope.isEmpty(response.data)) {
       $scope.companyName = "No Company Assigned";
     } else {
-      console.log(response.data);
+      //console.log(response.data);
       $scope.officeID = response.data[0].officeID;
       $http({
         method: 'GET',
@@ -64020,19 +64736,19 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', function ($ht
         if ($scope.isEmpty(response.data)) {
           $scope.companyName = "No Company Assigned";
         } else {
-          console.log(response.data);
+          //console.log(response.data);
           $scope.companyName = response.data[0].companyName;
         }
       }, function (err) {
-        console.log(err);
+        //console.log(err);
       });
     }
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
 }];
 
-},{"../core/env":157}],156:[function(require,module,exports){
+},{"../core/env":160}],159:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64051,7 +64767,42 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Show a list of employees
 //
 
-exports.default = ['$http', '$scope', '$location', function ($http, $scope, $location) {
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  // Handle Permissions
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          $location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+          // Redirect them to their info page
+          $location.path('/my-info');
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
   $scope.header = "All Employees";
   $scope.add = function () {
     $location.path('/add-employee');
@@ -64061,18 +64812,18 @@ exports.default = ['$http', '$scope', '$location', function ($http, $scope, $loc
       method: 'GET',
       url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID
     }).then(function (response) {
-      console.log(response);
+      //console.log(response);
     }, function (err) {
-      console.log(err);
+      //console.log(err);
     });
     $http({
       method: 'GET',
       url: _env2.default.api.root + '/Api/AllEmployees'
     }).then(function (response) {
-      console.log(response);
+      //console.log(response);
       $scope.emps = response.data;
     }, function (err) {
-      console.log(err);
+      //console.log(err);
     });
   };
   $scope.edit = function (employeeID) {
@@ -64085,14 +64836,14 @@ exports.default = ['$http', '$scope', '$location', function ($http, $scope, $loc
     method: 'GET',
     url: _env2.default.api.root + '/Api/AllEmployees'
   }).then(function (response) {
-    console.log(response);
+    //console.log(response);
     $scope.emps = response.data;
   }, function (err) {
-    console.log(err);
+    //console.log(err);
   });
 }];
 
-},{"../core/env":157}],157:[function(require,module,exports){
+},{"../core/env":160}],160:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64138,7 +64889,7 @@ var env = userEnv ? _lodash2.default.assign({}, _env2.default, userEnv) : _env2.
 
 exports.default = env;
 
-},{"../../env.default":1,"../../env.js":2,"browserify-fs":14,"lodash":118}],158:[function(require,module,exports){
+},{"../../env.default":1,"../../env.js":2,"browserify-fs":14,"lodash":118}],161:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64194,7 +64945,7 @@ exports.default = [{
   email: 'inspector@gmail.com'
 }];
 
-},{}],159:[function(require,module,exports){
+},{}],162:[function(require,module,exports){
 'use strict';
 
 var _AddEmployeeController = require('./controllers/AddEmployeeController');
@@ -64225,7 +64976,7 @@ var _EmployeeDetailController = require('./controllers/EmployeeDetailController'
 
 var _EmployeeDetailController2 = _interopRequireDefault(_EmployeeDetailController);
 
-var _EmployeePreferencesController = require('./controllers/MyAccount/EmployeePreferencesController');
+var _EmployeePreferencesController = require('./controllers/EmployeePreferencesController');
 
 var _EmployeePreferencesController2 = _interopRequireDefault(_EmployeePreferencesController);
 
@@ -64241,9 +64992,17 @@ var _HomeController = require('./controllers/HomeController');
 
 var _HomeController2 = _interopRequireDefault(_HomeController);
 
+var _LoginController = require('./controllers/LoginController');
+
+var _LoginController2 = _interopRequireDefault(_LoginController);
+
 var _MainController = require('./controllers/MainController');
 
 var _MainController2 = _interopRequireDefault(_MainController);
+
+var _MyInfoController = require('./controllers/MyAccount/MyInfoController');
+
+var _MyInfoController2 = _interopRequireDefault(_MyInfoController);
 
 var _OfficesController = require('./controllers/OfficesController');
 
@@ -64260,6 +65019,10 @@ var _OfficeEmployeesController2 = _interopRequireDefault(_OfficeEmployeesControl
 var _SeatingChartsController = require('./controllers/SeatingChartsController');
 
 var _SeatingChartsController2 = _interopRequireDefault(_SeatingChartsController);
+
+var _SignOutController = require('./controllers/SignOutController');
+
+var _SignOutController2 = _interopRequireDefault(_SignOutController);
 
 var _TeamMembersController = require('./controllers/TeamMembersController');
 
@@ -64293,11 +65056,14 @@ iscApp.controller('EmployeePreferencesController', _EmployeePreferencesControlle
 iscApp.controller('EmployeeWhitelistController', _EmployeeWhitelistController2.default);
 iscApp.controller('FloorplanController', _FloorplanController2.default);
 iscApp.controller('HomeController', _HomeController2.default);
+iscApp.controller('LoginController', _LoginController2.default);
 iscApp.controller('MainController', _MainController2.default);
+iscApp.controller('MyInfoController', _MyInfoController2.default);
 iscApp.controller('OfficesController', _OfficesController2.default);
 iscApp.controller('OfficeDetailController', _OfficeDetailController2.default);
 iscApp.controller('OfficeEmployeesController', _OfficeEmployeesController2.default);
 iscApp.controller('SeatingChartsController', _SeatingChartsController2.default);
+iscApp.controller('SignOutController', _SignOutController2.default);
 iscApp.controller('TeamMembersController', _TeamMembersController2.default);
 iscApp.controller('ViewEmployeesController', _ViewEmployeesController2.default);
 
@@ -64332,7 +65098,7 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     templateUrl: 'views/employee-detail.html',
     controller: 'EmployeeDetailController'
   }).when('/employee-preferences/:id', {
-    templateUrl: 'views/my-account/employee-preferences.html',
+    templateUrl: 'views/employee-preferences.html',
     controller: 'EmployeePreferencesController'
   }).when('/employee-whitelist/:id', {
     templateUrl: 'views/employee-whitelist.html',
@@ -64340,6 +65106,12 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   }).when('/floorplan/:id', {
     templateUrl: 'views/floorplan.html',
     controller: 'FloorplanController'
+  }).when('/login', {
+    templateUrl: 'views/login.html',
+    controller: 'LoginController'
+  }).when('/my-info', {
+    templateUrl: 'views/my-account/my-info.html',
+    controller: 'MyInfoController'
   }).when('/offices', {
     templateUrl: 'views/offices.html',
     controller: 'OfficesController'
@@ -64352,6 +65124,9 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   }).when('/seating-charts', {
     templateUrl: 'views/seating-charts.html',
     controller: 'SeatingChartsController'
+  }).when('/sign-out', {
+    templateUrl: 'views/sign-out.html',
+    controller: 'SignOutController'
   }).when('/team-members/:id', {
     templateUrl: 'views/team-members.html',
     controller: 'TeamMembersController'
@@ -64365,7 +65140,7 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   $locationProvider.html5Mode(true);
 });
 
-},{"./controllers/AddEmployeeController":139,"./controllers/AddOfficeController":140,"./controllers/EditEmployeeController":141,"./controllers/EditOfficeController":142,"./controllers/EmployeeBlacklistController":143,"./controllers/EmployeeCoworkersController":144,"./controllers/EmployeeDetailController":145,"./controllers/EmployeeWhitelistController":146,"./controllers/FloorplanController":147,"./controllers/HomeController":148,"./controllers/MainController":149,"./controllers/MyAccount/EmployeePreferencesController":150,"./controllers/OfficeDetailController":151,"./controllers/OfficeEmployeesController":152,"./controllers/OfficesController":153,"./controllers/SeatingChartsController":154,"./controllers/TeamMembersController":155,"./controllers/ViewEmployeesController":156,"angular":12,"angular-dragula":7}],160:[function(require,module,exports){
+},{"./controllers/AddEmployeeController":139,"./controllers/AddOfficeController":140,"./controllers/EditEmployeeController":141,"./controllers/EditOfficeController":142,"./controllers/EmployeeBlacklistController":143,"./controllers/EmployeeCoworkersController":144,"./controllers/EmployeeDetailController":145,"./controllers/EmployeePreferencesController":146,"./controllers/EmployeeWhitelistController":147,"./controllers/FloorplanController":148,"./controllers/HomeController":149,"./controllers/LoginController":150,"./controllers/MainController":151,"./controllers/MyAccount/MyInfoController":152,"./controllers/OfficeDetailController":153,"./controllers/OfficeEmployeesController":154,"./controllers/OfficesController":155,"./controllers/SeatingChartsController":156,"./controllers/SignOutController":157,"./controllers/TeamMembersController":158,"./controllers/ViewEmployeesController":159,"angular":12,"angular-dragula":7}],163:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64376,14 +65151,14 @@ Object.defineProperty(exports, "__esModule", {
 //
 
 exports.default = [{
-  href: 'employee-preferences/1',
-  text: 'Preferences'
+  href: '/my-info',
+  text: 'My Info'
 }, {
   href: '/sign-out',
   text: 'Sign Out'
 }];
 
-},{}],161:[function(require,module,exports){
+},{}],164:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64397,6 +65172,9 @@ exports.default = [{
   href: '/',
   text: 'Home'
 }, {
+  href: '/login',
+  text: 'Login'
+}, {
   href: '/view-employees',
   text: 'Employees'
 }, {
@@ -64407,7 +65185,7 @@ exports.default = [{
   text: 'Seating Charts'
 }];
 
-},{}]},{},[159])
+},{}]},{},[162])
 
 
 //# sourceMappingURL=bundle.js.map

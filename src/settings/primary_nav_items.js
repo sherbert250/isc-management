@@ -8,6 +8,10 @@ export default [
     text: 'Home'
   },
   {
+    href: '/login',
+    text: 'Login'
+  },
+  {
     href: '/view-employees',
     text: 'Employees'
   },

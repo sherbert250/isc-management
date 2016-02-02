@@ -4,7 +4,7 @@
 // The home page
 //
 
-export default ['$scope', ($scope) => {
+export default ['$scope', '$location', ($scope, $location) => {
   $scope.welcome = [
     'Welcome to the Ideal Seating Chart web application. Lucid Agency contacted Arizona State University in order to request that an ASU capstone team create a project that addresses a major problem that they were facing.',
     'They wanted a web application that could create an seating chart that considers employee preferences. This is a major issue in many corporate environments. Without tools such as the one requested, the office manager must assign employees to seats manually. In addition, if the seating chart was to accomodate the employee preferences, the office manager would also have to collect those preferences themselves. Then, the office manager would have to find a method to rank and then reflect those changes in the seating chart they would soon create. This web application addresses all of those issues.'
@@ -21,4 +21,7 @@ export default ['$scope', ($scope) => {
     'Tailor office layout to needs of projects, employees, etc.',
     'Easily manage and scale to large office spaces with numerous employees.'
   ];
+  $scope.login = function() {
+    $location.path('/login');
+  };
 }];
