@@ -76,11 +76,11 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
     password: "",
     department: "",
     title: "",
-    restroomUsage: 0,
-    noisePreference: 0,
-    outOfDesk: 0,
+    restroomUsage: 1,
+    noisePreference: 1,
+    outOfDesk: 1,
     pictureAddress: "",
-    permissionLevel: ""
+    permissionLevel: "user"
   };
   $scope.next = function(employee) {
     employee.teammates = $scope.teammates;

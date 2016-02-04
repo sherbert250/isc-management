@@ -9,6 +9,7 @@ import primaryNavItems from '../settings/primary_nav_items';
 
 export default ['$http', '$scope', '$location','$window', 'addService', ($http, $scope, $location, $window, addService) => {
   $scope.primaryNavItems = primaryNavItems;
+  $scope.temperatureRanges = [];
   if(!$window.sessionStorage.token){
     $location.path('/login');
   } else {
@@ -50,14 +51,18 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
   $scope.header = "Add an Employee- Preferences";
   $scope.employee = addService.get();
   console.log($scope.employee);
-  $scope.temperatureRanges = [
-    {range: '1-2'},
-    {range: '2-3'},
-    {range: '3-4'},
-    {range: '4-5'}
-  ];
+  $http({
+    method: 'GET',
+    url : `${env.api.root}/Api/AllTempRanges`
+  }).then(response => {
+    //console.log('Response: ', response.data[0]);
+    $scope.temperatureRanges = response.data;
+    $scope.employee.temperatureRangeID = response.data[0].rangeID.toString();
+  }).then(err => {
+    //console.log('Error: ', err);
+  });
   $scope.next = function(employee) {
-    employee.temperatureRanges = $scope.temperatureRanges;
+    $scope.employee.temperatureRangeID = parseInt($scope.employee.temperatureRangeID);
     console.log(employee);
     addService.set(employee);
     console.log("Added to service" + addService.get());

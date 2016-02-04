@@ -8,9 +8,9 @@
     <tr>
       <td>
         <div class="form-group">
-          <label for="sel1">Choose your temperature preference in the office:</label>
-          <select class="form-control" id="sel1">
-            <option ng-repeat="item in temperatureRanges">{{item.range}}</option>
+          <label for="temperatureRange">Choose your temperature preference in the office:</label>
+          <select class="form-control" id="temperatureRange" name="temperatureRange" ng-model="employee.temperatureRangeID">
+            <option ng-repeat="item in temperatureRanges" value="{{item.rangeID}}">{{item.lower}} - {{item.upper}}</option>
           </select>
         </div>
       </td>
@@ -19,19 +19,19 @@
       <td><label>How often do you use the restroom? (1 is rarely and 10 is frequently):</label></td>
     </tr>
     <tr>
-      <td><input class="form-control" type="number" step="1" name="restroomUsage" ng-model="employee.restroomUsage" /></td>
+      <td><input class="form-control" type="number" step="1" min="1" max="10" name="restroomUsage" ng-model="employee.restroomUsage" /></td>
     </tr>
     <tr>
       <td><label>Choose your noise preference in the office (1 is quiet and 10 is very noisy):</label></td>
     </tr>
     <tr>
-      <td><input class="form-control" type="number" step="1" name="noisePreference" ng-model="employee.noisePreference" /></td>
+      <td><input class="form-control" type="number" step="1" min="1" max="10" name="noisePreference" ng-model="employee.noisePreference" /></td>
     </tr>
     <tr>
       <td><label>How frequently do you get out of your desk? (1 is rarely and 10 is frequently):</label></td>
     </tr>
     <tr>
-      <td><input class="form-control" type="number" step="1" name="outOfDesk" ng-model="employee.outOfDesk" /></td>
+      <td><input class="form-control" type="number" step="1" min="1" max="10" name="outOfDesk" ng-model="employee.outOfDesk" /></td>
     </tr>
   </table>
   <div>

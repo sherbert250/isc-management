@@ -63200,8 +63200,20 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   console.log($scope.employee);
   $scope.submit = function () {
     $scope.employee.whitelist = $scope.whitelist;
-    $scope.employee.blacklist = scope.blacklist;
+    $scope.employee.blacklist = $scope.blacklist;
     console.log($scope.employee);
+
+    // Add employee query
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/AddEmployee',
+      data: $scope.employee
+    }).then(function (response) {
+      addService.set({});
+      $location.path('/view-employees');
+    }, function (err) {
+      //console.log(err);
+    });
     addService.set({});
   };
 }];
@@ -63295,11 +63307,11 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
     password: "",
     department: "",
     title: "",
-    restroomUsage: 0,
-    noisePreference: 0,
-    outOfDesk: 0,
+    restroomUsage: 1,
+    noisePreference: 1,
+    outOfDesk: 1,
     pictureAddress: "",
-    permissionLevel: ""
+    permissionLevel: "user"
   };
   $scope.next = function (employee) {
     employee.teammates = $scope.teammates;
@@ -63337,6 +63349,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', 'addService', function ($http, $scope, $location, $window, addService) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.temperatureRanges = [];
   if (!$window.sessionStorage.token) {
     $location.path('/login');
   } else {
@@ -63378,9 +63391,18 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   $scope.header = "Add an Employee- Preferences";
   $scope.employee = addService.get();
   console.log($scope.employee);
-  $scope.temperatureRanges = [{ range: '1-2' }, { range: '2-3' }, { range: '3-4' }, { range: '4-5' }];
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllTempRanges'
+  }).then(function (response) {
+    //console.log('Response: ', response.data[0]);
+    $scope.temperatureRanges = response.data;
+    $scope.employee.temperatureRangeID = response.data[0].rangeID.toString();
+  }).then(function (err) {
+    //console.log('Error: ', err);
+  });
   $scope.next = function (employee) {
-    employee.temperatureRanges = $scope.temperatureRanges;
+    $scope.employee.temperatureRangeID = parseInt($scope.employee.temperatureRangeID);
     console.log(employee);
     addService.set(employee);
     console.log("Added to service" + addService.get());

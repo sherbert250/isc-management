@@ -73,8 +73,21 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
   console.log($scope.employee);
   $scope.submit = function() {
     $scope.employee.whitelist = $scope.whitelist;
-    $scope.employee.blacklist = scope.blacklist;
+    $scope.employee.blacklist = $scope.blacklist;
     console.log($scope.employee);
+
+    // Add employee query
+    $http({
+      method: 'POST',
+      url: `${env.api.root}/Api/AddEmployee`,
+      data: $scope.employee
+    })
+    .then(response => {
+      addService.set({});
+      $location.path('/view-employees');
+    }, err => {
+      //console.log(err);
+    });
     addService.set({});
   };
 }];
