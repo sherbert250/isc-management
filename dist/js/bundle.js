@@ -64862,34 +64862,25 @@ var _env = require('../../env.default');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _env3 = require('../../env');
+
+var _env4 = _interopRequireDefault(_env3);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
 // Env.js
 //
 
-// if user env exists, load it
-var userEnv = undefined;
-try {
-  userEnv = require('../../env.js');
-  console.log(userEnv);
-} catch (ex) {
-  console.log(ex);
-}
-// fs.exists(fileName, exists => {
-//   if (exists) {
-//     userEnv = require('../../env');
-//     console.log(`${fileName} exists`);
-//   } else {
-//     console.log(`${fileName} does not exist`);
-//   }
-// });
-
-var env = userEnv ? _lodash2.default.assign({}, _env2.default, userEnv) : _env2.default;
+var env = _lodash2.default.assign({}, _env2.default, _env4.default);
 
 exports.default = env;
 
+<<<<<<< HEAD
 },{"../../env.default":1,"../../env.js":2,"browserify-fs":14,"lodash":118}],161:[function(require,module,exports){
+=======
+},{"../../env":2,"../../env.default":1,"browserify-fs":9,"lodash":83}],119:[function(require,module,exports){
+>>>>>>> c8efb74dfb074b93b3d80c8e48b5f0b1c498d865
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
