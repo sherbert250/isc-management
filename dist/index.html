@@ -35,7 +35,8 @@
         <ul class="nav navbar-nav">
           <li
             ng-class="navLinkClass('{{item.href}}')"
-            ng-repeat="item in primaryNavItems">
+            ng-repeat="item in primaryNavItems"
+            ng-show="item.show">
             <a ng-href="{{item.href}}">{{item.text}}</a>
           </li>
         </ul>

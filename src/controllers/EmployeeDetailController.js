@@ -1,4 +1,5 @@
 import env from '../core/env';
+import primaryNavItems from '../settings/primary_nav_items';
 
 //
 // Employee Detail Controller
@@ -7,6 +8,10 @@ import env from '../core/env';
 //
 
 export default ['$http', '$scope', '$location', '$routeParams', '$window', ($http, $scope, $location, $routeParams, $window)  => {
+  $scope.primaryNavItems = primaryNavItems;
+  $scope.adminAccess = false;
+  $scope.canEdit = false;
+  $scope.employeeID = $routeParams.id;
   // Handle Permissions
   if(!$window.sessionStorage.token){
       $location.path('/login');
@@ -30,19 +35,29 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
           //$location.path('/my-info');
+          $scope.adminAccess = true;
+          $scope.canEdit = true;
         } else if (permissionLevel === 'user') {
           // Redirect them to their info page
           //$location.path('/my-info');
+          if ($scope.employeeID == response.data[0].employeeID) {
+            $scope.canEdit = true;
+          }
         } else {
           alert('Invalid permission level');
           $location.path('/')
+        }
+      } else {
+        $scope.adminAccess = true;
+        $scope.canEdit = true;
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
         }
       }
     }).then(err => {
       //console.log('Error: ', err);
     });
   }
-  $scope.employeeID = $routeParams.id;
   $scope.editEmployee = function(employeeID) {
     $location.path('/edit-employee/' + employeeID);
   };

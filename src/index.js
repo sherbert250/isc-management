@@ -9,7 +9,9 @@ let iscApp = angular.module('iscApp', ['ngRoute', angularDragula(angular)]);
 // Controllers
 //
 
-import AddEmployeeController from './controllers/AddEmployeeController';
+import AddEmployeeCoworkersController from './controllers/AddEmployeeCoworkersController';
+import AddEmployeeIndividualInfoController from './controllers/AddEmployeeIndividualInfoController';
+import AddEmployeePreferencesController from './controllers/AddEmployeePreferencesController';
 import AddOfficeController from './controllers/AddOfficeController';
 import EditEmployeeController from './controllers/EditEmployeeController'
 import EditOfficeController from './controllers/EditOfficeController'
@@ -19,7 +21,6 @@ import EmployeeDetailController from './controllers/EmployeeDetailController';
 import EmployeePreferencesController from './controllers/EmployeePreferencesController';
 import EmployeeWhitelistController from './controllers/EmployeeWhitelistController';
 import FloorplanController from './controllers/FloorplanController';
-import HomeController from './controllers/HomeController';
 import LoginController from './controllers/LoginController';
 import MainController from './controllers/MainController';
 import MyInfoController from './controllers/MyAccount/MyInfoController';
@@ -31,7 +32,9 @@ import SignOutController from './controllers/SignOutController';
 import TeamMembersController from './controllers/TeamMembersController';
 import ViewEmployeesController from './controllers/ViewEmployeesController';
 
-iscApp.controller('AddEmployeeController', AddEmployeeController);
+iscApp.controller('AddEmployeeCoworkersController', AddEmployeeCoworkersController);
+iscApp.controller('AddEmployeeIndividualInfoController', AddEmployeeIndividualInfoController);
+iscApp.controller('AddEmployeePreferencesController', AddEmployeePreferencesController);
 iscApp.controller('AddOfficeController', AddOfficeController);
 iscApp.controller('EditEmployeeController', EditEmployeeController);
 iscApp.controller('EditOfficeController', EditOfficeController);
@@ -41,7 +44,6 @@ iscApp.controller('EmployeeDetailController', EmployeeDetailController);
 iscApp.controller('EmployeePreferencesController', EmployeePreferencesController);
 iscApp.controller('EmployeeWhitelistController', EmployeeWhitelistController);
 iscApp.controller('FloorplanController', FloorplanController);
-iscApp.controller('HomeController', HomeController);
 iscApp.controller('LoginController', LoginController);
 iscApp.controller('MainController', MainController);
 iscApp.controller('MyInfoController', MyInfoController);
@@ -60,13 +62,17 @@ iscApp.controller('ViewEmployeesController', ViewEmployeesController);
 iscApp.config(function ($routeProvider, $locationProvider) {
   // define routes
   $routeProvider
-  .when('/', {
-    templateUrl: 'views/home.html',
-    controller: 'HomeController'
-  })
   .when('/add-employee', {
-    templateUrl: 'views/add-employee.html',
-    controller: 'AddEmployeeController'
+    templateUrl: 'views/add-employee-individual-info.html',
+    controller: 'AddEmployeeIndividualInfoController'
+  })
+  .when('/add-employee-coworkers', {
+    templateUrl: 'views/add-employee-coworkers.html',
+    controller: 'AddEmployeeCoworkersController'
+  })
+  .when('/add-employee-preferences', {
+    templateUrl: 'views/add-employee-preferences.html',
+    controller: 'AddEmployeePreferencesController'
   })
   .when('/add-office', {
     templateUrl: 'views/add-office.html',
@@ -141,8 +147,24 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     controller: 'ViewEmployeesController'
   })
   .otherwise({
-    redirectTo: '/'
+    redirectTo: '/login'
   });
   // use html5 history api (no # in url)
   $locationProvider.html5Mode(true);
+});
+
+//
+// Service
+//
+iscApp.factory('addService', function() {
+  var savedData = {}
+  function set(data) {
+    savedData = data;
+  }
+  function get() {
+    return savedData;
+  }
+  return {
+    set: set,  get: get
+  }
 });

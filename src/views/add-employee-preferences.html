@@ -1,0 +1,41 @@
+<div class="container">
+  <h1 class="rounded-header">{{header}}</h1>
+  <div class="progress">
+    <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:60%"></div>
+  </div>
+  <form name="addPreferencesForm" ng-submit="next(employee)">
+  <table class="table">
+    <tr>
+      <td>
+        <div class="form-group">
+          <label for="sel1">Choose your temperature preference in the office:</label>
+          <select class="form-control" id="sel1">
+            <option ng-repeat="item in temperatureRanges">{{item.range}}</option>
+          </select>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td><label>How often do you use the restroom? (1 is rarely and 10 is frequently):</label></td>
+    </tr>
+    <tr>
+      <td><input class="form-control" type="number" step="1" name="restroomUsage" ng-model="employee.restroomUsage" /></td>
+    </tr>
+    <tr>
+      <td><label>Choose your noise preference in the office (1 is quiet and 10 is very noisy):</label></td>
+    </tr>
+    <tr>
+      <td><input class="form-control" type="number" step="1" name="noisePreference" ng-model="employee.noisePreference" /></td>
+    </tr>
+    <tr>
+      <td><label>How frequently do you get out of your desk? (1 is rarely and 10 is frequently):</label></td>
+    </tr>
+    <tr>
+      <td><input class="form-control" type="number" step="1" name="outOfDesk" ng-model="employee.outOfDesk" /></td>
+    </tr>
+  </table>
+  <div>
+    <input class="btn btn-success btn-md add-next" type="submit" name="submit" value="Next Step >>" />
+  </div>
+  </form>
+</div>

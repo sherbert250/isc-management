@@ -1,5 +1,6 @@
 import employees from '../data/employees';
 import env from '../core/env';
+import primaryNavItems from '../settings/primary_nav_items';
 
 //
 // Office Employees Controller
@@ -8,6 +9,7 @@ import env from '../core/env';
 //
 
 export default ['$http', '$scope', '$location', '$routeParams', '$window', ($http, $scope, $location, $routeParams, $window) => {
+  $scope.primaryNavItems = primaryNavItems;
   // Handle Permissions
   if(!$window.sessionStorage.token){
       $location.path('/login');
@@ -37,6 +39,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         } else {
           alert('Invalid permission level');
           $location.path('/')
+        }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
         }
       }
     }).then(err => {

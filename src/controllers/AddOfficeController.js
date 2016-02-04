@@ -1,12 +1,13 @@
 import env from '../core/env';
-
+import primaryNavItems from '../settings/primary_nav_items';
 //
-// Add Employee Controller
+// Add Office Controller
 //
-// Call Query to add employee to the database
+// Call Query to add office to the database
 //
 
 export default ['$http', '$scope', '$location', '$window', ($http, $scope, $location, $window) => {
+  $scope.primaryNavItems = primaryNavItem
   if(!$window.sessionStorage.token){
       $location.path('/login');
   } else {
@@ -35,6 +36,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
         } else {
           alert('Invalid permission level');
           $location.path('/')
+        }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
         }
       }
     }).then(err => {

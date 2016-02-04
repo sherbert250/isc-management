@@ -1,4 +1,6 @@
 import env from '../core/env';
+import primaryNavItems from '../settings/primary_nav_items';
+
 //
 // Seating Charts Controller
 //
@@ -7,6 +9,7 @@ import env from '../core/env';
 //
 
 export default ['$scope','$http', '$location','$window', ($scope, $http, $location, $window) => {
+  $scope.primaryNavItems = primaryNavItems;
   // Handle Permissions
   if(!$window.sessionStorage.token){
       $location.path('/login');
@@ -36,6 +39,10 @@ export default ['$scope','$http', '$location','$window', ($scope, $http, $locati
         } else {
           alert('Invalid permission level');
           $location.path('/')
+        }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
         }
       }
     }).then(err => {

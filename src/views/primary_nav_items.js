@@ -4,19 +4,14 @@
 
 export default [
   {
-    href: '/',
-    text: 'Home',
-    show: true
-  },
-  {
     href: '/login',
     text: 'Login',
-    show: false
+    show: true
   },
   {
     href: '/view-employees',
     text: 'Employees',
-    show: false
+    show: false,
   },
   {
     href: '/offices',

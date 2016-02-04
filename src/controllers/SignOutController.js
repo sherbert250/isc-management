@@ -8,9 +8,8 @@ import env from '../core/env';
 
 export default ['$http', '$scope', '$location', '$window', ($http, $scope, $location, $window) => {
   if(!$window.sessionStorage.token){
-    $location.path('/login');
   } else {
     delete $window.sessionStorage.token;
-    $location.path('/login');
   }
+  $location.path('/login');
 }];

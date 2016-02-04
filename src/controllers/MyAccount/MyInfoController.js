@@ -1,4 +1,5 @@
 import env from '../../core/env';
+import primaryNavItems from '../../settings/primary_nav_items';
 
 //
 // My Information Controller
@@ -7,6 +8,8 @@ import env from '../../core/env';
 //
 
 export default ['$http', '$scope', '$location', '$routeParams', '$window', ($http, $scope, $location, $routeParams, $window)  => {
+  $scope.primaryNavItems = primaryNavItems;
+  $scope.adminAccess = false;
   $scope.editEmployee = function(employeeID) {
     $location.path('/edit-employee/' + employeeID);
   };
@@ -16,6 +19,15 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
             return false;
     }
     return true;
+  };
+  $scope.viewBlacklist = function(employeeID) {
+    $location.path('/employee-blacklist/' + employeeID);
+  };
+  $scope.viewTeamMembers = function(employeeID) {
+    $location.path('/team-members/' + employeeID);
+  };
+  $scope.viewWhitelist = function(employeeID) {
+    $location.path('/employee-whitelist/' + employeeID);
   };
   if(!$window.sessionStorage.token){
       $location.path('/login');
@@ -28,6 +40,29 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
       }
     }).then(response => {
       //console.log(response.data);
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+          $scope.adminAccess = true;
+        } else if (permissionLevel === 'user') {
+          // Redirect them to their info page
+          $location.path('/my-info');
+        } else {
+          alert('Invalid permission level');
+          $location.path('/')
+        }
+      } else {
+        $scope.adminAccess = true;
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
+      }
       $scope.collection = response.data;
       $scope.employee = response.data[0];
       $scope.employeeID = $scope.employee.employeeID;

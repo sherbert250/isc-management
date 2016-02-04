@@ -1,17 +1,28 @@
 import env from '../core/env';
-import primaryNavItems from '../settings/primary_nav_items'
+import primaryNavItems from '../settings/primary_nav_items';
 
 //
-// Office Details Controller
+// Add Employee Controller
 //
-// Show all properties for an office
+// Call Query to add employee to the database
 //
 
-export default ['$http', '$scope', '$location', '$routeParams', '$window', ($http, $scope, $location, $routeParams, $window)  => {
+export default ['$http', '$scope', '$location','$window', 'addService', ($http, $scope, $location, $window, addService) => {
   $scope.primaryNavItems = primaryNavItems;
-  // Handle Permissions
+  $scope.employees = [
+    {
+      employeeID: 0,
+      firstName : " ",
+      lastName : " ",
+      email : " ",
+      title: " ",
+      department: " "
+    }
+  ];
+  $scope.blacklist = [];
+  $scope.whitelist = [];
   if(!$window.sessionStorage.token){
-      $location.path('/login');
+    $location.path('/login');
   } else {
     // Validate the token
     $http({
@@ -47,28 +58,23 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     }).then(err => {
       //console.log('Error: ', err);
     });
+    $http({
+      method: 'GET',
+      url : `${env.api.root}/Api/AllEmployees`
+    }).then(response => {
+      //console.log('Response: ', response.data[0]);
+      $scope.employees = response.data;
+    }).then(err => {
+      //console.log('Error: ', err);
+    });
   }
-  $scope.officeID = $routeParams.id;
-  $scope.edit = function(officeID) {
-    $location.path('/edit-office/' + officeID);
+  $scope.header = "Add an Employee- Coworkers";
+  $scope.employee = addService.get();
+  console.log($scope.employee);
+  $scope.submit = function() {
+    $scope.employee.whitelist = $scope.whitelist;
+    $scope.employee.blacklist = scope.blacklist;
+    console.log($scope.employee);
+    addService.set({});
   };
-  $http({
-    method: 'GET',
-    url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID
-  }).then(response => {
-    //console.log(response);
-    $scope.office = response.data[0];
-    $scope.header = $scope.office.companyName;
-  }, err => {
-    //console.log(err);
-  });
-  $http({
-    method: 'GET',
-    url: `${env.api.root}/Api/FloorPlanOfOffice/` + $scope.officeID
-  }).then(response => {
-    //console.log(response);
-    $scope.floor_plan = response.data[0];
-  }, err => {
-    //console.log(err);
-  });
 }];

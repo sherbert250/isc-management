@@ -1,4 +1,5 @@
 import env from '../core/env';
+import primaryNavItems from '../settings/primary_nav_items';
 
 //
 // Add Login Controller
@@ -7,6 +8,12 @@ import env from '../core/env';
 //
 
 export default ['$http', '$scope', '$location', '$window', ($http, $scope, $location, $window) => {
+  $scope.primaryNavItems = primaryNavItems;
+  for (var i in $scope.primaryNavItems) {
+    if (i != 0) { 
+      $scope.primaryNavItems[i].show = false;
+    }
+  }
   if ($window.sessionStorage.token) {
     //Validate the token
     $http({
@@ -21,6 +28,21 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
       if (response.data.status == 400) {
         delete $window.sessionStorage.token;
         $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else {
+        }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(err => {
       //console.log('Error: ', err);

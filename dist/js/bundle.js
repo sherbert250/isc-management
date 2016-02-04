@@ -63124,6 +63124,10 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63132,7 +63136,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Call Query to add employee to the database
 //
 
-exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+exports.default = ['$http', '$scope', '$location', '$window', 'addService', function ($http, $scope, $location, $window, addService) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.employees = [{
+    employeeID: 0,
+    firstName: " ",
+    lastName: " ",
+    email: " ",
+    title: " ",
+    department: " "
+  }];
+  $scope.blacklist = [];
+  $scope.whitelist = [];
   if (!$window.sessionStorage.token) {
     $location.path('/login');
   } else {
@@ -63162,12 +63177,117 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
             alert('Invalid permission level');
             $location.path('/');
           }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
     });
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/AllEmployees'
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      $scope.employees = response.data;
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
   }
-  $scope.header = "Add an Employee";
+  $scope.header = "Add an Employee- Coworkers";
+  $scope.employee = addService.get();
+  console.log($scope.employee);
+  $scope.submit = function () {
+    $scope.employee.whitelist = $scope.whitelist;
+    $scope.employee.blacklist = scope.blacklist;
+    console.log($scope.employee);
+    addService.set({});
+  };
+}];
+
+},{"../core/env":161,"../settings/primary_nav_items":165}],140:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Add Employee Controller
+//
+// Call Query to add employee to the database
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', 'addService', function ($http, $scope, $location, $window, addService) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.teammates = [];
+  $scope.employees = [{
+    employeeID: 0,
+    firstName: " ",
+    lastName: " ",
+    email: " ",
+    title: " ",
+    department: " "
+  }];
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            $location.path('/my-info');
+          } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/AllEmployees'
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      $scope.employees = response.data;
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
+  $scope.header = "Add an Employee- Individual Information";
   $scope.employee = {
     firstName: "",
     lastName: "",
@@ -63181,20 +63301,18 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     pictureAddress: "",
     permissionLevel: ""
   };
-  $scope.submit = function () {
-    $http({
-      method: 'POST',
-      url: _env2.default.api.root + '/Api/AddEmployee',
-      data: $scope.employee
-    }).then(function (response) {
-      $location.path('/view-employees');
-    }, function (err) {
-      //console.log(err);
-    });
+  $scope.next = function (employee) {
+    employee.teammates = $scope.teammates;
+    console.log(employee);
+    addService.set(employee);
+    console.log("Added to service" + addService.get());
+    var test = addService.get();
+    console.log(test.firstName);
+    $location.path('/add-employee-preferences');
   };
 }];
 
-},{"../core/env":160}],140:[function(require,module,exports){
+},{"../core/env":161,"../settings/primary_nav_items":165}],141:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63205,6 +63323,10 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63213,7 +63335,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Call Query to add employee to the database
 //
 
-exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+exports.default = ['$http', '$scope', '$location', '$window', 'addService', function ($http, $scope, $location, $window, addService) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   if (!$window.sessionStorage.token) {
     $location.path('/login');
   } else {
@@ -63243,6 +63366,88 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
             alert('Invalid permission level');
             $location.path('/');
           }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
+  $scope.header = "Add an Employee- Preferences";
+  $scope.employee = addService.get();
+  console.log($scope.employee);
+  $scope.temperatureRanges = [{ range: '1-2' }, { range: '2-3' }, { range: '3-4' }, { range: '4-5' }];
+  $scope.next = function (employee) {
+    employee.temperatureRanges = $scope.temperatureRanges;
+    console.log(employee);
+    addService.set(employee);
+    console.log("Added to service" + addService.get());
+    var test = addService.get();
+    console.log(test.firstName);;
+    $location.path('/add-employee-coworkers');
+  };
+}];
+
+},{"../core/env":161,"../settings/primary_nav_items":165}],142:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Add Office Controller
+//
+// Call Query to add office to the database
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = primaryNavItem;
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            $location.path('/my-info');
+          } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -63271,7 +63476,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":160}],141:[function(require,module,exports){
+},{"../core/env":161,"../settings/primary_nav_items":165}],143:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63282,15 +63487,20 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Add Employee Controller
+// Edit Employee Controller
 //
-// Call Query to add employee to the database
+// Call Query to edit employee the database
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   if (!$window.sessionStorage.token) {
     $location.path('/login');
   } else {
@@ -63321,6 +63531,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
             alert('Invalid permission level');
             $location.path('/');
           }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -63350,7 +63564,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":160}],142:[function(require,module,exports){
+},{"../core/env":161,"../settings/primary_nav_items":165}],144:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63361,15 +63575,20 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Add Employee Controller
+// Eidt Office Controller
 //
-// Call Query to add employee to the database
+// Call Query to edit office to the database
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   if (!$window.sessionStorage.token) {
     $location.path('/login');
   } else {
@@ -63399,6 +63618,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
             alert('Invalid permission level');
             $location.path('/');
           }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -63428,7 +63651,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":160}],143:[function(require,module,exports){
+},{"../core/env":161,"../settings/primary_nav_items":165}],145:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63439,6 +63662,10 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63448,6 +63675,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -63478,6 +63706,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
               alert('Invalid permission level');
               $location.path('/');
             }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -63505,7 +63737,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":160}],144:[function(require,module,exports){
+},{"../core/env":161,"../settings/primary_nav_items":165}],146:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63516,6 +63748,10 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63525,6 +63761,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.canEdit = false;
+  $scope.adminAccess = false;
+  $scope.employeeID = $routeParams.employeeID;
+  $scope.officeID = $routeParams.officeID;
+
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -63548,20 +63790,29 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
           //$location.path('/my-info');
+          $scope.canEdit = true;
+          $scope.adminAccess = true;
         } else if (permissionLevel === 'user') {
-            // Redirect them to their info page
-            //$location.path('/my-info');
-          } else {
-              alert('Invalid permission level');
-              $location.path('/');
-            }
+          // Redirect them to their info page
+          //$location.path('/my-info');
+          if ($scope.employeeID == response.data[0].employeeID) {
+            $scope.canEdit = true;
+          }
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
+      } else {
+        $scope.adminAccess = true;
+        $scope.canEdit = true;
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
     });
   }
-  $scope.employeeID = $routeParams.employeeID;
-  $scope.officeID = $routeParams.officeID;
   $scope.employees = [{
     employeeID: 0,
     firstName: " ",
@@ -63666,7 +63917,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":160}],145:[function(require,module,exports){
+},{"../core/env":161,"../settings/primary_nav_items":165}],147:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63677,6 +63928,10 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63686,6 +63941,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.adminAccess = false;
+  $scope.canEdit = false;
+  $scope.employeeID = $routeParams.id;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -63709,19 +63968,29 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
           //$location.path('/my-info');
+          $scope.adminAccess = true;
+          $scope.canEdit = true;
         } else if (permissionLevel === 'user') {
-            // Redirect them to their info page
-            //$location.path('/my-info');
-          } else {
-              alert('Invalid permission level');
-              $location.path('/');
-            }
+          // Redirect them to their info page
+          //$location.path('/my-info');
+          if ($scope.employeeID == response.data[0].employeeID) {
+            $scope.canEdit = true;
+          }
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
+      } else {
+        $scope.adminAccess = true;
+        $scope.canEdit = true;
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
     });
   }
-  $scope.employeeID = $routeParams.id;
   $scope.editEmployee = function (employeeID) {
     $location.path('/edit-employee/' + employeeID);
   };
@@ -63778,7 +64047,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":160}],146:[function(require,module,exports){
+},{"../core/env":161,"../settings/primary_nav_items":165}],148:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63789,15 +64058,23 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Employee Detail Controller
+// Employee Preferences Controller
 //
-// Show all properties for an employee
+// Show all preferences for an employee
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.adminAccess = false;
+  $scope.canEdit = false;
+  $scope.employeeID = $routeParams.id;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -63821,19 +64098,29 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
           //$location.path('/my-info');
+          $scope.adminAccess = true;
+          $scope.canEdit = true;
         } else if (permissionLevel === 'user') {
-            // Redirect them to their info page
-            //$location.path('/my-info');
-          } else {
-              alert('Invalid permission level');
-              $location.path('/');
-            }
+          // Redirect them to their info page
+          //$location.path('/my-info');
+          if ($scope.employeeID == response.data[0].employeeID) {
+            $scope.canEdit = true;
+          }
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
+      } else {
+        $scope.adminAccess = true;
+        $scope.canEdit = true;
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
     });
   }
-  $scope.employeeID = $routeParams.id;
   $scope.editEmployee = function (employeeID) {
     $location.path('/edit-employee/' + employeeID);
   };
@@ -63890,7 +64177,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":160}],147:[function(require,module,exports){
+},{"../core/env":161,"../settings/primary_nav_items":165}],149:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63901,6 +64188,10 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63910,6 +64201,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -63940,6 +64232,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
               alert('Invalid permission level');
               $location.path('/');
             }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -63967,7 +64263,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":160}],148:[function(require,module,exports){
+},{"../core/env":161,"../settings/primary_nav_items":165}],150:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63977,6 +64273,10 @@ Object.defineProperty(exports, "__esModule", {
 var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -63988,6 +64288,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -64018,6 +64319,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
             alert('Invalid permission level');
             $location.path('/');
           }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -64046,28 +64351,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":160}],149:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-//
-// Home Controller
-//
-// The home page
-//
-
-exports.default = ['$scope', '$location', function ($scope, $location) {
-  $scope.welcome = ['Welcome to the Ideal Seating Chart web application. Lucid Agency contacted Arizona State University in order to request that an ASU capstone team create a project that addresses a major problem that they were facing.', 'They wanted a web application that could create an seating chart that considers employee preferences. This is a major issue in many corporate environments. Without tools such as the one requested, the office manager must assign employees to seats manually. In addition, if the seating chart was to accomodate the employee preferences, the office manager would also have to collect those preferences themselves. Then, the office manager would have to find a method to rank and then reflect those changes in the seating chart they would soon create. This web application addresses all of those issues.'];
-  $scope.objective = ['The primary objective is to provide a web application that uses employees, their preferences, and a floor plan to create an optimized seating chart.', 'The application would aggregate the database of employees and use a clustering algorithm based on the available seats in the floor plan to assign employees to seats. The seating arrangement should optimally match seats to employees by preferences and related jobs, but will limit the tradeoffs of working in a cross functional environment.'];
-  $scope.benefits = ['Save time automating the seating chart creation process.', 'Automatically gather employee preferences instead of doing so manually', 'Employ seating chart that create conducive working environments by meeting employee preferences.', 'Quickly modify seating chart to reflect current changes in the office layout', 'Tailor office layout to needs of projects, employees, etc.', 'Easily manage and scale to large office spaces with numerous employees.'];
-  $scope.login = function () {
-    $location.path('/login');
-  };
-}];
-
-},{}],150:[function(require,module,exports){
+},{"../core/env":161,"../settings/primary_nav_items":165}],151:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64078,6 +64362,10 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64087,6 +64375,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  for (var i in $scope.primaryNavItems) {
+    if (i != 0) {
+      $scope.primaryNavItems[i].show = false;
+    }
+  }
   if ($window.sessionStorage.token) {
     //Validate the token
     $http({
@@ -64101,6 +64395,20 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       if (response.data.status == 400) {
         delete $window.sessionStorage.token;
         $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            //$location.path('/my-info');
+          } else {}
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -64138,7 +64446,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":160}],151:[function(require,module,exports){
+},{"../core/env":161,"../settings/primary_nav_items":165}],152:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64172,7 +64480,7 @@ exports.default = ['$scope', '$route', '$routeParams', '$location', function ($s
   $scope.primaryNavItems = _primary_nav_items2.default;
 }];
 
-},{"../settings/account_nav_items":163,"../settings/primary_nav_items":164}],152:[function(require,module,exports){
+},{"../settings/account_nav_items":164,"../settings/primary_nav_items":165}],153:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64183,6 +64491,10 @@ var _env = require('../../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64192,6 +64504,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.adminAccess = false;
   $scope.editEmployee = function (employeeID) {
     $location.path('/edit-employee/' + employeeID);
   };
@@ -64200,6 +64514,15 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
       if (obj.hasOwnProperty(prop)) return false;
     }
     return true;
+  };
+  $scope.viewBlacklist = function (employeeID) {
+    $location.path('/employee-blacklist/' + employeeID);
+  };
+  $scope.viewTeamMembers = function (employeeID) {
+    $location.path('/team-members/' + employeeID);
+  };
+  $scope.viewWhitelist = function (employeeID) {
+    $location.path('/employee-whitelist/' + employeeID);
   };
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -64212,6 +64535,29 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
       }
     }).then(function (response) {
       //console.log(response.data);
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+          $scope.adminAccess = true;
+        } else if (permissionLevel === 'user') {
+          // Redirect them to their info page
+          $location.path('/my-info');
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
+      } else {
+        $scope.adminAccess = true;
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
+      }
       $scope.collection = response.data;
       $scope.employee = response.data[0];
       $scope.employeeID = $scope.employee.employeeID;
@@ -64257,7 +64603,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }
 }];
 
-},{"../../core/env":160}],153:[function(require,module,exports){
+},{"../../core/env":161,"../../settings/primary_nav_items":165}],154:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64268,15 +64614,20 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Employee Detail Controller
+// Office Details Controller
 //
-// Show all properties for an employee
+// Show all properties for an office
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -64307,6 +64658,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
             alert('Invalid permission level');
             $location.path('/');
           }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -64337,7 +64692,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":160}],154:[function(require,module,exports){
+},{"../core/env":161,"../settings/primary_nav_items":165}],155:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64352,6 +64707,10 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64361,6 +64720,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -64391,6 +64751,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
             alert('Invalid permission level');
             $location.path('/');
           }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -64447,7 +64811,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":160,"../data/employees":161}],155:[function(require,module,exports){
+},{"../core/env":161,"../data/employees":162,"../settings/primary_nav_items":165}],156:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64462,6 +64826,10 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64471,6 +64839,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -64500,6 +64869,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
         } else {
           alert('Invalid permission level');
           $location.path('/');
+        }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
         }
       }
     }).then(function (err) {
@@ -64546,7 +64919,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":160,"../data/employees":161}],156:[function(require,module,exports){
+},{"../core/env":161,"../data/employees":162,"../settings/primary_nav_items":165}],157:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64556,6 +64929,10 @@ Object.defineProperty(exports, "__esModule", {
 var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -64567,6 +64944,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$scope', '$http', '$location', '$window', function ($scope, $http, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -64597,6 +64975,10 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
           alert('Invalid permission level');
           $location.path('/');
         }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -64605,7 +64987,7 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   $scope.message = 'Under Construction';
 }];
 
-},{"../core/env":160}],157:[function(require,module,exports){
+},{"../core/env":161,"../settings/primary_nav_items":165}],158:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64625,15 +65007,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
-  if (!$window.sessionStorage.token) {
-    $location.path('/login');
-  } else {
+  if (!$window.sessionStorage.token) {} else {
     delete $window.sessionStorage.token;
-    $location.path('/login');
   }
+  $location.path('/login');
 }];
 
-},{"../core/env":160}],158:[function(require,module,exports){
+},{"../core/env":161}],159:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64644,6 +65024,10 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64653,6 +65037,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.adminAccess = false;
+  $scope.canEdit = false;
+  $scope.employeeID = $routeParams.id;
+
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -64676,19 +65065,29 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
           //$location.path('/my-info');
+          $scope.adminAccess = true;
+          $scope.canEdit = true;
         } else if (permissionLevel === 'user') {
-            // Redirect them to their info page
-            //$location.path('/my-info');
-          } else {
-              alert('Invalid permission level');
-              $location.path('/');
-            }
+          // Redirect them to their info page
+          //$location.path('/my-info');
+          if ($scope.employeeID == response.data[0].employeeID) {
+            $scope.canEdit = true;
+          }
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
+      } else {
+        $scope.adminAccess = true;
+        $scope.canEdit = true;
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
     });
   }
-  $scope.employeeID = $routeParams.id;
   $scope.isEmpty = function (obj) {
     for (var prop in obj) {
       if (obj.hasOwnProperty(prop)) return false;
@@ -64748,7 +65147,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":160}],159:[function(require,module,exports){
+},{"../core/env":161,"../settings/primary_nav_items":165}],160:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64759,6 +65158,10 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64768,6 +65171,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -64797,6 +65201,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
         } else {
           alert('Invalid permission level');
           $location.path('/');
+        }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
         }
       }
     }).then(function (err) {
@@ -64843,7 +65251,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":160}],160:[function(require,module,exports){
+},{"../core/env":161,"../settings/primary_nav_items":165}],161:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64876,7 +65284,7 @@ var env = _lodash2.default.assign({}, _env2.default, _env4.default);
 
 exports.default = env;
 
-},{"../../env":2,"../../env.default":1,"browserify-fs":14,"lodash":118}],161:[function(require,module,exports){
+},{"../../env":2,"../../env.default":1,"browserify-fs":14,"lodash":118}],162:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64932,12 +65340,20 @@ exports.default = [{
   email: 'inspector@gmail.com'
 }];
 
-},{}],162:[function(require,module,exports){
+},{}],163:[function(require,module,exports){
 'use strict';
 
-var _AddEmployeeController = require('./controllers/AddEmployeeController');
+var _AddEmployeeCoworkersController = require('./controllers/AddEmployeeCoworkersController');
 
-var _AddEmployeeController2 = _interopRequireDefault(_AddEmployeeController);
+var _AddEmployeeCoworkersController2 = _interopRequireDefault(_AddEmployeeCoworkersController);
+
+var _AddEmployeeIndividualInfoController = require('./controllers/AddEmployeeIndividualInfoController');
+
+var _AddEmployeeIndividualInfoController2 = _interopRequireDefault(_AddEmployeeIndividualInfoController);
+
+var _AddEmployeePreferencesController = require('./controllers/AddEmployeePreferencesController');
+
+var _AddEmployeePreferencesController2 = _interopRequireDefault(_AddEmployeePreferencesController);
 
 var _AddOfficeController = require('./controllers/AddOfficeController');
 
@@ -64974,10 +65390,6 @@ var _EmployeeWhitelistController2 = _interopRequireDefault(_EmployeeWhitelistCon
 var _FloorplanController = require('./controllers/FloorplanController');
 
 var _FloorplanController2 = _interopRequireDefault(_FloorplanController);
-
-var _HomeController = require('./controllers/HomeController');
-
-var _HomeController2 = _interopRequireDefault(_HomeController);
 
 var _LoginController = require('./controllers/LoginController');
 
@@ -65032,7 +65444,9 @@ var iscApp = angular.module('iscApp', ['ngRoute', angularDragula(angular)]);
 // Controllers
 //
 
-iscApp.controller('AddEmployeeController', _AddEmployeeController2.default);
+iscApp.controller('AddEmployeeCoworkersController', _AddEmployeeCoworkersController2.default);
+iscApp.controller('AddEmployeeIndividualInfoController', _AddEmployeeIndividualInfoController2.default);
+iscApp.controller('AddEmployeePreferencesController', _AddEmployeePreferencesController2.default);
 iscApp.controller('AddOfficeController', _AddOfficeController2.default);
 iscApp.controller('EditEmployeeController', _EditEmployeeController2.default);
 iscApp.controller('EditOfficeController', _EditOfficeController2.default);
@@ -65042,7 +65456,6 @@ iscApp.controller('EmployeeDetailController', _EmployeeDetailController2.default
 iscApp.controller('EmployeePreferencesController', _EmployeePreferencesController2.default);
 iscApp.controller('EmployeeWhitelistController', _EmployeeWhitelistController2.default);
 iscApp.controller('FloorplanController', _FloorplanController2.default);
-iscApp.controller('HomeController', _HomeController2.default);
 iscApp.controller('LoginController', _LoginController2.default);
 iscApp.controller('MainController', _MainController2.default);
 iscApp.controller('MyInfoController', _MyInfoController2.default);
@@ -65060,12 +65473,15 @@ iscApp.controller('ViewEmployeesController', _ViewEmployeesController2.default);
 
 iscApp.config(function ($routeProvider, $locationProvider) {
   // define routes
-  $routeProvider.when('/', {
-    templateUrl: 'views/home.html',
-    controller: 'HomeController'
-  }).when('/add-employee', {
-    templateUrl: 'views/add-employee.html',
-    controller: 'AddEmployeeController'
+  $routeProvider.when('/add-employee', {
+    templateUrl: 'views/add-employee-individual-info.html',
+    controller: 'AddEmployeeIndividualInfoController'
+  }).when('/add-employee-coworkers', {
+    templateUrl: 'views/add-employee-coworkers.html',
+    controller: 'AddEmployeeCoworkersController'
+  }).when('/add-employee-preferences', {
+    templateUrl: 'views/add-employee-preferences.html',
+    controller: 'AddEmployeePreferencesController'
   }).when('/add-office', {
     templateUrl: 'views/add-office.html',
     controller: 'AddOfficeController'
@@ -65121,13 +65537,29 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     templateUrl: 'views/view-employees.html',
     controller: 'ViewEmployeesController'
   }).otherwise({
-    redirectTo: '/'
+    redirectTo: '/login'
   });
   // use html5 history api (no # in url)
   $locationProvider.html5Mode(true);
 });
 
-},{"./controllers/AddEmployeeController":139,"./controllers/AddOfficeController":140,"./controllers/EditEmployeeController":141,"./controllers/EditOfficeController":142,"./controllers/EmployeeBlacklistController":143,"./controllers/EmployeeCoworkersController":144,"./controllers/EmployeeDetailController":145,"./controllers/EmployeePreferencesController":146,"./controllers/EmployeeWhitelistController":147,"./controllers/FloorplanController":148,"./controllers/HomeController":149,"./controllers/LoginController":150,"./controllers/MainController":151,"./controllers/MyAccount/MyInfoController":152,"./controllers/OfficeDetailController":153,"./controllers/OfficeEmployeesController":154,"./controllers/OfficesController":155,"./controllers/SeatingChartsController":156,"./controllers/SignOutController":157,"./controllers/TeamMembersController":158,"./controllers/ViewEmployeesController":159,"angular":12,"angular-dragula":7}],163:[function(require,module,exports){
+//
+// Service
+//
+iscApp.factory('addService', function () {
+  var savedData = {};
+  function set(data) {
+    savedData = data;
+  }
+  function get() {
+    return savedData;
+  }
+  return {
+    set: set, get: get
+  };
+});
+
+},{"./controllers/AddEmployeeCoworkersController":139,"./controllers/AddEmployeeIndividualInfoController":140,"./controllers/AddEmployeePreferencesController":141,"./controllers/AddOfficeController":142,"./controllers/EditEmployeeController":143,"./controllers/EditOfficeController":144,"./controllers/EmployeeBlacklistController":145,"./controllers/EmployeeCoworkersController":146,"./controllers/EmployeeDetailController":147,"./controllers/EmployeePreferencesController":148,"./controllers/EmployeeWhitelistController":149,"./controllers/FloorplanController":150,"./controllers/LoginController":151,"./controllers/MainController":152,"./controllers/MyAccount/MyInfoController":153,"./controllers/OfficeDetailController":154,"./controllers/OfficeEmployeesController":155,"./controllers/OfficesController":156,"./controllers/SeatingChartsController":157,"./controllers/SignOutController":158,"./controllers/TeamMembersController":159,"./controllers/ViewEmployeesController":160,"angular":12,"angular-dragula":7}],164:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65145,7 +65577,7 @@ exports.default = [{
   text: 'Sign Out'
 }];
 
-},{}],164:[function(require,module,exports){
+},{}],165:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65157,22 +65589,27 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = [{
   href: '/',
-  text: 'Home'
+  text: 'Home',
+  show: true
 }, {
   href: '/login',
-  text: 'Login'
+  text: 'Login',
+  show: false
 }, {
   href: '/view-employees',
-  text: 'Employees'
+  text: 'Employees',
+  show: false
 }, {
   href: '/offices',
-  text: 'Offices'
+  text: 'Offices',
+  show: false
 }, {
   href: '/seating-charts',
-  text: 'Seating Charts'
+  text: 'Seating Charts',
+  show: false
 }];
 
-},{}]},{},[162])
+},{}]},{},[163])
 
 
 //# sourceMappingURL=bundle.js.map

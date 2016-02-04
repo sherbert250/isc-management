@@ -1,4 +1,5 @@
 import env from '../core/env';
+import primaryNavItems from '../settings/primary_nav_items';
 
 //
 // Add Employee Controller
@@ -6,7 +7,20 @@ import env from '../core/env';
 // Call Query to add employee to the database
 //
 
-export default ['$http', '$scope', '$location','$window', ($http, $scope, $location, $window) => {
+export default ['$http', '$scope', '$location','$window', 'addService', ($http, $scope, $location, $window, addService) => {
+  $scope.primaryNavItems = primaryNavItems;
+  $scope.teammates = [
+  ];
+  $scope.employees = [
+    {
+      employeeID: 0,
+      firstName : " ",
+      lastName : " ",
+      email : " ",
+      title: " ",
+      department: " "
+    }
+  ];
   if(!$window.sessionStorage.token){
     $location.path('/login');
   } else {
@@ -36,12 +50,25 @@ export default ['$http', '$scope', '$location','$window', ($http, $scope, $locat
           alert('Invalid permission level');
           $location.path('/')
         }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(err => {
       //console.log('Error: ', err);
     });
+    $http({
+      method: 'GET',
+      url : `${env.api.root}/Api/AllEmployees`
+    }).then(response => {
+      //console.log('Response: ', response.data[0]);
+      $scope.employees = response.data;
+    }).then(err => {
+      //console.log('Error: ', err);
+    });
   }
-  $scope.header = "Add an Employee";
+  $scope.header = "Add an Employee- Individual Information";
   $scope.employee = {
     firstName: "",
     lastName: "",
@@ -55,16 +82,13 @@ export default ['$http', '$scope', '$location','$window', ($http, $scope, $locat
     pictureAddress: "",
     permissionLevel: ""
   };
-  $scope.submit = function() {
-    $http({
-      method: 'POST',
-      url: `${env.api.root}/Api/AddEmployee`,
-      data: $scope.employee
-    })
-    .then(response => {
-      $location.path('/view-employees');
-    }, err => {
-      //console.log(err);
-    });
+  $scope.next = function(employee) {
+    employee.teammates = $scope.teammates;
+    console.log(employee);
+    addService.set(employee);
+    console.log("Added to service" + addService.get());
+    var test = addService.get();
+    console.log(test.firstName);
+    $location.path('/add-employee-preferences');
   };
 }];
