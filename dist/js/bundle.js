@@ -64876,11 +64876,7 @@ var env = _lodash2.default.assign({}, _env2.default, _env4.default);
 
 exports.default = env;
 
-<<<<<<< HEAD
-},{"../../env.default":1,"../../env.js":2,"browserify-fs":14,"lodash":118}],161:[function(require,module,exports){
-=======
-},{"../../env":2,"../../env.default":1,"browserify-fs":9,"lodash":83}],119:[function(require,module,exports){
->>>>>>> c8efb74dfb074b93b3d80c8e48b5f0b1c498d865
+},{"../../env":2,"../../env.default":1,"browserify-fs":14,"lodash":118}],161:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
