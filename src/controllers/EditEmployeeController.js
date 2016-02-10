@@ -8,6 +8,8 @@ import primaryNavItems from '../settings/primary_nav_items';
 //
 
 export default ['$http', '$scope', '$location', '$routeParams', '$window', ($http, $scope, $location, $routeParams, $window) => {
+  $scope.uploadFile = function(){
+  };
   $scope.primaryNavItems = primaryNavItems;
   if(!$window.sessionStorage.token){
       $location.path('/login');

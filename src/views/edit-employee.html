@@ -40,8 +40,8 @@
          <td><input class="form-control" type="number" step="0.01" name="outOfDesk" ng-model="employee.outOfDesk" required /></td>
        </tr>
        <tr>
-         <th>Image</th>
-         <td><input class="form-control" type="text" name="pictureAddress" ng-model="employee.pictureAddress" required /></td>
+         <th>Profile Image</th>
+         <td><input class="form-control" type="file" name="pictureAddress" required /><button class="btn btn-success" ng-click="uploadFile()">Click me!</button></td>
        </tr>
        <tr>
          <th>Permission Level</th>

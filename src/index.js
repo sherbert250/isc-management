@@ -154,8 +154,10 @@ iscApp.config(function ($routeProvider, $locationProvider) {
 });
 
 //
-// Service
+// Services
 //
+
+// Service for storing employee data for adding
 iscApp.factory('addService', function() {
   var savedData = {}
   function set(data) {

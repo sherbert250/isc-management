@@ -1,16 +1,21 @@
-
 <div class="container">
   <p>{{response}}</p>
   <div class="utility-section">
     <h1 class="rounded-header">{{header}}</h1>
     <hr />
-    <div class="searchbox-section">
+    <div class="add-employee-options">
       <form class="form-inline">
-      <input ng-model="query" type="text" class="form-control" placeholder="Search for" autofocus>
+        <input ng-model="query" type="text" class="form-control" placeholder="Search for" autofocus>
       </form>
     </div>
-    <div class="add-button-section">
+    <div class="add-employee-options add-employee-options-right add-employee-options-button">
       <button class="btn btn-success btn-md" ng-click="add()">+Add Employee</button>
+    </div>
+    <div class="add-employee-options add-employee-options-right">
+      <input id="csv-upload" type="file" class="file form-control">
+    </div>
+    <div class="add-employee-options add-employee-options-right">
+      <button class="btn btn-success btn-md" ng-click="upload()">Upload CSV</button>
     </div>
   </div>
   <table class="table table-striped view-items-table">

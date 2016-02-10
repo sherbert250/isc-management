@@ -63522,6 +63522,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.uploadFile = function () {};
   $scope.primaryNavItems = _primary_nav_items2.default;
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -65237,6 +65238,50 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.add = function () {
     $location.path('/add-employee');
   };
+  $scope.upload = function () {
+    var f = document.getElementById('csv-upload').files[0],
+        r = new FileReader();
+    r.onloadend = function (e) {
+      var data = e.target.result;
+      var employees = [];
+      data = data.trim();
+      data = data.replace(/(?:\r\n|\r|\n)/g, ",");
+      var splitted = data.split(",");
+      var i = 0;
+      var max = 0;
+
+      if (splitted.length % 11 == 0) {
+        max = splitted.length;
+        while (i < max) {
+          var employee = {};
+          employee.firstName = splitted[i++];
+          employee.lastName = splitted[i++];
+          employee.email = splitted[i++];
+          employee.password = splitted[i++];
+          employee.department = splitted[i++];
+          employee.title = splitted[i++];
+          employee.restroomUsage = splitted[i++];
+          employee.noisePreference = splitted[i++];
+          employee.outOfDesk = splitted[i++];
+          employee.pictureAddress = splitted[i++];
+          employee.permissionLevel = splitted[i++];
+          employees.push(employee);
+        }
+        $http({
+          method: 'POST',
+          url: _env2.default.api.root + '/Api/AddEmployees',
+          data: { employees: employees }
+        }).then(function (response) {
+          alert("CSV successfully uploaded.");
+        }, function (err) {
+          //console.log(err);
+        });
+      } else {
+          alert("Incorrect csv format.\nThe correct format is firstName,lastName,email,password,department,title,restroomUsage,noisePreference,outOfDesk,pictureAddress,permissionLevel");
+        }
+    };
+    r.readAsText(f);
+  };
   $scope.delete = function (employeeID) {
     $http({
       method: 'GET',
@@ -65566,8 +65611,10 @@ iscApp.config(function ($routeProvider, $locationProvider) {
 });
 
 //
-// Service
+// Services
 //
+
+// Service for storing employee data for adding
 iscApp.factory('addService', function () {
   var savedData = {};
   function set(data) {
@@ -65610,13 +65657,9 @@ Object.defineProperty(exports, "__esModule", {
 //
 
 exports.default = [{
-  href: '/',
-  text: 'Home',
-  show: true
-}, {
   href: '/login',
   text: 'Login',
-  show: false
+  show: true
 }, {
   href: '/view-employees',
   text: 'Employees',
