@@ -42,6 +42,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
       //console.log('Error: ', err);
     });
   }
+
+  $scope.sortType = 'firstName';
+  $scope.sortReverse = false;
+  
   $scope.employeeID = $routeParams.id;
   $scope.header = 'Whitelist for Employee ID ' + $scope.employeeID;
   $scope.isEmpty = function (obj) {

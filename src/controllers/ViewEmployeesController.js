@@ -8,13 +8,13 @@ import env from '../core/env';
 
 export default ['$http', '$scope', '$location', '$window', ($http, $scope, $location, $window) => {
   // Handle Permissions
-  if(!$window.sessionStorage.token){
-      $location.path('/login');
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
   } else {
     // Validate the token
     $http({
       method: 'GET',
-      url : `${env.api.root}/Api/Verify`,
+      url: `${env.api.root}/Api/Verify`,
       headers: {
         'x-access-token': $window.sessionStorage.token
       }
@@ -42,6 +42,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
       //console.log('Error: ', err);
     });
   }
+
+  $scope.sortType = 'firstName';
+  $scope.sortReverse = false;
+
   $scope.header = "All Employees";
   $scope.add = function() {
     $location.path('/add-employee');

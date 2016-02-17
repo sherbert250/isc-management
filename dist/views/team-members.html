@@ -37,14 +37,24 @@
       <h4 class="team-members-header">Team Members</h4>
       <table class="table table-striped table-hover">
         <thead>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email Address</th>
-          <th>Job Title</th>
-          <th>Department</th>
+          <th><a href="#" ng-click="sortType = 'firstName'; sortReverse = !sortReverse">First Name
+            <span ng-show="sortType == 'firstName' && !sortReverse" class="fa fa-caret-down"></span>
+              <span ng-show="sortType == 'firstName' && sortReverse" class="fa fa-caret-up"></span></a></th>
+          <th><a href="#" ng-click="sortType = 'lastName'; sortReverse = !sortReverse">Last Name
+            <span ng-show="sortType == 'lastName' && !sortReverse" class="fa fa-caret-down"></span>
+              <span ng-show="sortType == 'lastName' && sortReverse" class="fa fa-caret-up"></span></a></th>
+          <th><a href="#" ng-click="sortType = 'title'; sortReverse = !sortReverse">Title
+            <span ng-show="sortType == 'title' && !sortReverse" class="fa fa-caret-down"></span>
+              <span ng-show="sortType == 'title' && sortReverse" class="fa fa-caret-up"></span></a></th>
+          <th><a href="#" ng-click="sortType = 'email'; sortReverse = !sortReverse">Email
+            <span ng-show="sortType == 'email' && !sortReverse" class="fa fa-caret-down"></span>
+              <span ng-show="sortType == 'email' && sortReverse" class="fa fa-caret-up"></span></a></th>
+          <th><a href="#" ng-click="sortType = 'department'; sortReverse = !sortReverse">Department
+            <span ng-show="sortType == 'department' && !sortReverse" class="fa fa-caret-down"></span>
+              <span ng-show="sortType == 'department' && sortReverse" class="fa fa-caret-up"></span></a></th>
           <th>Action</th>
         </thead>
-        <tbody ng-repeat="model in collection">
+        <tbody ng-repeat="model in collection | orderBy:sortType:sortReverse">
           <tr>
             <td>{{model.firstName}}</td>
             <td>{{model.lastName}}</td>

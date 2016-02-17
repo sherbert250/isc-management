@@ -1,12 +1,11 @@
-
 <div class="container">
   <p>{{response}}</p>
-  <div class="utility-section">
+  <div class="utility-section row">
     <h1 class="rounded-header">{{header}}</h1>
     <hr />
-    <div class="searchbox-section">
+    <div class="searchbox-section col-md-4">
       <form class="form-inline">
-      <input ng-model="query" type="text" class="form-control" placeholder="Search for" autofocus>
+        <input ng-model="query" type="text" class="form-control" placeholder="Search for" autofocus>
       </form>
     </div>
     <div class="add-button-section">
@@ -14,39 +13,42 @@
     </div>
   </div>
   <table class="table table-striped view-items-table">
-  <div class="row">
-    <div class="col-sm-4">
-      <div class="form-group">
-        <input
-          class="form-control"
-          ng-model="query"
-          type="text"
-          placeholder="Filter text"
-          autofocus="true"
-        />
-      </div>
-    </div>
-  </div>
-  <table class="table table-striped">
-    <thead>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Job Title</th>
-      <th>Email</th>
-      <th>Department</th>
-      <th colspan="3" class="action-header">Action</th>
-    </thead>
-    <tbody ng-repeat="model in emps | filter: query">
-      <tr>
-        <td>{{model.firstName}}</td>
-        <td>{{model.lastName}}</td>
-        <td>{{model.title}}</td>
-        <td>{{model.email}}</td>
-        <td>{{model.department}}</td>
-        <td class="action-header"><button class="btn btn-info btn-sm" ng-click="view(model.employeeID)">View</button></td>
-        <td class="action-header"><button class="btn btn-primary btn-sm" ng-click="edit(model.employeeID)">Edit</button></td>
-        <td class="action-header"><button class="btn btn-danger btn-sm" ng-click="delete(model.employeeID)">Delete</button></td>
-      </tr>
-    </tbody>
-  </table>
+    <table class="table table-striped">
+      <thead>
+        <th><a href="#" ng-click="sortType = 'firstName'; sortReverse = !sortReverse">First Name
+          <span ng-show="sortType == 'firstName' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'firstName' && sortReverse" class="fa fa-caret-up"></span></a></th>
+        <th><a href="#" ng-click="sortType = 'lastName'; sortReverse = !sortReverse">Last Name
+          <span ng-show="sortType == 'lastName' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'lastName' && sortReverse" class="fa fa-caret-up"></span></a></th>
+        <th><a href="#" ng-click="sortType = 'title'; sortReverse = !sortReverse">Title
+          <span ng-show="sortType == 'title' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'title' && sortReverse" class="fa fa-caret-up"></span></a></th>
+        <th><a href="#" ng-click="sortType = 'email'; sortReverse = !sortReverse">Email
+          <span ng-show="sortType == 'email' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'email' && sortReverse" class="fa fa-caret-up"></span></a></th>
+        <th><a href="#" ng-click="sortType = 'department'; sortReverse = !sortReverse">Department
+          <span ng-show="sortType == 'department' && !sortReverse" class="fa fa-caret-down"></span>
+            <span ng-show="sortType == 'department' && sortReverse" class="fa fa-caret-up"></span></a></th>
+        <th colspan="3" class="action-header">Action</th>
+      </thead>
+      <tbody ng-repeat="model in emps | orderBy:sortType:sortReverse | filter: query">
+        <tr>
+          <td>{{model.firstName}}</td>
+          <td>{{model.lastName}}</td>
+          <td>{{model.title}}</td>
+          <td>{{model.email}}</td>
+          <td>{{model.department}}</td>
+          <td class="action-header">
+            <button class="btn btn-info btn-sm" ng-click="view(model.employeeID)">View</button>
+          </td>
+          <td class="action-header">
+            <button class="btn btn-primary btn-sm" ng-click="edit(model.employeeID)">Edit</button>
+          </td>
+          <td class="action-header">
+            <button class="btn btn-danger btn-sm" ng-click="delete(model.employeeID)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 </div>

@@ -43,6 +43,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
       //console.log('Error: ', err);
     });
   }
+
+  $scope.sortType = 'firstName';
+  $scope.sortReverse = false;
+
   $scope.emps = employees;
   $scope.officeID = $routeParams.id;
   $http({
