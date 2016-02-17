@@ -1,5 +1,45 @@
-
-<div class="container">
-  <h1 class="rounded-header">Seating Charts</h1>
-  <p>{{message}}</p>
-</div>
+<body>
+	<div class="searchbox-section">
+      <form class="form-inline">
+      <input ng-model="query" type="text" class="form-control" placeholder="Search for" autofocus>
+      </form>
+    </div>
+	<div class="container">
+	  <h3>Seating Charts</h3>
+		<!--<div class="container" ng-repeat="charts in testing | filter: query">
+			<div ng-if="$index%4 === 0" class="row">
+				<div class="seatingChart">
+					<a href="">
+						<div  class="col-md-3">
+							<img ng-src="{{charts[$index].img}}">
+							</img>
+							<p>{{charts[$index].name}}</p>
+						</div>
+					</a>
+				</div>
+				<div class="seatingChart">
+					<a href=""><div  class="col-md-3"><img ng-src="{{charts[$index + 1].img}}"></img><p>{{charts[$index + 1].name}}</p>
+					</div></a>
+				</div>
+				<div class="seatingChart">
+					<a href=""><div  class="col-md-3"><img ng-src="{{charts[$index + 2].img}}"></img><p>{{charts[$index + 2].name}}</p>
+					</div></a>
+				</div>
+				<div class="seatingChart">
+					<a href=""><div  class="col-md-3"><img ng-src="{{charts[$index + 3].img}}"></img><p>{{charts[$index + 3].name}}</p>
+					</div></a>
+				</div>
+			</div>
+		</div>-->
+		<div class="seatingChart">
+			<div class="row" >
+			    <div class="col-md-3" ng-repeat-start="item in testing | filter: query">
+			        <a href=""><img ng-src="{{item.img}}"></img><p>{{item.name}}</p>
+			        </a>
+			    </div>
+			    <div class="clearfix" ng-if="$index%4==3"></div>
+			    <div ng-repeat-end=""></div>
+			</div>
+		</div>
+	</div>
+</body>

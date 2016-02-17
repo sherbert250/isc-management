@@ -1,4 +1,3 @@
-import env from '../core/env';
 //
 // Seating Charts Controller
 //
@@ -6,41 +5,54 @@ import env from '../core/env';
 // Provide actions to create/modify charts
 //
 
-export default ['$scope','$http', '$location','$window', ($scope, $http, $location, $window) => {
-  // Handle Permissions
-  if(!$window.sessionStorage.token){
-      $location.path('/login');
-  } else {
-    // Validate the token
-    $http({
-      method: 'GET',
-      url : `${env.api.root}/Api/Verify`,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(response => {
-      //console.log('Response: ', response.data[0]);
-      // Cookie has expired
-      if (response.data.status == 400) {
-        delete $window.sessionStorage.token;
-        $location.path('/login');
-      }
-      var permissionLevel = response.data[0].permissionLevel;
-      if (permissionLevel !== 'superadmin') {
-        if (permissionLevel === 'admin') {
-          // Redirect them to their info page
-          $location.path('/my-info');
-        } else if (permissionLevel === 'user') {
-          // Redirect them to their info page
-          $location.path('/my-info');
-        } else {
-          alert('Invalid permission level');
-          $location.path('/')
-        }
-      }
-    }).then(err => {
-      //console.log('Error: ', err);
-    });
-  }
-  $scope.message = 'Under Construction';
+export default ['$scope', ($scope) => {
+  $scope.testing = [{
+    'img': 'http://25.media.tumblr.com/tumblr_m9gus8QYjY1rw0ggfo3_r5_400.gif',
+    'name': 'SeatingChart1',
+    'floor': '1'
+  }, {
+    'img': 'https://media.giphy.com/media/Wf6KVCUmNlnwY/giphy.gif',
+    'name': 'SeatingChart2',
+    'floor': '1'
+  }, {
+    'img': 'https://ak-hdl.buzzfed.com/static/enhanced/webdr06/2013/9/17/10/anigif_enhanced-buzz-30162-1379428234-21.gif',
+    'name': 'SeatingChart3',
+    'floor': '1'
+  }, {
+    'img': 'http://25.media.tumblr.com/tumblr_m9gus8QYjY1rw0ggfo3_r5_400.gif',
+    'name': 'SeatingChart4',
+    'floor': '4'
+  }, {
+    'img': 'http://25.media.tumblr.com/tumblr_m9gus8QYjY1rw0ggfo3_r5_400.gif',
+    'name': 'SeatingChart1',
+    'floor': '1'
+  }, {
+    'img': 'https://media.giphy.com/media/Wf6KVCUmNlnwY/giphy.gif',
+    'name': 'SeatingChart2',
+    'floor': '2'
+  }, {
+    'img': 'https://ak-hdl.buzzfed.com/static/enhanced/webdr06/2013/9/17/10/anigif_enhanced-buzz-30162-1379428234-21.gif',
+    'name': 'SeatingChart3',
+    'floor': '1'
+  }, {
+    'img': 'http://25.media.tumblr.com/tumblr_m9gus8QYjY1rw0ggfo3_r5_400.gif',
+    'name': 'SeatingChart4',
+    'floor': '2'
+  }, {
+    'img': 'http://25.media.tumblr.com/tumblr_m9gus8QYjY1rw0ggfo3_r5_400.gif',
+    'name': 'SeatingChart1',
+    'floor': '1'
+  }, {
+    'img': 'https://media.giphy.com/media/Wf6KVCUmNlnwY/giphy.gif',
+    'name': 'SeatingChart2',
+    'floor': '3'
+  }, {
+    'img': 'https://ak-hdl.buzzfed.com/static/enhanced/webdr06/2013/9/17/10/anigif_enhanced-buzz-30162-1379428234-21.gif',
+    'name': 'SeatingChart3',
+    'floor': '4'
+  }, {
+    'img': 'http://25.media.tumblr.com/tumblr_m9gus8QYjY1rw0ggfo3_r5_400.gif',
+    'name': 'SeatingChart4',
+    'floor': '3'
+  }];
 }];
