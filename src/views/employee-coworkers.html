@@ -33,6 +33,28 @@
       </div>
       <div class="row">
         <div class="col-md-3">
+          <form class="form-inline">
+          <input ng-model="query1" type="text" class="form-control" placeholder="Search for" autofocus>
+          </form>
+        </div>
+        <div class="col-md-3">
+          <form class="form-inline">
+          <input ng-model="query2" type="text" class="form-control" placeholder="Search for" autofocus>
+          </form>
+        </div>
+        <div class="col-md-3">
+          <form class="form-inline">
+          <input ng-model="query3" type="text" class="form-control" placeholder="Search for" autofocus>
+          </form>
+        </div>
+        <div class="col-md-3">
+          <form class="form-inline">
+          <input ng-model="query4" type="text" class="form-control" placeholder="Search for" autofocus>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
           <h4>Available Employees</h4>
         </div>
         <div class="col-md-3">
@@ -50,12 +72,12 @@
           <div class="col-md-6">
             <div class='wrapper1'>
              <div class='container1' dragula='"bag1"' dragula-model='employees'>
-               <div ng-repeat='employee in employees'>
+               <div ng-repeat='employee in employees | filter: query1'>
                  <span>{{employee.firstName}} {{employee.lastName}}, {{employee.email}}, {{employee.title}}, {{employee.department}}</span>
                </div>
              </div>
              <div class='container1' dragula='"bag1"' dragula-model='blacklist'>
-                <div ng-repeat='employee in blacklist'>
+                <div ng-repeat='employee in blacklist | filter: query2'>
                   <span>{{employee.firstName}} {{employee.lastName}}, {{employee.email}}, {{employee.title}}, {{employee.department}}</span>
                 </div>
              </div>
@@ -64,12 +86,12 @@
           <div class="col-md-6">
             <div class='wrapper1'>
               <div class='container2' dragula='"bag2"' dragula-model='employees'>
-                 <div ng-repeat='employee in employees'>
+                 <div ng-repeat='employee in employees | filter: query3'>
                    <span>{{employee.firstName}} {{employee.lastName}}, {{employee.email}}, {{employee.title}}, {{employee.department}}</span>
                  </div>
                </div>
                <div class='container2' dragula='"bag2"' dragula-model='whitelist'>
-                 <div ng-repeat='employee in whitelist'>
+                 <div ng-repeat='employee in whitelist | filter: query4'>
                    <span>{{employee.firstName}} {{employee.lastName}}, {{employee.email}}, {{employee.title}}, {{employee.department}}</span>
                  </div>
               </div>

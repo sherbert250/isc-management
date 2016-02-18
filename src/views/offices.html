@@ -3,6 +3,17 @@
   <div class="utilitySection">
     <h1 class="rounded-header">{{header}}</h1>
     <hr />
+  </div>
+  <div class="utilitySection">
+    <div class="dropdown">
+      <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Company <span class="caret"></span></button>
+      <ul class="dropdown-menu">
+        <li ng-repeat="company in companies"><a href="company-offices/{{company.companyID}}">{{company.companyName}}</a></li>
+      </ul>
+    </div>
+  </div>
+  <hr />
+  <div class="utilitySection">
     <div class="searchbox-section">
       <form class="form-inline">
       <input ng-model="query" type="text" class="form-control" placeholder="Search for" autofocus>

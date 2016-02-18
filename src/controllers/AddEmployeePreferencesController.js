@@ -2,13 +2,20 @@ import env from '../core/env';
 import primaryNavItems from '../settings/primary_nav_items';
 
 //
-// Add Employee Controller
+// Add Employee Preferences Controller
 //
-// Call Query to add employee to the database
+// Call Query to add employee preferences to the database
 //
 
 export default ['$http', '$scope', '$location','$window', 'addService', ($http, $scope, $location, $window, addService) => {
   $scope.primaryNavItems = primaryNavItems;
+  $scope.isEmpty = function (obj) {
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+            return false;
+    }
+    return true;
+  };
   $scope.temperatureRanges = [];
   if(!$window.sessionStorage.token){
     $location.path('/login');
@@ -70,4 +77,7 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
     console.log(test.firstName);;
     $location.path('/add-employee-coworkers');
   };
+  if ($scope.isEmpty($scope.employee)) {
+    $location.path('/add-employee');
+  }
 }];

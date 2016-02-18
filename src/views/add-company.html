@@ -1,0 +1,16 @@
+
+<div class="container">
+  <h1 class="rounded-header">{{header}}</h1>
+  <form name="addCompanyForm" ng-submit="submit()">
+  <table class="table table-hover">
+     <tr>
+       <th>Office Name</th>
+       <td><input class="form-control" type="text" name="companyName" ng-model="company.companyName" required /></td>
+     </tr>
+     <tr>
+       <th>Submit New Company</th>
+       <td><input  class="btn btn-success btn-md" type="submit" name="submit" value="submit" /></td>
+     </tr>
+  </table>
+  </form>
+</div>

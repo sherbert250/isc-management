@@ -1,14 +1,14 @@
 import employees from '../data/employees';
 import env from '../core/env';
-import primaryNavItems from '../settings/primary_nav_items';
+import primaryNavItems from '../settings/primary_nav_items'
 
 //
-// Office Employees Controller
+// View Offices Controller
 //
-// Show a list of employees
+// Show a list of offices
 //
 
-export default ['$http', '$scope', '$location', '$routeParams', '$window', ($http, $scope, $location, $routeParams, $window) => {
+export default ['$http', '$scope', '$location','$routeParams', '$window', ($http, $scope, $location, $routeParams, $window) => {
   $scope.primaryNavItems = primaryNavItems;
   // Handle Permissions
   if(!$window.sessionStorage.token){
@@ -32,7 +32,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
-          //$location.path('/my-info');
+          $location.path('/my-info');
         } else if (permissionLevel === 'user') {
           // Redirect them to their info page
           $location.path('/my-info');
@@ -49,53 +49,58 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
       //console.log('Error: ', err);
     });
   }
-  $scope.emps = employees;
-  $scope.officeID = $routeParams.id;
-  $http({
-    method: 'GET',
-    url: `${env.api.root}/Api/EmployeesOfOffice/` + $scope.officeID
-  }).then(response => {
-    //console.log(response);
-    $scope.emps = response.data;
-  }, err => {
-    //console.log(err);
-  });
-  $http({
-    method: 'GET',
-    url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID
-  }).then(response => {
-    //console.log(response);
-    $scope.header = response.data[0].companyName;
-  }, err => {
-    //console.log(err);
-  });
   $scope.add = function() {
-    $location.path('/add-office-employee/' + $scope.officeID);
+    $location.path('/add-office');
   };
-  $scope.delete = function(employeeID) {
+  $scope.delete = function(officeID) {
     $http({
       method: 'GET',
-      url: `${env.api.root}/Api/DeleteEmployee/` + employeeID
+      url: `${env.api.root}/Api/DeleteOffice/` + officeID
     }).then(response => {
       //console.log(response);
-      $scope.emps = response.data;
     }, err => {
       //console.log(err);
     });
     $http({
       method: 'GET',
-      url: `${env.api.root}/Api/EmployeesOfOffice/` + $scope.officeID
+      url: `${env.api.root}/Api/AllCompaniesForAllOffices`
     }).then(response => {
       //console.log(response);
-      $scope.emps = response.data;
+      $scope.offices= response.data;
     }, err => {
       //console.log(err);
     });
   };
-  $scope.edit = function(employeeID) {
-    $location.path('/edit-employee/' + employeeID);
+  $scope.edit = function(officeID) {
+    $location.path('/edit-office/' + officeID);
   };
-  $scope.view = function(employeeID) {
-    $location.path('/employee-detail/' + employeeID);
+  $scope.view = function(officeID) {
+    $location.path('/office-detail/' + officeID);
   };
+  $http({
+    method: 'GET',
+    url: `${env.api.root}/Api/Company/` + $routeParams.id
+  }).then(response => {
+    //console.log(response);
+    $scope.company = response.data[0];
+    $scope.header = 'Offices for ' + $scope.company.companyName;
+  }, err => {
+  });
+  $http({
+    method: 'GET',
+    url: `${env.api.root}/Api/CompanyOffices/` + $routeParams.id
+  }).then(response => {
+    //console.log(response);
+    $scope.offices = response.data;
+  }, err => {
+  });
+  $http({
+    method: 'GET',
+    url: `${env.api.root}/Api/AllCompanies`
+  }).then(response => {
+    //console.log(response);
+    $scope.companies = response.data;
+  }, err => {
+    //console.log(err);
+  });
 }];

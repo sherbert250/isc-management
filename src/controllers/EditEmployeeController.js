@@ -7,9 +7,20 @@ import primaryNavItems from '../settings/primary_nav_items';
 // Call Query to edit employee the database
 //
 
-export default ['$http', '$scope', '$location', '$routeParams', '$window', ($http, $scope, $location, $routeParams, $window) => {
-  $scope.uploadFile = function(){
-  };
+export default ['$http', '$scope', '$location', '$routeParams', '$window', 'Upload', ($http, $scope, $location, $routeParams, $window, Upload) => {
+   $scope.upload = function (file) {
+       Upload.upload({
+           url: `${env.api.root}/Api/Upload/Image`,
+           file: file
+       }).then(function (resp) {
+           //console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+       }, function (resp) {
+           //console.log('Error status: ' + resp.status);
+       }, function (evt) {
+           //var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+           //console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+       });
+   };
   $scope.primaryNavItems = primaryNavItems;
   if(!$window.sessionStorage.token){
       $location.path('/login');
@@ -61,13 +72,16 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   }, err => {
     //console.log(err);
   });
-  $scope.submit = function() {
+  $scope.submit = function(file) {
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/EditEmployee/`+$scope.employeeID,
       data: $scope.employee
     })
     .then(response => {
+      if (file) {
+        $scope.upload(file);
+      }
       $location.path('/view-employees');
     },err => {
       //console.log(err);

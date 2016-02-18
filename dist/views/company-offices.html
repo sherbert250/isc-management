@@ -25,7 +25,6 @@
   </div>
   <table class="table table-striped view-items-table">
     <thead>
-      <th>Company Name</th>
       <th>Office Name</th>
       <th>Office Address</th>
       <th>Office Phone</th>
@@ -34,7 +33,6 @@
     </thead>
     <tbody ng-repeat="model in offices | filter: query">
       <tr>
-        <td>{{model.companyName}}</td>
         <td>{{model.officeName}}</td>
         <td>{{model.officeStreetAddress}}, {{model.officeCity}}, {{model.officeState}} {{model.officeZipcode}}</td>
         <td>{{model.officePhoneNumber}}</td>

@@ -1,7 +1,7 @@
 
 <div class="container">
   <h1 class="rounded-header">{{header}}</h1>
-  <form name="editEmployeeForm" ng-submit="submit(file)">
+  <form name="addOfficeEmployeeForm" ng-submit="submit()">
     <table class="table table-hover">
       <tr>
          <th>First Name</th>
@@ -29,27 +29,22 @@
        </tr>
        <tr>
          <th>Restroom Usage</th>
-         <td><input class="form-control" type="number" step="0.01" name="restroomUsage" ng-model="employee.restroomUsage" required /></td>
+         <td><input class="form-control" type="number" step="1" name="restroomUsage" ng-model="employee.restroomUsage" required /></td>
        </tr>
        <tr>
          <th>Noise Preference</th>
-         <td><input class="form-control" type="number" step="0.01" name="noisePreference" ng-model="employee.noisePreference" required /></td>
+         <td><input class="form-control" type="number" step="1" name="noisePreference" ng-model="employee.noisePreference" required /></td>
        </tr>
        <tr>
          <th>Out of Desk</th>
-         <td><input class="form-control" type="number" step="0.01" name="outOfDesk" ng-model="employee.outOfDesk" required /></td>
-       </tr>
-       <tr>
-         <th>Profile Image</th>
-         <td><input class="form-control" type="file" ngf-select ng-model="file" name="file" accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFiles"/><img ng-show="editEmployeeForm.file.$valid" ngf-thumbnail="file"
-           style="width: 50px; height: 50px; float: none; position: relative;" /></td>
+         <td><input class="form-control" type="number" step="1" name="outOfDesk" ng-model="employee.outOfDesk" required /></td>
        </tr>
        <tr>
          <th>Permission Level</th>
          <td><input class="form-control" type="text" nmae="permissionLevel" ng-model="employee.permissionLevel" required /> </td>
        </tr>
        <tr>
-         <th>Submit Changes</th>
+         <th>Submit New Employee</th>
          <td><input  class="btn btn-success btn-md" type="submit" name="submit" value="submit" /></td>
        </tr>
     </table>

@@ -1,0 +1,32 @@
+
+<div class="container">
+  <div class="utilitySection">
+    <h1 class="rounded-header">{{header}}</h1>
+    <hr />
+    <div class="searchbox-section">
+      <form class="form-inline">
+      <input ng-model="query" type="text" class="form-control" placeholder="Search for" autofocus>
+      </form>
+    </div>
+    <div class="add-button-section">
+      <button class="btn btn-success btn-md" ng-click="add()">+Add Temperature Range</button>
+    </div>
+  </div>
+  <table class="table table-striped view-items-table">
+    <thead>
+      <th>Temperature Range ID</th>
+      <th>Lower Temperature &#8457</th>
+      <th>Upper Temperature &#8457</th>
+      <th colspan="2" class="action-header">Action</th>
+    </thead>
+    <tbody ng-repeat="model in temperatureRanges | filter: query">
+      <tr>
+        <td>{{model.rangeID}}</td>
+        <td>{{model.lower}}</td>
+        <td>{{model.upper}}</td>
+        <td class="action-header"><button class="btn btn-primary btn-sm" ng-click="edit(model.rangeID)">Edit</button></td>
+        <td class="action-header"><button class="btn btn-danger btn-sm" ng-click="delete(model.rangeID)">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

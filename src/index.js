@@ -3,18 +3,25 @@
 //
 var angular = require('angular');
 var angularDragula = require('angular-dragula');
-let iscApp = angular.module('iscApp', ['ngRoute', angularDragula(angular)]);
+let iscApp = angular.module('iscApp', ['ngRoute', angularDragula(angular), 'ngFileUpload']);
 
 //
 // Controllers
 //
 
+import AddCompanyController from './controllers/AddCompanyController';
 import AddEmployeeCoworkersController from './controllers/AddEmployeeCoworkersController';
 import AddEmployeeIndividualInfoController from './controllers/AddEmployeeIndividualInfoController';
 import AddEmployeePreferencesController from './controllers/AddEmployeePreferencesController';
 import AddOfficeController from './controllers/AddOfficeController';
-import EditEmployeeController from './controllers/EditEmployeeController'
-import EditOfficeController from './controllers/EditOfficeController'
+import AddOfficeEmployeeController from './controllers/AddOfficeEmployeeController';
+import AddTemperatureRangeController from './controllers/AddTemperatureRangeController';
+import CompaniesController from './controllers/CompaniesController';
+import CompanyOfficesController from './controllers/CompanyOfficesController';
+import EditCompanyController from './controllers/EditCompanyController';
+import EditEmployeeController from './controllers/EditEmployeeController';
+import EditOfficeController from './controllers/EditOfficeController';
+import EditTemperatureRangeController from './controllers/EditTemperatureRangeController';
 import EmployeeBlacklistController from './controllers/EmployeeBlacklistController';
 import EmployeeCoworkersController from './controllers/EmployeeCoworkersController';
 import EmployeeDetailController from './controllers/EmployeeDetailController';
@@ -30,14 +37,22 @@ import OfficeEmployeesController from './controllers/OfficeEmployeesController';
 import SeatingChartsController from './controllers/SeatingChartsController';
 import SignOutController from './controllers/SignOutController';
 import TeamMembersController from './controllers/TeamMembersController';
+import TemperatureRangesController from './controllers/TemperatureRangesController';
 import ViewEmployeesController from './controllers/ViewEmployeesController';
 
+iscApp.controller('AddCompanyController', AddCompanyController);
 iscApp.controller('AddEmployeeCoworkersController', AddEmployeeCoworkersController);
 iscApp.controller('AddEmployeeIndividualInfoController', AddEmployeeIndividualInfoController);
 iscApp.controller('AddEmployeePreferencesController', AddEmployeePreferencesController);
 iscApp.controller('AddOfficeController', AddOfficeController);
+iscApp.controller('AddOfficeEmployeeController', AddOfficeEmployeeController);
+iscApp.controller('AddTemperatureRangeController', AddTemperatureRangeController);
+iscApp.controller('CompaniesController', CompaniesController);
+iscApp.controller('CompanyOfficesController', CompanyOfficesController);
+iscApp.controller('EditCompanyController', EditCompanyController);
 iscApp.controller('EditEmployeeController', EditEmployeeController);
 iscApp.controller('EditOfficeController', EditOfficeController);
+iscApp.controller('EditTemperatureRangeController', EditTemperatureRangeController);
 iscApp.controller('EmployeeBlacklistController', EmployeeBlacklistController);
 iscApp.controller('EmployeeCoworkersController', EmployeeCoworkersController);
 iscApp.controller('EmployeeDetailController', EmployeeDetailController);
@@ -53,6 +68,7 @@ iscApp.controller('OfficeEmployeesController', OfficeEmployeesController);
 iscApp.controller('SeatingChartsController', SeatingChartsController);
 iscApp.controller('SignOutController', SignOutController);
 iscApp.controller('TeamMembersController', TeamMembersController);
+iscApp.controller('TemperatureRangesController', TemperatureRangesController);
 iscApp.controller('ViewEmployeesController', ViewEmployeesController);
 
 //
@@ -62,6 +78,10 @@ iscApp.controller('ViewEmployeesController', ViewEmployeesController);
 iscApp.config(function ($routeProvider, $locationProvider) {
   // define routes
   $routeProvider
+  .when('/add-company', {
+    templateUrl: 'views/add-company.html',
+    controller: 'AddCompanyController'
+  })
   .when('/add-employee', {
     templateUrl: 'views/add-employee-individual-info.html',
     controller: 'AddEmployeeIndividualInfoController'
@@ -78,6 +98,26 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     templateUrl: 'views/add-office.html',
     controller: 'AddOfficeController'
   })
+  .when('/add-office-employee/:id', {
+    templateUrl: 'views/add-office-employee.html',
+    controller: 'AddOfficeEmployeeController'
+  })
+  .when('/add-temperature-range', {
+    templateUrl: 'views/add-temperature-range.html',
+    controller: 'AddTemperatureRangeController'
+  })
+  .when('/companies', {
+    templateUrl: 'views/companies.html',
+    controller: 'CompaniesController'
+  })
+  .when('/company-offices/:id', {
+    templateUrl: 'views/company-offices.html',
+    controller: 'CompanyOfficesController'
+  })
+  .when('/edit-company/:id', {
+    templateUrl: 'views/edit-company.html',
+    controller: 'EditCompanyController'
+  })
   .when('/edit-employee/:id', {
     templateUrl: 'views/edit-employee.html',
     controller: 'EditEmployeeController'
@@ -85,6 +125,10 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   .when('/edit-office/:id', {
     templateUrl: 'views/edit-office.html',
     controller: 'EditOfficeController'
+  })
+  .when('/edit-temperature-range/:id', {
+    templateUrl: 'views/edit-temperature-range.html',
+    controller: 'EditTemperatureRangeController'
   })
   .when('/employee-blacklist/:id', {
     templateUrl: 'views/employee-blacklist.html',
@@ -141,6 +185,10 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   .when('/team-members/:id', {
     templateUrl: 'views/team-members.html',
     controller: 'TeamMembersController'
+  })
+  .when('/temperature-ranges', {
+    templateUrl: 'views/temperature-ranges.html',
+    controller: 'TemperatureRangesController'
   })
   .when('/view-employees', {
     templateUrl: 'views/view-employees.html',

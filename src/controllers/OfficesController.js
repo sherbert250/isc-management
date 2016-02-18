@@ -87,4 +87,13 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   }, err => {
     //console.log(err);
   });
+  $http({
+    method: 'GET',
+    url: `${env.api.root}/Api/AllCompanies`
+  }).then(response => {
+    //console.log(response);
+    $scope.companies = response.data;
+  }, err => {
+    //console.log(err);
+  });
 }];

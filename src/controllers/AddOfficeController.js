@@ -7,7 +7,7 @@ import primaryNavItems from '../settings/primary_nav_items';
 //
 
 export default ['$http', '$scope', '$location', '$window', ($http, $scope, $location, $window) => {
-  $scope.primaryNavItems = primaryNavItem
+  $scope.primaryNavItems = primaryNavItems;
   if(!$window.sessionStorage.token){
       $location.path('/login');
   } else {
@@ -54,8 +54,17 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
     officeStreetAddress: "",
     officeCity: "",
     officeState: "",
-    officeZipcode: ""
+    officeZipcode: "",
   };
+  $http({
+    method: 'GET',
+    url : `${env.api.root}/Api/AllCompanies`
+  }).then(response => {
+    //console.log('Response: ', response.data);
+    $scope.companies = response.data;
+  }).then(err => {
+    //console.log('Error: ', err);
+  });
   $scope.submit = function() {
     $http({
       method: 'POST',

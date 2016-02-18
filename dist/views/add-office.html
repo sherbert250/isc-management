@@ -32,6 +32,16 @@
        <td><input class="form-control" type="text" name="officeZipcode" ng-model="office.officeZipcode" required /></td>
      </tr>
      <tr>
+       <th>Select Company for Office</th>
+       <td>
+         <div class="form-group">
+           <select class="form-control" id="company" name="company" ng-model="office.companyID" required>
+             <option ng-repeat="item in companies" value="{{item.companyID}}">{{item.companyName}}</option>
+           </select>
+         </div>
+      </td>
+     </tr>
+     <tr>
        <th>Submit New Office</th>
        <td><input  class="btn btn-success btn-md" type="submit" name="submit" value="submit" /></td>
      </tr>

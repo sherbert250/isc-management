@@ -1,0 +1,20 @@
+
+<div class="container">
+  <h1 class="rounded-header">{{header}}</h1>
+  <form name="editTemperatureRangeForm" ng-submit="submit()">
+  <table class="table table-hover">
+     <tr>
+       <th>Lower Temperature in &#8457</th>
+       <td><input class="form-control" type="number" step="1" name="lower" ng-model="temperatureRange.lower" required /></td>
+     </tr>
+     <tr>
+       <th>Upper Temperature in &#8457</th>
+       <td><input class="form-control" type="number" step="1" name="officeName" ng-model="temperatureRange.upper" required /></td>
+     </tr>
+     <tr>
+       <th>Submit Changes</th>
+       <td><input  class="btn btn-success btn-md" type="submit" name="submit" value="submit" /></td>
+     </tr>
+  </table>
+  </form>
+</div>

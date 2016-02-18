@@ -9,6 +9,11 @@ export default [
     show: true
   },
   {
+    href: '/companies',
+    text: 'Companies',
+    show: false
+  },
+  {
     href: '/view-employees',
     text: 'Employees',
     show: false
@@ -21,6 +26,11 @@ export default [
   {
     href: '/seating-charts',
     text: 'Seating Charts',
+    show: false
+  },
+  {
+    href: '/temperature-ranges',
+    text: 'Temperature Ranges',
     show: false
   }
 ];

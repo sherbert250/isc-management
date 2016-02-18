@@ -1,14 +1,16 @@
+import employees from '../data/employees';
 import env from '../core/env';
-import primaryNavItems from '../settings/primary_nav_items';
+import primaryNavItems from '../settings/primary_nav_items'
 
 //
-// Eidt Office Controller
+// View Companies Controller
 //
-// Call Query to edit office to the database
+// Show a list of Companies
 //
 
-export default ['$http', '$scope', '$location', '$routeParams', '$window', ($http, $scope, $location, $routeParams, $window) => {
+export default ['$http', '$scope', '$location', '$window', ($http, $scope, $location, $window) => {
   $scope.primaryNavItems = primaryNavItems;
+  // Handle Permissions
   if(!$window.sessionStorage.token){
       $location.path('/login');
   } else {
@@ -30,7 +32,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
-          //$location.path('/my-info');
+          $location.path('/my-info');
         } else if (permissionLevel === 'user') {
           // Redirect them to their info page
           $location.path('/my-info');
@@ -47,27 +49,39 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
       //console.log('Error: ', err);
     });
   }
-  $scope.header = "Edit an Office";
-  $scope.officeID = $routeParams.id;
-  $http({
-    method: 'GET',
-    url: `${env.api.root}/Api/Office/` + $scope.officeID
-  }).then(response => {
-    ////console.log(response);
-    $scope.office = response.data[0];
-  }, err => {
-    ////console.log(err);
-  });
-  $scope.submit = function() {
+  $scope.header = 'All Temperature Ranges';
+  $scope.add = function () {
+    $location.path('/add-temperature-range');
+  };
+  $scope.delete = function(rangeID) {
     $http({
-      method: 'POST',
-      url: `${env.api.root}/Api/EditOffice/`+$scope.officeID,
-      data: $scope.office
-    })
-    .then(response => {
-      $location.path('/offices');
+      method: 'GET',
+      url: `${env.api.root}/Api/DeleteTemperatureRange/` + rangeID
+    }).then(response => {
+      //console.log(response);
+    }, err => {
+      //console.log(err);
+    });
+    $http({
+      method: 'GET',
+      url: `${env.api.root}/Api/AllTempRanges`
+    }).then(response => {
+      //console.log(response);
+      $scope.temperatureRanges = response.data;
     }, err => {
       //console.log(err);
     });
   };
+  $scope.edit = function(rangeID) {
+    $location.path('/edit-temperature-range/' + rangeID);
+  };
+  $http({
+    method: 'GET',
+    url: `${env.api.root}/Api/AllTempRanges`
+  }).then(response => {
+    //console.log(response);
+    $scope.temperatureRanges = response.data;
+  }, err => {
+    //console.log(err);
+  });
 }];
