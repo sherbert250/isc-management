@@ -1,7 +1,7 @@
 
 <div class="container">
   <h1 class="rounded-header">{{header}}</h1>
-  <form name="editEmployeeForm" ng-submit="submit(file)">
+  <form name="editEmployeeForm" ng-submit="submit()">
     <table class="table table-hover">
       <tr>
          <th>First Name</th>
@@ -41,8 +41,7 @@
        </tr>
        <tr>
          <th>Profile Image</th>
-         <td><input class="form-control" type="file" ngf-select ng-model="file" name="file" accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFiles"/><img ng-show="editEmployeeForm.file.$valid" ngf-thumbnail="file"
-           style="width: 50px; height: 50px; float: none; position: relative;" /></td>
+         <td><input class="form-control" type="file" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'" ngf-accept="'image/*'" ngf-max-size="3MB" required ngf-model-invalid="errorFiles"/><img ng-show="editEmployeeForm.file.$valid" ngf-thumbnail="file" /></td>
        </tr>
        <tr>
          <th>Permission Level</th>

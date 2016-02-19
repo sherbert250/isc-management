@@ -64127,19 +64127,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'Upload', function ($http, $scope, $location, $routeParams, $window, Upload) {
-  $scope.upload = function (file) {
-    Upload.upload({
-      url: _env2.default.api.root + '/Api/Upload/Image',
-      file: file
-    }).then(function (resp) {
-      //console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
-    }, function (resp) {
-      //console.log('Error status: ' + resp.status);
-    }, function (evt) {
-      //var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-      //console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-    });
-  };
   $scope.primaryNavItems = _primary_nav_items2.default;
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -64191,14 +64178,29 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'U
   }, function (err) {
     //console.log(err);
   });
-  $scope.submit = function (file) {
+
+  // Upload on file select or drop
+  $scope.upload = function (file) {
+    Upload.upload({
+      url: _env2.default.api.root + '/Api/Upload/Image',
+      data: { file: file, employeeID: $scope.employeeID }
+    }).then(function (response) {
+      console.log('Success ' + response.config.data.file.name + ' uploaded. Response status: ' + response.status);
+    }, function (response) {
+      console.log('Error status: ' + response.status);
+    }, function (event) {
+      var progressPercentage = parseInt(100.0 * event.loaded / event.total);
+      console.log('progress: ' + progressPercentage + '% ' + event.config.data.file.name);
+    });
+  };
+  $scope.submit = function () {
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/EditEmployee/' + $scope.employeeID,
       data: $scope.employee
     }).then(function (response) {
-      if (file) {
-        $scope.upload(file);
+      if ($scope.editEmployeeForm.file.$valid && $scope.file) {
+        $scope.upload($scope.file);
       }
       $location.path('/view-employees');
     }, function (err) {
