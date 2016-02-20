@@ -2,15 +2,13 @@ import env from '../core/env';
 import primaryNavItems from '../settings/primary_nav_items';
 
 //
-// Add Employee Controller
+// Add Employee Individual Info Controller
 //
-// Call Query to add employee to the database
+// Call Query to add individual employee info to the database
 //
 
 export default ['$http', '$scope', '$location','$window', 'addService', ($http, $scope, $location, $window, addService) => {
   $scope.primaryNavItems = primaryNavItems;
-  $scope.teammates = [
-  ];
   $scope.employees = [
     {
       employeeID: 0,
@@ -39,6 +37,46 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url : `${env.api.root}/Api/ExistsCompany`
+      }).then(response => {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url : `${env.api.root}/Api/ExistsOffice`
+          }).then(response => {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url : `${env.api.root}/Api/ExistsTemperatureRange`
+              }).then(response => {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(err => {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(err => {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(err => {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -60,10 +98,10 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
     });
     $http({
       method: 'GET',
-      url : `${env.api.root}/Api/AllEmployees`
+      url : `${env.api.root}/Api/AllOffices`
     }).then(response => {
       //console.log('Response: ', response.data[0]);
-      $scope.employees = response.data;
+      $scope.offices = response.data;
     }).then(err => {
       //console.log('Error: ', err);
     });
@@ -83,7 +121,7 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
     permissionLevel: "user"
   };
   $scope.next = function(employee) {
-    employee.teammates = $scope.teammates;
+    employee.officeID = parseInt(employee.officeID);
     console.log(employee);
     addService.set(employee);
     console.log("Added to service" + addService.get());

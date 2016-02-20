@@ -1,13 +1,16 @@
-import env from '../core/env';
-import primaryNavItems from '../settings/primary_nav_items';
+import env from '../../core/env';
+import primaryNavItems from '../../settings/primary_nav_items';
 //
-// Add Temperature Range Controller
+// Add Initial Temperature Range Controller
 //
-// Call Query to add temperature range to the database
+// Call Query to add initial temperature range to the database
 //
 
 export default ['$http', '$scope', '$location', '$window', ($http, $scope, $location, $window) => {
   $scope.primaryNavItems = primaryNavItems;
+  for (var i in $scope.primaryNavItems) {
+      $scope.primaryNavItems[i].show = false;
+  }
   if(!$window.sessionStorage.token){
       $location.path('/login');
   } else {
@@ -26,61 +29,29 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
-      $scope.masterID = response.data[0].employeeID;
-
-      // Perform sanity checks for set-up
-      $http({
-        method: 'GET',
-        url : `${env.api.root}/Api/ExistsCompany`
-      }).then(response => {
-        //console.log('Response: ', response.data[0]);
-        if (response.data[0].result == 0) {
-          $window.location.href = '/add-initial-company';
-        } else {
-          $http({
-            method: 'GET',
-            url : `${env.api.root}/Api/ExistsOffice`
-          }).then(response => {
-            //console.log('Response: ', response.data);
-            if (response.data[0].result == 0) {
-              $window.location.href = '/add-initial-office/' + $scope.masterID;
-            } else {
-              $http({
-                method: 'GET',
-                url : `${env.api.root}/Api/ExistsTemperatureRange`
-              }).then(response => {
-                //console.log('Response: ', response.data);
-                if (response.data[0].result == 0) {
-                  $window.location.href = '/add-initial-temperature-range';
-                }
-              }).then(err => {
-                //console.log('Error: ', err);
-              });
-            }
-          }).then(err => {
-            //console.log('Error: ', err);
-          });
-        }
-      }).then(err => {
-        //console.log('Error: ', err);
-      });
-
-      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
           //$location.path('/my-info');
         } else if (permissionLevel === 'user') {
           // Redirect them to their info page
-          $location.path('/my-info');
+          $location.path('/initialization-error');
         } else {
           alert('Invalid permission level');
           $location.path('/')
         }
       } else {
-        for (var i in $scope.primaryNavItems) {
-          $scope.primaryNavItems[i].show = true;
-        }
+        $http({
+          method: 'GET',
+          url : `${env.api.root}/Api/ExistsTemperatureRange`
+        }).then(response => {
+          //console.log('Response: ', response.data);
+          if (response.data[0].result == 1) {
+            $window.location.href = '/temperature-ranges';
+          }
+        }).then(err => {
+          //console.log('Error: ', err);
+        });
       }
     }).then(err => {
       //console.log('Error: ', err);

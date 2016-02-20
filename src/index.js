@@ -14,6 +14,9 @@ import AddEmployeeCoworkersController from './controllers/AddEmployeeCoworkersCo
 import AddEmployeeIndividualInfoController from './controllers/AddEmployeeIndividualInfoController';
 import AddEmployeePreferencesController from './controllers/AddEmployeePreferencesController';
 import AddOfficeController from './controllers/AddOfficeController';
+import AddInitialCompanyController from './controllers/StartUp/AddInitialCompanyController';
+import AddInitialOfficeController from './controllers/StartUp/AddInitialOfficeController';
+import AddInitialTemperatureRangeController from './controllers/StartUp/AddInitialTemperatureRangeController';
 import AddOfficeEmployeeController from './controllers/AddOfficeEmployeeController';
 import AddTemperatureRangeController from './controllers/AddTemperatureRangeController';
 import CompaniesController from './controllers/CompaniesController';
@@ -28,6 +31,7 @@ import EmployeeDetailController from './controllers/EmployeeDetailController';
 import EmployeePreferencesController from './controllers/EmployeePreferencesController';
 import EmployeeWhitelistController from './controllers/EmployeeWhitelistController';
 import FloorplanController from './controllers/FloorplanController';
+import InitializationErrorController from './controllers/Errors/InitializationErrorController';
 import LoginController from './controllers/LoginController';
 import MainController from './controllers/MainController';
 import MyInfoController from './controllers/MyAccount/MyInfoController';
@@ -35,7 +39,7 @@ import OfficesController from './controllers/OfficesController';
 import OfficeDetailController from './controllers/OfficeDetailController';
 import OfficeEmployeesController from './controllers/OfficeEmployeesController';
 import SeatingChartsController from './controllers/SeatingChartsController';
-import SignOutController from './controllers/SignOutController';
+import SignOutController from './controllers/MyAccount/SignOutController';
 import TeamMembersController from './controllers/TeamMembersController';
 import TemperatureRangesController from './controllers/TemperatureRangesController';
 import ViewEmployeesController from './controllers/ViewEmployeesController';
@@ -44,6 +48,9 @@ iscApp.controller('AddCompanyController', AddCompanyController);
 iscApp.controller('AddEmployeeCoworkersController', AddEmployeeCoworkersController);
 iscApp.controller('AddEmployeeIndividualInfoController', AddEmployeeIndividualInfoController);
 iscApp.controller('AddEmployeePreferencesController', AddEmployeePreferencesController);
+iscApp.controller('AddInitialCompanyController', AddInitialCompanyController);
+iscApp.controller('AddInitialOfficeController', AddInitialOfficeController);
+iscApp.controller('AddInitialTemperatureRangeController', AddInitialTemperatureRangeController);
 iscApp.controller('AddOfficeController', AddOfficeController);
 iscApp.controller('AddOfficeEmployeeController', AddOfficeEmployeeController);
 iscApp.controller('AddTemperatureRangeController', AddTemperatureRangeController);
@@ -59,6 +66,7 @@ iscApp.controller('EmployeeDetailController', EmployeeDetailController);
 iscApp.controller('EmployeePreferencesController', EmployeePreferencesController);
 iscApp.controller('EmployeeWhitelistController', EmployeeWhitelistController);
 iscApp.controller('FloorplanController', FloorplanController);
+iscApp.controller('InitializationErrorController', InitializationErrorController);
 iscApp.controller('LoginController', LoginController);
 iscApp.controller('MainController', MainController);
 iscApp.controller('MyInfoController', MyInfoController);
@@ -93,6 +101,18 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   .when('/add-employee-preferences', {
     templateUrl: 'views/add-employee-preferences.html',
     controller: 'AddEmployeePreferencesController'
+  })
+  .when('/add-initial-company', {
+    templateUrl: 'views/start-up/add-initial-company.html',
+    controller: 'AddInitialCompanyController'
+  })
+  .when('/add-initial-office/:id', {
+    templateUrl: 'views/start-up/add-initial-office.html',
+    controller: 'AddInitialOfficeController'
+  })
+  .when('/add-initial-temperature-range', {
+    templateUrl: 'views/start-up/add-initial-temperature-range.html',
+    controller: 'AddInitialTemperatureRangeController'
   })
   .when('/add-office', {
     templateUrl: 'views/add-office.html',
@@ -154,6 +174,10 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     templateUrl: 'views/floorplan.html',
     controller: 'FloorplanController'
   })
+  .when('/initialization-error', {
+    templateUrl: 'views/errors/initialization-error.html',
+    controller: 'InitializationErrorController'
+  })
   .when('/login', {
     templateUrl: 'views/login.html',
     controller: 'LoginController'
@@ -179,7 +203,7 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     controller: 'SeatingChartsController'
   })
   .when('/sign-out', {
-    templateUrl: 'views/sign-out.html',
+    templateUrl: 'views/my-account/sign-out.html',
     controller: 'SignOutController'
   })
   .when('/team-members/:id', {

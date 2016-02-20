@@ -10,7 +10,7 @@ import primaryNavItems from '../settings/primary_nav_items';
 export default ['$http', '$scope', '$location', '$window', ($http, $scope, $location, $window) => {
   $scope.primaryNavItems = primaryNavItems;
   for (var i in $scope.primaryNavItems) {
-    if (i != 0) { 
+    if (i != 0) {
       $scope.primaryNavItems[i].show = false;
     }
   }
@@ -29,7 +29,8 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
         delete $window.sessionStorage.token;
         $location.path('/login');
       }
-      var permissionLevel = response.data[0].permissionLevel;
+      var permissionLevel = response.data[0].permissionLevel
+      $scope.employeeID = response.data[0].employeeID;
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -40,9 +41,42 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
         } else {
         }
       } else {
-        for (var i in $scope.primaryNavItems) {
-          $scope.primaryNavItems[i].show = true;
-        }
+        // Perform sanity checks for set-up
+        $http({
+          method: 'GET',
+          url : `${env.api.root}/Api/ExistsCompany`
+        }).then(response => {
+          //console.log('Response: ', response.data[0]);
+          if (response.data[0].result == 0) {
+            $window.location.href = '/add-initial-company';
+          } else {
+            $http({
+              method: 'GET',
+              url : `${env.api.root}/Api/ExistsOffice`
+            }).then(response => {
+              //console.log('Response: ', response.data);
+              if (response.data[0].result == 0) {
+                $window.location.href = '/add-initial-office/' + $scope.employeeID;
+              } else {
+                $http({
+                  method: 'GET',
+                  url : `${env.api.root}/Api/ExistsTemperatureRange`
+                }).then(response => {
+                  //console.log('Response: ', response.data);
+                  if (response.data[0].result == 0) {
+                    $window.location.href = '/add-initial-temperature-range';
+                  }
+                }).then(err => {
+                  //console.log('Error: ', err);
+                });
+              }
+            }).then(err => {
+              //console.log('Error: ', err);
+            });
+          }
+        }).then(err => {
+          //console.log('Error: ', err);
+        });
       }
     }).then(err => {
       //console.log('Error: ', err);
@@ -71,7 +105,56 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
       $scope.message = response.data.message;
       if($window.sessionStorage.token === 'undefined' || $window.sessionStorage.token === null) {
         $scope.incorrectLogin = true;
+        delete $window.sessionStorage.token;
       } else {
+        //Validate the token
+        $http({
+          method: 'GET',
+          url : `${env.api.root}/Api/Verify`,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(response => {
+          $scope.employeeID = response.data[0].employeeID;
+
+          // Perform sanity checks for set-up
+          $http({
+            method: 'GET',
+            url : `${env.api.root}/Api/ExistsCompany`
+          }).then(response => {
+            //console.log('Response: ', response.data[0]);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-company';
+            } else {
+              $http({
+                method: 'GET',
+                url : `${env.api.root}/Api/ExistsOffice`
+              }).then(response => {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-office/' + $scope.employeeID;
+                } else {
+                  $http({
+                    method: 'GET',
+                    url : `${env.api.root}/Api/ExistsTemperatureRange`
+                  }).then(response => {
+                    //console.log('Response: ', response.data);
+                    if (response.data[0].result == 0) {
+                      $window.location.href = '/add-initial-temperature-range';
+                    }
+                  }).then(err => {
+                    //console.log('Error: ', err);
+                  });
+                }
+              }).then(err => {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(err => {
+            //console.log('Error: ', err);
+          });
+        }).then(err => {
+        });
         $location.path('/my-info');
       }
     }, err => {

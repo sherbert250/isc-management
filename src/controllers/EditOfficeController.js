@@ -2,7 +2,7 @@ import env from '../core/env';
 import primaryNavItems from '../settings/primary_nav_items';
 
 //
-// Eidt Office Controller
+// Edit Office Controller
 //
 // Call Query to edit office to the database
 //
@@ -27,6 +27,46 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url : `${env.api.root}/Api/ExistsCompany`
+      }).then(response => {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url : `${env.api.root}/Api/ExistsOffice`
+          }).then(response => {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url : `${env.api.root}/Api/ExistsTemperatureRange`
+              }).then(response => {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(err => {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(err => {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(err => {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -65,7 +105,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
       data: $scope.office
     })
     .then(response => {
-      $location.path('/offices');
+      $window.location.href = '/offices';
     }, err => {
       //console.log(err);
     });

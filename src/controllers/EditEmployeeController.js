@@ -27,6 +27,46 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', 'Uplo
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url : `${env.api.root}/Api/ExistsCompany`
+      }).then(response => {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url : `${env.api.root}/Api/ExistsOffice`
+          }).then(response => {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url : `${env.api.root}/Api/ExistsTemperatureRange`
+              }).then(response => {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(err => {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(err => {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(err => {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -59,7 +99,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', 'Uplo
   }, err => {
     //console.log(err);
   });
-  
+
   // Upload on file select or drop
   $scope.upload = function (file) {
       Upload.upload({
@@ -84,7 +124,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', 'Uplo
       if ($scope.editEmployeeForm.file.$valid && $scope.file) {
         $scope.upload($scope.file);
       }
-      $location.path('/view-employees');
+      $window.location.href = '/view-employees';
     },err => {
       //console.log(err);
     });

@@ -5,7 +5,7 @@
   </div>
   <form name="addIndividualInfoForm" ng-submit="next(employee)">
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
       <table class="table">
         <tr>
           <th>First Name</th>
@@ -22,12 +22,6 @@
           <td><input class="form-control" type="email" name="email" ng-model="employee.email" required /></td>
         </tr>
         <tr>
-          <th>Password</th>
-        </tr>
-        <tr>
-          <td><input class="form-control" type="password" name="password" ng-model="employee.password" required /></td>
-        </tr>
-        <tr>
           <th>Job Title</th>
         </tr>
         <tr>
@@ -39,31 +33,19 @@
         <tr>
           <td><input class="form-control" type="text" name="department" ng-model="employee.department" required /></td>
         </tr>
+        <tr>
+          <th>Select Office for Employee</th>
+        </tr>
+        <tr>
+          <td>
+            <div class="form-group">
+              <select class="form-control" id="office" name="office" ng-model="employee.officeID" required>
+                <option ng-repeat="item in offices" value="{{item.officeID}}">{{item.officeName}}</option>
+              </select>
+            </div>
+         </td>
+        </tr>
       </table>
-    </div>
-    <div class="col-md-6">
-      <div class="col-md-6">
-        <h4>Available Employees</h4>
-      </div>
-      <div class="col-md-6">
-        <h4>Team Members</h4>
-      </div>
-      <div class="row">
-        <div class="parent1">
-          <div class='wrapper1'>
-            <div class='container1' dragula='"bag10"' dragula-model='employees'>
-              <div ng-repeat='model1 in employees'>
-                <span>{{model1.firstName}} {{model1.lastName}}, {{model1.email}}, {{model1.title}}, {{model1.department}}</span>
-              </div>
-            </div>
-            <div class='container1' dragula='"bag10"' dragula-model='teammates'>
-              <div ng-repeat='model2 in teammates'>
-                <span>{{model2.firstName}} {{model2.lastName}}, {{model2.email}}, {{model2.title}}, {{model2.department}}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
   <div>

@@ -7,7 +7,7 @@ import primaryNavItems from '../../settings/primary_nav_items';
 // Show all properties for an employee
 //
 
-export default ['$http', '$scope', '$location', '$routeParams', '$window', ($http, $scope, $location, $routeParams, $window)  => {
+export default ['$http', '$scope', '$location', '$window', ($http, $scope, $location, $window)  => {
   $scope.primaryNavItems = primaryNavItems;
   $scope.adminAccess = false;
   $scope.editEmployee = function(employeeID) {
@@ -45,6 +45,46 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url : `${env.api.root}/Api/ExistsCompany`
+      }).then(response => {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url : `${env.api.root}/Api/ExistsOffice`
+          }).then(response => {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url : `${env.api.root}/Api/ExistsTemperatureRange`
+              }).then(response => {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                } 
+              }).then(err => {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(err => {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(err => {
+        //console.log('Error: ', err);
+      });
+
+      // Check Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -52,7 +92,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
           $scope.adminAccess = true;
         } else if (permissionLevel === 'user') {
           // Redirect them to their info page
-          $location.path('/my-info');
+          //$location.path('/my-info');
         } else {
           alert('Invalid permission level');
           $location.path('/')

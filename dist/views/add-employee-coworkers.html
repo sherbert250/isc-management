@@ -24,12 +24,12 @@
         <div class='wrapper1'>
           <div class='container1' dragula='"bag1"' dragula-model='employees'>
             <div ng-repeat='model in employees'>
-              <span>{{model.firstName}} {{model.lastName}}, {{model.email}}, {{model.title}}, {{model.department}}</span>
+              <span>{{model.firstName}} {{model.lastName}}, {{model.email}}</span>
             </div>
           </div>
           <div class='container1' dragula='"bag1"' dragula-model='blacklist'>
             <div ng-repeat='model in blacklist'>
-              <span>{{model.firstName}} {{model.lastName}}, {{model.email}}, {{model.title}}, {{model.department}}</span>
+              <span>{{model.firstName}} {{model.lastName}}, {{model.email}}</span>
             </div>
           </div>
         </div>
@@ -38,12 +38,38 @@
         <div class='wrapper1'>
           <div class='container1' dragula='"bag2"' dragula-model='employees'>
             <div ng-repeat='model in employees'>
-              <span>{{model.firstName}} {{model.lastName}}, {{model.email}}, {{model.title}}, {{model.department}}</span>
+              <span>{{model.firstName}} {{model.lastName}}, {{model.email}}</span>
             </div>
           </div>
           <div class='container1' dragula='"bag2"' dragula-model='whitelist'>
             <div ng-repeat='model in whitelist'>
-              <span>{{model.firstName}} {{model.lastName}}, {{model.email}}, {{model.title}}, {{model.department}}</span>
+              <span>{{model.firstName}} {{model.lastName}}, {{model.email}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <h4>Available Employees</h4>
+    </div>
+    <div class="col-md-3">
+      <h4>Team Members</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="parent1">
+        <div class='wrapper1'>
+          <div class='container1' dragula='"bag3"' dragula-model='possibleTeammates'>
+            <div ng-repeat='model1 in possibleTeammates'>
+              <span>{{model1.firstName}} {{model1.lastName}}, {{model1.email}}</span>
+            </div>
+          </div>
+          <div class='container1' dragula='"bag3"' dragula-model='teammates'>
+            <div ng-repeat='model2 in teammates'>
+              <span>{{model2.firstName}} {{model2.lastName}}, {{model2.email}}</span>
             </div>
           </div>
         </div>
