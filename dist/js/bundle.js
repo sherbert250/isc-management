@@ -63186,6 +63186,17 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -63233,7 +63244,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],140:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],140:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63331,6 +63342,17 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -63406,7 +63428,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   }
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],141:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],141:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63487,6 +63509,17 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -63551,7 +63584,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   };
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],142:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],142:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63631,6 +63664,17 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -63688,7 +63732,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   }
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],143:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],143:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63761,6 +63805,17 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -63823,7 +63878,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],144:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],144:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63896,6 +63951,17 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -63963,7 +64029,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],145:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],145:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64036,6 +64102,17 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -64090,7 +64167,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],146:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],146:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64168,6 +64245,17 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -64208,15 +64296,15 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       url: _env2.default.api.root + '/Api/DeleteCompany/' + companyID
     }).then(function (response) {
       //console.log(response);
-    }, function (err) {
-      //console.log(err);
-    });
-    $http({
-      method: 'GET',
-      url: _env2.default.api.root + '/Api/AllCompanies'
-    }).then(function (response) {
-      //console.log(response);
-      $scope.companies = response.data;
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/AllCompanies'
+      }).then(function (response) {
+        //console.log(response);
+        $scope.companies = response.data;
+      }, function (err) {
+        //console.log(err);
+      });
     }, function (err) {
       //console.log(err);
     });
@@ -64238,7 +64326,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":173,"../data/employees":174,"../settings/primary_nav_items":177}],147:[function(require,module,exports){
+},{"../core/env":174,"../data/employees":175,"../settings/primary_nav_items":178}],147:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64312,6 +64400,17 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
                 //console.log('Response: ', response.data);
                 if (response.data[0].result == 0) {
                   $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
                 }
               }).then(function (err) {
                 //console.log('Error: ', err);
@@ -64400,7 +64499,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":173,"../data/employees":174,"../settings/primary_nav_items":177}],148:[function(require,module,exports){
+},{"../core/env":174,"../data/employees":175,"../settings/primary_nav_items":178}],148:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64473,6 +64572,17 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -64527,7 +64637,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],149:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],149:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64600,6 +64710,17 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'U
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -64666,14 +64787,14 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'U
       if ($scope.editEmployeeForm.file.$valid && $scope.file) {
         $scope.upload($scope.file);
       }
-      $window.location.href = '/view-employees';
+      $location.path('/view-employees');
     }, function (err) {
       //console.log(err);
     });
   };
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],150:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],150:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64746,6 +64867,17 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -64800,7 +64932,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],151:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],151:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64873,6 +65005,17 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -64927,7 +65070,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],152:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],152:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65001,6 +65144,17 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -65053,7 +65207,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],153:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],153:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65128,6 +65282,17 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
                 //console.log('Response: ', response.data);
                 if (response.data[0].result == 0) {
                   $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
                 }
               }).then(function (err) {
                 //console.log('Error: ', err);
@@ -65273,7 +65438,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],154:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],154:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65346,6 +65511,17 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
                 //console.log('Response: ', response.data);
                 if (response.data[0].result == 0) {
                   $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
                 }
               }).then(function (err) {
                 //console.log('Error: ', err);
@@ -65443,7 +65619,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],155:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],155:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65516,6 +65692,17 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
                 //console.log('Response: ', response.data);
                 if (response.data[0].result == 0) {
                   $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
                 }
               }).then(function (err) {
                 //console.log('Error: ', err);
@@ -65613,7 +65800,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],156:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],156:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65687,6 +65874,17 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -65739,7 +65937,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],157:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],157:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65760,7 +65958,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {}];
 
-},{"../../core/env":173}],158:[function(require,module,exports){
+},{"../../core/env":174}],158:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65835,6 +66033,17 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -65888,7 +66097,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],159:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],159:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65972,6 +66181,17 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
                 }).then(function (err) {
                   //console.log('Error: ', err);
                 });
+                $http({
+                  method: 'GET',
+                  url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+                }).then(function (response) {
+                  //console.log('Response: ', response.data);
+                  if (response.data[0].result == 0) {
+                    $window.location.href = '/add-superadmin-to-office';
+                  }
+                }).then(function (err) {
+                  //console.log('Error: ', err);
+                });
               }
             }).then(function (err) {
               //console.log('Error: ', err);
@@ -66047,6 +66267,17 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
                   }).then(function (err) {
                     //console.log('Error: ', err);
                   });
+                  $http({
+                    method: 'GET',
+                    url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+                  }).then(function (response) {
+                    //console.log('Response: ', response.data);
+                    if (response.data[0].result == 0) {
+                      $window.location.href = '/add-superadmin-to-office';
+                    }
+                  }).then(function (err) {
+                    //console.log('Error: ', err);
+                  });
                 }
               }).then(function (err) {
                 //console.log('Error: ', err);
@@ -66065,7 +66296,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],160:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],160:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66099,7 +66330,7 @@ exports.default = ['$scope', '$route', '$routeParams', '$location', function ($s
   $scope.primaryNavItems = _primary_nav_items2.default;
 }];
 
-},{"../settings/account_nav_items":176,"../settings/primary_nav_items":177}],161:[function(require,module,exports){
+},{"../settings/account_nav_items":177,"../settings/primary_nav_items":178}],161:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66189,6 +66420,17 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -66262,7 +66504,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   }
 }];
 
-},{"../../core/env":173,"../../settings/primary_nav_items":177}],162:[function(require,module,exports){
+},{"../../core/env":174,"../../settings/primary_nav_items":178}],162:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66288,7 +66530,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $location.path('/login');
 }];
 
-},{"../../core/env":173}],163:[function(require,module,exports){
+},{"../../core/env":174}],163:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66362,6 +66604,17 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -66417,7 +66670,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],164:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],164:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66491,6 +66744,17 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
                 //console.log('Response: ', response.data);
                 if (response.data[0].result == 0) {
                   $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
                 }
               }).then(function (err) {
                 //console.log('Error: ', err);
@@ -66620,7 +66884,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":173,"../data/employees":174,"../settings/primary_nav_items":177}],165:[function(require,module,exports){
+},{"../core/env":174,"../data/employees":175,"../settings/primary_nav_items":178}],165:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66698,6 +66962,17 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -66738,15 +67013,15 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       url: _env2.default.api.root + '/Api/DeleteOffice/' + officeID
     }).then(function (response) {
       //console.log(response);
-    }, function (err) {
-      //console.log(err);
-    });
-    $http({
-      method: 'GET',
-      url: _env2.default.api.root + '/Api/AllCompaniesForAllOffices'
-    }).then(function (response) {
-      //console.log(response);
-      $scope.offices = response.data;
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/AllCompaniesForAllOffices'
+      }).then(function (response) {
+        //console.log(response);
+        $scope.offices = response.data;
+      }, function (err) {
+        //console.log(err);
+      });
     }, function (err) {
       //console.log(err);
     });
@@ -66777,7 +67052,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":173,"../data/employees":174,"../settings/primary_nav_items":177}],166:[function(require,module,exports){
+},{"../core/env":174,"../data/employees":175,"../settings/primary_nav_items":178}],166:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66852,6 +67127,17 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -66885,7 +67171,7 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   $scope.message = 'Under Construction';
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],167:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],167:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66970,6 +67256,19 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
                 }).then(function (err) {
                   //console.log('Error: ', err);
                 });
+                $http({
+                  method: 'GET',
+                  url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+                }).then(function (response) {
+                  //console.log('Response: ', response.data);
+                  if (response.data[0].result == 0) {
+                    $window.location.href = '/add-superadmin-to-office';
+                  } else {
+                    $location.path('/my-info');
+                  }
+                }).then(function (err) {
+                  //console.log('Error: ', err);
+                });
               }
             }).then(function (err) {
               //console.log('Error: ', err);
@@ -67008,6 +67307,17 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
             //console.log('Response: ', response.data);
             if (response.data[0].result == 0) {
               $window.location.href = '/add-initial-temperature-range';
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-superadmin-to-office';
             } else {
               $window.location.href = '/companies';
             }
@@ -67024,7 +67334,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../../core/env":173,"../../settings/primary_nav_items":177}],168:[function(require,module,exports){
+},{"../../core/env":174,"../../settings/primary_nav_items":178}],168:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67096,6 +67406,17 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
               //console.log('Response: ', response.data);
               if (response.data[0].result == 0) {
                 $window.location.href = '/add-initial-temperature-range';
+              }
+            }).then(function (err) {
+              //console.log('Error: ', err);
+            });
+            $http({
+              method: 'GET',
+              url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+            }).then(function (response) {
+              //console.log('Response: ', response.data);
+              if (response.data[0].result == 0) {
+                $window.location.href = '/add-superadmin-to-office';
               } else {
                 $location.path('/my-info');
               }
@@ -67144,6 +67465,17 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         //console.log('Response: ', response.data);
         if (response.data[0].result == 0) {
           $window.location.href = '/add-initial-temperature-range';
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+      }).then(function (response) {
+        //console.log('Response: ', response.data);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-superadmin-to-office';
         } else {
           $window.location.href = '/offices';
         }
@@ -67156,7 +67488,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../../core/env":173,"../../settings/primary_nav_items":177}],169:[function(require,module,exports){
+},{"../../core/env":174,"../../settings/primary_nav_items":178}],169:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67207,7 +67539,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
           // Redirect them to their info page
           //$location.path('/my-info');
         } else if (permissionLevel === 'user') {
-            // Redirect them to their info page
+            // Redirect them to initialization-error page
             $location.path('/initialization-error');
           } else {
             alert('Invalid permission level');
@@ -67220,6 +67552,17 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
         }).then(function (response) {
           //console.log('Response: ', response.data);
           if (response.data[0].result == 1) {
+            $http({
+              method: 'GET',
+              url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+            }).then(function (response) {
+              //console.log('Response: ', response.data);
+              if (response.data[0].result == 0) {
+                $window.location.href = '/add-superadmin-to-office';
+              }
+            }).then(function (err) {
+              //console.log('Error: ', err);
+            });
             $window.location.href = '/temperature-ranges';
           }
         }).then(function (err) {
@@ -67254,7 +67597,112 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../../core/env":173,"../../settings/primary_nav_items":177}],170:[function(require,module,exports){
+},{"../../core/env":174,"../../settings/primary_nav_items":178}],170:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Add Initial Temperature Range Controller
+//
+// Call Query to add initial temperature range to the database
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  for (var i in $scope.primaryNavItems) {
+    $scope.primaryNavItems[i].show = false;
+  }
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      $scope.employeeID = response.data[0].employeeID;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          $location.path('/initialization-error');
+        } else if (permissionLevel === 'user') {
+          $location.path('/initialization-error');
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
+      } else {
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+        }).then(function (response) {
+          //console.log('Response: ', response.data);
+          if (response.data[0].result == 1) {
+            $window.location.href = '/my-info';
+          }
+        }).then(function (err) {
+          //console.log('Error: ', err);
+        });
+      }
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID
+      }).then(function (response) {
+        //console.log('Response: ', response.data);
+        $scope.employee = response.data[0];
+        $scope.header = "Add a Superadmin " + $scope.employee.firstName + " " + $scope.employee.lastName + " to Office";
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllOffices'
+  }).then(function (response) {
+    //console.log('Response: ', response.data);
+    $scope.offices = response.data;
+  }).then(function (err) {
+    //console.log('Error: ', err);
+  });
+  $scope.submit = function () {
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/AddEmployeeToOffice',
+      data: { employeeID: $scope.employeeID, officeID: $scope.officeID }
+    }).then(function (response) {
+      $window.location.href = '/my-info';
+    }, function (err) {
+      //console.log(err);
+    });
+  };
+}];
+
+},{"../../core/env":174,"../../settings/primary_nav_items":178}],171:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67328,6 +67776,17 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
                 //console.log('Response: ', response.data);
                 if (response.data[0].result == 0) {
                   $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
                 }
               }).then(function (err) {
                 //console.log('Error: ', err);
@@ -67428,7 +67887,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],171:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],172:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67450,9 +67909,9 @@ var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// View Companies Controller
+// Temperature Ranges Controller
 //
-// Show a list of Companies
+// Show a list of temperature ranges
 //
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
@@ -67506,6 +67965,17 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -67546,15 +68016,15 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       url: _env2.default.api.root + '/Api/DeleteTemperatureRange/' + rangeID
     }).then(function (response) {
       //console.log(response);
-    }, function (err) {
-      //console.log(err);
-    });
-    $http({
-      method: 'GET',
-      url: _env2.default.api.root + '/Api/AllTempRanges'
-    }).then(function (response) {
-      //console.log(response);
-      $scope.temperatureRanges = response.data;
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/AllTempRanges'
+      }).then(function (response) {
+        //console.log(response);
+        $scope.temperatureRanges = response.data;
+      }, function (err) {
+        //console.log(err);
+      });
     }, function (err) {
       //console.log(err);
     });
@@ -67573,7 +68043,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":173,"../data/employees":174,"../settings/primary_nav_items":177}],172:[function(require,module,exports){
+},{"../core/env":174,"../data/employees":175,"../settings/primary_nav_items":178}],173:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67643,6 +68113,17 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
                 //console.log('Response: ', response.data);
                 if (response.data[0].result == 0) {
                   $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
                 }
               }).then(function (err) {
                 //console.log('Error: ', err);
@@ -67731,15 +68212,15 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID
     }).then(function (response) {
       //console.log(response);
-    }, function (err) {
-      //console.log(err);
-    });
-    $http({
-      method: 'GET',
-      url: _env2.default.api.root + '/Api/AllEmployees'
-    }).then(function (response) {
-      //console.log(response);
-      $scope.emps = response.data;
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/AllEmployees'
+      }).then(function (response) {
+        //console.log(response);
+        $scope.emps = response.data;
+      }, function (err) {
+        //console.log(err);
+      });
     }, function (err) {
       //console.log(err);
     });
@@ -67761,7 +68242,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":173,"../settings/primary_nav_items":177}],173:[function(require,module,exports){
+},{"../core/env":174,"../settings/primary_nav_items":178}],174:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67794,7 +68275,7 @@ var env = _lodash2.default.assign({}, _env2.default, _env4.default);
 
 exports.default = env;
 
-},{"../../env":2,"../../env.default":1,"browserify-fs":14,"lodash":118}],174:[function(require,module,exports){
+},{"../../env":2,"../../env.default":1,"browserify-fs":14,"lodash":118}],175:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67850,7 +68331,7 @@ exports.default = [{
   email: 'inspector@gmail.com'
 }];
 
-},{}],175:[function(require,module,exports){
+},{}],176:[function(require,module,exports){
 'use strict';
 
 var _AddCompanyController = require('./controllers/AddCompanyController');
@@ -67892,6 +68373,10 @@ var _AddOfficeEmployeeController2 = _interopRequireDefault(_AddOfficeEmployeeCon
 var _AddTemperatureRangeController = require('./controllers/AddTemperatureRangeController');
 
 var _AddTemperatureRangeController2 = _interopRequireDefault(_AddTemperatureRangeController);
+
+var _AddSuperAdminToOfficeController = require('./controllers/StartUp/AddSuperAdminToOfficeController');
+
+var _AddSuperAdminToOfficeController2 = _interopRequireDefault(_AddSuperAdminToOfficeController);
 
 var _CompaniesController = require('./controllers/CompaniesController');
 
@@ -68009,6 +68494,7 @@ iscApp.controller('AddEmployeePreferencesController', _AddEmployeePreferencesCon
 iscApp.controller('AddInitialCompanyController', _AddInitialCompanyController2.default);
 iscApp.controller('AddInitialOfficeController', _AddInitialOfficeController2.default);
 iscApp.controller('AddInitialTemperatureRangeController', _AddInitialTemperatureRangeController2.default);
+iscApp.controller('AddSuperAdminToOfficeController', _AddSuperAdminToOfficeController2.default);
 iscApp.controller('AddOfficeController', _AddOfficeController2.default);
 iscApp.controller('AddOfficeEmployeeController', _AddOfficeEmployeeController2.default);
 iscApp.controller('AddTemperatureRangeController', _AddTemperatureRangeController2.default);
@@ -68070,6 +68556,9 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   }).when('/add-office-employee/:id', {
     templateUrl: 'views/add-office-employee.html',
     controller: 'AddOfficeEmployeeController'
+  }).when('/add-superadmin-to-office', {
+    templateUrl: 'views/start-up/add-superadmin-to-office.html',
+    controller: 'AddSuperAdminToOfficeController'
   }).when('/add-temperature-range', {
     templateUrl: 'views/add-temperature-range.html',
     controller: 'AddTemperatureRangeController'
@@ -68167,7 +68656,7 @@ iscApp.factory('addService', function () {
   };
 });
 
-},{"./controllers/AddCompanyController":139,"./controllers/AddEmployeeCoworkersController":140,"./controllers/AddEmployeeIndividualInfoController":141,"./controllers/AddEmployeePreferencesController":142,"./controllers/AddOfficeController":143,"./controllers/AddOfficeEmployeeController":144,"./controllers/AddTemperatureRangeController":145,"./controllers/CompaniesController":146,"./controllers/CompanyOfficesController":147,"./controllers/EditCompanyController":148,"./controllers/EditEmployeeController":149,"./controllers/EditOfficeController":150,"./controllers/EditTemperatureRangeController":151,"./controllers/EmployeeBlacklistController":152,"./controllers/EmployeeCoworkersController":153,"./controllers/EmployeeDetailController":154,"./controllers/EmployeePreferencesController":155,"./controllers/EmployeeWhitelistController":156,"./controllers/Errors/InitializationErrorController":157,"./controllers/FloorplanController":158,"./controllers/LoginController":159,"./controllers/MainController":160,"./controllers/MyAccount/MyInfoController":161,"./controllers/MyAccount/SignOutController":162,"./controllers/OfficeDetailController":163,"./controllers/OfficeEmployeesController":164,"./controllers/OfficesController":165,"./controllers/SeatingChartsController":166,"./controllers/StartUp/AddInitialCompanyController":167,"./controllers/StartUp/AddInitialOfficeController":168,"./controllers/StartUp/AddInitialTemperatureRangeController":169,"./controllers/TeamMembersController":170,"./controllers/TemperatureRangesController":171,"./controllers/ViewEmployeesController":172,"angular":12,"angular-dragula":7}],176:[function(require,module,exports){
+},{"./controllers/AddCompanyController":139,"./controllers/AddEmployeeCoworkersController":140,"./controllers/AddEmployeeIndividualInfoController":141,"./controllers/AddEmployeePreferencesController":142,"./controllers/AddOfficeController":143,"./controllers/AddOfficeEmployeeController":144,"./controllers/AddTemperatureRangeController":145,"./controllers/CompaniesController":146,"./controllers/CompanyOfficesController":147,"./controllers/EditCompanyController":148,"./controllers/EditEmployeeController":149,"./controllers/EditOfficeController":150,"./controllers/EditTemperatureRangeController":151,"./controllers/EmployeeBlacklistController":152,"./controllers/EmployeeCoworkersController":153,"./controllers/EmployeeDetailController":154,"./controllers/EmployeePreferencesController":155,"./controllers/EmployeeWhitelistController":156,"./controllers/Errors/InitializationErrorController":157,"./controllers/FloorplanController":158,"./controllers/LoginController":159,"./controllers/MainController":160,"./controllers/MyAccount/MyInfoController":161,"./controllers/MyAccount/SignOutController":162,"./controllers/OfficeDetailController":163,"./controllers/OfficeEmployeesController":164,"./controllers/OfficesController":165,"./controllers/SeatingChartsController":166,"./controllers/StartUp/AddInitialCompanyController":167,"./controllers/StartUp/AddInitialOfficeController":168,"./controllers/StartUp/AddInitialTemperatureRangeController":169,"./controllers/StartUp/AddSuperAdminToOfficeController":170,"./controllers/TeamMembersController":171,"./controllers/TemperatureRangesController":172,"./controllers/ViewEmployeesController":173,"angular":12,"angular-dragula":7}],177:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68185,7 +68674,7 @@ exports.default = [{
   text: 'Sign Out'
 }];
 
-},{}],177:[function(require,module,exports){
+},{}],178:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68221,7 +68710,7 @@ exports.default = [{
   show: false
 }];
 
-},{}]},{},[175])
+},{}]},{},[176])
 
 
 //# sourceMappingURL=bundle.js.map

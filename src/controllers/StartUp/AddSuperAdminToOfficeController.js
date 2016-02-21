@@ -29,12 +29,11 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.employeeID = response.data[0].employeeID;
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
-          // Redirect them to their info page
-          //$location.path('/my-info');
+          $location.path('/initialization-error');
         } else if (permissionLevel === 'user') {
-          // Redirect them to initialization-error page
           $location.path('/initialization-error');
         } else {
           alert('Invalid permission level');
@@ -43,50 +42,47 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
       } else {
         $http({
           method: 'GET',
-          url : `${env.api.root}/Api/ExistsTemperatureRange`
+          url : `${env.api.root}/Api/ExistsSuperadminWithOffice`
         }).then(response => {
           //console.log('Response: ', response.data);
           if (response.data[0].result == 1) {
-            $http({
-              method: 'GET',
-              url : `${env.api.root}/Api/ExistsSuperadminWithOffice`
-            }).then(response => {
-              //console.log('Response: ', response.data);
-              if (response.data[0].result == 0) {
-                $window.location.href = '/add-superadmin-to-office';
-              }
-            }).then(err => {
-              //console.log('Error: ', err);
-            });
-            $window.location.href = '/temperature-ranges';
+            $window.location.href = '/my-info';
           }
         }).then(err => {
           //console.log('Error: ', err);
         });
       }
+      $http({
+        method: 'GET',
+        url : `${env.api.root}/Api/Employee/` + $scope.employeeID
+      }).then(response => {
+        //console.log('Response: ', response.data);
+        $scope.employee = response.data[0];
+        $scope.header = "Add a Superadmin " + $scope.employee.firstName + " " + $scope.employee.lastName + " to Office";
+      }).then(err => {
+        //console.log('Error: ', err);
+      });
     }).then(err => {
       //console.log('Error: ', err);
     });
   }
-  $scope.header = "Add a Temperature Range";
-  $scope.temperatureRange = {
-    lower: 0,
-    upper: 1
-  };
+  $http({
+    method: 'GET',
+    url : `${env.api.root}/Api/AllOffices`
+  }).then(response => {
+    //console.log('Response: ', response.data);
+    $scope.offices = response.data;
+  }).then(err => {
+    //console.log('Error: ', err);
+  });
   $scope.submit = function() {
-    var temp;
-    if ($scope.temperatureRange.lower > $scope.temperatureRange.upper) {
-      temp = $scope.temperatureRange.lower;
-      $scope.temperatureRange.lower = $scope.temperatureRange.upper;
-      $scope.temperatureRange.upper = temp;
-    }
     $http({
       method: 'POST',
-      url: `${env.api.root}/Api/AddTemperatureRange`,
-      data: $scope.temperatureRange
+      url: `${env.api.root}/Api/AddEmployeeToOffice`,
+      data: {employeeID: $scope.employeeID, officeID : $scope.officeID}
     })
     .then(response => {
-      $window.location.href = '/temperature-ranges';
+      $window.location.href = '/my-info';
     }, err => {
       //console.log(err);
     });

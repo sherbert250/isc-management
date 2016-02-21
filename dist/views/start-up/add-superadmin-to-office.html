@@ -1,0 +1,22 @@
+
+<div class="container">
+  <h1 class="rounded-header">{{header}}</h1>
+  <form name="AddSuperAdminToOfficeForm" ng-submit="submit()">
+  <table class="table table-hover">
+     <tr>
+       <th>Choose office for superadmin</th>
+       <td>
+         <div class="form-group">
+           <select class="form-control" id="office" name="office" ng-model="officeID" required>
+             <option ng-repeat="item in offices" value="{{item.officeID}}">{{item.officeName}}</option>
+           </select>
+         </div>
+       </td>
+     </tr>
+     <tr>
+       <th>Submit</th>
+       <td><input  class="btn btn-success btn-md" type="submit" name="submit" value="submit" /></td>
+     </tr>
+  </table>
+  </form>
+</div>

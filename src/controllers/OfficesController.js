@@ -59,6 +59,17 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
               }).then(err => {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url : `${env.api.root}/Api/ExistsSuperadminWithOffice`
+              }).then(response => {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(err => {
+                //console.log('Error: ', err);
+              });
             }
           }).then(err => {
             //console.log('Error: ', err);
@@ -99,15 +110,15 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
       url: `${env.api.root}/Api/DeleteOffice/` + officeID
     }).then(response => {
       //console.log(response);
-    }, err => {
-      //console.log(err);
-    });
-    $http({
-      method: 'GET',
-      url: `${env.api.root}/Api/AllCompaniesForAllOffices`
-    }).then(response => {
-      //console.log(response);
-      $scope.offices= response.data;
+      $http({
+        method: 'GET',
+        url: `${env.api.root}/Api/AllCompaniesForAllOffices`
+      }).then(response => {
+        //console.log(response);
+        $scope.offices= response.data;
+      }, err => {
+        //console.log(err);
+      });
     }, err => {
       //console.log(err);
     });

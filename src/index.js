@@ -19,6 +19,7 @@ import AddInitialOfficeController from './controllers/StartUp/AddInitialOfficeCo
 import AddInitialTemperatureRangeController from './controllers/StartUp/AddInitialTemperatureRangeController';
 import AddOfficeEmployeeController from './controllers/AddOfficeEmployeeController';
 import AddTemperatureRangeController from './controllers/AddTemperatureRangeController';
+import AddSuperAdminToOfficeController from './controllers/StartUp/AddSuperAdminToOfficeController';
 import CompaniesController from './controllers/CompaniesController';
 import CompanyOfficesController from './controllers/CompanyOfficesController';
 import EditCompanyController from './controllers/EditCompanyController';
@@ -51,6 +52,7 @@ iscApp.controller('AddEmployeePreferencesController', AddEmployeePreferencesCont
 iscApp.controller('AddInitialCompanyController', AddInitialCompanyController);
 iscApp.controller('AddInitialOfficeController', AddInitialOfficeController);
 iscApp.controller('AddInitialTemperatureRangeController', AddInitialTemperatureRangeController);
+iscApp.controller('AddSuperAdminToOfficeController', AddSuperAdminToOfficeController);
 iscApp.controller('AddOfficeController', AddOfficeController);
 iscApp.controller('AddOfficeEmployeeController', AddOfficeEmployeeController);
 iscApp.controller('AddTemperatureRangeController', AddTemperatureRangeController);
@@ -121,6 +123,10 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   .when('/add-office-employee/:id', {
     templateUrl: 'views/add-office-employee.html',
     controller: 'AddOfficeEmployeeController'
+  })
+  .when('/add-superadmin-to-office', {
+    templateUrl: 'views/start-up/add-superadmin-to-office.html',
+    controller: 'AddSuperAdminToOfficeController'
   })
   .when('/add-temperature-range', {
     templateUrl: 'views/add-temperature-range.html',

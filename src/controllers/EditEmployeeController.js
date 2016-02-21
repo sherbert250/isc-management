@@ -57,6 +57,17 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', 'Uplo
               }).then(err => {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url : `${env.api.root}/Api/ExistsSuperadminWithOffice`
+              }).then(response => {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(err => {
+                //console.log('Error: ', err);
+              });
             }
           }).then(err => {
             //console.log('Error: ', err);
@@ -124,7 +135,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', 'Uplo
       if ($scope.editEmployeeForm.file.$valid && $scope.file) {
         $scope.upload($scope.file);
       }
-      $window.location.href = '/view-employees';
+      $location.path('/view-employees');
     },err => {
       //console.log(err);
     });

@@ -61,6 +61,17 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
               }).then(err => {
                 //console.log('Error: ', err);
               });
+              $http({
+                method: 'GET',
+                url : `${env.api.root}/Api/ExistsSuperadminWithOffice`
+              }).then(response => {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(err => {
+                //console.log('Error: ', err);
+              });
             }
           }).then(err => {
             //console.log('Error: ', err);
