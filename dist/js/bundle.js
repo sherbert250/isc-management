@@ -63417,7 +63417,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
       data: $scope.employee
     }).then(function (response) {
       addService.set({});
-      $location.path('/view-employees');
+      $window.location.href = '/view-employees';
     }, function (err) {
       //console.log(err);
     });
@@ -66844,29 +66844,54 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
       var i = 0;
       var max = 0;
 
-      if (splitted.length % 11 == 0) {
+      if (splitted.length % 3 == 0) {
         max = splitted.length;
         while (i < max) {
           var employee = {};
           employee.firstName = splitted[i++];
           employee.lastName = splitted[i++];
           employee.email = splitted[i++];
-          employee.password = splitted[i++];
-          employee.department = splitted[i++];
-          employee.title = splitted[i++];
-          employee.restroomUsage = splitted[i++];
-          employee.noisePreference = splitted[i++];
-          employee.outOfDesk = splitted[i++];
-          employee.pictureAddress = splitted[i++];
-          employee.permissionLevel = splitted[i++];
+          employee.password = "randompassword";
+          employee.department = "no department";
+          employee.title = "no title";
+          employee.restroomUsage = 1;
+          employee.noisePreference = 1;
+          employee.outOfDesk = 1;
+          employee.pictureAddress = "no picture address";
+          employee.permissionLevel = "user";
           employees.push(employee);
         }
+        /*if (splitted.length % 11 == 0) {
+          max = splitted.length;
+          while (i < max) {
+            var employee = {};
+            employee.firstName = splitted[i++];
+            employee.lastName = splitted[i++];
+            employee.email = splitted[i++];
+            employee.password = splitted[i++];
+            employee.department = splitted[i++];
+            employee.title = splitted[i++];
+            employee.restroomUsage = splitted[i++];
+            employee.noisePreference = splitted[i++];
+            employee.outOfDesk = splitted[i++];
+            employee.pictureAddress = splitted[i++];
+            employee.permissionLevel = splitted[i++];
+            employees.push(employee);
+          }*/
         $http({
           method: 'POST',
           url: _env2.default.api.root + '/Api/AddEmployees',
-          data: { employees: employees }
+          data: { employees: employees, officeID: $scope.officeID }
         }).then(function (response) {
           alert("CSV successfully uploaded.");
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/AllEmployees'
+          }).then(function (response) {
+            $scope.emps = response.data;
+          }, function (err) {
+            //console.log(err);
+          });
         }, function (err) {
           //console.log(err);
         });
@@ -68068,6 +68093,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.officeID;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -68158,6 +68184,24 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       //console.log('Error: ', err);
     });
   }
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllEmployees'
+  }).then(function (response) {
+    //console.log(response);
+    $scope.emps = response.data;
+  }, function (err) {
+    //console.log(err);
+  });
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllOffices'
+  }).then(function (response) {
+    //console.log(response);
+    $scope.offices = response.data;
+  }, function (err) {
+    //console.log(err);
+  });
   $scope.header = "All Employees";
   $scope.add = function () {
     $location.path('/add-employee');
@@ -68174,34 +68218,61 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       var i = 0;
       var max = 0;
 
-      if (splitted.length % 11 == 0) {
+      if (splitted.length % 3 == 0) {
         max = splitted.length;
         while (i < max) {
           var employee = {};
           employee.firstName = splitted[i++];
           employee.lastName = splitted[i++];
           employee.email = splitted[i++];
-          employee.password = splitted[i++];
-          employee.department = splitted[i++];
-          employee.title = splitted[i++];
-          employee.restroomUsage = splitted[i++];
-          employee.noisePreference = splitted[i++];
-          employee.outOfDesk = splitted[i++];
-          employee.pictureAddress = splitted[i++];
-          employee.permissionLevel = splitted[i++];
+          employee.password = "randompassword";
+          employee.department = "no department";
+          employee.title = "no title";
+          employee.restroomUsage = 1;
+          employee.noisePreference = 1;
+          employee.outOfDesk = 1;
+          employee.pictureAddress = "no picture address";
+          employee.permissionLevel = "user";
           employees.push(employee);
         }
+        /*if (splitted.length % 11 == 0) {
+          max = splitted.length;
+          while (i < max) {
+            var employee = {};
+            employee.firstName = splitted[i++];
+            employee.lastName = splitted[i++];
+            employee.email = splitted[i++];
+            employee.password = splitted[i++];
+            employee.department = splitted[i++];
+            employee.title = splitted[i++];
+            employee.restroomUsage = splitted[i++];
+            employee.noisePreference = splitted[i++];
+            employee.outOfDesk = splitted[i++];
+            employee.pictureAddress = splitted[i++];
+            employee.permissionLevel = splitted[i++];
+            employees.push(employee);
+          }*/
+        $scope.officeID = parseInt($scope.officeID);
+        console.log($scope.officeID);
         $http({
           method: 'POST',
           url: _env2.default.api.root + '/Api/AddEmployees',
-          data: { employees: employees }
+          data: { employees: employees, officeID: $scope.officeID }
         }).then(function (response) {
           alert("CSV successfully uploaded.");
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/AllEmployees'
+          }).then(function (response) {
+            $scope.emps = response.data;
+          }, function (err) {
+            //console.log(err);
+          });
         }, function (err) {
           //console.log(err);
         });
       } else {
-          alert("Incorrect csv format.\nThe correct format is firstName,lastName,email,password,department,title,restroomUsage,noisePreference,outOfDesk,pictureAddress,permissionLevel");
+          alert("Incorrect csv format.\nThe correct format is firstName,lastName,email");
         }
     };
     r.readAsText(f);
@@ -68231,15 +68302,6 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.view = function (employeeID) {
     $location.path('/employee-detail/' + employeeID);
   };
-  $http({
-    method: 'GET',
-    url: _env2.default.api.root + '/Api/AllEmployees'
-  }).then(function (response) {
-    //console.log(response);
-    $scope.emps = response.data;
-  }, function (err) {
-    //console.log(err);
-  });
 }];
 
 },{"../core/env":174,"../settings/primary_nav_items":178}],174:[function(require,module,exports){

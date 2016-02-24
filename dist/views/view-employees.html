@@ -1,23 +1,33 @@
 <div class="container">
-  <p>{{response}}</p>
   <div class="utility-section">
     <h1 class="rounded-header">{{header}}</h1>
     <hr />
-    <div class="add-employee-options">
-      <form class="form-inline">
-        <input ng-model="query" type="text" class="form-control" placeholder="Search for" autofocus>
-      </form>
+    <form name="uploadCSVForm" ng-submit="upload()">
+      <div class="row">
+        <div class="col-md-2">
+          <form class="form-inline">
+            <input ng-model="query" type="text" class="form-control" placeholder="Search for" autofocus>
+          </form>
+        </div>
+        <div class="col-md-4">
+          <input id="csv-upload" type="file" class="file form-control">
+        </div>
+        <div class="col-md-2">
+          <input type="submit" class="btn btn-success btn-md" name="submit" value="Upload CSV" />
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <select class="form-control" id="office" name="office" ng-model="officeID" required>
+              <option ng-repeat="item in offices" value="{{item.officeID}}">{{item.officeName}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-success btn-md" ng-click="add()">+Add Employee</button>
+        </div>
+      </div>
     </div>
-    <div class="add-employee-options add-employee-options-right add-employee-options-button">
-      <button class="btn btn-success btn-md" ng-click="add()">+Add Employee</button>
-    </div>
-    <div class="add-employee-options add-employee-options-right">
-      <input id="csv-upload" type="file" class="file form-control">
-    </div>
-    <div class="add-employee-options add-employee-options-right">
-      <button class="btn btn-success btn-md" ng-click="upload()">Upload CSV</button>
-    </div>
-  </div>
+  </form>
   <table class="table table-striped view-items-table">
     <thead>
       <th>First Name</th>

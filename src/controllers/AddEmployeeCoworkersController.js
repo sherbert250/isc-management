@@ -164,7 +164,7 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
     })
     .then(response => {
       addService.set({});
-      $location.path('/view-employees');
+      $window.location.href = '/view-employees';
     }, err => {
       //console.log(err);
     });
