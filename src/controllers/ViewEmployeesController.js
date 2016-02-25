@@ -169,7 +169,6 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
           employees.push(employee);
         }*/
         $scope.officeID = parseInt($scope.officeID);
-        console.log($scope.officeID);
         $http({
           method: 'POST',
           url: `${env.api.root}/Api/AddEmployees`,

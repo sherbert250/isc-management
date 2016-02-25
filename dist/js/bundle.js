@@ -64760,6 +64760,15 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'U
   }).then(function (response) {
     //console.log(response);
     $scope.employee = response.data[0];
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
+    }).then(function (response) {
+      //console.log(response);
+      $scope.office = response.data[0];
+    }, function (err) {
+      //console.log(err);
+    });
   }, function (err) {
     //console.log(err);
   });
@@ -64784,10 +64793,18 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'U
       url: _env2.default.api.root + '/Api/EditEmployee/' + $scope.employeeID,
       data: $scope.employee
     }).then(function (response) {
-      if ($scope.editEmployeeForm.file.$valid && $scope.file) {
-        $scope.upload($scope.file);
-      }
-      $location.path('/view-employees');
+      $http({
+        method: 'POST',
+        url: _env2.default.api.root + '/Api/EditEmployeeUpdatedForOffice/' + $scope.office.officeID,
+        data: { employeeUpdated: 1 }
+      }).then(function (response) {
+        if ($scope.editEmployeeForm.file.$valid && $scope.file) {
+          $scope.upload($scope.file);
+        }
+        $location.path('/view-employees');
+      }, function (err) {
+        //console.log(err);
+      });
     }, function (err) {
       //console.log(err);
     });
@@ -68253,7 +68270,6 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
             employees.push(employee);
           }*/
         $scope.officeID = parseInt($scope.officeID);
-        console.log($scope.officeID);
         $http({
           method: 'POST',
           url: _env2.default.api.root + '/Api/AddEmployees',

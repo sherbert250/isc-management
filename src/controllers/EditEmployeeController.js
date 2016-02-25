@@ -107,6 +107,15 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', 'Uplo
   }).then(response => {
     //console.log(response);
     $scope.employee = response.data[0];
+    $http({
+      method: 'GET',
+      url: `${env.api.root}/Api/OfficeOfEmployee/` + $scope.employeeID
+    }).then(response => {
+      //console.log(response);
+      $scope.office = response.data[0];
+    }, err => {
+      //console.log(err);
+    });
   }, err => {
     //console.log(err);
   });
@@ -132,10 +141,19 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', 'Uplo
       data: $scope.employee
     })
     .then(response => {
-      if ($scope.editEmployeeForm.file.$valid && $scope.file) {
-        $scope.upload($scope.file);
-      }
-      $location.path('/view-employees');
+      $http({
+        method: 'POST',
+        url: `${env.api.root}/Api/EditEmployeeUpdatedForOffice/`+ $scope.office.officeID,
+        data: {employeeUpdated: 1}
+      })
+      .then(response => {
+        if ($scope.editEmployeeForm.file.$valid && $scope.file) {
+          $scope.upload($scope.file);
+        }
+        $location.path('/view-employees');
+      },err => {
+        //console.log(err);
+      });
     },err => {
       //console.log(err);
     });
