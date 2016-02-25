@@ -84,7 +84,17 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', 'Uplo
       if ($scope.editEmployeeForm.file.$valid && $scope.file) {
         $scope.upload($scope.file);
       }
-      $location.path('/view-employees');
+      //$location.path('/view-employees');
+      $http({
+        method: 'POST',
+        url: `${env.api.root}/Api/SendEmail`,
+        data: {reason: 'employeeUpdate'}
+      })
+      .then(response => {
+        $location.path('/view-employees');
+      }, err => {
+        //console.log(err);
+      });
     },err => {
       //console.log(err);
     });
