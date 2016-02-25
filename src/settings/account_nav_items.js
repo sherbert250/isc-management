@@ -8,7 +8,11 @@ export default [
     text: 'My Info'
   },
   {
+    href: '/update-password',
+    text: 'Update Password'
+  },
+  {
     href: '/sign-out',
     text: 'Sign Out'
-  }
+  }  
 ];

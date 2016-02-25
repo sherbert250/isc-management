@@ -1,0 +1,36 @@
+<div class="container">
+  <h1 class="rounded-header">{{header}}</h1>
+  <form name="addIndividualInfoForm" ng-submit="next(employee)">
+  <div class="row">
+    <div class="col-md-6">
+      <table class="table">
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+        </tr>
+        <tr>
+          <td><input class="form-control" type="text" name="firstName" ng-model="employee.firstName" required /></td>
+          <td><input class="form-control" type="text" name="lastName" ng-model="employee.lastName" required /></td>
+        </tr>
+        <tr>
+          <th>Email Address</th>
+        </tr>
+        <tr>
+          <td><input class="form-control" type="email" name="email" ng-model="employee.email" required /></td>
+        </tr>
+        <tr>
+          <th>Department</th>
+          <th>Job Title</th>
+        </tr>
+        <tr>
+          <td><input class="form-control" type="text" name="title" ng-model="employee.title" required /></td>
+          <td><input class="form-control" type="text" name="department" ng-model="employee.department" required /></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div>
+    <input class="btn btn-success btn-md add-next" ng-Click="submit()" name="submit" value="Submit" />
+  </div>
+</form>
+</div>

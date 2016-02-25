@@ -10,6 +10,7 @@ let iscApp = angular.module('iscApp', ['ngRoute', angularDragula(angular), 'ngFi
 //
 
 import AddCompanyController from './controllers/AddCompanyController';
+import AddEmployeeNewController from './controllers/AddEmployeeNewController';
 import AddEmployeeCoworkersController from './controllers/AddEmployeeCoworkersController';
 import AddEmployeeIndividualInfoController from './controllers/AddEmployeeIndividualInfoController';
 import AddEmployeePreferencesController from './controllers/AddEmployeePreferencesController';
@@ -39,13 +40,16 @@ import MyInfoController from './controllers/MyAccount/MyInfoController';
 import OfficesController from './controllers/OfficesController';
 import OfficeDetailController from './controllers/OfficeDetailController';
 import OfficeEmployeesController from './controllers/OfficeEmployeesController';
+import PasswordResetController from './controllers/PasswordResetController';
 import SeatingChartsController from './controllers/SeatingChartsController';
 import SignOutController from './controllers/MyAccount/SignOutController';
 import TeamMembersController from './controllers/TeamMembersController';
 import TemperatureRangesController from './controllers/TemperatureRangesController';
+import UpdatePasswordController from './controllers/UpdatePasswordController';
 import ViewEmployeesController from './controllers/ViewEmployeesController';
 
 iscApp.controller('AddCompanyController', AddCompanyController);
+iscApp.controller('AddEmployeeNewController', AddEmployeeNewController);
 iscApp.controller('AddEmployeeCoworkersController', AddEmployeeCoworkersController);
 iscApp.controller('AddEmployeeIndividualInfoController', AddEmployeeIndividualInfoController);
 iscApp.controller('AddEmployeePreferencesController', AddEmployeePreferencesController);
@@ -75,10 +79,12 @@ iscApp.controller('MyInfoController', MyInfoController);
 iscApp.controller('OfficesController', OfficesController);
 iscApp.controller('OfficeDetailController', OfficeDetailController);
 iscApp.controller('OfficeEmployeesController', OfficeEmployeesController);
+iscApp.controller('PasswordResetController', PasswordResetController);
 iscApp.controller('SeatingChartsController', SeatingChartsController);
 iscApp.controller('SignOutController', SignOutController);
 iscApp.controller('TeamMembersController', TeamMembersController);
 iscApp.controller('TemperatureRangesController', TemperatureRangesController);
+iscApp.controller('UpdatePasswordController', UpdatePasswordController);
 iscApp.controller('ViewEmployeesController', ViewEmployeesController);
 
 //
@@ -92,9 +98,13 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     templateUrl: 'views/add-company.html',
     controller: 'AddCompanyController'
   })
-  .when('/add-employee', {
+  /*.when('/add-employee', {
     templateUrl: 'views/add-employee-individual-info.html',
     controller: 'AddEmployeeIndividualInfoController'
+  })*/
+  .when('/add-employee', {
+    templateUrl: 'views/add-employee-new.html',
+    controller: 'AddEmployeeNewController'
   })
   .when('/add-employee-coworkers', {
     templateUrl: 'views/add-employee-coworkers.html',
@@ -204,6 +214,10 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     templateUrl: 'views/office-employees.html',
     controller: 'OfficeEmployeesController'
   })
+  .when('/password-reset', {
+    templateUrl: 'views/password-reset.html',
+    controller: 'PasswordResetController'
+  })
   .when('/seating-charts', {
     templateUrl: 'views/seating-charts.html',
     controller: 'SeatingChartsController'
@@ -219,6 +233,10 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   .when('/temperature-ranges', {
     templateUrl: 'views/temperature-ranges.html',
     controller: 'TemperatureRangesController'
+  })
+  .when('/update-password', {
+    templateUrl: 'views/update-password.html',
+    controller: 'UpdatePasswordController'
   })
   .when('/view-employees', {
     templateUrl: 'views/view-employees.html',
