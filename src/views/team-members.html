@@ -21,8 +21,14 @@
     </div>
     <div class="col-md-9">
       <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-3">
           <h3 class="employee-name">{{header}}</h3>
+        </div>
+        <div class="col-md-3">
+          <img src="{{imageURL}}" ng-show="!noURL" class="profile-image" />
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-warning btn-md" ng-show="canEdit" ng-click="updateTeammates(employeeID)">Update Team Members</button>
         </div>
         <div class="col-md-3">
           <button class="btn btn-success btn-md" ng-show="canEdit" ng-click="editEmployee(employeeID)">Edit Employee</button>
@@ -35,26 +41,36 @@
         </tr>
       </table>
       <h4 class="team-members-header">Team Members</h4>
-      <table class="table table-striped table-hover">
-        <thead>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email Address</th>
-          <th>Job Title</th>
-          <th>Department</th>
-          <th>Action</th>
-        </thead>
-        <tbody ng-repeat="model in collection">
-          <tr>
-            <td>{{model.firstName}}</td>
-            <td>{{model.lastName}}</td>
-            <td>{{model.email}}</td>
-            <td>{{model.title}}</td>
-            <td>{{model.department}}</td>
-            <td><button class="btn btn-info btn-sm" ng-click="view(model.employeeID)">View</button></td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="col-md-6">
+        <form class="form-inline">
+        <input ng-model="query1" type="text" class="form-control" placeholder="Search for" autofocus>
+        </form>
+      </div>
+      <div class="col-md-6">
+        <form class="form-inline">
+        <input ng-model="query2" type="text" class="form-control" placeholder="Search for" autofocus>
+        </form>
+      </div>
+      <div class="col-md-6">
+        <h5 class="team-members-subheader">Available Employees</h5>
+      </div>
+      <div class="col-md-6">
+        <h5 class="team-members-subheader">Team Members</h5>
+      </div>
+      <div class='parent1'>
+        <div class='wrapper1'>
+          <div class='container1' dragula='"bag1"' dragula-model='employees'  style="width:500px">
+            <div ng-repeat='employee in employees | filter: query1'>
+              <span>{{employee.firstName}} {{employee.lastName}}, {{employee.email}}</span>
+            </div>
+          </div>
+          <div class='container1' dragula='"bag1"' dragula-model='teammates'  style="width:500px">
+            <div ng-repeat='employee in teammates | filter: query2'>
+              <span>{{employee.firstName}} {{employee.lastName}}, {{employee.email}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -25,6 +25,7 @@ import CompaniesController from './controllers/CompaniesController';
 import CompanyOfficesController from './controllers/CompanyOfficesController';
 import EditCompanyController from './controllers/EditCompanyController';
 import EditEmployeeController from './controllers/EditEmployeeController';
+import EditEmployeePreferencesController from './controllers/EditEmployeePreferencesController';
 import EditOfficeController from './controllers/EditOfficeController';
 import EditTemperatureRangeController from './controllers/EditTemperatureRangeController';
 import EmployeeBlacklistController from './controllers/EmployeeBlacklistController';
@@ -64,6 +65,7 @@ iscApp.controller('CompaniesController', CompaniesController);
 iscApp.controller('CompanyOfficesController', CompanyOfficesController);
 iscApp.controller('EditCompanyController', EditCompanyController);
 iscApp.controller('EditEmployeeController', EditEmployeeController);
+iscApp.controller('EditEmployeePreferencesController', EditEmployeePreferencesController);
 iscApp.controller('EditOfficeController', EditOfficeController);
 iscApp.controller('EditTemperatureRangeController', EditTemperatureRangeController);
 iscApp.controller('EmployeeBlacklistController', EmployeeBlacklistController);
@@ -157,6 +159,10 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   .when('/edit-employee/:id', {
     templateUrl: 'views/edit-employee.html',
     controller: 'EditEmployeeController'
+  })
+  .when('/edit-employee-preferences/:id', {
+    templateUrl: 'views/edit-employee-preferences.html',
+    controller: 'EditEmployeePreferencesController'
   })
   .when('/edit-office/:id', {
     templateUrl: 'views/edit-office.html',

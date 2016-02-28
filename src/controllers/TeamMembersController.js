@@ -1,4 +1,5 @@
 import env from '../core/env';
+import permissions from '../settings/permissions';
 import primaryNavItems from '../settings/primary_nav_items';
 
 //
@@ -12,104 +13,27 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope.adminAccess = false;
   $scope.canEdit = false;
   $scope.employeeID = $routeParams.id;
-
-  // Handle Permissions
-  if(!$window.sessionStorage.token){
-      $location.path('/login');
-  } else {
-    // Validate the token
-    $http({
-      method: 'GET',
-      url : `${env.api.root}/Api/Verify`,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(response => {
-      //console.log('Response: ', response.data[0]);
-      // Cookie has expired
-      if (response.data.status == 400) {
-        delete $window.sessionStorage.token;
-        $location.path('/login');
-      }
-      var permissionLevel = response.data[0].permissionLevel;
-      $scope.masterID = response.data[0].employeeID;
-
-      // Perform sanity checks for set-up
-      $http({
-        method: 'GET',
-        url : `${env.api.root}/Api/ExistsCompany`
-      }).then(response => {
-        //console.log('Response: ', response.data[0]);
-        if (response.data[0].result == 0) {
-          $window.location.href = '/add-initial-company';
-        } else {
-          $http({
-            method: 'GET',
-            url : `${env.api.root}/Api/ExistsOffice`
-          }).then(response => {
-            //console.log('Response: ', response.data);
-            if (response.data[0].result == 0) {
-              $window.location.href = '/add-initial-office/' + $scope.masterID;
-            } else {
-              $http({
-                method: 'GET',
-                url : `${env.api.root}/Api/ExistsTemperatureRange`
-              }).then(response => {
-                //console.log('Response: ', response.data);
-                if (response.data[0].result == 0) {
-                  $window.location.href = '/add-initial-temperature-range';
-                }
-              }).then(err => {
-                //console.log('Error: ', err);
-              });
-              $http({
-                method: 'GET',
-                url : `${env.api.root}/Api/ExistsSuperadminWithOffice`
-              }).then(response => {
-                //console.log('Response: ', response.data);
-                if (response.data[0].result == 0) {
-                  $window.location.href = '/add-superadmin-to-office';
-                }
-              }).then(err => {
-                //console.log('Error: ', err);
-              });
-            }
-          }).then(err => {
-            //console.log('Error: ', err);
-          });
-        }
-      }).then(err => {
-        //console.log('Error: ', err);
-      });
-
-      // Permission Level
-      if (permissionLevel !== 'superadmin') {
-        if (permissionLevel === 'admin') {
-          // Redirect them to their info page
-          //$location.path('/my-info');
-          $scope.adminAccess = true;
-          $scope.canEdit = true;
-        } else if (permissionLevel === 'user') {
-          // Redirect them to their info page
-          //$location.path('/my-info');
-          if ($scope.employeeID == response.data[0].employeeID) {
-            $scope.canEdit = true;
-          }
-        } else {
-          alert('Invalid permission level');
-          $location.path('/')
-        }
-      } else {
-        $scope.adminAccess = true;
-        $scope.canEdit = true;
-        for (var i in $scope.primaryNavItems) {
-          $scope.primaryNavItems[i].show = true;
-        }
-      }
-    }).then(err => {
-      //console.log('Error: ', err);
-    });
-  }
+  $scope.employees = [
+    {
+      employeeID: 0,
+      firstName : " ",
+      lastName : " ",
+      email : " ",
+      title: " ",
+      department: " "
+    }
+  ];
+  $scope.teammates = [
+    {
+      employeeID: 0,
+      firstName : " ",
+      lastName : " ",
+      email : " ",
+      title: " ",
+      department: " "
+    }
+  ];
+  $scope = permissions.userPermissionCheck($http, $scope, $location, $window);
   $scope.isEmpty = function (obj) {
     for(var prop in obj) {
         if(obj.hasOwnProperty(prop))
@@ -120,6 +44,17 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope.editEmployee = function(employeeID) {
     $location.path('/edit-employee/' + employeeID);
   };
+  $scope.updateTeammates = function(employeeID) {
+    $http({
+      method: 'POST',
+      url: `${env.api.root}/Api/EditEmployeeTeammates/` + employeeID,
+      data : {teammates: $scope.teammates}
+    })
+    .then(response => {
+      $window.location.href ='/team-members/' + employeeID;
+    }, err => {
+    });
+  };
   $scope.view = function(employeeID) {
     $location.path('/employee-detail/' + employeeID);
   };
@@ -128,7 +63,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     url: `${env.api.root}/Api/EmployeeTeammates/` + $scope.employeeID
   }).then(response => {
     //console.log(response.data);
-    $scope.collection = response.data;
+    $scope.teammates = response.data;
   }, err => {
     //console.log(err);
   });
@@ -139,6 +74,12 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     //console.log(response.data);
     $scope.employee = response.data[0];
     $scope.header = $scope.employee.firstName + ' ' + $scope.employee.lastName;
+    if ($scope.employee.pictureAddress !== "") {
+      $scope.imageURL = `${env.api.root}/Api/Media/ProfileImage/` + $scope.employeeID;
+      $scope.noURL = false;
+    } else {
+      $scope.noURL = true;
+    }
   }, err => {
     //console.log(err);
   });
@@ -151,6 +92,15 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     } else {
       //console.log(response.data);
       $scope.officeID = response.data[0].officeID;
+      $http({
+        method: 'GET',
+        url: `${env.api.root}/Api/EmployeesNotInTeammates/` + $scope.employeeID + '/' + $scope.officeID
+      }).then(response => {
+        //console.log(response.data);
+        $scope.employees = response.data;
+      }, err => {
+        //console.log(err);
+      });
       $http({
         method: 'GET',
         url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID
