@@ -1,12 +1,14 @@
 import env from '../core/env';
+import primaryNavItems from '../settings/primary_nav_items';
 
 //
-// Add Employee Controller
+// Edit Employee Controller
 //
-// Call Query to add employee to the database
+// Call Query to edit employee the database
 //
 
-export default ['$http', '$scope', '$location', '$routeParams', '$window', ($http, $scope, $location, $routeParams, $window) => {
+export default ['$http', '$scope', '$location', '$routeParams', '$window', 'Upload', ($http, $scope, $location, $routeParams, $window, Upload) => {
+  $scope.primaryNavItems = primaryNavItems;
   if(!$window.sessionStorage.token){
       $location.path('/login');
   } else {
@@ -25,6 +27,57 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url : `${env.api.root}/Api/ExistsCompany`
+      }).then(response => {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url : `${env.api.root}/Api/ExistsOffice`
+          }).then(response => {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url : `${env.api.root}/Api/ExistsTemperatureRange`
+              }).then(response => {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(err => {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url : `${env.api.root}/Api/ExistsSuperadminWithOffice`
+              }).then(response => {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(err => {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(err => {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(err => {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -36,6 +89,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         } else {
           alert('Invalid permission level');
           $location.path('/')
+        }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
         }
       }
     }).then(err => {
@@ -50,9 +107,33 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   }).then(response => {
     //console.log(response);
     $scope.employee = response.data[0];
+    $http({
+      method: 'GET',
+      url: `${env.api.root}/Api/OfficeOfEmployee/` + $scope.employeeID
+    }).then(response => {
+      //console.log(response);
+      $scope.office = response.data[0];
+    }, err => {
+      //console.log(err);
+    });
   }, err => {
     //console.log(err);
   });
+
+  // Upload on file select or drop
+  $scope.upload = function (file) {
+      Upload.upload({
+          url: `${env.api.root}/Api/Upload/Image`,
+          data: {file: file, employeeID: $scope.employeeID}
+      }).then(function (response) {
+          console.log('Success ' + response.config.data.file.name + ' uploaded. Response status: ' + response.status);
+      }, function (response) {
+          console.log('Error status: ' + response.status);
+      }, function (event) {
+          var progressPercentage = parseInt(100.0 * event.loaded / event.total);
+          console.log('progress: ' + progressPercentage + '% ' + event.config.data.file.name);
+      });
+  };
   $scope.submit = function() {
     $http({
       method: 'POST',
@@ -60,7 +141,26 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
       data: $scope.employee
     })
     .then(response => {
-      $location.path('/view-employees');
+      $http({
+        method: 'POST',
+        url: `${env.api.root}/Api/EditEmployeeUpdatedForOffice/`+ $scope.office.officeID,
+        data: {employeeUpdated: 1}
+      })
+      .then(response => {
+        if ($scope.editEmployeeForm.file.$valid && $scope.file) {
+          $scope.upload($scope.file);
+        }
+        $http({
+          method: 'POST',
+          url: `${env.api.root}/Api/SendEmail`,
+          data: {reason: 'employeeUpdate'}
+        })
+        .then(response => {
+          $location.path('/view-employees');
+        }, err => {
+        });
+      },err => {
+      });
     },err => {
       //console.log(err);
     });

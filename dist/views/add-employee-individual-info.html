@@ -1,0 +1,55 @@
+<div class="container">
+  <h1 class="rounded-header">{{header}}</h1>
+  <div class="progress">
+    <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width:30%"></div>
+  </div>
+  <form name="addIndividualInfoForm" ng-submit="next(employee)">
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table">
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+        </tr>
+        <tr>
+          <td><input class="form-control" type="text" name="firstName" ng-model="employee.firstName" required /></td>
+          <td><input class="form-control" type="text" name="lastName" ng-model="employee.lastName" required /></td>
+        </tr>
+        <tr>
+          <th>Email Address</th>
+        </tr>
+        <tr>
+          <td><input class="form-control" type="email" name="email" ng-model="employee.email" required /></td>
+        </tr>
+        <tr>
+          <th>Job Title</th>
+        </tr>
+        <tr>
+          <td><input class="form-control" type="text" name="title" ng-model="employee.title" required /></td>
+        </tr>
+        <tr>
+          <th>Department</th>
+        </tr>
+        <tr>
+          <td><input class="form-control" type="text" name="department" ng-model="employee.department" required /></td>
+        </tr>
+        <tr>
+          <th>Select Office for Employee</th>
+        </tr>
+        <tr>
+          <td>
+            <div class="form-group">
+              <select class="form-control" id="office" name="office" ng-model="employee.officeID" required>
+                <option ng-repeat="item in offices" value="{{item.officeID}}">{{item.officeName}}</option>
+              </select>
+            </div>
+         </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div>
+    <input class="btn btn-success btn-md add-next" type="submit" name="submit" value="Next Step >>" />
+  </div>
+</form>
+</div>

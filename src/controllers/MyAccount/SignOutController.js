@@ -1,16 +1,15 @@
-import env from '../core/env';
+import env from '../../core/env';
 
 //
 // Sign Out Controller
 //
-// Show a list of employees
+// Sign out of current employee session
 //
 
 export default ['$http', '$scope', '$location', '$window', ($http, $scope, $location, $window) => {
   if(!$window.sessionStorage.token){
-    $location.path('/login');
   } else {
     delete $window.sessionStorage.token;
-    $location.path('/login');
   }
+  $location.path('/login');
 }];

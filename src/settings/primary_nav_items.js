@@ -4,23 +4,33 @@
 
 export default [
   {
-    href: '/',
-    text: 'Home'
+    href: '/login',
+    text: 'Login',
+    show: true
   },
   {
-    href: '/login',
-    text: 'Login'
+    href: '/companies',
+    text: 'Companies',
+    show: false
   },
   {
     href: '/view-employees',
-    text: 'Employees'
+    text: 'Employees',
+    show: false
   },
   {
     href: '/offices',
-    text: 'Offices'
+    text: 'Offices',
+    show: false
   },
   {
     href: '/seating-charts',
-    text: 'Seating Charts'
+    text: 'Seating Charts',
+    show: false
+  },
+  {
+    href: '/temperature-ranges',
+    text: 'Temperature Ranges',
+    show: false
   }
 ];

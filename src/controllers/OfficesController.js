@@ -1,5 +1,6 @@
 import employees from '../data/employees';
 import env from '../core/env';
+import primaryNavItems from '../settings/primary_nav_items'
 
 //
 // View Offices Controller
@@ -8,6 +9,7 @@ import env from '../core/env';
 //
 
 export default ['$http', '$scope', '$location', '$window', ($http, $scope, $location, $window) => {
+  $scope.primaryNavItems = primaryNavItems;
   // Handle Permissions
   if(!$window.sessionStorage.token){
       $location.path('/login');
@@ -27,6 +29,57 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url : `${env.api.root}/Api/ExistsCompany`
+      }).then(response => {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url : `${env.api.root}/Api/ExistsOffice`
+          }).then(response => {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url : `${env.api.root}/Api/ExistsTemperatureRange`
+              }).then(response => {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(err => {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url : `${env.api.root}/Api/ExistsSuperadminWithOffice`
+              }).then(response => {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(err => {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(err => {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(err => {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -37,6 +90,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
         } else {
           alert('Invalid permission level');
           $location.path('/')
+        }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
         }
       }
     }).then(err => {
@@ -53,15 +110,15 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
       url: `${env.api.root}/Api/DeleteOffice/` + officeID
     }).then(response => {
       //console.log(response);
-    }, err => {
-      //console.log(err);
-    });
-    $http({
-      method: 'GET',
-      url: `${env.api.root}/Api/AllCompaniesForAllOffices`
-    }).then(response => {
-      //console.log(response);
-      $scope.offices= response.data;
+      $http({
+        method: 'GET',
+        url: `${env.api.root}/Api/AllCompaniesForAllOffices`
+      }).then(response => {
+        //console.log(response);
+        $scope.offices= response.data;
+      }, err => {
+        //console.log(err);
+      });
     }, err => {
       //console.log(err);
     });
@@ -78,6 +135,15 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   }).then(response => {
     //console.log(response);
     $scope.offices = response.data;
+  }, err => {
+    //console.log(err);
+  });
+  $http({
+    method: 'GET',
+    url: `${env.api.root}/Api/AllCompanies`
+  }).then(response => {
+    //console.log(response);
+    $scope.companies = response.data;
   }, err => {
     //console.log(err);
   });

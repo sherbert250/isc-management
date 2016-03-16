@@ -62701,15 +62701,492 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Add Employee Controller
+// Add Company Controller
+//
+// Call Query to add Company to the database
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            $location.path('/my-info');
+          } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
+  $scope.header = "Add a Company";
+  $scope.company = {
+    companyName: ""
+  };
+  $scope.submit = function () {
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/AddCompany',
+      data: $scope.company
+    }).then(function (response) {
+      $window.location.href = '/companies';
+    }, function (err) {
+      //console.log(err);
+    });
+  };
+}];
+
+},{"../core/env":165,"../settings/primary_nav_items":169}],128:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Add Employee Coworkers Controller
+//
+// Call Query to add employee coworkers to the database
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', 'addService', function ($http, $scope, $location, $window, addService) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.teammates = [];
+  $scope.isEmpty = function (obj) {
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) return false;
+    }
+    return true;
+  };
+  $scope.employees = [{
+    employeeID: 0,
+    firstName: " ",
+    lastName: " ",
+    email: " ",
+    title: " ",
+    department: " "
+  }];
+  $scope.possibleTeammates = [{
+    employeeID: 0,
+    firstName: " ",
+    lastName: " ",
+    email: " ",
+    title: " ",
+    department: " "
+  }];
+  $scope.blacklist = [];
+  $scope.whitelist = [];
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            $location.path('/my-info');
+          } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+    $scope.header = "Add an Employee- Coworkers";
+    $scope.employee = addService.get();
+    console.log($scope.employee);
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/EmployeesNotInWhiteListOrBlackList/' + 0 + '/' + $scope.employee.officeID
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      $scope.employees = response.data;
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.employee.officeID
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      $scope.possibleTeammates = response.data;
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
+  $scope.submit = function () {
+    $scope.employee.teammates = $scope.teammates;
+    $scope.employee.whitelist = $scope.whitelist;
+    $scope.employee.blacklist = $scope.blacklist;
+    console.log($scope.employee);
+
+    // Add employee query
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/AddEmployee',
+      data: $scope.employee
+    }).then(function (response) {
+      addService.set({});
+      $window.location.href = '/view-employees';
+    }, function (err) {
+      //console.log(err);
+    });
+    addService.set({});
+  };
+  if ($scope.isEmpty($scope.employee)) {
+    $location.path('/add-employee');
+  }
+}];
+
+},{"../core/env":165,"../settings/primary_nav_items":169}],129:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Add Employee Individual Info Controller
+//
+// Call Query to add individual employee info to the database
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', 'addService', function ($http, $scope, $location, $window, addService) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.employees = [{
+    employeeID: 0,
+    firstName: " ",
+    lastName: " ",
+    email: " ",
+    title: " ",
+    department: " "
+  }];
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            $location.path('/my-info');
+          } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/AllOffices'
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      $scope.offices = response.data;
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
+  $scope.header = "Add an Employee- Individual Information";
+  $scope.employee = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    department: "",
+    title: "",
+    restroomUsage: 1,
+    noisePreference: 1,
+    outOfDesk: 1,
+    pictureAddress: "",
+    permissionLevel: "user"
+  };
+  $scope.next = function (employee) {
+    employee.officeID = parseInt(employee.officeID);
+    console.log(employee);
+    addService.set(employee);
+    console.log("Added to service" + addService.get());
+    var test = addService.get();
+    console.log(test.firstName);
+    $location.path('/add-employee-preferences');
+  };
+}];
+
+},{"../core/env":165,"../settings/primary_nav_items":169}],130:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Add Employee New Controller
 //
 // Call Query to add employee to the database
 //
 
-exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+exports.default = ['$http', '$scope', '$location', '$window', 'addService', function ($http, $scope, $location, $window, addService) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+
   if (!$window.sessionStorage.token) {
     $location.path('/login');
   } else {
@@ -62739,6 +63216,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
             alert('Invalid permission level');
             $location.path('/');
           }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -62752,26 +63233,42 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     password: "",
     department: "",
     title: "",
-    restroomUsage: 0,
-    noisePreference: 0,
-    outOfDesk: 0,
+    restroomUsage: 1,
+    noisePreference: 1,
+    outOfDesk: 1,
     pictureAddress: "",
-    permissionLevel: ""
+    permissionLevel: "user"
   };
+
   $scope.submit = function () {
+    $scope.employee.password = Math.round(Math.pow(36, 8) - Math.random() * Math.pow(36, 7)).toString(36).slice(1);
+    // Add employee query
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddEmployee',
       data: $scope.employee
     }).then(function (response) {
-      $location.path('/view-employees');
+      addService.set({});
+      //$location.path('/view-employees');
     }, function (err) {
       //console.log(err);
+    });
+    addService.set({});
+    //send Email to new employee
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/SendEmail',
+      data: { to: $scope.employee.email, reason: 'employeeAdd', password: $scope.employee.password }
+    }).then(function (response) {
+      addService.set({});
+      $location.path('/view-employees');
+    }, function (err) {
+      console.log(err);
     });
   };
 }];
 
-},{"../core/env":148}],128:[function(require,module,exports){
+},{"../core/env":165,"../settings/primary_nav_items":169}],131:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62782,15 +63279,27 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Add Employee Controller
+// Add Employee Preferences Controller
 //
-// Call Query to add employee to the database
+// Call Query to add employee preferences to the database
 //
 
-exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+exports.default = ['$http', '$scope', '$location', '$window', 'addService', function ($http, $scope, $location, $window, addService) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.isEmpty = function (obj) {
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) return false;
+    }
+    return true;
+  };
+  $scope.temperatureRanges = [];
   if (!$window.sessionStorage.token) {
     $location.path('/login');
   } else {
@@ -62809,6 +63318,57 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -62820,6 +63380,151 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
             alert('Invalid permission level');
             $location.path('/');
           }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
+  $scope.header = "Add an Employee- Preferences";
+  $scope.employee = addService.get();
+  console.log($scope.employee);
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllTempRanges'
+  }).then(function (response) {
+    //console.log('Response: ', response.data[0]);
+    $scope.temperatureRanges = response.data;
+    $scope.employee.temperatureRangeID = response.data[0].rangeID.toString();
+  }).then(function (err) {
+    //console.log('Error: ', err);
+  });
+  $scope.next = function (employee) {
+    $scope.employee.temperatureRangeID = parseInt($scope.employee.temperatureRangeID);
+    console.log(employee);
+    addService.set(employee);
+    console.log("Added to service" + addService.get());
+    var test = addService.get();
+    console.log(test.firstName);;
+    $location.path('/add-employee-coworkers');
+  };
+  if ($scope.isEmpty($scope.employee)) {
+    $location.path('/add-employee');
+  }
+}];
+
+},{"../core/env":165,"../settings/primary_nav_items":169}],132:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Add Office Controller
+//
+// Call Query to add office to the database
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            $location.path('/my-info');
+          } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -62835,20 +63540,29 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     officeState: "",
     officeZipcode: ""
   };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllCompanies'
+  }).then(function (response) {
+    //console.log('Response: ', response.data);
+    $scope.companies = response.data;
+  }).then(function (err) {
+    //console.log('Error: ', err);
+  });
   $scope.submit = function () {
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddOffice',
       data: $scope.office
     }).then(function (response) {
-      $location.path('/offices');
+      $window.location.href = '/offices';
     }, function (err) {
       //console.log(err);
     });
   };
 }];
 
-},{"../core/env":148}],129:[function(require,module,exports){
+},{"../core/env":165,"../settings/primary_nav_items":169}],133:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62859,15 +63573,20 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Add Employee Controller
+// Add Office Employee Controller
 //
-// Call Query to add employee to the database
+// Call Query to add employee to office in the database
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   if (!$window.sessionStorage.token) {
     $location.path('/login');
   } else {
@@ -62886,6 +63605,816 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            $location.path('/my-info');
+          } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  };
+  $scope.employee = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    department: "",
+    title: "",
+    noisePreference: 1,
+    outOfDesk: 1,
+    restroomUsage: 1,
+    pictureAddress: "",
+    permissioneLevel: "",
+    officeID: $routeParams.id
+  };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/Office/' + $scope.employee.officeID
+  }).then(function (response) {
+    //console.log('Response: ', response.data);
+    $scope.employee.officeID = response.data[0].officeID;
+    $scope.header = "Add an Employee to " + response.data[0].officeName;
+  }).then(function (err) {
+    //console.log('Error: ', err);
+  });
+  $scope.submit = function () {
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/AddOfficeEmployee',
+      data: $scope.employee
+    }).then(function (response) {
+      $window.location.href = '/office-employees/' + $scope.employee.officeID;
+    }, function (err) {
+      //console.log(err);
+    });
+  };
+}];
+
+},{"../core/env":165,"../settings/primary_nav_items":169}],134:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Add Temperature Range Controller
+//
+// Call Query to add temperature range to the database
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            $location.path('/my-info');
+          } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
+  $scope.header = "Add a Temperature Range";
+  $scope.temperatureRange = {
+    lower: 0,
+    upper: 1
+  };
+  $scope.submit = function () {
+    var temp;
+    if ($scope.temperatureRange.lower > $scope.temperatureRange.upper) {
+      temp = $scope.temperatureRange.lower;
+      $scope.temperatureRange.lower = $scope.temperatureRange.upper;
+      $scope.temperatureRange.upper = temp;
+    }
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/AddTemperatureRange',
+      data: $scope.temperatureRange
+    }).then(function (response) {
+      $window.location.href = '/temperature-ranges';
+    }, function (err) {
+      //console.log(err);
+    });
+  };
+}];
+
+},{"../core/env":165,"../settings/primary_nav_items":169}],135:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _employees = require('../data/employees');
+
+var _employees2 = _interopRequireDefault(_employees);
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// View Companies Controller
+//
+// Show a list of Companies
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  // Handle Permissions
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          $location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+          // Redirect them to their info page
+          $location.path('/my-info');
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
+  $scope.header = 'All Companies';
+  $scope.add = function () {
+    $location.path('/add-company');
+  };
+  $scope.delete = function (companyID) {
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/DeleteCompany/' + companyID
+    }).then(function (response) {
+      //console.log(response);
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/AllCompanies'
+      }).then(function (response) {
+        //console.log(response);
+        $scope.companies = response.data;
+      }, function (err) {
+        //console.log(err);
+      });
+    }, function (err) {
+      //console.log(err);
+    });
+  };
+  $scope.edit = function (companyID) {
+    $location.path('/edit-company/' + companyID);
+  };
+  $scope.view = function (companyID) {
+    $location.path('/company-offices/' + companyID);
+  };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllCompanies'
+  }).then(function (response) {
+    //console.log(response);
+    $scope.companies = response.data;
+  }, function (err) {
+    //console.log(err);
+  });
+}];
+
+},{"../core/env":165,"../data/employees":166,"../settings/primary_nav_items":169}],136:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _employees = require('../data/employees');
+
+var _employees2 = _interopRequireDefault(_employees);
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// View Company Offices Controller
+//
+// Show a list of offices for a company
+//
+
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  // Handle Permissions
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          $location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+          // Redirect them to their info page
+          $location.path('/my-info');
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
+  $scope.add = function () {
+    $location.path('/add-office');
+  };
+  $scope.delete = function (officeID) {
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/DeleteOffice/' + officeID
+    }).then(function (response) {
+      //console.log(response);
+    }, function (err) {
+      //console.log(err);
+    });
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/AllCompaniesForAllOffices'
+    }).then(function (response) {
+      //console.log(response);
+      $scope.offices = response.data;
+    }, function (err) {
+      //console.log(err);
+    });
+  };
+  $scope.edit = function (officeID) {
+    $location.path('/edit-office/' + officeID);
+  };
+  $scope.view = function (officeID) {
+    $location.path('/office-detail/' + officeID);
+  };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/Company/' + $routeParams.id
+  }).then(function (response) {
+    //console.log(response);
+    $scope.company = response.data[0];
+    $scope.header = 'Offices for ' + $scope.company.companyName;
+  }, function (err) {});
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/CompanyOffices/' + $routeParams.id
+  }).then(function (response) {
+    //console.log(response);
+    $scope.offices = response.data;
+  }, function (err) {});
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllCompanies'
+  }).then(function (response) {
+    //console.log(response);
+    $scope.companies = response.data;
+  }, function (err) {
+    //console.log(err);
+  });
+}];
+
+},{"../core/env":165,"../data/employees":166,"../settings/primary_nav_items":169}],137:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Edit Company Controller
+//
+// Call Query to Edit Company in the database
+//
+
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            $location.path('/my-info');
+          } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
+  $scope.header = "Edit a Company";
+  $scope.companyID = $routeParams.id;
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/Company/' + $scope.companyID
+  }).then(function (response) {
+    ////console.log(response);
+    $scope.company = response.data[0];
+  }, function (err) {
+    ////console.log(err);
+  });
+  $scope.submit = function () {
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/EditCompany/' + $scope.companyID,
+      data: $scope.company
+    }).then(function (response) {
+      $window.location.href = '/companies';
+    }, function (err) {
+      //console.log(err);
+    });
+  };
+}];
+
+},{"../core/env":165,"../settings/primary_nav_items":169}],138:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Edit Employee Controller
+//
+// Call Query to edit employee the database
+//
+
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'Upload', function ($http, $scope, $location, $routeParams, $window, Upload) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -62898,6 +64427,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
             alert('Invalid permission level');
             $location.path('/');
           }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -62911,23 +64444,62 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }).then(function (response) {
     //console.log(response);
     $scope.employee = response.data[0];
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
+    }).then(function (response) {
+      //console.log(response);
+      $scope.office = response.data[0];
+    }, function (err) {
+      //console.log(err);
+    });
   }, function (err) {
     //console.log(err);
   });
+
+  // Upload on file select or drop
+  $scope.upload = function (file) {
+    Upload.upload({
+      url: _env2.default.api.root + '/Api/Upload/Image',
+      data: { file: file, employeeID: $scope.employeeID }
+    }).then(function (response) {
+      console.log('Success ' + response.config.data.file.name + ' uploaded. Response status: ' + response.status);
+    }, function (response) {
+      console.log('Error status: ' + response.status);
+    }, function (event) {
+      var progressPercentage = parseInt(100.0 * event.loaded / event.total);
+      console.log('progress: ' + progressPercentage + '% ' + event.config.data.file.name);
+    });
+  };
   $scope.submit = function () {
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/EditEmployee/' + $scope.employeeID,
       data: $scope.employee
     }).then(function (response) {
-      $location.path('/view-employees');
+      $http({
+        method: 'POST',
+        url: _env2.default.api.root + '/Api/EditEmployeeUpdatedForOffice/' + $scope.office.officeID,
+        data: { employeeUpdated: 1 }
+      }).then(function (response) {
+        if ($scope.editEmployeeForm.file.$valid && $scope.file) {
+          $scope.upload($scope.file);
+        }
+        $http({
+          method: 'POST',
+          url: _env2.default.api.root + '/Api/SendEmail',
+          data: { reason: 'employeeUpdate' }
+        }).then(function (response) {
+          $location.path('/view-employees');
+        }, function (err) {});
+      }, function (err) {});
     }, function (err) {
       //console.log(err);
     });
   };
 }];
 
-},{"../core/env":148}],130:[function(require,module,exports){
+},{"../core/env":165,"../settings/primary_nav_items":169}],139:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62938,15 +64510,20 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Add Employee Controller
+// Edit Office Controller
 //
-// Call Query to add employee to the database
+// Call Query to edit office to the database
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   if (!$window.sessionStorage.token) {
     $location.path('/login');
   } else {
@@ -62965,6 +64542,57 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -62976,6 +64604,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
             alert('Invalid permission level');
             $location.path('/');
           }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -62998,14 +64630,14 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
       url: _env2.default.api.root + '/Api/EditOffice/' + $scope.officeID,
       data: $scope.office
     }).then(function (response) {
-      $location.path('/offices');
+      $window.location.href = '/offices';
     }, function (err) {
       //console.log(err);
     });
   };
 }];
 
-},{"../core/env":148}],131:[function(require,module,exports){
+},{"../core/env":165,"../settings/primary_nav_items":169}],140:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63016,6 +64648,148 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Edit Temperature Range Controller
+//
+// Call Query to edit temperature range in the database
+//
+
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            $location.path('/my-info');
+          } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
+  $scope.header = "Edit a Temperature Range";
+  $scope.temperatureRangeID = $routeParams.id;
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/TemperatureRange/' + $scope.temperatureRangeID
+  }).then(function (response) {
+    ////console.log(response);
+    $scope.temperatureRange = response.data[0];
+  }, function (err) {
+    ////console.log(err);
+  });
+  $scope.submit = function () {
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/EditCompany/' + $scope.temperatureRangeID,
+      data: $scope.temperatureRange
+    }).then(function (response) {
+      $window.location.href = '/temperature-ranges';
+    }, function (err) {
+      //console.log(err);
+    });
+  };
+}];
+
+},{"../core/env":165,"../settings/primary_nav_items":169}],141:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63025,6 +64799,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -63044,6 +64819,57 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -63055,6 +64881,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
               alert('Invalid permission level');
               $location.path('/');
             }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -63086,7 +64916,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":148}],132:[function(require,module,exports){
+},{"../core/env":165,"../settings/primary_nav_items":169}],142:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63097,15 +64927,25 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Employee  Coworkers Controller
+// Employee Coworkers Controller
 //
 // Show a list of all employees in an employee's whitelist
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.canEdit = false;
+  $scope.adminAccess = false;
+  $scope.employeeID = $routeParams.employeeID;
+  $scope.officeID = $routeParams.officeID;
+
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -63125,24 +64965,84 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
           //$location.path('/my-info');
+          $scope.canEdit = true;
+          $scope.adminAccess = true;
         } else if (permissionLevel === 'user') {
-            // Redirect them to their info page
-            //$location.path('/my-info');
-          } else {
-              alert('Invalid permission level');
-              $location.path('/');
-            }
+          // Redirect them to their info page
+          //$location.path('/my-info');
+          if ($scope.employeeID == response.data[0].employeeID) {
+            $scope.canEdit = true;
+          }
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
+      } else {
+        $scope.adminAccess = true;
+        $scope.canEdit = true;
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
     });
   }
-  $scope.employeeID = $routeParams.employeeID;
-  $scope.officeID = $routeParams.officeID;
   $scope.employees = [{
     employeeID: 0,
     firstName: " ",
@@ -63247,7 +65147,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":148}],133:[function(require,module,exports){
+},{"../core/env":165,"../settings/primary_nav_items":169}],143:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63258,6 +65158,10 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63267,6 +65171,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.adminAccess = false;
+  $scope.canEdit = false;
+  $scope.employeeID = $routeParams.id;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -63286,23 +65194,84 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
           //$location.path('/my-info');
+          $scope.adminAccess = true;
+          $scope.canEdit = true;
         } else if (permissionLevel === 'user') {
-            // Redirect them to their info page
-            //$location.path('/my-info');
-          } else {
-              alert('Invalid permission level');
-              $location.path('/');
-            }
+          // Redirect them to their info page
+          //$location.path('/my-info');
+          if ($scope.employeeID == response.data[0].employeeID) {
+            $scope.canEdit = true;
+          }
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
+      } else {
+        $scope.adminAccess = true;
+        $scope.canEdit = true;
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
     });
   }
-  $scope.employeeID = $routeParams.id;
   $scope.editEmployee = function (employeeID) {
     $location.path('/edit-employee/' + employeeID);
   };
@@ -63359,7 +65328,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":148}],134:[function(require,module,exports){
+},{"../core/env":165,"../settings/primary_nav_items":169}],144:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63370,15 +65339,23 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Employee Detail Controller
+// Employee Preferences Controller
 //
-// Show all properties for an employee
+// Show all preferences for an employee
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.adminAccess = false;
+  $scope.canEdit = false;
+  $scope.employeeID = $routeParams.id;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -63398,23 +65375,84 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
           //$location.path('/my-info');
+          $scope.adminAccess = true;
+          $scope.canEdit = true;
         } else if (permissionLevel === 'user') {
-            // Redirect them to their info page
-            //$location.path('/my-info');
-          } else {
-              alert('Invalid permission level');
-              $location.path('/');
-            }
+          // Redirect them to their info page
+          //$location.path('/my-info');
+          if ($scope.employeeID == response.data[0].employeeID) {
+            $scope.canEdit = true;
+          }
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
+      } else {
+        $scope.adminAccess = true;
+        $scope.canEdit = true;
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
     });
   }
-  $scope.employeeID = $routeParams.id;
   $scope.editEmployee = function (employeeID) {
     $location.path('/edit-employee/' + employeeID);
   };
@@ -63471,7 +65509,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":148}],135:[function(require,module,exports){
+},{"../core/env":165,"../settings/primary_nav_items":169}],145:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63482,6 +65520,10 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63491,6 +65533,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -63510,6 +65553,57 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -63521,6 +65615,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
               alert('Invalid permission level');
               $location.path('/');
             }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -63552,7 +65650,28 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":148}],136:[function(require,module,exports){
+},{"../core/env":165,"../settings/primary_nav_items":169}],146:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Sign Out Controller
+//
+// Sign out of current employee session
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {}];
+
+},{"../../core/env":165}],147:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63562,6 +65681,10 @@ Object.defineProperty(exports, "__esModule", {
 var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -63573,6 +65696,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -63592,6 +65716,57 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -63603,6 +65778,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
             alert('Invalid permission level');
             $location.path('/');
           }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -63631,28 +65810,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":148}],137:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-//
-// Home Controller
-//
-// The home page
-//
-
-exports.default = ['$scope', '$location', function ($scope, $location) {
-  $scope.welcome = ['Welcome to the Ideal Seating Chart web application. Lucid Agency contacted Arizona State University in order to request that an ASU capstone team create a project that addresses a major problem that they were facing.', 'They wanted a web application that could create an seating chart that considers employee preferences. This is a major issue in many corporate environments. Without tools such as the one requested, the office manager must assign employees to seats manually. In addition, if the seating chart was to accomodate the employee preferences, the office manager would also have to collect those preferences themselves. Then, the office manager would have to find a method to rank and then reflect those changes in the seating chart they would soon create. This web application addresses all of those issues.'];
-  $scope.objective = ['The primary objective is to provide a web application that uses employees, their preferences, and a floor plan to create an optimized seating chart.', 'The application would aggregate the database of employees and use a clustering algorithm based on the available seats in the floor plan to assign employees to seats. The seating arrangement should optimally match seats to employees by preferences and related jobs, but will limit the tradeoffs of working in a cross functional environment.'];
-  $scope.benefits = ['Save time automating the seating chart creation process.', 'Automatically gather employee preferences instead of doing so manually', 'Employ seating chart that create conducive working environments by meeting employee preferences.', 'Quickly modify seating chart to reflect current changes in the office layout', 'Tailor office layout to needs of projects, employees, etc.', 'Easily manage and scale to large office spaces with numerous employees.'];
-  $scope.login = function () {
-    $location.path('/login');
-  };
-}];
-
-},{}],138:[function(require,module,exports){
+},{"../core/env":165,"../settings/primary_nav_items":169}],148:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63663,6 +65821,10 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63672,6 +65834,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  for (var i in $scope.primaryNavItems) {
+    if (i != 0) {
+      $scope.primaryNavItems[i].show = false;
+    }
+  }
   if ($window.sessionStorage.token) {
     //Validate the token
     $http({
@@ -63686,6 +65854,65 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       if (response.data.status == 400) {
         delete $window.sessionStorage.token;
         $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      $scope.employeeID = response.data[0].employeeID;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            //$location.path('/my-info');
+          } else {}
+      } else {
+        // Perform sanity checks for set-up
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/ExistsCompany'
+        }).then(function (response) {
+          //console.log('Response: ', response.data[0]);
+          if (response.data[0].result == 0) {
+            $window.location.href = '/add-initial-company';
+          } else {
+            $http({
+              method: 'GET',
+              url: _env2.default.api.root + '/Api/ExistsOffice'
+            }).then(function (response) {
+              //console.log('Response: ', response.data);
+              if (response.data[0].result == 0) {
+                $window.location.href = '/add-initial-office/' + $scope.employeeID;
+              } else {
+                $http({
+                  method: 'GET',
+                  url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+                }).then(function (response) {
+                  //console.log('Response: ', response.data);
+                  if (response.data[0].result == 0) {
+                    $window.location.href = '/add-initial-temperature-range';
+                  }
+                }).then(function (err) {
+                  //console.log('Error: ', err);
+                });
+                $http({
+                  method: 'GET',
+                  url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+                }).then(function (response) {
+                  //console.log('Response: ', response.data);
+                  if (response.data[0].result == 0) {
+                    $window.location.href = '/add-superadmin-to-office';
+                  }
+                }).then(function (err) {
+                  //console.log('Error: ', err);
+                });
+              }
+            }).then(function (err) {
+              //console.log('Error: ', err);
+            });
+          }
+        }).then(function (err) {
+          //console.log('Error: ', err);
+        });
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -63713,7 +65940,66 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       $scope.message = response.data.message;
       if ($window.sessionStorage.token === 'undefined' || $window.sessionStorage.token === null) {
         $scope.incorrectLogin = true;
+        delete $window.sessionStorage.token;
       } else {
+        //Validate the token
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/Verify',
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(function (response) {
+          $scope.employeeID = response.data[0].employeeID;
+
+          // Perform sanity checks for set-up
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsCompany'
+          }).then(function (response) {
+            //console.log('Response: ', response.data[0]);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-company';
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-office/' + $scope.employeeID;
+                } else {
+                  $http({
+                    method: 'GET',
+                    url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+                  }).then(function (response) {
+                    //console.log('Response: ', response.data);
+                    if (response.data[0].result == 0) {
+                      $window.location.href = '/add-initial-temperature-range';
+                    }
+                  }).then(function (err) {
+                    //console.log('Error: ', err);
+                  });
+                  $http({
+                    method: 'GET',
+                    url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+                  }).then(function (response) {
+                    //console.log('Response: ', response.data);
+                    if (response.data[0].result == 0) {
+                      $window.location.href = '/add-superadmin-to-office';
+                    }
+                  }).then(function (err) {
+                    //console.log('Error: ', err);
+                  });
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }).then(function (err) {});
         $location.path('/my-info');
       }
     }, function (err) {
@@ -63723,7 +66009,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":148}],139:[function(require,module,exports){
+},{"../core/env":165,"../settings/primary_nav_items":169}],149:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63757,7 +66043,7 @@ exports.default = ['$scope', '$route', '$routeParams', '$location', function ($s
   $scope.primaryNavItems = _primary_nav_items2.default;
 }];
 
-},{"../settings/account_nav_items":151,"../settings/primary_nav_items":152}],140:[function(require,module,exports){
+},{"../settings/account_nav_items":168,"../settings/primary_nav_items":169}],150:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63768,6 +66054,10 @@ var _env = require('../../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63776,7 +66066,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // Show all properties for an employee
 //
 
-exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.adminAccess = false;
   $scope.editEmployee = function (employeeID) {
     $location.path('/edit-employee/' + employeeID);
   };
@@ -63785,6 +66077,15 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
       if (obj.hasOwnProperty(prop)) return false;
     }
     return true;
+  };
+  $scope.viewBlacklist = function (employeeID) {
+    $location.path('/employee-blacklist/' + employeeID);
+  };
+  $scope.viewTeamMembers = function (employeeID) {
+    $location.path('/team-members/' + employeeID);
+  };
+  $scope.viewWhitelist = function (employeeID) {
+    $location.path('/employee-whitelist/' + employeeID);
   };
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -63797,6 +66098,80 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
       }
     }).then(function (response) {
       //console.log(response.data);
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Check Permission Level
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+          $scope.adminAccess = true;
+        } else if (permissionLevel === 'user') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      } else {
+        $scope.adminAccess = true;
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
+      }
       $scope.collection = response.data;
       $scope.employee = response.data[0];
       $scope.employeeID = $scope.employee.employeeID;
@@ -63842,7 +66217,33 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }
 }];
 
-},{"../../core/env":148}],141:[function(require,module,exports){
+},{"../../core/env":165,"../../settings/primary_nav_items":169}],151:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Sign Out Controller
+//
+// Sign out of current employee session
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  if (!$window.sessionStorage.token) {} else {
+    delete $window.sessionStorage.token;
+  }
+  $location.path('/login');
+}];
+
+},{"../../core/env":165}],152:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63853,15 +66254,20 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Employee Detail Controller
+// Office Details Controller
 //
-// Show all properties for an employee
+// Show all properties for an office
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -63881,6 +66287,57 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -63892,6 +66349,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
             alert('Invalid permission level');
             $location.path('/');
           }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -63922,7 +66383,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":148}],142:[function(require,module,exports){
+},{"../core/env":165,"../settings/primary_nav_items":169}],153:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63937,15 +66398,20 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
 // Office Employees Controller
 //
-// Show a list of employees
+// Show a list of employees for an office
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -63965,6 +66431,57 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -63976,6 +66493,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
             alert('Invalid permission level');
             $location.path('/');
           }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -64006,7 +66527,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     //console.log(err);
   });
   $scope.add = function () {
-    $location.path('/add-employee');
+    $location.path('/add-office-employee/' + $scope.officeID);
   };
   $scope.delete = function (employeeID) {
     $http({
@@ -64028,6 +66549,75 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
       //console.log(err);
     });
   };
+  $scope.upload = function () {
+    var f = document.getElementById('csv-upload').files[0],
+        r = new FileReader();
+    r.onloadend = function (e) {
+      var data = e.target.result;
+      var employees = [];
+      data = data.trim();
+      data = data.replace(/(?:\r\n|\r|\n)/g, ",");
+      var splitted = data.split(",");
+      var i = 0;
+      var max = 0;
+
+      if (splitted.length % 3 == 0) {
+        max = splitted.length;
+        while (i < max) {
+          var employee = {};
+          employee.firstName = splitted[i++];
+          employee.lastName = splitted[i++];
+          employee.email = splitted[i++];
+          employee.password = "randompassword";
+          employee.department = "no department";
+          employee.title = "no title";
+          employee.restroomUsage = 1;
+          employee.noisePreference = 1;
+          employee.outOfDesk = 1;
+          employee.pictureAddress = "no picture address";
+          employee.permissionLevel = "user";
+          employees.push(employee);
+        }
+        /*if (splitted.length % 11 == 0) {
+          max = splitted.length;
+          while (i < max) {
+            var employee = {};
+            employee.firstName = splitted[i++];
+            employee.lastName = splitted[i++];
+            employee.email = splitted[i++];
+            employee.password = splitted[i++];
+            employee.department = splitted[i++];
+            employee.title = splitted[i++];
+            employee.restroomUsage = splitted[i++];
+            employee.noisePreference = splitted[i++];
+            employee.outOfDesk = splitted[i++];
+            employee.pictureAddress = splitted[i++];
+            employee.permissionLevel = splitted[i++];
+            employees.push(employee);
+          }*/
+        $http({
+          method: 'POST',
+          url: _env2.default.api.root + '/Api/AddEmployees',
+          data: { employees: employees, officeID: $scope.officeID }
+        }).then(function (response) {
+          alert("CSV successfully uploaded.");
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/AllEmployees'
+          }).then(function (response) {
+            $scope.emps = response.data;
+          }, function (err) {
+            //console.log(err);
+          });
+        }, function (err) {
+          //console.log(err);
+        });
+      } else {
+          alert("Incorrect csv format.\nThe correct format is firstName,lastName,email,password,department,title,restroomUsage,noisePreference,outOfDesk,pictureAddress,permissionLevel");
+        }
+    };
+    r.readAsText(f);
+  };
   $scope.edit = function (employeeID) {
     $location.path('/edit-employee/' + employeeID);
   };
@@ -64036,7 +66626,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":148,"../data/employees":149}],143:[function(require,module,exports){
+},{"../core/env":165,"../data/employees":166,"../settings/primary_nav_items":169}],154:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64051,6 +66641,10 @@ var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64060,6 +66654,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -64079,6 +66674,57 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -64089,6 +66735,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
         } else {
           alert('Invalid permission level');
           $location.path('/');
+        }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
         }
       }
     }).then(function (err) {
@@ -64105,15 +66755,15 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       url: _env2.default.api.root + '/Api/DeleteOffice/' + officeID
     }).then(function (response) {
       //console.log(response);
-    }, function (err) {
-      //console.log(err);
-    });
-    $http({
-      method: 'GET',
-      url: _env2.default.api.root + '/Api/AllCompaniesForAllOffices'
-    }).then(function (response) {
-      //console.log(response);
-      $scope.offices = response.data;
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/AllCompaniesForAllOffices'
+      }).then(function (response) {
+        //console.log(response);
+        $scope.offices = response.data;
+      }, function (err) {
+        //console.log(err);
+      });
     }, function (err) {
       //console.log(err);
     });
@@ -64133,9 +66783,18 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   }, function (err) {
     //console.log(err);
   });
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllCompanies'
+  }).then(function (response) {
+    //console.log(response);
+    $scope.companies = response.data;
+  }, function (err) {
+    //console.log(err);
+  });
 }];
 
-},{"../core/env":148,"../data/employees":149}],144:[function(require,module,exports){
+},{"../core/env":165,"../data/employees":166,"../settings/primary_nav_items":169}],155:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64145,6 +66804,110 @@ Object.defineProperty(exports, "__esModule", {
 var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Password Reset
+//
+// Allows users to reset passwords
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  for (var i in $scope.primaryNavItems) {
+    if (i != 0) {
+      $scope.primaryNavItems[i].show = false;
+    }
+  }
+  if ($window.sessionStorage.token) {
+    //Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        //delete $window.sessionStorage.token;
+        //$location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to their info page
+            //$location.path('/my-info');
+          } else {}
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+    //$location.path('/my-info');
+  }
+  $scope.header = "Password Reset";
+  $scope.invalid = false;
+  $scope.success = false;
+  $scope.employee = {
+    email: ""
+  };
+  $scope.incorrectLogin = false;
+  $scope.submit = function (employee) {
+    $scope.invalid = false;
+    $scope.success = false;
+
+    var payload = JSON.stringify(employee);
+    $http({
+      method: "POST",
+      url: _env2.default.api.root + '/Api/PasswordReset',
+      data: payload
+    }).then(function (response) {
+      console.log(response.data.message);
+      if (response.data.message === "No such user.") {
+        $scope.invalid = true;
+      } else {
+        $scope.success = true;
+        $http({
+          method: "POST",
+          url: _env2.default.api.root + '/Api/SendEmail',
+          data: { reason: "passwordReset", email: payload.email }
+        }).then(function (response) {}, function (err) {
+          console.log(err.data.message);
+        });
+      }
+    }, function (err) {
+      console.log(err.data.message);
+    });
+  };
+}];
+
+},{"../core/env":165,"../settings/primary_nav_items":169}],156:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -64156,6 +66919,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = ['$scope', '$http', '$location', '$window', function ($scope, $http, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -64175,6 +66939,57 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -64186,6 +67001,10 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
           alert('Invalid permission level');
           $location.path('/');
         }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -64194,55 +67013,198 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   $scope.message = 'Under Construction';
 }];
 
-},{"../core/env":148}],145:[function(require,module,exports){
+},{"../core/env":165,"../settings/primary_nav_items":169}],157:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _env = require('../core/env');
+var _env = require('../../core/env');
 
 var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Sign Out Controller
+// Add Initial Company Controller
 //
-// Show a list of employees
+// Call Query to add initial Company to the database
 //
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  for (var i in $scope.primaryNavItems) {
+    $scope.primaryNavItems[i].show = false;
+  }
   if (!$window.sessionStorage.token) {
     $location.path('/login');
   } else {
-    delete $window.sessionStorage.token;
-    $location.path('/login');
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      $scope.employeeID = response.data[0].employeeID;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // A Super admin needs to set-up the application
+          $location.path('/initialization-error');
+        } else if (permissionLevel === 'user') {
+          // A Super admin needs to set-up the application
+          $location.path('/initialization-error');
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
+      } else {
+        // Perform sanity checks for set-up
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/ExistsCompany'
+        }).then(function (response) {
+          //console.log('Response: ', response.data[0]);
+          if (response.data[0].result == 1) {
+            $http({
+              method: 'GET',
+              url: _env2.default.api.root + '/Api/ExistsOffice'
+            }).then(function (response) {
+              //console.log('Response: ', response.data);
+              if (response.data[0].result == 0) {
+                $window.location.href = '/add-initial-office/' + $scope.employeeID;
+              } else {
+                $http({
+                  method: 'GET',
+                  url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+                }).then(function (response) {
+                  //console.log('Response: ', response.data);
+                  if (response.data[0].result == 0) {
+                    $window.location.href = '/add-initial-temperature-range';
+                  }
+                }).then(function (err) {
+                  //console.log('Error: ', err);
+                });
+                $http({
+                  method: 'GET',
+                  url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+                }).then(function (response) {
+                  //console.log('Response: ', response.data);
+                  if (response.data[0].result == 0) {
+                    $window.location.href = '/add-superadmin-to-office';
+                  } else {
+                    $location.path('/my-info');
+                  }
+                }).then(function (err) {
+                  //console.log('Error: ', err);
+                });
+              }
+            }).then(function (err) {
+              //console.log('Error: ', err);
+            });
+          }
+        }).then(function (err) {
+          //console.log('Error: ', err);
+        });
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
   }
+  $scope.header = "Add a Company";
+  $scope.company = {
+    companyName: ""
+  };
+  $scope.submit = function () {
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/AddCompany',
+      data: $scope.company
+    }).then(function (response) {
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsOffice'
+      }).then(function (response) {
+        //console.log('Response: ', response.data);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-office/' + $scope.employeeID;
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-temperature-range';
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-superadmin-to-office';
+            } else {
+              $window.location.href = '/companies';
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+    }, function (err) {
+      //console.log(err);
+    });
+  };
 }];
 
-},{"../core/env":148}],146:[function(require,module,exports){
+},{"../../core/env":165,"../../settings/primary_nav_items":169}],158:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _env = require('../core/env');
+var _env = require('../../core/env');
 
 var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Team Members Controller
+// Add Initial Office Controller
 //
-// Show a list of all team members
+// Call Query to add initial office to the database
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
-  // Handle Permissions
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.employeeID = $routeParams.id;
+  for (var i in $scope.primaryNavItems) {
+    $scope.primaryNavItems[i].show = false;
+  }
   if (!$window.sessionStorage.token) {
     $location.path('/login');
   } else {
@@ -64266,12 +67228,443 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
           // Redirect them to their info page
           //$location.path('/my-info');
         } else if (permissionLevel === 'user') {
-            // Redirect them to their info page
-            //$location.path('/my-info');
+            // A Super admin needs to set-up the application
+            $location.path('/initialization-error');
           } else {
-              alert('Invalid permission level');
-              $location.path('/');
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      } else {
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/ExistsOffice'
+        }).then(function (response) {
+          //console.log('Response: ', response.data);
+          if (response.data[0].result == 1) {
+            $http({
+              method: 'GET',
+              url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+            }).then(function (response) {
+              //console.log('Response: ', response.data);
+              if (response.data[0].result == 0) {
+                $window.location.href = '/add-initial-temperature-range';
+              }
+            }).then(function (err) {
+              //console.log('Error: ', err);
+            });
+            $http({
+              method: 'GET',
+              url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+            }).then(function (response) {
+              //console.log('Response: ', response.data);
+              if (response.data[0].result == 0) {
+                $window.location.href = '/add-superadmin-to-office';
+              } else {
+                $location.path('/my-info');
+              }
+            }).then(function (err) {
+              //console.log('Error: ', err);
+            });
+          }
+        }).then(function (err) {
+          //console.log('Error: ', err);
+        });
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
+  $scope.header = "Add an Office";
+  $scope.office = {
+    officeName: "",
+    officePhoneNumber: "",
+    officeEmail: "",
+    officeStreetAddress: "",
+    officeCity: "",
+    officeState: "",
+    officeZipcode: "",
+    employeeID: $scope.employeeID
+  };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllCompanies'
+  }).then(function (response) {
+    //console.log('Response: ', response.data);
+    $scope.companies = response.data;
+  }).then(function (err) {
+    //console.log('Error: ', err);
+  });
+  $scope.submit = function () {
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/AddInitialOfficeWithEmployee',
+      data: $scope.office
+    }).then(function (response) {
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+      }).then(function (response) {
+        //console.log('Response: ', response.data);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-temperature-range';
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+      }).then(function (response) {
+        //console.log('Response: ', response.data);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-superadmin-to-office';
+        } else {
+          $window.location.href = '/offices';
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+    }, function (err) {
+      //console.log(err);
+    });
+  };
+}];
+
+},{"../../core/env":165,"../../settings/primary_nav_items":169}],159:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Add Initial Temperature Range Controller
+//
+// Call Query to add initial temperature range to the database
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  for (var i in $scope.primaryNavItems) {
+    $scope.primaryNavItems[i].show = false;
+  }
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+            // Redirect them to initialization-error page
+            $location.path('/initialization-error');
+          } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      } else {
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+        }).then(function (response) {
+          //console.log('Response: ', response.data);
+          if (response.data[0].result == 1) {
+            $http({
+              method: 'GET',
+              url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+            }).then(function (response) {
+              //console.log('Response: ', response.data);
+              if (response.data[0].result == 0) {
+                $window.location.href = '/add-superadmin-to-office';
+              }
+            }).then(function (err) {
+              //console.log('Error: ', err);
+            });
+            $window.location.href = '/temperature-ranges';
+          }
+        }).then(function (err) {
+          //console.log('Error: ', err);
+        });
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
+  $scope.header = "Add a Temperature Range";
+  $scope.temperatureRange = {
+    lower: 0,
+    upper: 1
+  };
+  $scope.submit = function () {
+    var temp;
+    if ($scope.temperatureRange.lower > $scope.temperatureRange.upper) {
+      temp = $scope.temperatureRange.lower;
+      $scope.temperatureRange.lower = $scope.temperatureRange.upper;
+      $scope.temperatureRange.upper = temp;
+    }
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/AddTemperatureRange',
+      data: $scope.temperatureRange
+    }).then(function (response) {
+      $window.location.href = '/temperature-ranges';
+    }, function (err) {
+      //console.log(err);
+    });
+  };
+}];
+
+},{"../../core/env":165,"../../settings/primary_nav_items":169}],160:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Add Initial Temperature Range Controller
+//
+// Call Query to add initial temperature range to the database
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  for (var i in $scope.primaryNavItems) {
+    $scope.primaryNavItems[i].show = false;
+  }
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      $scope.employeeID = response.data[0].employeeID;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          $location.path('/initialization-error');
+        } else if (permissionLevel === 'user') {
+          $location.path('/initialization-error');
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
+      } else {
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+        }).then(function (response) {
+          //console.log('Response: ', response.data);
+          if (response.data[0].result == 1) {
+            $window.location.href = '/my-info';
+          }
+        }).then(function (err) {
+          //console.log('Error: ', err);
+        });
+      }
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID
+      }).then(function (response) {
+        //console.log('Response: ', response.data);
+        $scope.employee = response.data[0];
+        $scope.header = "Add a Superadmin " + $scope.employee.firstName + " " + $scope.employee.lastName + " to Office";
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllOffices'
+  }).then(function (response) {
+    //console.log('Response: ', response.data);
+    $scope.offices = response.data;
+  }).then(function (err) {
+    //console.log('Error: ', err);
+  });
+  $scope.submit = function () {
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/AddEmployeeToOffice',
+      data: { employeeID: $scope.employeeID, officeID: $scope.officeID }
+    }).then(function (response) {
+      $window.location.href = '/my-info';
+    }, function (err) {
+      //console.log(err);
+    });
+  };
+}];
+
+},{"../../core/env":165,"../../settings/primary_nav_items":169}],161:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Team Members Controller
+//
+// Show a list of all team members
+//
+
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.adminAccess = false;
+  $scope.canEdit = false;
+  $scope.employeeID = $routeParams.id;
+
+  // Handle Permissions
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
             }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+          $scope.adminAccess = true;
+          $scope.canEdit = true;
+        } else if (permissionLevel === 'user') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+          if ($scope.employeeID == response.data[0].employeeID) {
+            $scope.canEdit = true;
+          }
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
+      } else {
+        $scope.adminAccess = true;
+        $scope.canEdit = true;
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -64282,6 +67675,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.sortReverse = false;
 
   $scope.employeeID = $routeParams.id;
+
   $scope.isEmpty = function (obj) {
     for (var prop in obj) {
       if (obj.hasOwnProperty(prop)) return false;
@@ -64341,26 +67735,35 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":148}],147:[function(require,module,exports){
+},{"../core/env":165,"../settings/primary_nav_items":169}],162:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _employees = require('../data/employees');
+
+var _employees2 = _interopRequireDefault(_employees);
+
 var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
 
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// View Employees Controller
+// Temperature Ranges Controller
 //
-// Show a list of employees
+// Show a list of temperature ranges
 //
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
   // Handle Permissions
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -64380,6 +67783,57 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
         $location.path('/login');
       }
       var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -64391,6 +67845,308 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
           alert('Invalid permission level');
           $location.path('/');
         }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
+  }
+  $scope.header = 'All Temperature Ranges';
+  $scope.add = function () {
+    $location.path('/add-temperature-range');
+  };
+  $scope.delete = function (rangeID) {
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/DeleteTemperatureRange/' + rangeID
+    }).then(function (response) {
+      //console.log(response);
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/AllTempRanges'
+      }).then(function (response) {
+        //console.log(response);
+        $scope.temperatureRanges = response.data;
+      }, function (err) {
+        //console.log(err);
+      });
+    }, function (err) {
+      //console.log(err);
+    });
+  };
+  $scope.edit = function (rangeID) {
+    $location.path('/edit-temperature-range/' + rangeID);
+  };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllTempRanges'
+  }).then(function (response) {
+    //console.log(response);
+    $scope.temperatureRanges = response.data;
+  }, function (err) {
+    //console.log(err);
+  });
+}];
+
+},{"../core/env":165,"../data/employees":166,"../settings/primary_nav_items":169}],163:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Update Password Controller
+//
+// Updates password of an employee
+//
+
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.adminAccess = false;
+  $scope.passwords = {
+    oldPassword: "",
+    password: "",
+    password2: ""
+  };
+
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log(response.data);
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+          $scope.adminAccess = true;
+        } else if (permissionLevel === 'user') {
+          // Redirect them to their info page
+          //$location.path('/my-info');
+        } else {
+            alert('Invalid permission level');
+            $location.path('/');
+          }
+      } else {
+        $scope.adminAccess = true;
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
+      }
+      $scope.collection = response.data;
+      $scope.employee = response.data[0];
+      $scope.employeeID = $scope.employee.employeeID;
+      $scope.header = $scope.employee.firstName + " " + $scope.employee.lastName;
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/EmployeeTemperatureRange/' + $scope.employeeID
+      }).then(function (response) {
+        //console.log(response.data);
+        $scope.temperatureRange = response.data[0];
+      }, function (err) {
+        //console.log(err);
+      });
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
+      }).then(function (response) {
+        if ($scope.isEmpty(response.data)) {
+          $scope.companyName = "No Company Assigned";
+        } else {
+          //console.log(response.data);
+          $scope.officeID = response.data[0].officeID;
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+          }).then(function (response) {
+            if ($scope.isEmpty(response.data)) {
+              $scope.companyName = "No Company Assigned";
+            } else {
+              //console.log(response.data);
+              $scope.companyName = response.data[0].companyName;
+            }
+          }, function (err) {
+            //console.log(err);
+          });
+        }
+      }, function (err) {
+        //console.log(err);
+      });
+    }, function (err) {
+      //console.log(err);
+    });
+  }
+  $scope.passwordMisMatch = false;
+  $scope.invalidOldPassword = false;
+
+  $scope.submit = function (employeeID) {
+    $scope.passwordMisMatch = false;
+    $scope.invalidOldPassword = false;
+    //Call API
+    $http({
+      method: "POST",
+      url: _env2.default.api.root + '/Api/UpdatePassword',
+      data: { oldPassword: $scope.passwords.oldPassword, password: $scope.passwords.password, password2: $scope.passwords.password2, employeeID: employeeID.employeeID },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      if (response.data.message === "Invalid Old Password.") {
+        $scope.invalidOldPassword = true;
+      } else if (response.data.message === "New passwords do not match.") {
+        $scope.passwordMisMatch = true;
+      } else {
+        delete $window.sessionStorage.token;
+        console.log("got here");
+        $http({
+          method: "POST",
+          url: _env2.default.api.root + '/Api/SendEmail',
+          data: { reason: "passwordUpdate", email: $scope.employee.email }
+        }).then(function (response) {}, function (err) {
+          console.log(err.data.message);
+        });
+        $location.path('/login');
+      }
+    }, function (err) {});
+  };
+}];
+
+},{"../core/env":165,"../settings/primary_nav_items":169}],164:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// View Employees Controller
+//
+// Show a list of employees
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.officeID;
+  // Handle Permissions
+  if (!$window.sessionStorage.token) {
+    $location.path('/login');
+  } else {
+    // Validate the token
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      // Cookie has expired
+      if (response.data.status == 400) {
+        delete $window.sessionStorage.token;
+        $location.path('/login');
+      }
+      var permissionLevel = response.data[0].permissionLevel;
+      $scope.masterID = response.data[0].employeeID;
+
+      // Perform sanity checks for set-up
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompany'
+      }).then(function (response) {
+        //console.log('Response: ', response.data[0]);
+        if (response.data[0].result == 0) {
+          $window.location.href = '/add-initial-company';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/ExistsOffice'
+          }).then(function (response) {
+            //console.log('Response: ', response.data);
+            if (response.data[0].result == 0) {
+              $window.location.href = '/add-initial-office/' + $scope.masterID;
+            } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-initial-temperature-range';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              }).then(function (response) {
+                //console.log('Response: ', response.data);
+                if (response.data[0].result == 0) {
+                  $window.location.href = '/add-superadmin-to-office';
+                }
+              }).then(function (err) {
+                //console.log('Error: ', err);
+              });
+            }
+          }).then(function (err) {
+            //console.log('Error: ', err);
+          });
+        }
+      }).then(function (err) {
+        //console.log('Error: ', err);
+      });
+
+      // Permission Level
+      if (permissionLevel !== 'superadmin') {
+        if (permissionLevel === 'admin') {
+          // Redirect them to their info page
+          $location.path('/my-info');
+        } else if (permissionLevel === 'user') {
+          // Redirect them to their info page
+          $location.path('/my-info');
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
+      } else {
+        for (var i in $scope.primaryNavItems) {
+          $scope.primaryNavItems[i].show = true;
+        }
       }
     }).then(function (err) {
       //console.log('Error: ', err);
@@ -64400,9 +68156,98 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.sortType = 'firstName';
   $scope.sortReverse = false;
 
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllEmployees'
+  }).then(function (response) {
+    //console.log(response);
+    $scope.emps = response.data;
+  }, function (err) {
+    //console.log(err);
+  });
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllOffices'
+  }).then(function (response) {
+    //console.log(response);
+    $scope.offices = response.data;
+  }, function (err) {
+    //console.log(err);
+  });
+
   $scope.header = "All Employees";
   $scope.add = function () {
     $location.path('/add-employee');
+  };
+  $scope.upload = function () {
+    var f = document.getElementById('csv-upload').files[0],
+        r = new FileReader();
+    r.onloadend = function (e) {
+      var data = e.target.result;
+      var employees = [];
+      data = data.trim();
+      data = data.replace(/(?:\r\n|\r|\n)/g, ",");
+      var splitted = data.split(",");
+      var i = 0;
+      var max = 0;
+
+      if (splitted.length % 3 == 0) {
+        max = splitted.length;
+        while (i < max) {
+          var employee = {};
+          employee.firstName = splitted[i++];
+          employee.lastName = splitted[i++];
+          employee.email = splitted[i++];
+          employee.password = "randompassword";
+          employee.department = "no department";
+          employee.title = "no title";
+          employee.restroomUsage = 1;
+          employee.noisePreference = 1;
+          employee.outOfDesk = 1;
+          employee.pictureAddress = "no picture address";
+          employee.permissionLevel = "user";
+          employees.push(employee);
+        }
+        /*if (splitted.length % 11 == 0) {
+          max = splitted.length;
+          while (i < max) {
+            var employee = {};
+            employee.firstName = splitted[i++];
+            employee.lastName = splitted[i++];
+            employee.email = splitted[i++];
+            employee.password = splitted[i++];
+            employee.department = splitted[i++];
+            employee.title = splitted[i++];
+            employee.restroomUsage = splitted[i++];
+            employee.noisePreference = splitted[i++];
+            employee.outOfDesk = splitted[i++];
+            employee.pictureAddress = splitted[i++];
+            employee.permissionLevel = splitted[i++];
+            employees.push(employee);
+          }*/
+        $scope.officeID = parseInt($scope.officeID);
+        $http({
+          method: 'POST',
+          url: _env2.default.api.root + '/Api/AddEmployees',
+          data: { employees: employees, officeID: $scope.officeID }
+        }).then(function (response) {
+          alert("CSV successfully uploaded.");
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/AllEmployees'
+          }).then(function (response) {
+            $scope.emps = response.data;
+          }, function (err) {
+            //console.log(err);
+          });
+        }, function (err) {
+          //console.log(err);
+        });
+      } else {
+          alert("Incorrect csv format.\nThe correct format is firstName,lastName,email");
+        }
+    };
+    r.readAsText(f);
   };
   $scope.delete = function (employeeID) {
     $http({
@@ -64410,15 +68255,15 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID
     }).then(function (response) {
       //console.log(response);
-    }, function (err) {
-      //console.log(err);
-    });
-    $http({
-      method: 'GET',
-      url: _env2.default.api.root + '/Api/AllEmployees'
-    }).then(function (response) {
-      //console.log(response);
-      $scope.emps = response.data;
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/AllEmployees'
+      }).then(function (response) {
+        //console.log(response);
+        $scope.emps = response.data;
+      }, function (err) {
+        //console.log(err);
+      });
     }, function (err) {
       //console.log(err);
     });
@@ -64429,18 +68274,9 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.view = function (employeeID) {
     $location.path('/employee-detail/' + employeeID);
   };
-  $http({
-    method: 'GET',
-    url: _env2.default.api.root + '/Api/AllEmployees'
-  }).then(function (response) {
-    //console.log(response);
-    $scope.emps = response.data;
-  }, function (err) {
-    //console.log(err);
-  });
 }];
 
-},{"../core/env":148}],148:[function(require,module,exports){
+},{"../core/env":165,"../settings/primary_nav_items":169}],165:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64473,7 +68309,7 @@ var env = _lodash2.default.assign({}, _env2.default, _env4.default);
 
 exports.default = env;
 
-},{"../../env":2,"../../env.default":1,"browserify-fs":16,"lodash":97}],149:[function(require,module,exports){
+},{"../../env":2,"../../env.default":1,"browserify-fs":16,"lodash":97}],166:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64529,16 +68365,68 @@ exports.default = [{
   email: 'inspector@gmail.com'
 }];
 
-},{}],150:[function(require,module,exports){
+},{}],167:[function(require,module,exports){
 'use strict';
 
-var _AddEmployeeController = require('./controllers/AddEmployeeController');
+var _AddCompanyController = require('./controllers/AddCompanyController');
 
-var _AddEmployeeController2 = _interopRequireDefault(_AddEmployeeController);
+var _AddCompanyController2 = _interopRequireDefault(_AddCompanyController);
+
+var _AddEmployeeNewController = require('./controllers/AddEmployeeNewController');
+
+var _AddEmployeeNewController2 = _interopRequireDefault(_AddEmployeeNewController);
+
+var _AddEmployeeCoworkersController = require('./controllers/AddEmployeeCoworkersController');
+
+var _AddEmployeeCoworkersController2 = _interopRequireDefault(_AddEmployeeCoworkersController);
+
+var _AddEmployeeIndividualInfoController = require('./controllers/AddEmployeeIndividualInfoController');
+
+var _AddEmployeeIndividualInfoController2 = _interopRequireDefault(_AddEmployeeIndividualInfoController);
+
+var _AddEmployeePreferencesController = require('./controllers/AddEmployeePreferencesController');
+
+var _AddEmployeePreferencesController2 = _interopRequireDefault(_AddEmployeePreferencesController);
 
 var _AddOfficeController = require('./controllers/AddOfficeController');
 
 var _AddOfficeController2 = _interopRequireDefault(_AddOfficeController);
+
+var _AddInitialCompanyController = require('./controllers/StartUp/AddInitialCompanyController');
+
+var _AddInitialCompanyController2 = _interopRequireDefault(_AddInitialCompanyController);
+
+var _AddInitialOfficeController = require('./controllers/StartUp/AddInitialOfficeController');
+
+var _AddInitialOfficeController2 = _interopRequireDefault(_AddInitialOfficeController);
+
+var _AddInitialTemperatureRangeController = require('./controllers/StartUp/AddInitialTemperatureRangeController');
+
+var _AddInitialTemperatureRangeController2 = _interopRequireDefault(_AddInitialTemperatureRangeController);
+
+var _AddOfficeEmployeeController = require('./controllers/AddOfficeEmployeeController');
+
+var _AddOfficeEmployeeController2 = _interopRequireDefault(_AddOfficeEmployeeController);
+
+var _AddTemperatureRangeController = require('./controllers/AddTemperatureRangeController');
+
+var _AddTemperatureRangeController2 = _interopRequireDefault(_AddTemperatureRangeController);
+
+var _AddSuperAdminToOfficeController = require('./controllers/StartUp/AddSuperAdminToOfficeController');
+
+var _AddSuperAdminToOfficeController2 = _interopRequireDefault(_AddSuperAdminToOfficeController);
+
+var _CompaniesController = require('./controllers/CompaniesController');
+
+var _CompaniesController2 = _interopRequireDefault(_CompaniesController);
+
+var _CompanyOfficesController = require('./controllers/CompanyOfficesController');
+
+var _CompanyOfficesController2 = _interopRequireDefault(_CompanyOfficesController);
+
+var _EditCompanyController = require('./controllers/EditCompanyController');
+
+var _EditCompanyController2 = _interopRequireDefault(_EditCompanyController);
 
 var _EditEmployeeController = require('./controllers/EditEmployeeController');
 
@@ -64547,6 +68435,10 @@ var _EditEmployeeController2 = _interopRequireDefault(_EditEmployeeController);
 var _EditOfficeController = require('./controllers/EditOfficeController');
 
 var _EditOfficeController2 = _interopRequireDefault(_EditOfficeController);
+
+var _EditTemperatureRangeController = require('./controllers/EditTemperatureRangeController');
+
+var _EditTemperatureRangeController2 = _interopRequireDefault(_EditTemperatureRangeController);
 
 var _EmployeeBlacklistController = require('./controllers/EmployeeBlacklistController');
 
@@ -64572,9 +68464,9 @@ var _FloorplanController = require('./controllers/FloorplanController');
 
 var _FloorplanController2 = _interopRequireDefault(_FloorplanController);
 
-var _HomeController = require('./controllers/HomeController');
+var _InitializationErrorController = require('./controllers/Errors/InitializationErrorController');
 
-var _HomeController2 = _interopRequireDefault(_HomeController);
+var _InitializationErrorController2 = _interopRequireDefault(_InitializationErrorController);
 
 var _LoginController = require('./controllers/LoginController');
 
@@ -64600,17 +68492,29 @@ var _OfficeEmployeesController = require('./controllers/OfficeEmployeesControlle
 
 var _OfficeEmployeesController2 = _interopRequireDefault(_OfficeEmployeesController);
 
+var _PasswordResetController = require('./controllers/PasswordResetController');
+
+var _PasswordResetController2 = _interopRequireDefault(_PasswordResetController);
+
 var _SeatingChartsController = require('./controllers/SeatingChartsController');
 
 var _SeatingChartsController2 = _interopRequireDefault(_SeatingChartsController);
 
-var _SignOutController = require('./controllers/SignOutController');
+var _SignOutController = require('./controllers/MyAccount/SignOutController');
 
 var _SignOutController2 = _interopRequireDefault(_SignOutController);
 
 var _TeamMembersController = require('./controllers/TeamMembersController');
 
 var _TeamMembersController2 = _interopRequireDefault(_TeamMembersController);
+
+var _TemperatureRangesController = require('./controllers/TemperatureRangesController');
+
+var _TemperatureRangesController2 = _interopRequireDefault(_TemperatureRangesController);
+
+var _UpdatePasswordController = require('./controllers/UpdatePasswordController');
+
+var _UpdatePasswordController2 = _interopRequireDefault(_UpdatePasswordController);
 
 var _ViewEmployeesController = require('./controllers/ViewEmployeesController');
 
@@ -64623,32 +68527,49 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 var angular = require('angular');
 var angularDragula = require('angular-dragula');
-var iscApp = angular.module('iscApp', ['ngRoute', angularDragula(angular)]);
+var iscApp = angular.module('iscApp', ['ngRoute', angularDragula(angular), 'ngFileUpload']);
 
 //
 // Controllers
 //
 
-iscApp.controller('AddEmployeeController', _AddEmployeeController2.default);
+iscApp.controller('AddCompanyController', _AddCompanyController2.default);
+iscApp.controller('AddEmployeeNewController', _AddEmployeeNewController2.default);
+iscApp.controller('AddEmployeeCoworkersController', _AddEmployeeCoworkersController2.default);
+iscApp.controller('AddEmployeeIndividualInfoController', _AddEmployeeIndividualInfoController2.default);
+iscApp.controller('AddEmployeePreferencesController', _AddEmployeePreferencesController2.default);
+iscApp.controller('AddInitialCompanyController', _AddInitialCompanyController2.default);
+iscApp.controller('AddInitialOfficeController', _AddInitialOfficeController2.default);
+iscApp.controller('AddInitialTemperatureRangeController', _AddInitialTemperatureRangeController2.default);
+iscApp.controller('AddSuperAdminToOfficeController', _AddSuperAdminToOfficeController2.default);
 iscApp.controller('AddOfficeController', _AddOfficeController2.default);
+iscApp.controller('AddOfficeEmployeeController', _AddOfficeEmployeeController2.default);
+iscApp.controller('AddTemperatureRangeController', _AddTemperatureRangeController2.default);
+iscApp.controller('CompaniesController', _CompaniesController2.default);
+iscApp.controller('CompanyOfficesController', _CompanyOfficesController2.default);
+iscApp.controller('EditCompanyController', _EditCompanyController2.default);
 iscApp.controller('EditEmployeeController', _EditEmployeeController2.default);
 iscApp.controller('EditOfficeController', _EditOfficeController2.default);
+iscApp.controller('EditTemperatureRangeController', _EditTemperatureRangeController2.default);
 iscApp.controller('EmployeeBlacklistController', _EmployeeBlacklistController2.default);
 iscApp.controller('EmployeeCoworkersController', _EmployeeCoworkersController2.default);
 iscApp.controller('EmployeeDetailController', _EmployeeDetailController2.default);
 iscApp.controller('EmployeePreferencesController', _EmployeePreferencesController2.default);
 iscApp.controller('EmployeeWhitelistController', _EmployeeWhitelistController2.default);
 iscApp.controller('FloorplanController', _FloorplanController2.default);
-iscApp.controller('HomeController', _HomeController2.default);
+iscApp.controller('InitializationErrorController', _InitializationErrorController2.default);
 iscApp.controller('LoginController', _LoginController2.default);
 iscApp.controller('MainController', _MainController2.default);
 iscApp.controller('MyInfoController', _MyInfoController2.default);
 iscApp.controller('OfficesController', _OfficesController2.default);
 iscApp.controller('OfficeDetailController', _OfficeDetailController2.default);
 iscApp.controller('OfficeEmployeesController', _OfficeEmployeesController2.default);
+iscApp.controller('PasswordResetController', _PasswordResetController2.default);
 iscApp.controller('SeatingChartsController', _SeatingChartsController2.default);
 iscApp.controller('SignOutController', _SignOutController2.default);
 iscApp.controller('TeamMembersController', _TeamMembersController2.default);
+iscApp.controller('TemperatureRangesController', _TemperatureRangesController2.default);
+iscApp.controller('UpdatePasswordController', _UpdatePasswordController2.default);
 iscApp.controller('ViewEmployeesController', _ViewEmployeesController2.default);
 
 //
@@ -64657,21 +68578,62 @@ iscApp.controller('ViewEmployeesController', _ViewEmployeesController2.default);
 
 iscApp.config(function ($routeProvider, $locationProvider) {
   // define routes
-  $routeProvider.when('/', {
-    templateUrl: 'views/home.html',
-    controller: 'HomeController'
-  }).when('/add-employee', {
-    templateUrl: 'views/add-employee.html',
-    controller: 'AddEmployeeController'
+  $routeProvider.when('/add-company', {
+    templateUrl: 'views/add-company.html',
+    controller: 'AddCompanyController'
+  })
+  /*.when('/add-employee', {
+    templateUrl: 'views/add-employee-individual-info.html',
+    controller: 'AddEmployeeIndividualInfoController'
+  })*/
+  .when('/add-employee', {
+    templateUrl: 'views/add-employee-new.html',
+    controller: 'AddEmployeeNewController'
+  }).when('/add-employee-coworkers', {
+    templateUrl: 'views/add-employee-coworkers.html',
+    controller: 'AddEmployeeCoworkersController'
+  }).when('/add-employee-preferences', {
+    templateUrl: 'views/add-employee-preferences.html',
+    controller: 'AddEmployeePreferencesController'
+  }).when('/add-initial-company', {
+    templateUrl: 'views/start-up/add-initial-company.html',
+    controller: 'AddInitialCompanyController'
+  }).when('/add-initial-office/:id', {
+    templateUrl: 'views/start-up/add-initial-office.html',
+    controller: 'AddInitialOfficeController'
+  }).when('/add-initial-temperature-range', {
+    templateUrl: 'views/start-up/add-initial-temperature-range.html',
+    controller: 'AddInitialTemperatureRangeController'
   }).when('/add-office', {
     templateUrl: 'views/add-office.html',
     controller: 'AddOfficeController'
+  }).when('/add-office-employee/:id', {
+    templateUrl: 'views/add-office-employee.html',
+    controller: 'AddOfficeEmployeeController'
+  }).when('/add-superadmin-to-office', {
+    templateUrl: 'views/start-up/add-superadmin-to-office.html',
+    controller: 'AddSuperAdminToOfficeController'
+  }).when('/add-temperature-range', {
+    templateUrl: 'views/add-temperature-range.html',
+    controller: 'AddTemperatureRangeController'
+  }).when('/companies', {
+    templateUrl: 'views/companies.html',
+    controller: 'CompaniesController'
+  }).when('/company-offices/:id', {
+    templateUrl: 'views/company-offices.html',
+    controller: 'CompanyOfficesController'
+  }).when('/edit-company/:id', {
+    templateUrl: 'views/edit-company.html',
+    controller: 'EditCompanyController'
   }).when('/edit-employee/:id', {
     templateUrl: 'views/edit-employee.html',
     controller: 'EditEmployeeController'
   }).when('/edit-office/:id', {
     templateUrl: 'views/edit-office.html',
     controller: 'EditOfficeController'
+  }).when('/edit-temperature-range/:id', {
+    templateUrl: 'views/edit-temperature-range.html',
+    controller: 'EditTemperatureRangeController'
   }).when('/employee-blacklist/:id', {
     templateUrl: 'views/employee-blacklist.html',
     controller: 'EmployeeBlacklistController'
@@ -64690,6 +68652,9 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   }).when('/floorplan/:id', {
     templateUrl: 'views/floorplan.html',
     controller: 'FloorplanController'
+  }).when('/initialization-error', {
+    templateUrl: 'views/errors/initialization-error.html',
+    controller: 'InitializationErrorController'
   }).when('/login', {
     templateUrl: 'views/login.html',
     controller: 'LoginController'
@@ -64705,26 +68670,53 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   }).when('/office-employees/:id', {
     templateUrl: 'views/office-employees.html',
     controller: 'OfficeEmployeesController'
+  }).when('/password-reset', {
+    templateUrl: 'views/password-reset.html',
+    controller: 'PasswordResetController'
   }).when('/seating-charts', {
     templateUrl: 'views/seating-charts.html',
     controller: 'SeatingChartsController'
   }).when('/sign-out', {
-    templateUrl: 'views/sign-out.html',
+    templateUrl: 'views/my-account/sign-out.html',
     controller: 'SignOutController'
   }).when('/team-members/:id', {
     templateUrl: 'views/team-members.html',
     controller: 'TeamMembersController'
+  }).when('/temperature-ranges', {
+    templateUrl: 'views/temperature-ranges.html',
+    controller: 'TemperatureRangesController'
+  }).when('/update-password', {
+    templateUrl: 'views/update-password.html',
+    controller: 'UpdatePasswordController'
   }).when('/view-employees', {
     templateUrl: 'views/view-employees.html',
     controller: 'ViewEmployeesController'
   }).otherwise({
-    redirectTo: '/'
+    redirectTo: '/login'
   });
   // use html5 history api (no # in url)
   $locationProvider.html5Mode(true);
 });
 
-},{"./controllers/AddEmployeeController":127,"./controllers/AddOfficeController":128,"./controllers/EditEmployeeController":129,"./controllers/EditOfficeController":130,"./controllers/EmployeeBlacklistController":131,"./controllers/EmployeeCoworkersController":132,"./controllers/EmployeeDetailController":133,"./controllers/EmployeePreferencesController":134,"./controllers/EmployeeWhitelistController":135,"./controllers/FloorplanController":136,"./controllers/HomeController":137,"./controllers/LoginController":138,"./controllers/MainController":139,"./controllers/MyAccount/MyInfoController":140,"./controllers/OfficeDetailController":141,"./controllers/OfficeEmployeesController":142,"./controllers/OfficesController":143,"./controllers/SeatingChartsController":144,"./controllers/SignOutController":145,"./controllers/TeamMembersController":146,"./controllers/ViewEmployeesController":147,"angular":12,"angular-dragula":7}],151:[function(require,module,exports){
+//
+// Services
+//
+
+// Service for storing employee data for adding
+iscApp.factory('addService', function () {
+  var savedData = {};
+  function set(data) {
+    savedData = data;
+  }
+  function get() {
+    return savedData;
+  }
+  return {
+    set: set, get: get
+  };
+});
+
+},{"./controllers/AddCompanyController":127,"./controllers/AddEmployeeCoworkersController":128,"./controllers/AddEmployeeIndividualInfoController":129,"./controllers/AddEmployeeNewController":130,"./controllers/AddEmployeePreferencesController":131,"./controllers/AddOfficeController":132,"./controllers/AddOfficeEmployeeController":133,"./controllers/AddTemperatureRangeController":134,"./controllers/CompaniesController":135,"./controllers/CompanyOfficesController":136,"./controllers/EditCompanyController":137,"./controllers/EditEmployeeController":138,"./controllers/EditOfficeController":139,"./controllers/EditTemperatureRangeController":140,"./controllers/EmployeeBlacklistController":141,"./controllers/EmployeeCoworkersController":142,"./controllers/EmployeeDetailController":143,"./controllers/EmployeePreferencesController":144,"./controllers/EmployeeWhitelistController":145,"./controllers/Errors/InitializationErrorController":146,"./controllers/FloorplanController":147,"./controllers/LoginController":148,"./controllers/MainController":149,"./controllers/MyAccount/MyInfoController":150,"./controllers/MyAccount/SignOutController":151,"./controllers/OfficeDetailController":152,"./controllers/OfficeEmployeesController":153,"./controllers/OfficesController":154,"./controllers/PasswordResetController":155,"./controllers/SeatingChartsController":156,"./controllers/StartUp/AddInitialCompanyController":157,"./controllers/StartUp/AddInitialOfficeController":158,"./controllers/StartUp/AddInitialTemperatureRangeController":159,"./controllers/StartUp/AddSuperAdminToOfficeController":160,"./controllers/TeamMembersController":161,"./controllers/TemperatureRangesController":162,"./controllers/UpdatePasswordController":163,"./controllers/ViewEmployeesController":164,"angular":12,"angular-dragula":7}],168:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64738,11 +68730,14 @@ exports.default = [{
   href: '/my-info',
   text: 'My Info'
 }, {
+  href: '/update-password',
+  text: 'Update Password'
+}, {
   href: '/sign-out',
   text: 'Sign Out'
 }];
 
-},{}],152:[function(require,module,exports){
+},{}],169:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64753,23 +68748,32 @@ Object.defineProperty(exports, "__esModule", {
 //
 
 exports.default = [{
-  href: '/',
-  text: 'Home'
-}, {
   href: '/login',
-  text: 'Login'
+  text: 'Login',
+  show: true
+}, {
+  href: '/companies',
+  text: 'Companies',
+  show: false
 }, {
   href: '/view-employees',
-  text: 'Employees'
+  text: 'Employees',
+  show: false
 }, {
   href: '/offices',
-  text: 'Offices'
+  text: 'Offices',
+  show: false
 }, {
   href: '/seating-charts',
-  text: 'Seating Charts'
+  text: 'Seating Charts',
+  show: false
+}, {
+  href: '/temperature-ranges',
+  text: 'Temperature Ranges',
+  show: false
 }];
 
-},{}]},{},[150])
+},{}]},{},[167])
 
 
 //# sourceMappingURL=bundle.js.map
