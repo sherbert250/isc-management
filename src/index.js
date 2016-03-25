@@ -42,6 +42,7 @@ import OfficesController from './controllers/OfficesController';
 import OfficeDetailController from './controllers/OfficeDetailController';
 import OfficeEmployeesController from './controllers/OfficeEmployeesController';
 import PasswordResetController from './controllers/PasswordResetController';
+import PasswordResetTokenController from './controllers/PasswordResetTokenController'
 import SeatingChartsController from './controllers/SeatingChartsController';
 import SignOutController from './controllers/MyAccount/SignOutController';
 import TeamMembersController from './controllers/TeamMembersController';
@@ -82,6 +83,7 @@ iscApp.controller('OfficesController', OfficesController);
 iscApp.controller('OfficeDetailController', OfficeDetailController);
 iscApp.controller('OfficeEmployeesController', OfficeEmployeesController);
 iscApp.controller('PasswordResetController', PasswordResetController);
+iscApp.controller('PasswordResetTokenController', PasswordResetTokenController);
 iscApp.controller('SeatingChartsController', SeatingChartsController);
 iscApp.controller('SignOutController', SignOutController);
 iscApp.controller('TeamMembersController', TeamMembersController);
@@ -219,6 +221,10 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   .when('/office-employees/:id', {
     templateUrl: 'views/office-employees.html',
     controller: 'OfficeEmployeesController'
+  })
+  .when('/password-reset/:resetToken', {
+    templateUrl: 'views/password-reset-token.html',
+    controller: 'PasswordResetTokenController'
   })
   .when('/password-reset', {
     templateUrl: 'views/password-reset.html',
