@@ -39,7 +39,7 @@
         <td>{{model.officeStreetAddress}}, {{model.officeCity}}, {{model.officeState}} {{model.officeZipcode}}</td>
         <td>{{model.officePhoneNumber}}</td>
         <td>{{model.officeEmail}}</td>
-        <td class="action-header"><button class="btn btn-info btn-sm" ng-click="view(model.officeID)">View</button></td>
+        <td class="action-header"><button class="btn btn-info btn-sm" ng-click="view(model.officeID, model.companyID)">View</button></td>
         <td class="action-header"><button class="btn btn-primary btn-sm" ng-click="edit(model.officeID)">Edit</button></td>
         <td class="action-header"><button class="btn btn-danger btn-sm" ng-click="delete(model.officeID)">Delete</button></td>
       </tr>

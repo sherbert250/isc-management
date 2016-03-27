@@ -6,7 +6,7 @@
   </div>
   <hr />
   <ul class="nav nav-tabs">
-    <li ng-show="adminAccess"><a data-toggle="tab" href="office-detail/{{officeID}}">Details</a></li>
+    <li ng-show="adminAccess"><a data-toggle="tab" href="office-detail/{{companyID}}/{{officeID}}">Details</a></li>
     <li class="active"><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
     <li ng-show="adminAccess"><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplan</a></li>
   </ul>
@@ -24,13 +24,16 @@
         <div class="col-md-3">
           <h3 class="employee-name">{{header}}</h3>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <img src="{{imageURL}}" ng-show="!noURL" class="profile-image" />
         </div>
         <div class="col-md-3">
           <button class="btn btn-warning btn-md" ng-show="canEdit" ng-click="updateTeammates(employeeID)">Update Team Members</button>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
+          <button class="btn btn-success btn-md" ng-show="canReassign" ng-click="reassignEmployee(employeeID)">Change Office</button>
+        </div>
+        <div class="col-md-2">
           <button class="btn btn-success btn-md" ng-show="canEdit" ng-click="editEmployee(employeeID)">Edit Employee</button>
         </div>
       </div>

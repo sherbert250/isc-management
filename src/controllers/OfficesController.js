@@ -10,7 +10,7 @@ import primaryNavItems from '../settings/primary_nav_items'
 
 export default ['$http', '$scope', '$location', '$window', ($http, $scope, $location, $window) => {
   $scope.primaryNavItems = primaryNavItems;
-  $scope = permissions.superadminPermissionCheck($http, $scope, $location, $window);
+  $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
   $scope.header = 'All Offices';
   $scope.add = function() {
     $location.path('/add-office');
@@ -37,9 +37,34 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   $scope.edit = function(officeID) {
     $location.path('/edit-office/' + officeID);
   };
-  $scope.view = function(officeID) {
-    $location.path('/office-detail/' + officeID);
+  $scope.view = function(officeID, companyID) {
+    $location.path('/office-detail/'+ companyID + '/' + officeID);
   };
+  $http({
+    method: 'GET',
+    url : `${env.api.root}/Api/Verify`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(response => {
+    //console.log(response);
+    var permissionLevel = response.data[0].permissionLevel;
+    var employeeID = response.data[0].employeeID;
+    if (permissionLevel == "admin") {
+      $http({
+        method: 'GET',
+        url : `${env.api.root}/Api/CompaniesForAdmin/` + employeeID
+      }).then(response => {
+        //console.log(response);
+        $scope.companyID = response.data[0].companyID;
+        $location.path('/company-offices/' + $scope.companyID);
+      }, err => {
+        //console.log(err);
+      });
+    }
+  }, err => {
+    //console.log(err);
+  });
   $http({
     method: 'GET',
     url: `${env.api.root}/Api/AllCompaniesForAllOffices`

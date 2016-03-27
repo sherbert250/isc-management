@@ -9,6 +9,11 @@ export default [
     show: true
   },
   {
+    href: '/admin-management',
+    text: 'Admin Management',
+    show: false
+  },
+  {
     href: '/companies',
     text: 'Companies',
     show: false

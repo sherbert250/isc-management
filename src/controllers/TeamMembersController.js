@@ -12,7 +12,9 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope.primaryNavItems = primaryNavItems;
   $scope.adminAccess = false;
   $scope.canEdit = false;
+  $scope.canReassign = false;
   $scope.employeeID = $routeParams.id;
+  $scope.companyID;
   $scope.employees = [
     {
       employeeID: 0,
@@ -55,9 +57,15 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     }, err => {
     });
   };
+  $scope.reassignEmployee = function (employeeID) {
+    $location.path('/employee-reassign-to-office/' + employeeID);
+  };
   $scope.view = function(employeeID) {
     $location.path('/employee-detail/' + employeeID);
   };
+  if($scope.officeID != parseInt($scope.officeID, 10)) {
+    $scope.officeID = 0;
+  }
   $http({
     method: 'GET',
     url: `${env.api.root}/Api/EmployeeTeammates/` + $scope.employeeID
@@ -77,6 +85,9 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     if ($scope.employee.pictureAddress !== "") {
       $scope.imageURL = `${env.api.root}/Api/Media/ProfileImage/` + $scope.employeeID;
       $scope.noURL = false;
+    } else if ($scope.employee.pictureAddress === "") {
+      $scope.imageURL = `${env.api.root}/Api/Media/DefaultImage/` ;
+      $scope.noURL = false;
     } else {
       $scope.noURL = true;
     }
@@ -88,7 +99,20 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     url: `${env.api.root}/Api/OfficeOfEmployee/` + $scope.employeeID
   }).then(response => {
     if ($scope.isEmpty(response.data)) {
-      $scope.companyName = "No Company Assigned";
+      $http({
+        method: 'GET',
+        url: `${env.api.root}/Api/CompaniesForAdmin/` + $scope.employeeID
+      }).then(response => {
+        //console.log(response);
+        if ($scope.isEmpty(response.data)) {
+          $scope.companyName = "No Company Assigned";
+        } else {
+          $scope.companyName = response.data[0].companyName;
+          $scope.companyID = response.data[0].companyID;
+        }
+      }, err => {
+        //console.log(err);
+      });
     } else {
       //console.log(response.data);
       $scope.officeID = response.data[0].officeID;
@@ -109,7 +133,9 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
           $scope.companyName = "No Company Assigned";
         } else {
           //console.log(response.data);
-          $scope.companyName = response.data[0].companyName
+          $scope.companyName = response.data[0].companyName;
+          $scope.companyID = response.data[0].companyID;
+
         }
       }, err => {
         //console.log(err);
