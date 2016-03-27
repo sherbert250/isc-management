@@ -39,6 +39,18 @@
             </div>
          </td>
         </tr>
+        <tr>
+          <th colspan="2">Assign Admin to Company</th>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div class="form-group">
+              <select class="form-control" id="company" name="company" ng-model="employee.companyID" required>
+                <option ng-repeat="item in companies" value="{{item.companyID}}">{{item.companyID}} {{item.companyName}}</option>
+              </select>
+            </div>
+         </td>
+        </tr>
       </table>
     </div>
   </div>

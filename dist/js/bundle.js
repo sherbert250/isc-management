@@ -63161,6 +63161,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   $scope.submit = function () {
     $scope.employee.password = Math.round(Math.pow(36, 8) - Math.random() * Math.pow(36, 7)).toString(36).slice(1);
     // Add employee query
+    //$scope.employee.companyID = parseInt($scope.employee.companyID, 10);
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddEmployee',
@@ -63179,11 +63180,20 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
       data: { to: $scope.employee.email, reason: 'employeeAdd', password: $scope.employee.password }
     }).then(function (response) {
       addService.set({});
-      $location.path('/admin-management');
+      $window.location.href = '/admin-management';
     }, function (err) {
-      console.log(err);
+      //console.log(err);
     });
   };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllCompanies'
+  }).then(function (response) {
+    //console.log('Response: ', response.data[0]);
+    $scope.companies = response.data;
+  }).then(function (err) {
+    //console.log('Error: ', err);
+  });
 }];
 
 },{"../core/env":183,"../settings/permissions":186,"../settings/primary_nav_items":187}],140:[function(require,module,exports){

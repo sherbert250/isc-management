@@ -29,6 +29,7 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
   $scope.submit = function() {
     $scope.employee.password = Math.round((Math.pow(36, 8) - Math.random() * Math.pow(36, 7))).toString(36).slice(1);
     // Add employee query
+    //$scope.employee.companyID = parseInt($scope.employee.companyID, 10);
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/AddEmployee`,
@@ -49,9 +50,18 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
     })
     .then(response => {
       addService.set({});
-      $location.path('/admin-management');
+      $window.location.href = '/admin-management';
     }, err => {
-      console.log(err);
+      //console.log(err);
     });
   };
+  $http({
+    method: 'GET',
+    url : `${env.api.root}/Api/AllCompanies`
+  }).then(response => {
+    //console.log('Response: ', response.data[0]);
+    $scope.companies = response.data;
+  }).then(err => {
+    //console.log('Error: ', err);
+  });
 }];
