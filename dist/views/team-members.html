@@ -44,6 +44,38 @@
         </tr>
       </table>
       <h4 class="team-members-header">Team Members</h4>
+<!-- <<<<<<< HEAD
+      <table class="table table-striped table-hover">
+        <thead>
+          <th><a href="#" ng-click="sortType = 'firstName'; sortReverse = !sortReverse">First Name
+            <span ng-show="sortType == 'firstName' && !sortReverse" class="fa fa-caret-down"></span>
+              <span ng-show="sortType == 'firstName' && sortReverse" class="fa fa-caret-up"></span></a></th>
+          <th><a href="#" ng-click="sortType = 'lastName'; sortReverse = !sortReverse">Last Name
+            <span ng-show="sortType == 'lastName' && !sortReverse" class="fa fa-caret-down"></span>
+              <span ng-show="sortType == 'lastName' && sortReverse" class="fa fa-caret-up"></span></a></th>
+          <th><a href="#" ng-click="sortType = 'title'; sortReverse = !sortReverse">Title
+            <span ng-show="sortType == 'title' && !sortReverse" class="fa fa-caret-down"></span>
+              <span ng-show="sortType == 'title' && sortReverse" class="fa fa-caret-up"></span></a></th>
+          <th><a href="#" ng-click="sortType = 'email'; sortReverse = !sortReverse">Email
+            <span ng-show="sortType == 'email' && !sortReverse" class="fa fa-caret-down"></span>
+              <span ng-show="sortType == 'email' && sortReverse" class="fa fa-caret-up"></span></a></th>
+          <th><a href="#" ng-click="sortType = 'department'; sortReverse = !sortReverse">Department
+            <span ng-show="sortType == 'department' && !sortReverse" class="fa fa-caret-down"></span>
+              <span ng-show="sortType == 'department' && sortReverse" class="fa fa-caret-up"></span></a></th>
+          <th>Action</th>
+        </thead>
+        <tbody ng-repeat="model in collection | orderBy:sortType:sortReverse">
+          <tr>
+            <td>{{model.firstName}}</td>
+            <td>{{model.lastName}}</td>
+            <td>{{model.email}}</td>
+            <td>{{model.title}}</td>
+            <td>{{model.department}}</td>
+            <td><button class="btn btn-info btn-sm" ng-click="view(model.employeeID)">View</button></td>
+          </tr>
+        </tbody>
+      </table>
+======= -->
       <div class="col-md-6">
         <form class="form-inline">
         <input ng-model="query1" type="text" class="form-control" placeholder="Search for" autofocus>
@@ -74,6 +106,7 @@
           </div>
         </div>
       </div>
+<!-- >>>>>>> master -->
     </div>
   </div>
 </div>

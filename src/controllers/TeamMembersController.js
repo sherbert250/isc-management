@@ -14,6 +14,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope.canEdit = false;
   $scope.canReassign = false;
   $scope.employeeID = $routeParams.id;
+
+  $scope.sortType = 'firstName';
+  $scope.sortReverse = false;
+
   $scope.companyID;
   $scope.employees = [
     {

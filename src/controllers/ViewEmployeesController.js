@@ -11,6 +11,9 @@ import primaryNavItems from '../settings/primary_nav_items';
 export default ['$http', '$scope', '$location', '$window', ($http, $scope, $location, $window) => {
   $scope.primaryNavItems = primaryNavItems;
   $scope.officeID;
+  $scope.sortType = 'firstName';
+  $scope.sortReverse = false;
+
   $scope = permissions.superadminPermissionCheck($http, $scope, $location, $window);
   $http({
     method: 'GET',
@@ -30,6 +33,7 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   }, err => {
     //console.log(err);
   });
+
   $scope.header = "All Employees";
   $scope.add = function() {
     $location.path('/add-employee');

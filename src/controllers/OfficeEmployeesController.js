@@ -10,6 +10,12 @@ import primaryNavItems from '../settings/primary_nav_items';
 
 export default ['$http', '$scope', '$location', '$routeParams', '$window', ($http, $scope, $location, $routeParams, $window) => {
   $scope.primaryNavItems = primaryNavItems;
+
+
+  $scope.sortType = 'firstName';
+  $scope.sortReverse = false;
+
+  $scope.emps = employees;
   $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
   $scope.emps = [];
   $scope.officeID = $routeParams.id;
