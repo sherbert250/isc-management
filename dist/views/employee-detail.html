@@ -1,4 +1,4 @@
-
+<!--  -->
 <div class="container">
   <div class="row">
     <div class="col-md-12">
@@ -22,11 +22,14 @@
     </div>
     <div class="col-md-9">
       <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-4">
           <h3 class="employee-name">{{header}}</h3>
         </div>
-        <div class="col-md-3">
-          <button class="btn btn-success btn-md" ng-show="canEdit" ng-click="editEmployee(employeeID)">Edit Employee</button>
+        <div class="col-md-4">
+          <img src="{{imageURL}}" ng-show="!noURL" class="profile-image" />
+        </div>
+        <div class="col-md-4">
+          <button class="btn btn-success btn-md" ng-click="editEmployee(employeeID)">Edit Employee</button>
         </div>
       </div>
       <table class="table table-hover" ng-repeat="item in collection">
@@ -42,7 +45,7 @@
             <th>Department</th>
             <td>{{item.department}}</td>
           </tr>
-          <tr>
+          <!-- <tr>
             <th>Black List</th>
             <td><button class="btn btn-info btn-sm" ng-click="viewBlacklist(item.employeeID)">View</button></td>
           </tr>
@@ -53,7 +56,7 @@
           <tr>
             <th>White List</th>
             <td><button class="btn btn-info btn-sm" ng-click="viewWhitelist(item.employeeID)">View</button></td>
-          </tr>
+          </tr> -->
         </table>
     </div>
   </div>

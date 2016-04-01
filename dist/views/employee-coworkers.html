@@ -21,13 +21,16 @@
     </div>
     <div class="col-md-9">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <h3 class="employee-name">{{header}}</h3>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
+          <img src="{{imageURL}}" ng-show="!noURL" class="profile-image" />
+        </div>
+        <div class="col-md-3">
           <button class="btn btn-warning btn-md" ng-show="canEdit" ng-click="updateCoworkers(employeeID, officeID)">Update Coworkers</button>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3" >
           <button class="btn btn-success btn-md" ng-show="canEdit" ng-click="editEmployee(employeeID)">Edit Employee</button>
         </div>
       </div>
@@ -73,12 +76,12 @@
             <div class='wrapper1'>
              <div class='container1' dragula='"bag1"' dragula-model='employees'>
                <div ng-repeat='employee in employees | filter: query1'>
-                 <span>{{employee.firstName}} {{employee.lastName}}, {{employee.email}}, {{employee.title}}, {{employee.department}}</span>
+                 <span>{{employee.firstName}} {{employee.lastName}}, {{employee.email}}</span>
                </div>
              </div>
              <div class='container1' dragula='"bag1"' dragula-model='blacklist'>
                 <div ng-repeat='employee in blacklist | filter: query2'>
-                  <span>{{employee.firstName}} {{employee.lastName}}, {{employee.email}}, {{employee.title}}, {{employee.department}}</span>
+                  <span>{{employee.firstName}} {{employee.lastName}}, {{employee.email}}</span>
                 </div>
              </div>
             </div>
@@ -87,12 +90,12 @@
             <div class='wrapper1'>
               <div class='container2' dragula='"bag2"' dragula-model='employees'>
                  <div ng-repeat='employee in employees | filter: query3'>
-                   <span>{{employee.firstName}} {{employee.lastName}}, {{employee.email}}, {{employee.title}}, {{employee.department}}</span>
+                   <span>{{employee.firstName}} {{employee.lastName}}, {{employee.email}}</span>
                  </div>
                </div>
                <div class='container2' dragula='"bag2"' dragula-model='whitelist'>
                  <div ng-repeat='employee in whitelist | filter: query4'>
-                   <span>{{employee.firstName}} {{employee.lastName}}, {{employee.email}}, {{employee.title}}, {{employee.department}}</span>
+                   <span>{{employee.firstName}} {{employee.lastName}}, {{employee.email}}</span>
                  </div>
               </div>
             </div>

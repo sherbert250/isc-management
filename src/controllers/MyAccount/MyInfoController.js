@@ -82,7 +82,7 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
                 //console.log('Response: ', response.data);
                 if (response.data[0].result == 0) {
                   $window.location.href = '/add-superadmin-to-office';
-                } 
+                }
               }).then(err => {
                 //console.log('Error: ', err);
               });
@@ -117,6 +117,12 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
       $scope.collection = response.data;
       $scope.employee = response.data[0];
       $scope.employeeID = $scope.employee.employeeID;
+      if ($scope.employee.pictureAddress !== "") {
+        $scope.imageURL = `${env.api.root}/Api/Media/ProfileImage/` + $scope.employeeID;
+        $scope.noURL = false;
+      } else {
+        $scope.noURL = true;
+      }
       $scope.header = $scope.employee.firstName + " " + $scope.employee.lastName;
       $http({
         method: 'GET',

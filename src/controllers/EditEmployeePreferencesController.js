@@ -8,8 +8,9 @@ import primaryNavItems from '../settings/primary_nav_items';
 // Call Query to add employee preferences to the database
 //
 
-export default ['$http', '$scope', '$location','$window', 'addService', ($http, $scope, $location, $window, addService) => {
+export default ['$http', '$scope', '$location','$routeParams', '$window', ($http, $scope, $location, $routeParams, $window) => {
   $scope.primaryNavItems = primaryNavItems;
+  $scope.employeeID = $routeParams.id;
   $scope.isEmpty = function (obj) {
     for(var prop in obj) {
         if(obj.hasOwnProperty(prop))
@@ -19,29 +20,35 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
   };
   $scope.temperatureRanges = [];
   $scope = permissions.superadminPermissionCheck($http, $scope, $location, $window);
-  $scope.header = "Add an Employee- Preferences";
-  $scope.employee = addService.get();
-  console.log($scope.employee);
+  $scope.header = "Edit Employee Preferences";
   $http({
     method: 'GET',
     url : `${env.api.root}/Api/AllTempRanges`
   }).then(response => {
     //console.log('Response: ', response.data[0]);
     $scope.temperatureRanges = response.data;
-    $scope.employee.temperatureRangeID = response.data[0].rangeID.toString();
   }).then(err => {
     //console.log('Error: ', err);
   });
-  $scope.next = function(employee) {
+  $http({
+    method: 'GET',
+    url : `${env.api.root}/Api/Employee/` + $scope.employeeID
+  }).then(response => {
+    //console.log('Response: ', response.data[0]);
+    $scope.employee = response.data[0];
+  }).then(err => {
+    //console.log('Error: ', err);
+  });
+  $scope.submit = function() {
     $scope.employee.temperatureRangeID = parseInt($scope.employee.temperatureRangeID);
-    console.log(employee);
-    addService.set(employee);
-    console.log("Added to service" + addService.get());
-    var test = addService.get();
-    console.log(test.firstName);;
-    $location.path('/add-employee-coworkers');
+    $http({
+      method: 'POST',
+      url: `${env.api.root}/Api/EditEmployeePreferences/` + $scope.employeeID,
+      data: $scope.employee
+    })
+    .then(response => {
+      $location.path('/employee-preferences/' + $scope.employeeID );
+    }, err => {
+    });
   };
-  if ($scope.isEmpty($scope.employee)) {
-    $location.path('/add-employee');
-  }
 }];

@@ -1,4 +1,5 @@
 import env from '../core/env';
+import permissions from '../settings/permissions';
 import primaryNavItems from '../settings/primary_nav_items';
 
 //
@@ -9,45 +10,7 @@ import primaryNavItems from '../settings/primary_nav_items';
 
 export default ['$http', '$scope', '$location','$window', 'addService', ($http, $scope, $location, $window, addService) => {
   $scope.primaryNavItems = primaryNavItems;
-  
-  if(!$window.sessionStorage.token){
-    $location.path('/login');
-  } else {
-    // Validate the token
-    $http({
-      method: 'GET',
-      url : `${env.api.root}/Api/Verify`,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(response => {
-      //console.log('Response: ', response.data[0]);
-      // Cookie has expired
-      if (response.data.status == 400) {
-        delete $window.sessionStorage.token;
-        $location.path('/login');
-      }
-      var permissionLevel = response.data[0].permissionLevel;
-      if (permissionLevel !== 'superadmin') {
-        if (permissionLevel === 'admin') {
-          // Redirect them to their info page
-          //$location.path('/my-info');
-        } else if (permissionLevel === 'user') {
-          // Redirect them to their info page
-          $location.path('/my-info');
-        } else {
-          alert('Invalid permission level');
-          $location.path('/')
-        }
-      } else {
-        for (var i in $scope.primaryNavItems) {
-          $scope.primaryNavItems[i].show = true;
-        }
-      }
-    }).then(err => {
-      //console.log('Error: ', err);
-    });
-  }
+  $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Add an Employee";
   $scope.employee = {
     firstName: "",
@@ -64,7 +27,7 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
   };
 
   $scope.submit = function() {
-    $scope.employee.password=Math.round((Math.pow(36, 8) - Math.random() * Math.pow(36, 7))).toString(36).slice(1);
+    $scope.employee.password = Math.round((Math.pow(36, 8) - Math.random() * Math.pow(36, 7))).toString(36).slice(1);
     // Add employee query
     $http({
       method: 'POST',
