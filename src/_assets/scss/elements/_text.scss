@@ -100,20 +100,20 @@ sub {
 }
 .container1 {
   display: table-cell;
-  background-color: #42586E;
+  background-color: #758a8a;
   width: 50%;
 }
 .container1:nth-child(odd) {
-  background-color: #3498DB;
+  background-color: #335ecc;
 }
 
 .container2 {
   display: table-cell;
-  background-color: #617487;
+  background-color: #758a8a;
   width: 50%;
 }
 .container2:nth-child(odd) {
-  background-color: #3498DB;
+  background-color: #335ecc;
 }
 /*
  * note that styling gu-mirror directly is a bad practice because it's too generic.
