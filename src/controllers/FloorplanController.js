@@ -13,7 +13,26 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope.primaryNavItems = primaryNavItems;
   $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
   $scope.officeID = $routeParams.id;
-  $scope.header = 'hello';
+  $scope.header = 'View Current FloorPLan';
+  $scope.submit = function() {
+    var adder = {
+      chartFile : 'c32.json',
+      employeeFile : 'e32.json',
+      similarityFile : 's32.json'
+    };
+    $http({
+      method: 'POST',
+      url: `${env.api.root}/Api/Algorithm/Execute`,
+      data: adder
+    }).then(response => {
+      console.log(response);
+    }, err => {
+      //console.log(err);
+    });
+  };
+  if ($scope.officeID == 0) {
+    $location.path('/my-info');
+  }
   $http({
     method: 'GET',
     url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID
@@ -21,6 +40,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     //console.log(response);
     $scope.office = response.data[0];
     $scope.header = response.data[0].companyName;
+    $scope.companyID = response.data[0].companyID;
   }, err => {
     //console.log(err);
   });

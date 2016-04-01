@@ -34,6 +34,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   }).then(response => {
     //console.log(response);
     $scope.header = response.data[0].companyName;
+    $scope.companyID = response.data[0].companyID;
   }, err => {
     //console.log(err);
   });

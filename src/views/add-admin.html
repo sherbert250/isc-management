@@ -1,6 +1,6 @@
 <div class="container">
   <h1 class="rounded-header">{{header}}</h1>
-  <form name="addIndividualInfoForm" ng-submit="next(employee)">
+  <form name="addAdminForm" ng-submit="submit()">
   <div class="row">
     <div class="col-md-12">
       <table class="table">
@@ -27,13 +27,26 @@
           <td><input class="form-control" type="text" name="department" ng-model="employee.department" required /></td>
         </tr>
         <tr>
-          <th>Select Office for Employee</th>
+          <th colspan="2">Select Permission Level</th>
         </tr>
         <tr>
           <td colspan="2">
             <div class="form-group">
-              <select class="form-control" id="office" name="office" ng-model="employee.officeID" required>
-                <option ng-repeat="item in offices" value="{{item.officeID}}">{{item.officeName}}</option>
+              <select class="form-control" id="permissionLevel" name="permissionLevel" ng-model="employee.permissionLevel" required>
+                <option  value="superadmin">superadmin</option>
+                <option  value="admin">admin</option>
+              </select>
+            </div>
+         </td>
+        </tr>
+        <tr>
+          <th colspan="2">Assign Admin to Company</th>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div class="form-group">
+              <select class="form-control" id="company" name="company" ng-model="employee.companyID" required>
+                <option ng-repeat="item in companies" value="{{item.companyID}}">{{item.companyID}} {{item.companyName}}</option>
               </select>
             </div>
          </td>
@@ -42,7 +55,7 @@
     </div>
   </div>
   <div>
-    <input class="btn btn-success btn-md add-next" ng-Click="submit()" name="submit" value="Submit" />
+    <input class="btn btn-success btn-md add-next" type="submit" name="submit" value="Submit" />
   </div>
 </form>
 </div>

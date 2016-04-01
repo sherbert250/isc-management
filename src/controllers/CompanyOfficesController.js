@@ -10,7 +10,9 @@ import primaryNavItems from '../settings/primary_nav_items'
 
 export default ['$http', '$scope', '$location','$routeParams', '$window', ($http, $scope, $location, $routeParams, $window) => {
   $scope.primaryNavItems = primaryNavItems;
-  $scope = permissions.superadminPermissionCheck($http, $scope, $location, $window);
+  $scope.companyID = $routeParams.id;
+  $scope.controlCompanies = false;
+  $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
   $scope.add = function() {
     $location.path('/add-office');
   };
@@ -37,11 +39,11 @@ export default ['$http', '$scope', '$location','$routeParams', '$window', ($http
     $location.path('/edit-office/' + officeID);
   };
   $scope.view = function(officeID) {
-    $location.path('/office-detail/' + officeID);
+    $location.path('/office-detail/' + $scope.companyID + '/' + officeID);
   };
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/Company/` + $routeParams.id
+    url: `${env.api.root}/Api/Company/` + $scope.companyID
   }).then(response => {
     //console.log(response);
     $scope.company = response.data[0];
@@ -50,7 +52,7 @@ export default ['$http', '$scope', '$location','$routeParams', '$window', ($http
   });
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/CompanyOffices/` + $routeParams.id
+    url: `${env.api.root}/Api/CompanyOffices/` + $scope.companyID
   }).then(response => {
     //console.log(response);
     $scope.offices = response.data;

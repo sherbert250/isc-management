@@ -4,7 +4,7 @@
     <h1 class="rounded-header">{{header}}</h1>
     <hr />
   </div>
-  <div class="utilitySection">
+  <div class="utilitySection" ng-show="controlCompanies">
     <div class="dropdown">
       <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Company <span class="caret"></span></button>
       <ul class="dropdown-menu">
@@ -12,7 +12,7 @@
       </ul>
     </div>
   </div>
-  <hr />
+  <hr ng-show="controlCompanies" />
   <div class="utilitySection">
     <div class="searchbox-section">
       <form class="form-inline">

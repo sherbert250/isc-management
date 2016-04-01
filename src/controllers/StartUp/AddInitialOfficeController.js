@@ -115,17 +115,6 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         //console.log('Response: ', response.data);
         if (response.data[0].result == 0) {
           $window.location.href = '/add-initial-temperature-range';
-        }
-      }).then(err => {
-        //console.log('Error: ', err);
-      });
-      $http({
-        method: 'GET',
-        url : `${env.api.root}/Api/ExistsSuperadminWithOffice`
-      }).then(response => {
-        //console.log('Response: ', response.data);
-        if (response.data[0].result == 0) {
-          $window.location.href = '/add-superadmin-to-office';
         } else {
           $window.location.href = '/offices';
         }

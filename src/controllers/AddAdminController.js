@@ -10,8 +10,8 @@ import primaryNavItems from '../settings/primary_nav_items';
 
 export default ['$http', '$scope', '$location','$window', 'addService', ($http, $scope, $location, $window, addService) => {
   $scope.primaryNavItems = primaryNavItems;
-  $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
-  $scope.header = "Add an Employee";
+  $scope = permissions.superadminPermissionCheck($http, $scope, $location, $window);
+  $scope.header = "Add an Admin";
   $scope.employee = {
     firstName: "",
     lastName: "",
@@ -25,9 +25,11 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
     pictureAddress: "",
     permissionLevel: "user"
   };
+
   $scope.submit = function() {
     $scope.employee.password = Math.round((Math.pow(36, 8) - Math.random() * Math.pow(36, 7))).toString(36).slice(1);
     // Add employee query
+    //$scope.employee.companyID = parseInt($scope.employee.companyID, 10);
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/AddEmployee`,
@@ -48,17 +50,17 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
     })
     .then(response => {
       addService.set({});
-      $location.path('/view-employees');
+      $window.location.href = '/admin-management';
     }, err => {
-      console.log(err);
+      //console.log(err);
     });
   };
   $http({
     method: 'GET',
-    url : `${env.api.root}/Api/AllOffices`
+    url : `${env.api.root}/Api/AllCompanies`
   }).then(response => {
     //console.log('Response: ', response.data[0]);
-    $scope.offices = response.data;
+    $scope.companies = response.data;
   }).then(err => {
     //console.log('Error: ', err);
   });

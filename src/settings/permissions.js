@@ -51,17 +51,6 @@ exports.superadminPermissionCheck = function($http, $scope, $location, $window) 
               }).then(err => {
                 //console.log('Error: ', err);
               });
-              $http({
-                method: 'GET',
-                url : `${env.api.root}/Api/ExistsSuperadminWithOffice`
-              }).then(response => {
-                //console.log('Response: ', response.data);
-                if (response.data[0].result == 0) {
-                  $window.location.href = '/add-superadmin-to-office';
-                }
-              }).then(err => {
-                //console.log('Error: ', err);
-              });
             }
           }).then(err => {
             //console.log('Error: ', err);
@@ -84,6 +73,7 @@ exports.superadminPermissionCheck = function($http, $scope, $location, $window) 
           $location.path('/')
         }
       } else {
+        $scope.controlCompanies = true;
         for (var i in $scope.primaryNavItems) {
           $scope.primaryNavItems[i].show = true;
         }
@@ -145,17 +135,6 @@ exports.adminPermissionCheck = function($http, $scope, $location, $window) {
               }).then(err => {
                 //console.log('Error: ', err);
               });
-              $http({
-                method: 'GET',
-                url : `${env.api.root}/Api/ExistsSuperadminWithOffice`
-              }).then(response => {
-                //console.log('Response: ', response.data);
-                if (response.data[0].result == 0) {
-                  $window.location.href = '/add-superadmin-to-office';
-                }
-              }).then(err => {
-                //console.log('Error: ', err);
-              });
             }
           }).then(err => {
             //console.log('Error: ', err);
@@ -170,6 +149,10 @@ exports.adminPermissionCheck = function($http, $scope, $location, $window) {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
           //$location.path('/my-info');
+          for (var i in $scope.primaryNavItems) {
+            if ($scope.primaryNavItems[i].text == "Offices")
+            $scope.primaryNavItems[i].show = true;
+          }
         } else if (permissionLevel === 'user') {
           // Redirect them to their info page
           $location.path('/my-info');
@@ -240,17 +223,6 @@ exports.userPermissionCheck = function($http, $scope, $location, $window) {
               }).then(err => {
                 //console.log('Error: ', err);
               });
-              $http({
-                method: 'GET',
-                url : `${env.api.root}/Api/ExistsSuperadminWithOffice`
-              }).then(response => {
-                //console.log('Response: ', response.data);
-                if (response.data[0].result == 0) {
-                  $window.location.href = '/add-superadmin-to-office';
-                }
-              }).then(err => {
-                //console.log('Error: ', err);
-              });
             }
           }).then(err => {
             //console.log('Error: ', err);
@@ -267,6 +239,11 @@ exports.userPermissionCheck = function($http, $scope, $location, $window) {
           //$location.path('/my-info');
           $scope.canEdit = true;
           $scope.adminAccess = true;
+          $scope.canReassign = false;
+          for (var i in $scope.primaryNavItems) {
+            if ($scope.primaryNavItems[i].text == "Offices")
+            $scope.primaryNavItems[i].show = true;
+          }
         } else if (permissionLevel === 'user') {
           // Redirect them to their info page
           //$location.path('/my-info');
@@ -280,6 +257,7 @@ exports.userPermissionCheck = function($http, $scope, $location, $window) {
       } else {
         $scope.adminAccess = true;
         $scope.canEdit = true;
+        $scope.canReassign = true
         for (var i in $scope.primaryNavItems) {
           $scope.primaryNavItems[i].show = true;
         }

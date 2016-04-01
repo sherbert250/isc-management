@@ -62712,6 +62712,324 @@ var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
+// Add Employee New Controller
+//
+// Call Query to add employee to the database
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', 'addService', function ($http, $scope, $location, $window, addService) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
+  $scope.header = "Add an Admin";
+  $scope.employee = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    department: "",
+    title: "",
+    restroomUsage: 1,
+    noisePreference: 1,
+    outOfDesk: 1,
+    pictureAddress: "",
+    permissionLevel: "user"
+  };
+
+  $scope.submit = function () {
+    $scope.employee.password = Math.round(Math.pow(36, 8) - Math.random() * Math.pow(36, 7)).toString(36).slice(1);
+    // Add employee query
+    //$scope.employee.companyID = parseInt($scope.employee.companyID, 10);
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/AddEmployee',
+      data: $scope.employee
+    }).then(function (response) {
+      addService.set({});
+      //$location.path('/view-employees');
+    }, function (err) {
+      //console.log(err);
+    });
+    addService.set({});
+    //send Email to new employee
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/SendEmail',
+      data: { to: $scope.employee.email, reason: 'employeeAdd', password: $scope.employee.password }
+    }).then(function (response) {
+      addService.set({});
+      $window.location.href = '/admin-management';
+    }, function (err) {
+      //console.log(err);
+    });
+  };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllCompanies'
+  }).then(function (response) {
+    //console.log('Response: ', response.data[0]);
+    $scope.companies = response.data;
+  }).then(function (err) {
+    //console.log('Error: ', err);
+  });
+}];
+
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],128:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _permissions = require('../settings/permissions');
+
+var _permissions2 = _interopRequireDefault(_permissions);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Reassign Employee To Office Controller
+//
+// Reassign Employee To Office
+//
+
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
+  $scope.header = 'Add Admin to Company';
+  $scope.employeeID = $routeParams.id;
+  $scope.submit = function () {
+    var adder = {
+      employeeID: parseInt($scope.employeeID),
+      companyID: parseInt($scope.companyID)
+    };
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/AddAdminToCompany/',
+      data: adder
+    }).then(function (response) {
+      //console.log(response);
+      $window.location.href = "/admin-management";
+    }, function (err) {
+      //console.log(err);
+    });
+  };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/ExistsEmployee/' + $scope.employeeID
+  }).then(function (response) {
+    //console.log(response);
+    $scope.existsEmployee = response.data[0];
+    if ($scope.existsEmployee.result === 0) {
+      window.location.href = '/add-admin';
+    }
+  }, function (err) {
+    //console.log(err);
+  });
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/ExistsCompanyForAdmin/' + $scope.employeeID
+  }).then(function (response) {
+    //console.log(response);
+    $scope.existsCompanyForAdmin = response.data[0];
+    if ($scope.existsCompanyForAdmin.result === 1) {
+      window.location.href = '/admin-management';
+    } else {
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
+      }).then(function (response) {
+        //console.log(response);
+        $scope.employee = response.data[0];
+        if ($scope.employee.pictureAddress !== "") {
+          $scope.imageURL = _env2.default.api.root + '/Api/Media/ProfileImage/' + $scope.employeeID;
+          $scope.noURL = false;
+        } else if ($scope.employee.pictureAddress === "") {
+          $scope.imageURL = _env2.default.api.root + '/Api/Media/DefaultImage/';
+          $scope.noURL = false;
+        } else {
+          $scope.noURL = true;
+        }
+      }, function (err) {
+        //console.log(err);
+      });
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/AllCompanies'
+      }).then(function (response) {
+        //console.log(response);
+        $scope.companies = response.data;
+      }, function (err) {
+        //console.log(err);
+      });
+    }
+  }, function (err) {
+    //console.log(err);
+  });
+}];
+
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],129:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _permissions = require('../settings/permissions');
+
+var _permissions2 = _interopRequireDefault(_permissions);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Add Employee To Office Controller
+//
+// Add Employee To Office
+//
+
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
+  $scope.header = 'Add Admin to Office';
+  $scope.employeeID = $routeParams.id;
+  $scope.submit = function () {
+    var adder = {
+      employeeID: $scope.employeeID,
+      officeID: $scope.officeID
+    };
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/AddEmployeeToOffice/',
+      data: adder
+    }).then(function (response) {
+      //console.log(response);
+      $window.location.href = "/admin-management";
+    }, function (err) {
+      //console.log(err);
+    });
+  };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/ExistsEmployee/' + $scope.employeeID
+  }).then(function (response) {
+    //console.log(response);
+    $scope.existsEmployee = response.data[0];
+    if ($scope.existsEmployee.result === 0) {
+      window.location.href = '/add-admin';
+    }
+  }, function (err) {
+    //console.log(err);
+  });
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/ExistsCompanyForAdmin/' + $scope.employeeID
+  }).then(function (response) {
+    //console.log(response);
+    $scope.existsCompanyForAdmin = response.data[0];
+    if ($scope.existsCompanyForAdmin.result === 0) {
+      window.location.href = '/add-admin-to-company/' + $scope.employeeID;
+    }
+  }).then(function (err) {});
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/ExistsEmployeeInOffice/' + $scope.employeeID
+  }).then(function (response) {
+    //console.log(response);
+    $scope.existsCompanyForAdmin = response.data[0];
+    if ($scope.existsCompanyForAdmin.result === 1) {
+      window.location.href = '/admin-management';
+    } else {
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
+      }).then(function (response) {
+        //console.log(response);
+        $scope.employee = response.data[0];
+        if ($scope.employee.pictureAddress !== "") {
+          $scope.imageURL = _env2.default.api.root + '/Api/Media/ProfileImage/' + $scope.employeeID;
+          $scope.noURL = false;
+        } else if ($scope.employee.pictureAddress === "") {
+          $scope.imageURL = _env2.default.api.root + '/Api/Media/DefaultImage/';
+          $scope.noURL = false;
+        } else {
+          $scope.noURL = true;
+        }
+        if ($scope.employee.permissionLevel === "superadmin") {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/AllOffices' + $scope.employeeID
+          }).then(function (response) {
+            //console.log(response);
+            $scope.offices = response.data;
+          }, function (err) {
+            //console.log(err);
+          });
+        } else if ($scope.employee.permissionLevel === "admin") {
+            $http({
+              method: 'GET',
+              url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + $scope.employeeID
+            }).then(function (response) {
+              //console.log(response);
+              $scope.company = response.data[0];
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/CompanyOffices/' + $scope.company.companyID
+              }).then(function (response) {
+                //console.log(response);
+                $scope.offices = response.data;
+              }, function (err) {
+                //console.log(err);
+              });
+            }, function (err) {
+              //console.log(err);
+            });
+          }
+      }, function (err) {
+        //console.log(err);
+      });
+    }
+  }, function (err) {
+    //console.log(err);
+  });
+}];
+
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],130:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _permissions = require('../settings/permissions');
+
+var _permissions2 = _interopRequireDefault(_permissions);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
 // Add Company Controller
 //
 // Call Query to add Company to the database
@@ -62737,7 +63055,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],128:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],131:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62837,7 +63155,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   }
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],129:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],132:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62909,7 +63227,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   };
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],130:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],133:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62953,7 +63271,6 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
     pictureAddress: "",
     permissionLevel: "user"
   };
-
   $scope.submit = function () {
     $scope.employee.password = Math.round(Math.pow(36, 8) - Math.random() * Math.pow(36, 7)).toString(36).slice(1);
     // Add employee query
@@ -62980,9 +63297,18 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
       console.log(err);
     });
   };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllOffices'
+  }).then(function (response) {
+    //console.log('Response: ', response.data[0]);
+    $scope.offices = response.data;
+  }).then(function (err) {
+    //console.log('Error: ', err);
+  });
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],131:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],134:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63046,7 +63372,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   }
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],132:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],135:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63108,7 +63434,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],133:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],136:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63175,7 +63501,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],134:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],137:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63229,7 +63555,274 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],135:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],138:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _permissions = require('../settings/permissions');
+
+var _permissions2 = _interopRequireDefault(_permissions);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Add Company Controller
+//
+// Call Query to add Company to the database
+//
+
+exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
+  $scope.header = "Admin Management";
+  $scope.message = "";
+  $scope.addAdmin = function () {
+    $location.path('/add-admin');
+  };
+  $scope.addToCompany = function (employeeID) {
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/ExistsCompanyForAdmin/' + employeeID
+    }).then(function (response) {
+      //console.log(response);
+      $scope.existsCompanyForAdmin = response.data[0];
+      if ($scope.existsCompanyForAdmin.result === 1) {
+        $scope.message = "Company already added for Employee #" + employeeID;
+      } else {
+        $location.path('/add-admin-to-company/' + employeeID);
+      }
+    });
+  };
+  $scope.reassignEmployeeToCompany = function (employeeID, permissionLevel) {
+    if (permissionLevel === "superadmin") {
+      $scope.message = "Superadmins are assigned to all companies";
+    } else {
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/ExistsCompanyForAdmin/' + employeeID
+      }).then(function (response) {
+        //console.log(response);
+        $scope.existsCompanyForAdmin = response.data[0];
+        if ($scope.existsCompanyForAdmin.result === 1) {
+          $location.path('/admin-reassign-to-company/' + employeeID);
+        } else {
+          $location.path('/add-admin-to-company/' + employeeID);
+        }
+      });
+    }
+  };
+  $scope.removeFromCompany = function (employeeID, permissionLevel) {
+    var companyID;
+    var existsCompanyForAdmin;
+    if (permissionLevel === "superadmin") {
+      $scope.message = "Superadmins must be assigned to all companies";
+    } else {
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/existsCompanyForAdmin/' + employeeID
+      }).then(function (response) {
+        existsCompanyForAdmin = response.data[0];
+        if (existsCompanyForAdmin.result === 1) {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + employeeID
+          }).then(function (response) {
+            companyID = response.data[0].companyID;
+            $http({
+              method: 'GET',
+              url: _env2.default.api.root + '/Api/DeleteAdminFromCompany/' + employeeID + "/" + companyID
+            }).then(function (response) {
+              $location.path('/add-admin-to-company/' + employeeID);
+            });
+          });
+        } else {
+          $scope.message = "No company to delete for admin #" + employeeID;
+        }
+      });
+    }
+  };
+  $scope.addToOffice = function (employeeID) {
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/ExistsOfficeForAdmin/' + employeeID
+    }).then(function (response) {
+      //console.log(response);
+      $scope.existsOfficeForAdmin = response.data[0];
+      if ($scope.existsOfficeForAdmin.result === 1) {
+        $scope.message = "Office already added for Employee #" + employeeID;
+      } else {
+        $location.path('/add-admin-to-office/' + employeeID);
+      }
+    });
+  };
+  $scope.reassignEmployeeToOffice = function (employeeID) {
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/ExistsEmployeeInOffice/' + employeeID
+    }).then(function (response) {
+      //console.log(response);
+      $scope.existsEmployeeInOffice = response.data[0];
+      if ($scope.existsEmployeeInOffice.result === 1) {
+        $location.path('/employee-reassign-to-office/' + employeeID);
+      } else {
+        $location.path('/add-admin-to-office/' + employeeID);
+      }
+    });
+  };
+  $scope.removeFromOffice = function (employeeID) {
+    var companyID;
+    var existsEmployeeInOffice;
+
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/existsEmployeeInOffice/' + employeeID
+    }).then(function (response) {
+      existsEmployeeInOffice = response.data[0];
+      if (existsEmployeeInOffice.result === 1) {
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/DeleteEmployeeFromOffice/' + employeeID
+        }).then(function (response) {
+          $scope.message = "Deleted office for admin #" + employeeID;
+        });
+      } else {
+        $scope.message = "No office to delete for admin #" + employeeID;
+      }
+    });
+  };
+  $scope.viewAdmin = function (employeeID) {
+    $location.path('/employee-detail/' + employeeID);
+  };
+  $scope.deleteAdmin = function (employeeID) {
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID
+    }).then(function (response) {
+      //console.log(response);
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/AllAdminEmployees'
+      }).then(function (response) {
+        //console.log(response);
+        $scope.admins = response.data;
+      }, function (err) {
+        //console.log(err);
+      });
+    }, function (err) {
+      //console.log(err);
+    });
+  };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllAdminEmployees'
+  }).then(function (response) {
+    //console.log(response);
+    $scope.admins = response.data;
+  }, function (err) {
+    //console.log(err);
+  });
+}];
+
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],139:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _permissions = require('../settings/permissions');
+
+var _permissions2 = _interopRequireDefault(_permissions);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Reassign Employee To Office Controller
+//
+// Reassign Employee To Office
+//
+
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
+  $scope.header = 'Reassign Admin to Company';
+  $scope.employeeID = $routeParams.id;
+  $scope.submit = function () {
+    var adder = {
+      employeeID: $scope.employeeID,
+      companyID: $scope.companyID
+    };
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/EditAdminToCompany/' + $scope.companyID,
+      data: adder
+    }).then(function (response) {
+      //console.log(response);
+      $window.location.href = "/admin-management";
+    }, function (err) {
+      //console.log(err);
+    });
+  };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/ExistsCompanyForAdmin/' + $scope.employeeID
+  }).then(function (response) {
+    //console.log(response);
+    $scope.existsCompanyForAdmin = response.data[0];
+    if ($scope.existsCompanyForAdmin.result === 1) {
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
+      }).then(function (response) {
+        //console.log(response);
+        $scope.employee = response.data[0];
+        if ($scope.employee.pictureAddress !== "") {
+          $scope.imageURL = _env2.default.api.root + '/Api/Media/ProfileImage/' + $scope.employeeID;
+          $scope.noURL = false;
+        } else if ($scope.employee.pictureAddress === "") {
+          $scope.imageURL = _env2.default.api.root + '/Api/Media/DefaultImage/';
+          $scope.noURL = false;
+        } else {
+          $scope.noURL = true;
+        }
+      }, function (err) {
+        //console.log(err);
+      });
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/AllCompanies'
+      }).then(function (response) {
+        //console.log(response);
+        $scope.companies = response.data;
+      }, function (err) {
+        //console.log(err);
+      });
+    } else {
+        $location.path('/add-admin-to-company/' + $scope.employeeID);
+      }
+  });
+}];
+
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],140:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63299,7 +63892,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],136:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],141:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63328,7 +63921,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
-  $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
+  $scope.companyID = $routeParams.id;
+  $scope.controlCompanies = false;
+  $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.add = function () {
     $location.path('/add-office');
   };
@@ -63355,11 +63950,11 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $location.path('/edit-office/' + officeID);
   };
   $scope.view = function (officeID) {
-    $location.path('/office-detail/' + officeID);
+    $location.path('/office-detail/' + $scope.companyID + '/' + officeID);
   };
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/Company/' + $routeParams.id
+    url: _env2.default.api.root + '/Api/Company/' + $scope.companyID
   }).then(function (response) {
     //console.log(response);
     $scope.company = response.data[0];
@@ -63367,7 +63962,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }, function (err) {});
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/CompanyOffices/' + $routeParams.id
+    url: _env2.default.api.root + '/Api/CompanyOffices/' + $scope.companyID
   }).then(function (response) {
     //console.log(response);
     $scope.offices = response.data;
@@ -63383,7 +63978,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],137:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],142:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63437,7 +64032,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],138:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],143:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63530,7 +64125,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'U
   };
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],139:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],144:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63599,7 +64194,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],140:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],145:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63653,7 +64248,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],141:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],146:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63707,63 +64302,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],142:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _env = require('../core/env');
-
-var _env2 = _interopRequireDefault(_env);
-
-var _permissions = require('../settings/permissions');
-
-var _permissions2 = _interopRequireDefault(_permissions);
-
-var _primary_nav_items = require('../settings/primary_nav_items');
-
-var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//
-// Employee Blacklist Controller
-//
-// Show a list of all employees in an employee's blacklist
-//
-
-exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
-  $scope.primaryNavItems = _primary_nav_items2.default;
-
-  $scope.sortType = 'firstName';
-  $scope.sortReverse = false;
-
-  $scope = _permissions2.default.userPermissionCheck($http, $scope, $location, $window);
-  $scope.employeeID = $routeParams.id;
-  $scope.header = 'Blacklist for Employee ID ' + $scope.employeeID;
-  $scope.isEmpty = function (obj) {
-    for (var prop in obj) {
-      if (obj.hasOwnProperty(prop)) return false;
-    }
-    return true;
-  };
-  $scope.view = function (employeeID) {
-    $location.path('/employee-detail/' + employeeID);
-  };
-  $http({
-    method: 'GET',
-    url: _env2.default.api.root + '/Api/EmployeeBlacklist/' + $scope.employeeID
-  }).then(function (response) {
-    //console.log(response);
-    $scope.collection = response.data;
-  }, function (err) {
-    //console.log(err);
-  });
-}];
-
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],143:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],147:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63793,9 +64332,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
   $scope.canEdit = false;
+  $scope.canReassign = false;
   $scope.adminAccess = false;
   $scope.employeeID = $routeParams.employeeID;
   $scope.officeID = $routeParams.officeID;
+  $scope.companyID;
   $scope = _permissions2.default.userPermissionCheck($http, $scope, $location, $window);
   $scope.employees = [{
     employeeID: 0,
@@ -63843,9 +64384,15 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     }
     return true;
   };
+  $scope.reassignEmployee = function (employeeID) {
+    $location.path('/employee-reassign-to-office/' + employeeID);
+  };
   $scope.view = function (employeeID) {
     $location.path('/employee-detail/' + employeeID);
   };
+  if ($scope.officeID != parseInt($scope.officeID, 10)) {
+    $scope.officeID = 0;
+  }
   $http({
     method: 'GET',
     url: _env2.default.api.root + '/Api/EmployeesNotInWhiteListOrBlackList/' + $scope.employeeID + '/' + $scope.officeID
@@ -63884,6 +64431,9 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     if ($scope.employee.pictureAddress !== "") {
       $scope.imageURL = _env2.default.api.root + '/Api/Media/ProfileImage/' + $scope.employeeID;
       $scope.noURL = false;
+    } else if ($scope.employee.pictureAddress === "") {
+      $scope.imageURL = _env2.default.api.root + '/Api/Media/DefaultImage/';
+      $scope.noURL = false;
     } else {
       $scope.noURL = true;
     }
@@ -63895,17 +64445,31 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
   }).then(function (response) {
     if ($scope.isEmpty(response.data)) {
-      $scope.companyName = "No Company Assigned";
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + $scope.employeeID
+      }).then(function (response) {
+        //console.log(response);
+        if ($scope.isEmpty(response.data)) {
+          $scope.companyName = "No Company Assigned";
+        } else {
+          $scope.companyName = response.data[0].companyName;
+          $scope.companyID = response.data[0].companyID;
+        }
+      }, function (err) {
+        //console.log(err);
+      });
     } else {
-      //console.log(response.data);
-      $scope.companyName = response.data[0].companyName;
-    }
+        //console.log(response.data);
+        $scope.companyName = response.data[0].companyName;
+        $scope.companyID = response.data[0].companyID;
+      }
   }, function (err) {
     //console.log(err);
   });
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],144:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],148:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63936,7 +64500,9 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.primaryNavItems = _primary_nav_items2.default;
   $scope.adminAccess = false;
   $scope.canEdit = false;
+  $scope.canReassign = false;
   $scope.employeeID = $routeParams.id;
+  $scope.companyID;
   $scope = _permissions2.default.userPermissionCheck($http, $scope, $location, $window);
   $scope.editEmployee = function (employeeID) {
     $location.path('/edit-employee/' + employeeID);
@@ -63947,15 +64513,21 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     }
     return true;
   };
-  /*$scope.viewBlacklist = function(employeeID) {
-    $location.path('/employee-blacklist/' + employeeID);
+  $scope.reassignEmployee = function (employeeID) {
+    $location.path('/employee-reassign-to-office/' + employeeID);
   };
-  $scope.viewTeamMembers = function(employeeID) {
+  $scope.viewBlacklist = function (employeeID) {
+    $location.path('/employee-coworkers/' + employeeID + '/' + $scope.officeID);
+  };
+  $scope.viewTeamMembers = function (employeeID) {
     $location.path('/team-members/' + employeeID);
   };
-  $scope.viewWhitelist = function(employeeID) {
-    $location.path('/employee-whitelist/' + employeeID);
-  };*/
+  $scope.viewWhitelist = function (employeeID) {
+    $location.path('/employee-coworkers/' + employeeID + '/' + $scope.officeID);
+  };
+  if ($scope.officeID != parseInt($scope.officeID, 10)) {
+    $scope.officeID = 0;
+  }
   $http({
     method: 'GET',
     url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
@@ -63965,6 +64537,9 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $scope.header = $scope.collection[0].firstName + ' ' + $scope.collection[0].lastName;
     if ($scope.collection[0].pictureAddress !== "") {
       $scope.imageURL = _env2.default.api.root + '/Api/Media/ProfileImage/' + $scope.employeeID;
+      $scope.noURL = false;
+    } else if ($scope.collection[0].pictureAddress === "") {
+      $scope.imageURL = _env2.default.api.root + '/Api/Media/DefaultImage/';
       $scope.noURL = false;
     } else {
       $scope.noURL = true;
@@ -63977,30 +64552,44 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
   }).then(function (response) {
     if ($scope.isEmpty(response.data)) {
-      $scope.companyName = "No Company Assigned";
-    } else {
-      //console.log(response.data);
-      $scope.officeID = response.data[0].officeID;
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+        url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + $scope.employeeID
       }).then(function (response) {
+        //console.log(response);
         if ($scope.isEmpty(response.data)) {
           $scope.companyName = "No Company Assigned";
         } else {
-          //console.log(response.data);
           $scope.companyName = response.data[0].companyName;
+          $scope.companyID = response.data[0].companyID;
         }
       }, function (err) {
         //console.log(err);
       });
-    }
+    } else {
+        //console.log(response.data);
+        $scope.officeID = response.data[0].officeID;
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+        }).then(function (response) {
+          if ($scope.isEmpty(response.data)) {
+            $scope.companyName = "No Company Assigned";
+          } else {
+            //console.log(response.data);
+            $scope.companyName = response.data[0].companyName;
+            $scope.companyID = response.data[0].companyID;
+          }
+        }, function (err) {
+          //console.log(err);
+        });
+      }
   }, function (err) {
     //console.log(err);
   });
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],145:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],149:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64031,7 +64620,9 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.primaryNavItems = _primary_nav_items2.default;
   $scope.adminAccess = false;
   $scope.canEdit = false;
+  $scope.canReassign = false;
   $scope.employeeID = $routeParams.id;
+  $scope.companyID;
   $scope = _permissions2.default.userPermissionCheck($http, $scope, $location, $window);
   $scope.editPreferences = function (employeeID) {
     $location.path('/edit-employee-preferences/' + employeeID);
@@ -64042,6 +64633,12 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     }
     return true;
   };
+  $scope.reassignEmployee = function (employeeID) {
+    $location.path('/employee-reassign-to-office/' + employeeID);
+  };
+  if ($scope.officeID != parseInt($scope.officeID, 10)) {
+    $scope.officeID = 0;
+  }
   $http({
     method: 'GET',
     url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
@@ -64051,6 +64648,9 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $scope.header = $scope.collection[0].firstName + ' ' + $scope.collection[0].lastName;
     if ($scope.collection[0].pictureAddress !== "") {
       $scope.imageURL = _env2.default.api.root + '/Api/Media/ProfileImage/' + $scope.employeeID;
+      $scope.noURL = false;
+    } else if ($scope.collection[0].pictureAddress === "") {
+      $scope.imageURL = _env2.default.api.root + '/Api/Media/DefaultImage/';
       $scope.noURL = false;
     } else {
       $scope.noURL = true;
@@ -64072,30 +64672,44 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
   }).then(function (response) {
     if ($scope.isEmpty(response.data)) {
-      $scope.companyName = "No Company Assigned";
-    } else {
-      //console.log(response.data);
-      $scope.officeID = response.data[0].officeID;
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+        url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + $scope.employeeID
       }).then(function (response) {
+        //console.log(response);
         if ($scope.isEmpty(response.data)) {
           $scope.companyName = "No Company Assigned";
         } else {
-          //console.log(response.data);
           $scope.companyName = response.data[0].companyName;
+          $scope.companyID = response.data[0].companyID;
         }
       }, function (err) {
         //console.log(err);
       });
-    }
+    } else {
+        //console.log(response.data);
+        $scope.officeID = response.data[0].officeID;
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+        }).then(function (response) {
+          if ($scope.isEmpty(response.data)) {
+            $scope.companyName = "No Company Assigned";
+          } else {
+            //console.log(response.data);
+            $scope.companyName = response.data[0].companyName;
+            $scope.companyID = response.data[0].companyID;
+          }
+        }, function (err) {
+          //console.log(err);
+        });
+      }
   }, function (err) {
     //console.log(err);
   });
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],146:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],150:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64117,41 +64731,128 @@ var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Employee Whitelist Controller
+// Reassign Employee To Office Controller
 //
-// Show a list of all employees in an employee's whitelist
+// Reassign Employee To Office
 //
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
-
-  $scope.sortType = 'firstName';
-  $scope.sortReverse = false;
-
-  $scope = _permissions2.default.userPermissionCheck($http, $scope, $location, $window);
+  $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
+  $scope.header = 'Reassign Employee to Office';
   $scope.employeeID = $routeParams.id;
-  $scope.header = 'Whitelist for Employee ID ' + $scope.employeeID;
-  $scope.isEmpty = function (obj) {
-    for (var prop in obj) {
-      if (obj.hasOwnProperty(prop)) return false;
-    }
-    return true;
-  };
-  $scope.view = function (employeeID) {
-    $location.path('/employee-detail/' + employeeID);
+  $scope.office;
+  $scope.officeID;
+  $scope.company;
+  $scope.offices;
+  $scope.submit = function () {
+    var adder = {
+      employeeID: $scope.employeeID,
+      officeID: $scope.office.officeID
+    };
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/EditEmployeeWorksAtOffice/' + $scope.officeID,
+      data: adder
+    }).then(function (response) {
+      //console.log(response);
+      $window.location.href = "/employee-detail/" + $scope.employeeID;
+    }, function (err) {
+      //console.log(err);
+    });
   };
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/EmployeeWhitelist/' + $scope.employeeID
+    url: _env2.default.api.root + '/Api/ExistsEmployeeInOffice/' + $scope.employeeID
   }).then(function (response) {
     //console.log(response);
-    $scope.collection = response.data;
+    $scope.existsEmployeeInOffice = response.data[0];
+    if ($scope.existsEmployeeInOffice.result === 0) {
+      $location.path('/add-admin-to-office/' + $scope.employeeID);
+    }
+  });
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/ExistsCompanyForAdmin/' + $scope.employeeID
+  }).then(function (response) {
+    //console.log(response);
+    $scope.existsCompanyForAdmin = response.data[0];
+    if ($scope.existsCompanyForAdmin.result === 0) {
+      window.location.href = '/add-admin-to-company/' + $scope.employeeID;
+    } else {
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
+      }).then(function (response) {
+        //console.log(response);
+        $scope.employee = response.data[0];
+        if ($scope.employee.pictureAddress !== "") {
+          $scope.imageURL = _env2.default.api.root + '/Api/Media/ProfileImage/' + $scope.employeeID;
+          $scope.noURL = false;
+        } else if ($scope.employee.pictureAddress === "") {
+          $scope.imageURL = _env2.default.api.root + '/Api/Media/DefaultImage/';
+          $scope.noURL = false;
+        } else {
+          $scope.noURL = true;
+        }
+      }, function (err) {
+        //console.log(err);
+      });
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
+      }).then(function (response) {
+        //console.log(response);
+        $scope.officeID = response.data[0].officeID;
+        var permissionLevel;
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
+        }).then(function (response) {
+          //console.log(response);
+          permissionLevel = response.data[0].permissionLevel;
+          if (permissionLevel === "superadmin") {
+            $http({
+              method: 'GET',
+              url: _env2.default.api.root + '/Api/AllOffices'
+            }).then(function (response) {
+              //console.log(response);
+              $scope.offices = response.data;
+            }, function (err) {
+              //console.log(err);
+            });
+          } else if (permissionLevel === "admin") {
+              //console.log($scope.officeID);
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+              }).then(function (response) {
+                //console.log(response);
+                $scope.company = response.data[0];
+                $http({
+                  method: 'GET',
+                  url: _env2.default.api.root + '/Api/CompanyOffices/' + $scope.company.companyID
+                }).then(function (response) {
+                  //console.log(response);
+                  $scope.offices = response.data;
+                }, function (err) {
+                  //console.log(err);
+                });
+              }, function (err) {
+                //console.log(err);
+              });
+            }
+        });
+      }, function (err) {
+        //console.log(err);
+      });
+    }
   }, function (err) {
     //console.log(err);
   });
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],147:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],151:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64172,7 +64873,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {}];
 
-},{"../../core/env":166}],148:[function(require,module,exports){
+},{"../../core/env":171}],152:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64204,7 +64905,26 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.primaryNavItems = _primary_nav_items2.default;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.officeID = $routeParams.id;
-  $scope.header = 'hello';
+  $scope.header = 'View Current FloorPLan';
+  $scope.submit = function () {
+    var adder = {
+      chartFile: 'c32.json',
+      employeeFile: 'e32.json',
+      similarityFile: 's32.json'
+    };
+    $http({
+      method: 'POST',
+      url: _env2.default.api.root + '/Api/Algorithm/Execute',
+      data: adder
+    }).then(function (response) {
+      console.log(response);
+    }, function (err) {
+      //console.log(err);
+    });
+  };
+  if ($scope.officeID == 0) {
+    $location.path('/my-info');
+  }
   $http({
     method: 'GET',
     url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
@@ -64212,6 +64932,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     //console.log(response);
     $scope.office = response.data[0];
     $scope.header = response.data[0].companyName;
+    $scope.companyID = response.data[0].companyID;
   }, function (err) {
     //console.log(err);
   });
@@ -64226,7 +64947,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],149:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],153:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64425,7 +65146,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":166,"../settings/primary_nav_items":170}],150:[function(require,module,exports){
+},{"../core/env":171,"../settings/primary_nav_items":175}],154:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64459,7 +65180,7 @@ exports.default = ['$scope', '$route', '$routeParams', '$location', function ($s
   $scope.primaryNavItems = _primary_nav_items2.default;
 }];
 
-},{"../settings/account_nav_items":168,"../settings/primary_nav_items":170}],151:[function(require,module,exports){
+},{"../settings/account_nav_items":173,"../settings/primary_nav_items":175}],155:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64485,6 +65206,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
   $scope.adminAccess = false;
+  $scope.canReassign = false;
   $scope.editEmployee = function (employeeID) {
     $location.path('/edit-employee/' + employeeID);
   };
@@ -64494,15 +65216,21 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     }
     return true;
   };
+  $scope.reassignEmployee = function (employeeID) {
+    $location.path('/employee-reassign-to-office/' + employeeID);
+  };
   $scope.viewBlacklist = function (employeeID) {
-    $location.path('/employee-blacklist/' + employeeID);
+    $location.path('/employee-coworkers/' + employeeID + '/' + $scope.officeID);
   };
   $scope.viewTeamMembers = function (employeeID) {
     $location.path('/team-members/' + employeeID);
   };
   $scope.viewWhitelist = function (employeeID) {
-    $location.path('/employee-whitelist/' + employeeID);
+    $location.path('/employee-coworkers/' + employeeID + '/' + $scope.officeID);
   };
+  if ($scope.officeID != parseInt($scope.officeID, 10)) {
+    $scope.officeID = 0;
+  }
   if (!$window.sessionStorage.token) {
     $location.path('/login');
   } else {
@@ -64575,6 +65303,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
           // Redirect them to their info page
           //$location.path('/my-info');
           $scope.adminAccess = true;
+          $scope.canReassign = true;
+          for (var i in $scope.primaryNavItems) {
+            if ($scope.primaryNavItems[i].text == "Offices") $scope.primaryNavItems[i].show = true;
+          }
         } else if (permissionLevel === 'user') {
           // Redirect them to their info page
           //$location.path('/my-info');
@@ -64584,6 +65316,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
           }
       } else {
         $scope.adminAccess = true;
+        $scope.canReassign = true;
         for (var i in $scope.primaryNavItems) {
           $scope.primaryNavItems[i].show = true;
         }
@@ -64593,6 +65326,9 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       $scope.employeeID = $scope.employee.employeeID;
       if ($scope.employee.pictureAddress !== "") {
         $scope.imageURL = _env2.default.api.root + '/Api/Media/ProfileImage/' + $scope.employeeID;
+        $scope.noURL = false;
+      } else if ($scope.employee.pictureAddress === "") {
+        $scope.imageURL = _env2.default.api.root + '/Api/Media/DefaultImage/';
         $scope.noURL = false;
       } else {
         $scope.noURL = true;
@@ -64612,24 +65348,38 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
         url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
       }).then(function (response) {
         if ($scope.isEmpty(response.data)) {
-          $scope.companyName = "No Company Assigned";
-        } else {
-          //console.log(response.data);
-          $scope.officeID = response.data[0].officeID;
           $http({
             method: 'GET',
-            url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+            url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + $scope.employeeID
           }).then(function (response) {
+            //console.log(response);
             if ($scope.isEmpty(response.data)) {
               $scope.companyName = "No Company Assigned";
             } else {
-              //console.log(response.data);
               $scope.companyName = response.data[0].companyName;
+              $scope.companyID = response.data[0].companyID;
             }
           }, function (err) {
             //console.log(err);
           });
-        }
+        } else {
+            //console.log(response.data);
+            $scope.officeID = response.data[0].officeID;
+            $http({
+              method: 'GET',
+              url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+            }).then(function (response) {
+              if ($scope.isEmpty(response.data)) {
+                $scope.companyName = "No Company Assigned";
+              } else {
+                //console.log(response.data);
+                $scope.companyName = response.data[0].companyName;
+                $scope.companyID = response.data[0].companyID;
+              }
+            }, function (err) {
+              //console.log(err);
+            });
+          }
       }, function (err) {
         //console.log(err);
       });
@@ -64639,7 +65389,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   }
 }];
 
-},{"../../core/env":166,"../../settings/primary_nav_items":170}],152:[function(require,module,exports){
+},{"../../core/env":171,"../../settings/primary_nav_items":175}],156:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64665,7 +65415,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $location.path('/login');
 }];
 
-},{"../../core/env":166}],153:[function(require,module,exports){
+},{"../../core/env":171}],157:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64695,32 +65445,37 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
-  $scope.officeID = $routeParams.id;
   $scope.edit = function (officeID) {
     $location.path('/edit-office/' + officeID);
   };
-  $http({
-    method: 'GET',
-    url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
-  }).then(function (response) {
-    //console.log(response);
-    $scope.office = response.data[0];
-    $scope.header = $scope.office.companyName;
-  }, function (err) {
-    //console.log(err);
-  });
-  $http({
-    method: 'GET',
-    url: _env2.default.api.root + '/Api/FloorPlanOfOffice/' + $scope.officeID
-  }).then(function (response) {
-    //console.log(response);
-    $scope.floor_plan = response.data[0];
-  }, function (err) {
-    //console.log(err);
-  });
+  $scope.companyID = $routeParams.companyID;
+  $scope.officeID = $routeParams.officeID;
+  if ($scope.officeID == 0) {
+    $location.path('/company-offices/' + $scope.companyID);
+  } else {
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+    }).then(function (response) {
+      //console.log(response);
+      $scope.office = response.data[0];
+      $scope.header = $scope.office.companyName;
+    }, function (err) {
+      //console.log(err);
+    });
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/FloorPlanOfOffice/' + $scope.officeID
+    }).then(function (response) {
+      //console.log(response);
+      $scope.floor_plan = response.data[0];
+    }, function (err) {
+      //console.log(err);
+    });
+  }
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],154:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],158:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64772,6 +65527,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }).then(function (response) {
     //console.log(response);
     $scope.header = response.data[0].companyName;
+    $scope.companyID = response.data[0].companyID;
   }, function (err) {
     //console.log(err);
   });
@@ -64875,7 +65631,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],155:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],159:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64904,7 +65660,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
-  $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
+  $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.header = 'All Offices';
   $scope.add = function () {
     $location.path('/add-office');
@@ -64931,9 +65687,34 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.edit = function (officeID) {
     $location.path('/edit-office/' + officeID);
   };
-  $scope.view = function (officeID) {
-    $location.path('/office-detail/' + officeID);
+  $scope.view = function (officeID, companyID) {
+    $location.path('/office-detail/' + companyID + '/' + officeID);
   };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/Verify',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(function (response) {
+    //console.log(response);
+    var permissionLevel = response.data[0].permissionLevel;
+    var employeeID = response.data[0].employeeID;
+    if (permissionLevel == "admin") {
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + employeeID
+      }).then(function (response) {
+        //console.log(response);
+        $scope.companyID = response.data[0].companyID;
+        $location.path('/company-offices/' + $scope.companyID);
+      }, function (err) {
+        //console.log(err);
+      });
+    }
+  }, function (err) {
+    //console.log(err);
+  });
   $http({
     method: 'GET',
     url: _env2.default.api.root + '/Api/AllCompaniesForAllOffices'
@@ -64954,7 +65735,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],156:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],160:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64964,10 +65745,6 @@ Object.defineProperty(exports, "__esModule", {
 var _env = require('../core/env');
 
 var _env2 = _interopRequireDefault(_env);
-
-var _permissions = require('../settings/permissions');
-
-var _permissions2 = _interopRequireDefault(_permissions);
 
 var _primary_nav_items = require('../settings/primary_nav_items');
 
@@ -64983,10 +65760,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
-  $scope = _permissions2.default.userPermissionCheck($http, $scope, $location, $window);
+  //$scope = permissions.userPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Password Reset";
   $scope.invalid = false;
   $scope.success = false;
+  $scope.tokenCheck = false;
   $scope.employee = {
     email: ""
   };
@@ -64995,32 +65773,195 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     $scope.invalid = false;
     $scope.success = false;
 
+    //verify email
+
     var payload = JSON.stringify(employee);
     $http({
       method: "POST",
-      url: _env2.default.api.root + '/Api/PasswordReset',
+      url: _env2.default.api.root + '/Api/PasswordResetEmailCheck',
       data: payload
     }).then(function (response) {
-      console.log(response.data.message);
       if (response.data.message === "No such user.") {
         $scope.invalid = true;
       } else {
-        $scope.success = true;
+        //check to see if there is a token for the employee.
+        $scope.employeeID = response.data.data[0].employeeID;
+
+        //generate Token
+        var temp = Math.round(Math.pow(36, 21) - Math.random() * Math.pow(36, 20)).toString(36).slice(1);
+
+        $scope.tokenInfo = {
+          token: temp,
+          employeeID: $scope.employeeID
+        };
+        var tokenPayload = JSON.stringify($scope.tokenInfo);
+        console.log("Got to create token");
+        //add entry to passwordReset table
         $http({
           method: "POST",
-          url: _env2.default.api.root + '/Api/SendEmail',
-          data: { reason: "passwordReset", email: payload.email }
-        }).then(function (response) {}, function (err) {
+          url: _env2.default.api.root + '/Api/AddPasswordReset',
+          data: tokenPayload
+        }).then(function (response) {
+          //send Email
+
+          $http({
+            method: "POST",
+            url: _env2.default.api.root + '/Api/SendEmail',
+            data: { reason: "passwordReset", email: employee.email, token: temp }
+          }).then(function (response) {
+            $scope.success = true;
+          }, function (err) {
+            console.log(err.data.message);
+          });
+        }, function (err) {
           console.log(err.data.message);
         });
       }
     }, function (err) {
       console.log(err.data.message);
     });
+
+    //send email with URL
+
+    /*
+    var payload = JSON.stringify(employee)
+    $http({
+      method : "POST",
+      url : `${env.api.root}/Api/PasswordReset`,
+      data: payload
+    })
+    .then(response => {
+      console.log(response.data.message);
+      if(response.data.message === "No such user."){
+        $scope.invalid = true;
+      }
+      else{
+        $scope.success = true;
+        $http({
+          method : "POST",
+          url : `${env.api.root}/Api/SendEmail`,
+          data: {reason: "passwordReset", email: payload.email}
+        })
+        .then(response => {
+         }, err => {
+          console.log(err.data.message);
+        });
+      }
+    }, err => {
+      console.log(err.data.message);
+    });
+    */
+  };
+}];
+//import permissions from '../settings/permissions';
+
+},{"../core/env":171,"../settings/primary_nav_items":175}],161:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Password Reset
+//
+// Allows users to reset passwords
+//
+
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.header = "Password Reset";
+  $scope.issue = false;
+  $scope.validToken = false;
+  $scope.invalid = false;
+  $scope.message = "";
+  $scope.success = false;
+  $scope.resetID = 0;
+  $scope.employeeID = 0;
+
+  $scope.changeMessage = function () {
+    if ($scope.validToken === false) {
+      $scope.message = "Invalid URL or Password Reset Timed Out.";
+    } else if ($scope.invalid) {
+      $scope.message = "Passwords do not match!";
+    } else if ($scope.success) {
+      $scope.message = "Password updated.";
+    }
+  };
+
+  $scope.employee = {
+    email: "",
+    password: ""
+  };
+  $scope.token = $routeParams.resetToken;
+
+  //check if token exists.
+
+  $http({
+    method: "GET",
+    url: _env2.default.api.root + '/Api/PasswordReset/' + $scope.token
+  }).then(function (response) {
+    console.log(response);
+    if (response.data[0] != null) {
+      $scope.issue = false;
+      $scope.validToken = true;
+      $scope.resetID = response.data[0].reset_ID;
+      $scope.employeeID = response.data[0].employee_ID;
+    } else {
+      $scope.issue = true;
+      $scope.validToken = false;
+      $scope.changeMessage();
+    }
+  }, function (err) {
+    console.log(err.data.message);
+  });
+
+  $scope.submit = function (employee) {
+    $scope.issue = false;
+    $scope.invalid = false;
+    $scope.success = false;
+
+    if (employee.password !== employee.confirmPassword) {
+      $scope.issue = true;
+      $scope.invalid = true;
+      $scope.changeMessage();
+    } else {
+      //update the employee info
+
+      $http({
+        method: "POST",
+        url: _env2.default.api.root + '/Api/PasswordResetUpdate',
+        data: { password: employee.password, employeeID: $scope.employeeID }
+      }).then(function (response) {
+        //delete token
+        $http({
+          method: "GET",
+          url: _env2.default.api.root + '/Api/DeletePasswordReset/' + $scope.resetID
+        }).then(function (response) {
+          $scope.success = true;
+          $scope.issue = true;
+          $scope.changeMessage();
+        }, function (err) {
+          console.log(err.data.message);
+        });
+      }, function (err) {
+        console.log(err.data.message);
+      });
+    }
   };
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],157:[function(require,module,exports){
+},{"../core/env":171,"../settings/primary_nav_items":175}],162:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65054,7 +65995,7 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   $scope.message = 'Under Construction';
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],158:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],163:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65135,17 +66076,6 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
                   //console.log('Response: ', response.data);
                   if (response.data[0].result == 0) {
                     $window.location.href = '/add-initial-temperature-range';
-                  }
-                }).then(function (err) {
-                  //console.log('Error: ', err);
-                });
-                $http({
-                  method: 'GET',
-                  url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
-                }).then(function (response) {
-                  //console.log('Response: ', response.data);
-                  if (response.data[0].result == 0) {
-                    $window.location.href = '/add-superadmin-to-office';
                   } else {
                     $location.path('/my-info');
                   }
@@ -65217,7 +66147,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../../core/env":166,"../../settings/primary_nav_items":170}],159:[function(require,module,exports){
+},{"../../core/env":171,"../../settings/primary_nav_items":175}],164:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65348,17 +66278,6 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         //console.log('Response: ', response.data);
         if (response.data[0].result == 0) {
           $window.location.href = '/add-initial-temperature-range';
-        }
-      }).then(function (err) {
-        //console.log('Error: ', err);
-      });
-      $http({
-        method: 'GET',
-        url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
-      }).then(function (response) {
-        //console.log('Response: ', response.data);
-        if (response.data[0].result == 0) {
-          $window.location.href = '/add-superadmin-to-office';
         } else {
           $window.location.href = '/offices';
         }
@@ -65371,7 +66290,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../../core/env":166,"../../settings/primary_nav_items":170}],160:[function(require,module,exports){
+},{"../../core/env":171,"../../settings/primary_nav_items":175}],165:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65435,17 +66354,6 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
         }).then(function (response) {
           //console.log('Response: ', response.data);
           if (response.data[0].result == 1) {
-            $http({
-              method: 'GET',
-              url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
-            }).then(function (response) {
-              //console.log('Response: ', response.data);
-              if (response.data[0].result == 0) {
-                $window.location.href = '/add-superadmin-to-office';
-              }
-            }).then(function (err) {
-              //console.log('Error: ', err);
-            });
             $window.location.href = '/temperature-ranges';
           }
         }).then(function (err) {
@@ -65480,7 +66388,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../../core/env":166,"../../settings/primary_nav_items":170}],161:[function(require,module,exports){
+},{"../../core/env":171,"../../settings/primary_nav_items":175}],166:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65585,7 +66493,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../../core/env":166,"../../settings/primary_nav_items":170}],162:[function(require,module,exports){
+},{"../../core/env":171,"../../settings/primary_nav_items":175}],167:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65616,11 +66524,13 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.primaryNavItems = _primary_nav_items2.default;
   $scope.adminAccess = false;
   $scope.canEdit = false;
+  $scope.canReassign = false;
   $scope.employeeID = $routeParams.id;
 
   $scope.sortType = 'firstName';
   $scope.sortReverse = false;
 
+  $scope.companyID;
   $scope.employees = [{
     employeeID: 0,
     firstName: " ",
@@ -65656,9 +66566,15 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
       $window.location.href = '/team-members/' + employeeID;
     }, function (err) {});
   };
+  $scope.reassignEmployee = function (employeeID) {
+    $location.path('/employee-reassign-to-office/' + employeeID);
+  };
   $scope.view = function (employeeID) {
     $location.path('/employee-detail/' + employeeID);
   };
+  if ($scope.officeID != parseInt($scope.officeID, 10)) {
+    $scope.officeID = 0;
+  }
   $http({
     method: 'GET',
     url: _env2.default.api.root + '/Api/EmployeeTeammates/' + $scope.employeeID
@@ -65678,6 +66594,9 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     if ($scope.employee.pictureAddress !== "") {
       $scope.imageURL = _env2.default.api.root + '/Api/Media/ProfileImage/' + $scope.employeeID;
       $scope.noURL = false;
+    } else if ($scope.employee.pictureAddress === "") {
+      $scope.imageURL = _env2.default.api.root + '/Api/Media/DefaultImage/';
+      $scope.noURL = false;
     } else {
       $scope.noURL = true;
     }
@@ -65689,39 +66608,53 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
   }).then(function (response) {
     if ($scope.isEmpty(response.data)) {
-      $scope.companyName = "No Company Assigned";
-    } else {
-      //console.log(response.data);
-      $scope.officeID = response.data[0].officeID;
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/EmployeesNotInTeammates/' + $scope.employeeID + '/' + $scope.officeID
+        url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + $scope.employeeID
       }).then(function (response) {
-        //console.log(response.data);
-        $scope.employees = response.data;
-      }, function (err) {
-        //console.log(err);
-      });
-      $http({
-        method: 'GET',
-        url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
-      }).then(function (response) {
+        //console.log(response);
         if ($scope.isEmpty(response.data)) {
           $scope.companyName = "No Company Assigned";
         } else {
-          //console.log(response.data);
           $scope.companyName = response.data[0].companyName;
+          $scope.companyID = response.data[0].companyID;
         }
       }, function (err) {
         //console.log(err);
       });
-    }
+    } else {
+        //console.log(response.data);
+        $scope.officeID = response.data[0].officeID;
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/EmployeesNotInTeammates/' + $scope.employeeID + '/' + $scope.officeID
+        }).then(function (response) {
+          //console.log(response.data);
+          $scope.employees = response.data;
+        }, function (err) {
+          //console.log(err);
+        });
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+        }).then(function (response) {
+          if ($scope.isEmpty(response.data)) {
+            $scope.companyName = "No Company Assigned";
+          } else {
+            //console.log(response.data);
+            $scope.companyName = response.data[0].companyName;
+            $scope.companyID = response.data[0].companyID;
+          }
+        }, function (err) {
+          //console.log(err);
+        });
+      }
   }, function (err) {
     //console.log(err);
   });
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],163:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],168:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65788,7 +66721,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],164:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],169:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65880,7 +66813,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],165:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],170:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66034,7 +66967,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":166,"../settings/permissions":169,"../settings/primary_nav_items":170}],166:[function(require,module,exports){
+},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],171:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66067,8 +67000,20 @@ var env = _lodash2.default.assign({}, _env2.default, _env4.default);
 
 exports.default = env;
 
-},{"../../env":2,"../../env.default":1,"browserify-fs":16,"lodash":97}],167:[function(require,module,exports){
+},{"../../env":2,"../../env.default":1,"browserify-fs":16,"lodash":97}],172:[function(require,module,exports){
 'use strict';
+
+var _AddAdminController = require('./controllers/AddAdminController');
+
+var _AddAdminController2 = _interopRequireDefault(_AddAdminController);
+
+var _AddAdminToCompanyController = require('./controllers/AddAdminToCompanyController');
+
+var _AddAdminToCompanyController2 = _interopRequireDefault(_AddAdminToCompanyController);
+
+var _AddAdminToOfficeController = require('./controllers/AddAdminToOfficeController');
+
+var _AddAdminToOfficeController2 = _interopRequireDefault(_AddAdminToOfficeController);
 
 var _AddCompanyController = require('./controllers/AddCompanyController');
 
@@ -66118,6 +67063,14 @@ var _AddSuperAdminToOfficeController = require('./controllers/StartUp/AddSuperAd
 
 var _AddSuperAdminToOfficeController2 = _interopRequireDefault(_AddSuperAdminToOfficeController);
 
+var _AdminManagementController = require('./controllers/AdminManagementController');
+
+var _AdminManagementController2 = _interopRequireDefault(_AdminManagementController);
+
+var _AdminReassignToCompanyController = require('./controllers/AdminReassignToCompanyController');
+
+var _AdminReassignToCompanyController2 = _interopRequireDefault(_AdminReassignToCompanyController);
+
 var _CompaniesController = require('./controllers/CompaniesController');
 
 var _CompaniesController2 = _interopRequireDefault(_CompaniesController);
@@ -66146,10 +67099,6 @@ var _EditTemperatureRangeController = require('./controllers/EditTemperatureRang
 
 var _EditTemperatureRangeController2 = _interopRequireDefault(_EditTemperatureRangeController);
 
-var _EmployeeBlacklistController = require('./controllers/EmployeeBlacklistController');
-
-var _EmployeeBlacklistController2 = _interopRequireDefault(_EmployeeBlacklistController);
-
 var _EmployeeCoworkersController = require('./controllers/EmployeeCoworkersController');
 
 var _EmployeeCoworkersController2 = _interopRequireDefault(_EmployeeCoworkersController);
@@ -66162,9 +67111,9 @@ var _EmployeePreferencesController = require('./controllers/EmployeePreferencesC
 
 var _EmployeePreferencesController2 = _interopRequireDefault(_EmployeePreferencesController);
 
-var _EmployeeWhitelistController = require('./controllers/EmployeeWhitelistController');
+var _EmployeeReassignToOfficeController = require('./controllers/EmployeeReassignToOfficeController');
 
-var _EmployeeWhitelistController2 = _interopRequireDefault(_EmployeeWhitelistController);
+var _EmployeeReassignToOfficeController2 = _interopRequireDefault(_EmployeeReassignToOfficeController);
 
 var _FloorplanController = require('./controllers/FloorplanController');
 
@@ -66201,6 +67150,10 @@ var _OfficeEmployeesController2 = _interopRequireDefault(_OfficeEmployeesControl
 var _PasswordResetController = require('./controllers/PasswordResetController');
 
 var _PasswordResetController2 = _interopRequireDefault(_PasswordResetController);
+
+var _PasswordResetTokenController = require('./controllers/PasswordResetTokenController');
+
+var _PasswordResetTokenController2 = _interopRequireDefault(_PasswordResetTokenController);
 
 var _SeatingChartsController = require('./controllers/SeatingChartsController');
 
@@ -66239,6 +67192,9 @@ var iscApp = angular.module('iscApp', ['ngRoute', angularDragula(angular), 'ngFi
 // Controllers
 //
 
+iscApp.controller('AddAdminController', _AddAdminController2.default);
+iscApp.controller('AddAdminToCompanyController', _AddAdminToCompanyController2.default);
+iscApp.controller('AddAdminToOfficeController', _AddAdminToOfficeController2.default);
 iscApp.controller('AddCompanyController', _AddCompanyController2.default);
 iscApp.controller('AddEmployeeNewController', _AddEmployeeNewController2.default);
 iscApp.controller('AddEmployeeCoworkersController', _AddEmployeeCoworkersController2.default);
@@ -66251,6 +67207,8 @@ iscApp.controller('AddSuperAdminToOfficeController', _AddSuperAdminToOfficeContr
 iscApp.controller('AddOfficeController', _AddOfficeController2.default);
 iscApp.controller('AddOfficeEmployeeController', _AddOfficeEmployeeController2.default);
 iscApp.controller('AddTemperatureRangeController', _AddTemperatureRangeController2.default);
+iscApp.controller('AdminManagementController', _AdminManagementController2.default);
+iscApp.controller('AdminReassignToCompanyController', _AdminReassignToCompanyController2.default);
 iscApp.controller('CompaniesController', _CompaniesController2.default);
 iscApp.controller('CompanyOfficesController', _CompanyOfficesController2.default);
 iscApp.controller('EditCompanyController', _EditCompanyController2.default);
@@ -66258,11 +67216,10 @@ iscApp.controller('EditEmployeeController', _EditEmployeeController2.default);
 iscApp.controller('EditEmployeePreferencesController', _EditEmployeePreferencesController2.default);
 iscApp.controller('EditOfficeController', _EditOfficeController2.default);
 iscApp.controller('EditTemperatureRangeController', _EditTemperatureRangeController2.default);
-iscApp.controller('EmployeeBlacklistController', _EmployeeBlacklistController2.default);
 iscApp.controller('EmployeeCoworkersController', _EmployeeCoworkersController2.default);
 iscApp.controller('EmployeeDetailController', _EmployeeDetailController2.default);
 iscApp.controller('EmployeePreferencesController', _EmployeePreferencesController2.default);
-iscApp.controller('EmployeeWhitelistController', _EmployeeWhitelistController2.default);
+iscApp.controller('EmployeeReassignToOfficeController', _EmployeeReassignToOfficeController2.default);
 iscApp.controller('FloorplanController', _FloorplanController2.default);
 iscApp.controller('InitializationErrorController', _InitializationErrorController2.default);
 iscApp.controller('LoginController', _LoginController2.default);
@@ -66272,6 +67229,7 @@ iscApp.controller('OfficesController', _OfficesController2.default);
 iscApp.controller('OfficeDetailController', _OfficeDetailController2.default);
 iscApp.controller('OfficeEmployeesController', _OfficeEmployeesController2.default);
 iscApp.controller('PasswordResetController', _PasswordResetController2.default);
+iscApp.controller('PasswordResetTokenController', _PasswordResetTokenController2.default);
 iscApp.controller('SeatingChartsController', _SeatingChartsController2.default);
 iscApp.controller('SignOutController', _SignOutController2.default);
 iscApp.controller('TeamMembersController', _TeamMembersController2.default);
@@ -66285,7 +67243,16 @@ iscApp.controller('ViewEmployeesController', _ViewEmployeesController2.default);
 
 iscApp.config(function ($routeProvider, $locationProvider) {
   // define routes
-  $routeProvider.when('/add-company', {
+  $routeProvider.when('/add-admin', {
+    templateUrl: 'views/add-admin.html',
+    controller: 'AddAdminController'
+  }).when('/add-admin-to-company/:id', {
+    templateUrl: 'views/add-admin-to-company.html',
+    controller: 'AddAdminToCompanyController'
+  }).when('/add-admin-to-office/:id', {
+    templateUrl: 'views/add-admin-to-office.html',
+    controller: 'AddAdminToOfficeController'
+  }).when('/add-company', {
     templateUrl: 'views/add-company.html',
     controller: 'AddCompanyController'
   })
@@ -66323,6 +67290,12 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   }).when('/add-temperature-range', {
     templateUrl: 'views/add-temperature-range.html',
     controller: 'AddTemperatureRangeController'
+  }).when('/admin-management', {
+    templateUrl: 'views/admin-management.html',
+    controller: 'AdminManagementController'
+  }).when('/admin-reassign-to-company/:id', {
+    templateUrl: 'views/admin-reassign-to-company.html',
+    controller: 'AdminReassignToCompanyController'
   }).when('/companies', {
     templateUrl: 'views/companies.html',
     controller: 'CompaniesController'
@@ -66344,9 +67317,6 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   }).when('/edit-temperature-range/:id', {
     templateUrl: 'views/edit-temperature-range.html',
     controller: 'EditTemperatureRangeController'
-  }).when('/employee-blacklist/:id', {
-    templateUrl: 'views/employee-blacklist.html',
-    controller: 'EmployeeBlacklistController'
   }).when('/employee-coworkers/:employeeID/:officeID', {
     templateUrl: 'views/employee-coworkers.html',
     controller: 'EmployeeCoworkersController'
@@ -66356,9 +67326,9 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   }).when('/employee-preferences/:id', {
     templateUrl: 'views/employee-preferences.html',
     controller: 'EmployeePreferencesController'
-  }).when('/employee-whitelist/:id', {
-    templateUrl: 'views/employee-whitelist.html',
-    controller: 'EmployeeWhitelistController'
+  }).when('/employee-reassign-to-office/:id', {
+    templateUrl: 'views/employee-reassign-to-office.html',
+    controller: 'EmployeeReassignToOfficeController'
   }).when('/floorplan/:id', {
     templateUrl: 'views/floorplan.html',
     controller: 'FloorplanController'
@@ -66374,12 +67344,15 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   }).when('/offices', {
     templateUrl: 'views/offices.html',
     controller: 'OfficesController'
-  }).when('/office-detail/:id', {
+  }).when('/office-detail/:companyID/:officeID', {
     templateUrl: 'views/office-detail.html',
     controller: 'OfficeDetailController'
   }).when('/office-employees/:id', {
     templateUrl: 'views/office-employees.html',
     controller: 'OfficeEmployeesController'
+  }).when('/password-reset/:resetToken', {
+    templateUrl: 'views/password-reset-token.html',
+    controller: 'PasswordResetTokenController'
   }).when('/password-reset', {
     templateUrl: 'views/password-reset.html',
     controller: 'PasswordResetController'
@@ -66426,7 +67399,7 @@ iscApp.factory('addService', function () {
   };
 });
 
-},{"./controllers/AddCompanyController":127,"./controllers/AddEmployeeCoworkersController":128,"./controllers/AddEmployeeIndividualInfoController":129,"./controllers/AddEmployeeNewController":130,"./controllers/AddEmployeePreferencesController":131,"./controllers/AddOfficeController":132,"./controllers/AddOfficeEmployeeController":133,"./controllers/AddTemperatureRangeController":134,"./controllers/CompaniesController":135,"./controllers/CompanyOfficesController":136,"./controllers/EditCompanyController":137,"./controllers/EditEmployeeController":138,"./controllers/EditEmployeePreferencesController":139,"./controllers/EditOfficeController":140,"./controllers/EditTemperatureRangeController":141,"./controllers/EmployeeBlacklistController":142,"./controllers/EmployeeCoworkersController":143,"./controllers/EmployeeDetailController":144,"./controllers/EmployeePreferencesController":145,"./controllers/EmployeeWhitelistController":146,"./controllers/Errors/InitializationErrorController":147,"./controllers/FloorplanController":148,"./controllers/LoginController":149,"./controllers/MainController":150,"./controllers/MyAccount/MyInfoController":151,"./controllers/MyAccount/SignOutController":152,"./controllers/OfficeDetailController":153,"./controllers/OfficeEmployeesController":154,"./controllers/OfficesController":155,"./controllers/PasswordResetController":156,"./controllers/SeatingChartsController":157,"./controllers/StartUp/AddInitialCompanyController":158,"./controllers/StartUp/AddInitialOfficeController":159,"./controllers/StartUp/AddInitialTemperatureRangeController":160,"./controllers/StartUp/AddSuperAdminToOfficeController":161,"./controllers/TeamMembersController":162,"./controllers/TemperatureRangesController":163,"./controllers/UpdatePasswordController":164,"./controllers/ViewEmployeesController":165,"angular":12,"angular-dragula":7}],168:[function(require,module,exports){
+},{"./controllers/AddAdminController":127,"./controllers/AddAdminToCompanyController":128,"./controllers/AddAdminToOfficeController":129,"./controllers/AddCompanyController":130,"./controllers/AddEmployeeCoworkersController":131,"./controllers/AddEmployeeIndividualInfoController":132,"./controllers/AddEmployeeNewController":133,"./controllers/AddEmployeePreferencesController":134,"./controllers/AddOfficeController":135,"./controllers/AddOfficeEmployeeController":136,"./controllers/AddTemperatureRangeController":137,"./controllers/AdminManagementController":138,"./controllers/AdminReassignToCompanyController":139,"./controllers/CompaniesController":140,"./controllers/CompanyOfficesController":141,"./controllers/EditCompanyController":142,"./controllers/EditEmployeeController":143,"./controllers/EditEmployeePreferencesController":144,"./controllers/EditOfficeController":145,"./controllers/EditTemperatureRangeController":146,"./controllers/EmployeeCoworkersController":147,"./controllers/EmployeeDetailController":148,"./controllers/EmployeePreferencesController":149,"./controllers/EmployeeReassignToOfficeController":150,"./controllers/Errors/InitializationErrorController":151,"./controllers/FloorplanController":152,"./controllers/LoginController":153,"./controllers/MainController":154,"./controllers/MyAccount/MyInfoController":155,"./controllers/MyAccount/SignOutController":156,"./controllers/OfficeDetailController":157,"./controllers/OfficeEmployeesController":158,"./controllers/OfficesController":159,"./controllers/PasswordResetController":160,"./controllers/PasswordResetTokenController":161,"./controllers/SeatingChartsController":162,"./controllers/StartUp/AddInitialCompanyController":163,"./controllers/StartUp/AddInitialOfficeController":164,"./controllers/StartUp/AddInitialTemperatureRangeController":165,"./controllers/StartUp/AddSuperAdminToOfficeController":166,"./controllers/TeamMembersController":167,"./controllers/TemperatureRangesController":168,"./controllers/UpdatePasswordController":169,"./controllers/ViewEmployeesController":170,"angular":12,"angular-dragula":7}],173:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66447,7 +67420,7 @@ exports.default = [{
   text: 'Sign Out'
 }];
 
-},{}],169:[function(require,module,exports){
+},{}],174:[function(require,module,exports){
 'use strict';
 
 var _env = require('../core/env');
@@ -66507,17 +67480,6 @@ exports.superadminPermissionCheck = function ($http, $scope, $location, $window)
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
-              $http({
-                method: 'GET',
-                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
-              }).then(function (response) {
-                //console.log('Response: ', response.data);
-                if (response.data[0].result == 0) {
-                  $window.location.href = '/add-superadmin-to-office';
-                }
-              }).then(function (err) {
-                //console.log('Error: ', err);
-              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -66540,6 +67502,7 @@ exports.superadminPermissionCheck = function ($http, $scope, $location, $window)
           $location.path('/');
         }
       } else {
+        $scope.controlCompanies = true;
         for (var i in $scope.primaryNavItems) {
           $scope.primaryNavItems[i].show = true;
         }
@@ -66601,17 +67564,6 @@ exports.adminPermissionCheck = function ($http, $scope, $location, $window) {
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
-              $http({
-                method: 'GET',
-                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
-              }).then(function (response) {
-                //console.log('Response: ', response.data);
-                if (response.data[0].result == 0) {
-                  $window.location.href = '/add-superadmin-to-office';
-                }
-              }).then(function (err) {
-                //console.log('Error: ', err);
-              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -66626,13 +67578,16 @@ exports.adminPermissionCheck = function ($http, $scope, $location, $window) {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
           //$location.path('/my-info');
-        } else if (permissionLevel === 'user') {
-            // Redirect them to their info page
-            $location.path('/my-info');
-          } else {
-            alert('Invalid permission level');
-            $location.path('/');
+          for (var i in $scope.primaryNavItems) {
+            if ($scope.primaryNavItems[i].text == "Offices") $scope.primaryNavItems[i].show = true;
           }
+        } else if (permissionLevel === 'user') {
+          // Redirect them to their info page
+          $location.path('/my-info');
+        } else {
+          alert('Invalid permission level');
+          $location.path('/');
+        }
       } else {
         for (var i in $scope.primaryNavItems) {
           $scope.primaryNavItems[i].show = true;
@@ -66696,17 +67651,6 @@ exports.userPermissionCheck = function ($http, $scope, $location, $window) {
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
-              $http({
-                method: 'GET',
-                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
-              }).then(function (response) {
-                //console.log('Response: ', response.data);
-                if (response.data[0].result == 0) {
-                  $window.location.href = '/add-superadmin-to-office';
-                }
-              }).then(function (err) {
-                //console.log('Error: ', err);
-              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -66723,6 +67667,10 @@ exports.userPermissionCheck = function ($http, $scope, $location, $window) {
           //$location.path('/my-info');
           $scope.canEdit = true;
           $scope.adminAccess = true;
+          $scope.canReassign = false;
+          for (var i in $scope.primaryNavItems) {
+            if ($scope.primaryNavItems[i].text == "Offices") $scope.primaryNavItems[i].show = true;
+          }
         } else if (permissionLevel === 'user') {
           // Redirect them to their info page
           //$location.path('/my-info');
@@ -66736,6 +67684,7 @@ exports.userPermissionCheck = function ($http, $scope, $location, $window) {
       } else {
         $scope.adminAccess = true;
         $scope.canEdit = true;
+        $scope.canReassign = true;
         for (var i in $scope.primaryNavItems) {
           $scope.primaryNavItems[i].show = true;
         }
@@ -66747,7 +67696,7 @@ exports.userPermissionCheck = function ($http, $scope, $location, $window) {
   return $scope;
 };
 
-},{"../core/env":166}],170:[function(require,module,exports){
+},{"../core/env":171}],175:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66761,6 +67710,10 @@ exports.default = [{
   href: '/login',
   text: 'Login',
   show: true
+}, {
+  href: '/admin-management',
+  text: 'Admin Management',
+  show: false
 }, {
   href: '/companies',
   text: 'Companies',
@@ -66783,7 +67736,7 @@ exports.default = [{
   show: false
 }];
 
-},{}]},{},[167])
+},{}]},{},[172])
 
 
 //# sourceMappingURL=bundle.js.map

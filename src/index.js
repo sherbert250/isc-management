@@ -8,7 +8,9 @@ let iscApp = angular.module('iscApp', ['ngRoute', angularDragula(angular), 'ngFi
 //
 // Controllers
 //
-
+import AddAdminController from './controllers/AddAdminController';
+import AddAdminToCompanyController from './controllers/AddAdminToCompanyController';
+import AddAdminToOfficeController from './controllers/AddAdminToOfficeController';
 import AddCompanyController from './controllers/AddCompanyController';
 import AddEmployeeNewController from './controllers/AddEmployeeNewController';
 import AddEmployeeCoworkersController from './controllers/AddEmployeeCoworkersController';
@@ -21,6 +23,8 @@ import AddInitialTemperatureRangeController from './controllers/StartUp/AddIniti
 import AddOfficeEmployeeController from './controllers/AddOfficeEmployeeController';
 import AddTemperatureRangeController from './controllers/AddTemperatureRangeController';
 import AddSuperAdminToOfficeController from './controllers/StartUp/AddSuperAdminToOfficeController';
+import AdminManagementController from './controllers/AdminManagementController';
+import AdminReassignToCompanyController from './controllers/AdminReassignToCompanyController';
 import CompaniesController from './controllers/CompaniesController';
 import CompanyOfficesController from './controllers/CompanyOfficesController';
 import EditCompanyController from './controllers/EditCompanyController';
@@ -28,11 +32,10 @@ import EditEmployeeController from './controllers/EditEmployeeController';
 import EditEmployeePreferencesController from './controllers/EditEmployeePreferencesController';
 import EditOfficeController from './controllers/EditOfficeController';
 import EditTemperatureRangeController from './controllers/EditTemperatureRangeController';
-import EmployeeBlacklistController from './controllers/EmployeeBlacklistController';
 import EmployeeCoworkersController from './controllers/EmployeeCoworkersController';
 import EmployeeDetailController from './controllers/EmployeeDetailController';
 import EmployeePreferencesController from './controllers/EmployeePreferencesController';
-import EmployeeWhitelistController from './controllers/EmployeeWhitelistController';
+import EmployeeReassignToOfficeController from './controllers/EmployeeReassignToOfficeController';
 import FloorplanController from './controllers/FloorplanController';
 import InitializationErrorController from './controllers/Errors/InitializationErrorController';
 import LoginController from './controllers/LoginController';
@@ -42,6 +45,7 @@ import OfficesController from './controllers/OfficesController';
 import OfficeDetailController from './controllers/OfficeDetailController';
 import OfficeEmployeesController from './controllers/OfficeEmployeesController';
 import PasswordResetController from './controllers/PasswordResetController';
+import PasswordResetTokenController from './controllers/PasswordResetTokenController'
 import SeatingChartsController from './controllers/SeatingChartsController';
 import SignOutController from './controllers/MyAccount/SignOutController';
 import TeamMembersController from './controllers/TeamMembersController';
@@ -49,6 +53,9 @@ import TemperatureRangesController from './controllers/TemperatureRangesControll
 import UpdatePasswordController from './controllers/UpdatePasswordController';
 import ViewEmployeesController from './controllers/ViewEmployeesController';
 
+iscApp.controller('AddAdminController', AddAdminController);
+iscApp.controller('AddAdminToCompanyController', AddAdminToCompanyController);
+iscApp.controller('AddAdminToOfficeController', AddAdminToOfficeController);
 iscApp.controller('AddCompanyController', AddCompanyController);
 iscApp.controller('AddEmployeeNewController', AddEmployeeNewController);
 iscApp.controller('AddEmployeeCoworkersController', AddEmployeeCoworkersController);
@@ -61,6 +68,8 @@ iscApp.controller('AddSuperAdminToOfficeController', AddSuperAdminToOfficeContro
 iscApp.controller('AddOfficeController', AddOfficeController);
 iscApp.controller('AddOfficeEmployeeController', AddOfficeEmployeeController);
 iscApp.controller('AddTemperatureRangeController', AddTemperatureRangeController);
+iscApp.controller('AdminManagementController', AdminManagementController);
+iscApp.controller('AdminReassignToCompanyController', AdminReassignToCompanyController);
 iscApp.controller('CompaniesController', CompaniesController);
 iscApp.controller('CompanyOfficesController', CompanyOfficesController);
 iscApp.controller('EditCompanyController', EditCompanyController);
@@ -68,11 +77,10 @@ iscApp.controller('EditEmployeeController', EditEmployeeController);
 iscApp.controller('EditEmployeePreferencesController', EditEmployeePreferencesController);
 iscApp.controller('EditOfficeController', EditOfficeController);
 iscApp.controller('EditTemperatureRangeController', EditTemperatureRangeController);
-iscApp.controller('EmployeeBlacklistController', EmployeeBlacklistController);
 iscApp.controller('EmployeeCoworkersController', EmployeeCoworkersController);
 iscApp.controller('EmployeeDetailController', EmployeeDetailController);
 iscApp.controller('EmployeePreferencesController', EmployeePreferencesController);
-iscApp.controller('EmployeeWhitelistController', EmployeeWhitelistController);
+iscApp.controller('EmployeeReassignToOfficeController', EmployeeReassignToOfficeController);
 iscApp.controller('FloorplanController', FloorplanController);
 iscApp.controller('InitializationErrorController', InitializationErrorController);
 iscApp.controller('LoginController', LoginController);
@@ -82,6 +90,7 @@ iscApp.controller('OfficesController', OfficesController);
 iscApp.controller('OfficeDetailController', OfficeDetailController);
 iscApp.controller('OfficeEmployeesController', OfficeEmployeesController);
 iscApp.controller('PasswordResetController', PasswordResetController);
+iscApp.controller('PasswordResetTokenController', PasswordResetTokenController);
 iscApp.controller('SeatingChartsController', SeatingChartsController);
 iscApp.controller('SignOutController', SignOutController);
 iscApp.controller('TeamMembersController', TeamMembersController);
@@ -96,6 +105,18 @@ iscApp.controller('ViewEmployeesController', ViewEmployeesController);
 iscApp.config(function ($routeProvider, $locationProvider) {
   // define routes
   $routeProvider
+  .when('/add-admin', {
+    templateUrl: 'views/add-admin.html',
+    controller: 'AddAdminController'
+  })
+  .when('/add-admin-to-company/:id', {
+    templateUrl: 'views/add-admin-to-company.html',
+    controller: 'AddAdminToCompanyController'
+  })
+  .when('/add-admin-to-office/:id', {
+    templateUrl: 'views/add-admin-to-office.html',
+    controller: 'AddAdminToOfficeController'
+  })
   .when('/add-company', {
     templateUrl: 'views/add-company.html',
     controller: 'AddCompanyController'
@@ -144,6 +165,14 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     templateUrl: 'views/add-temperature-range.html',
     controller: 'AddTemperatureRangeController'
   })
+  .when('/admin-management', {
+    templateUrl: 'views/admin-management.html',
+    controller: 'AdminManagementController'
+  })
+  .when('/admin-reassign-to-company/:id', {
+    templateUrl: 'views/admin-reassign-to-company.html',
+    controller: 'AdminReassignToCompanyController'
+  })
   .when('/companies', {
     templateUrl: 'views/companies.html',
     controller: 'CompaniesController'
@@ -172,10 +201,6 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     templateUrl: 'views/edit-temperature-range.html',
     controller: 'EditTemperatureRangeController'
   })
-  .when('/employee-blacklist/:id', {
-    templateUrl: 'views/employee-blacklist.html',
-    controller: 'EmployeeBlacklistController'
-  })
   .when('/employee-coworkers/:employeeID/:officeID', {
     templateUrl: 'views/employee-coworkers.html',
     controller: 'EmployeeCoworkersController'
@@ -188,9 +213,9 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     templateUrl: 'views/employee-preferences.html',
     controller: 'EmployeePreferencesController'
   })
-  .when('/employee-whitelist/:id', {
-    templateUrl: 'views/employee-whitelist.html',
-    controller: 'EmployeeWhitelistController'
+  .when('/employee-reassign-to-office/:id', {
+    templateUrl: 'views/employee-reassign-to-office.html',
+    controller: 'EmployeeReassignToOfficeController'
   })
   .when('/floorplan/:id', {
     templateUrl: 'views/floorplan.html',
@@ -212,13 +237,17 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     templateUrl: 'views/offices.html',
     controller: 'OfficesController'
   })
-  .when('/office-detail/:id', {
+  .when('/office-detail/:companyID/:officeID', {
     templateUrl: 'views/office-detail.html',
     controller: 'OfficeDetailController'
   })
   .when('/office-employees/:id', {
     templateUrl: 'views/office-employees.html',
     controller: 'OfficeEmployeesController'
+  })
+  .when('/password-reset/:resetToken', {
+    templateUrl: 'views/password-reset-token.html',
+    controller: 'PasswordResetTokenController'
   })
   .when('/password-reset', {
     templateUrl: 'views/password-reset.html',

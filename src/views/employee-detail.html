@@ -7,7 +7,7 @@
   </div>
   <hr />
   <ul class="nav nav-tabs">
-    <li ng-show="adminAccess"><a data-toggle="tab" href="office-detail/{{officeID}}">Details</a></li>
+    <li ng-show="adminAccess"><a data-toggle="tab" href="office-detail/{{companyID}}/{{officeID}}">Details</a></li>
     <li class="active"><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
     <li ng-show="adminAccess"><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplan</a></li>
   </ul>
@@ -22,14 +22,17 @@
     </div>
     <div class="col-md-9">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <h3 class="employee-name">{{header}}</h3>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <img src="{{imageURL}}" ng-show="!noURL" class="profile-image" />
         </div>
-        <div class="col-md-4">
-          <button class="btn btn-success btn-md" ng-click="editEmployee(employeeID)">Edit Employee</button>
+        <div class="col-md-3">
+          <button class="btn btn-success btn-md" ng-show="canReassign" ng-click="reassignEmployee(employeeID)">Change Office</button>
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-success btn-md" ng-show="canEdit" ng-click="editEmployee(employeeID)">Edit Employee</button>
         </div>
       </div>
       <table class="table table-hover" ng-repeat="item in collection">
@@ -45,7 +48,7 @@
             <th>Department</th>
             <td>{{item.department}}</td>
           </tr>
-          <!-- <tr>
+          <tr>
             <th>Black List</th>
             <td><button class="btn btn-info btn-sm" ng-click="viewBlacklist(item.employeeID)">View</button></td>
           </tr>
@@ -56,7 +59,7 @@
           <tr>
             <th>White List</th>
             <td><button class="btn btn-info btn-sm" ng-click="viewWhitelist(item.employeeID)">View</button></td>
-          </tr> -->
+          </tr>
         </table>
     </div>
   </div>
