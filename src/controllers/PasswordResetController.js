@@ -1,6 +1,8 @@
 import env from '../core/env';
 //import permissions from '../settings/permissions';
 import primaryNavItems from '../settings/primary_nav_items';
+import accountNavItems from '../settings/account_nav_items';
+import showAccountInfo from '../settings/account_info';
 
 //
 // Password Reset
@@ -10,6 +12,8 @@ import primaryNavItems from '../settings/primary_nav_items';
 
 export default ['$http', '$scope', '$location', '$window', ($http, $scope, $location, $window) => {
   $scope.primaryNavItems = primaryNavItems;
+  $scope.accountNavItems = accountNavItems;
+  $scope.showAccountInfo = showAccountInfo;
   //$scope = permissions.userPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Password Reset";
   $scope.invalid = false;
@@ -39,10 +43,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
       else{
         //check to see if there is a token for the employee.
         $scope.employeeID=response.data.data[0].employeeID;
-    
+
         //generate Token
         var temp= Math.round((Math.pow(36, 21) - Math.random() * Math.pow(36, 20))).toString(36).slice(1);
-        
+
         $scope.tokenInfo={
           token: temp,
           employeeID: $scope.employeeID
@@ -68,7 +72,7 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
           }, err => {
             console.log(err.data.message);
           });
-          
+
         }, err => {
           console.log(err.data.message);
         });

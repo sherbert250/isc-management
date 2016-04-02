@@ -1,6 +1,8 @@
 import env from '../core/env';
 import permissions from '../settings/permissions';
 import primaryNavItems from '../settings/primary_nav_items';
+import accountNavItems from '../settings/account_nav_items';
+import showAccountInfo from '../settings/account_info';
 
 //
 // Update Password Controller
@@ -10,6 +12,8 @@ import primaryNavItems from '../settings/primary_nav_items';
 
 export default ['$http', '$scope', '$location', '$routeParams', '$window', ($http, $scope, $location, $routeParams, $window)  => {
   $scope.primaryNavItems = primaryNavItems;
+  $scope.accountNavItems = accountNavItems;
+  $scope.showAccountInfo = showAccountInfo;
   $scope.adminAccess = false;
   $scope.isEmpty = function (obj) {
     for(var prop in obj) {

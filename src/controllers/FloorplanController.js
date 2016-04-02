@@ -1,6 +1,8 @@
 import env from '../core/env';
 import permissions from '../settings/permissions';
 import primaryNavItems from '../settings/primary_nav_items';
+import accountNavItems from '../settings/account_nav_items';
+import showAccountInfo from '../settings/account_info';
 
 //
 // Floorplan Controller
@@ -11,6 +13,8 @@ import primaryNavItems from '../settings/primary_nav_items';
 
 export default ['$http', '$scope', '$location', '$routeParams', '$window', ($http, $scope, $location, $routeParams, $window)  => {
   $scope.primaryNavItems = primaryNavItems;
+  $scope.accountNavItems = accountNavItems;
+  $scope.showAccountInfo = showAccountInfo;
   $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
   $scope.officeID = $routeParams.id;
   $scope.header = 'View Current FloorPLan';
@@ -18,7 +22,8 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     var adder = {
       chartFile : 'c32.json',
       employeeFile : 'e32.json',
-      similarityFile : 's32.json'
+      similarityFile : 's32.json',
+      output: 'office' + $scope.officeID + '_output.json'
     };
     $http({
       method: 'POST',

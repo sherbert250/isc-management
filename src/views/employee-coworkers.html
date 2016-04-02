@@ -5,9 +5,9 @@
     </div>
   </div>
   <hr />
-  <ul class="nav nav-tabs">
+  <ul class="nav nav-tabs" ng-show="adminAccess">
     <li ng-show="adminAccess"><a data-toggle="tab" href="office-detail/{{companyID}}/{{officeID}}">Details</a></li>
-    <li class="active"><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
+    <li ng-show="adminAccess" class="active"><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
     <li ng-show="adminAccess"><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplan</a></li>
   </ul>
   <div class="row">
@@ -73,7 +73,7 @@
           <h4 class="coworker-header">Whitelist</h4>
         </div>
       </div>
-      <div class="row">
+      <div class="row" ng-show="hasEmployees">
         <div class='parent1'>
           <div class="col-md-6">
             <div class='wrapper1'>

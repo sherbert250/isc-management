@@ -5,14 +5,17 @@
 export default [
   {
     href: '/my-info',
-    text: 'My Info'
+    text: 'My Info',
+    show: true
   },
   {
     href: '/update-password',
-    text: 'Update Password'
+    text: 'Update Password',
+    show: true
   },
   {
     href: '/sign-out',
-    text: 'Sign Out'
-  }  
+    text: 'Sign Out',
+    show: true
+  }
 ];

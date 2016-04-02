@@ -1,5 +1,7 @@
 import env from '../core/env';
 import primaryNavItems from '../settings/primary_nav_items';
+import accountNavItems from '../settings/account_nav_items';
+import showAccountInfo from '../settings/account_info';
 
 //
 // Password Reset
@@ -9,6 +11,8 @@ import primaryNavItems from '../settings/primary_nav_items';
 
 export default ['$http', '$scope', '$location', '$routeParams', '$window', ($http, $scope, $location, $routeParams, $window) => {
   $scope.primaryNavItems = primaryNavItems;
+  $scope.accountNavItems = accountNavItems;
+  $scope.showAccountInfo = showAccountInfo;
   $scope.header = "Password Reset";
   $scope.issue = false;
   $scope.validToken=false;
@@ -38,7 +42,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope.token= $routeParams.resetToken;
 
   //check if token exists.
-  
+
   $http({
     method : "GET",
     url : `${env.api.root}/Api/PasswordReset/`+$scope.token
@@ -74,7 +78,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     }
     else{
       //update the employee info
-      
+
       $http({
         method : "POST",
         url : `${env.api.root}/Api/PasswordResetUpdate`,
@@ -99,7 +103,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         console.log(err.data.message);
       });
     }
-    
+
   };
 
 }];

@@ -42,13 +42,14 @@
             <a ng-href="{{item.href}}">{{item.text}}</a>
           </li>
         </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">My Account <span class="caret"></span></a>
+        <ul class="nav navbar-nav navbar-right" ng-show="showAccountInfo.show">
+          <li class="dropdown" ng-show="showAccountInfo">
+            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">My Account<span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li
                 ng-class="navLinkClass('{{item.href}}')"
-                ng-repeat="item in accountNavItems">
+                ng-repeat="item in accountNavItems"
+                ng-show="item.show">
                 <a ng-href="{{item.href}}">{{item.text}}</a>
               </li>
             </ul>

@@ -1,5 +1,7 @@
 import env from '../../core/env';
 import primaryNavItems from '../../settings/primary_nav_items';
+import accountNavItems from '../../settings/account_nav_items';
+import showAccountInfo from '../../settings/account_info';
 
 //
 // My Information Controller
@@ -9,6 +11,9 @@ import primaryNavItems from '../../settings/primary_nav_items';
 
 export default ['$http', '$scope', '$location', '$window', ($http, $scope, $location, $window)  => {
   $scope.primaryNavItems = primaryNavItems;
+  $scope.accountNavItems = accountNavItems;
+  $scope.showAccountInfo = showAccountInfo;
+  $scope.showAccountInfo.show = true;
   $scope.adminAccess = false;
   $scope.canReassign = false;
   $scope.editEmployee = function(employeeID) {
@@ -82,17 +87,6 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
               }).then(err => {
                 //console.log('Error: ', err);
               });
-              $http({
-                method: 'GET',
-                url : `${env.api.root}/Api/ExistsSuperadminWithOffice`
-              }).then(response => {
-                //console.log('Response: ', response.data);
-                if (response.data[0].result == 0) {
-                  $window.location.href = '/add-superadmin-to-office';
-                }
-              }).then(err => {
-                //console.log('Error: ', err);
-              });
             }
           }).then(err => {
             //console.log('Error: ', err);
@@ -103,6 +97,9 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
       });
 
       // Check Permission Level
+      for (var i in $scope.accountNavItems) {
+        $scope.accountNavItems[i].show = true;
+      }
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page

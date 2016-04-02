@@ -1,6 +1,8 @@
 import env from '../core/env';
 import permissions from '../settings/permissions';
 import primaryNavItems from '../settings/primary_nav_items';
+import accountNavItems from '../settings/account_nav_items';
+import showAccountInfo from '../settings/account_info';
 
 //
 // Employee Coworkers Controller
@@ -10,9 +12,20 @@ import primaryNavItems from '../settings/primary_nav_items';
 
 export default ['$http', '$scope', '$location', '$routeParams', '$window', ($http, $scope, $location, $routeParams, $window) => {
   $scope.primaryNavItems = primaryNavItems;
+  $scope.accountNavItems = accountNavItems;
+  $scope.showAccountInfo = showAccountInfo;
+  $scope.isEmpty = function (obj) {
+    for (var prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+            return false;
+        }
+    }
+    return true;
+  };
   $scope.canEdit = false;
   $scope.canReassign = false;
   $scope.adminAccess = false;
+  $scope.hasEmployees = true;
   $scope.employeeID = $routeParams.employeeID;
   $scope.officeID = $routeParams.officeID;
   $scope.companyID;
@@ -65,13 +78,6 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     }, err => {
     });
   };
-  $scope.isEmpty = function (obj) {
-    for(var prop in obj) {
-        if(obj.hasOwnProperty(prop))
-            return false;
-    }
-    return true;
-  };
   $scope.reassignEmployee = function (employeeID) {
     $location.path('/employee-reassign-to-office/' + employeeID);
   };
@@ -86,8 +92,12 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     url: `${env.api.root}/Api/EmployeesNotInWhiteListOrBlackList/` + $scope.employeeID + '/' + $scope.officeID
   }).then(response => {
     //console.log(response.data);
-    $scope.employees = response.data;
-    $scope.employeesCopy = response.data;
+    if (!$scope.isEmpty(response.data)) {
+      $scope.employees = response.data;
+      $scope.employeesCopy = response.data;
+    } else {
+      $scope.hasEmployees = false;
+    }
   }, err => {
     //console.log(err);
   });
@@ -96,7 +106,11 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     url: `${env.api.root}/Api/EmployeeWhitelist/` + $scope.employeeID
   }).then(response => {
     //console.log(response.data);
-    $scope.whitelist = response.data;
+    if (!$scope.isEmpty(response.data)) {
+      $scope.whitelist = response.data;
+    } else {
+      $scope.hasEmployees = false;
+    }
   }, err => {
     //console.log(err);
   });
@@ -105,7 +119,11 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
    url: `${env.api.root}/Api/EmployeeBlacklist/` + $scope.employeeID
   }).then(response => {
    //console.log(response.data)
-   $scope.blacklist = response.data;
+   if (!$scope.isEmpty(response.data)) {
+      $scope.blacklist = response.data;
+   } else {
+     $scope.hasEmployees = false;
+   }
   }, err => {
    //console.log(err);
   });

@@ -1,5 +1,7 @@
 import env from '../core/env';
 import primaryNavItems from '../settings/primary_nav_items';
+import accountNavItems from '../settings/account_nav_items';
+import showAccountInfo from '../settings/account_info';
 
 //
 // Add Login Controller
@@ -9,11 +11,17 @@ import primaryNavItems from '../settings/primary_nav_items';
 
 export default ['$http', '$scope', '$location', '$window', ($http, $scope, $location, $window) => {
   $scope.primaryNavItems = primaryNavItems;
+  $scope.accountNavItems = accountNavItems;
+  $scope.showAccountInfo = showAccountInfo;
   for (var i in $scope.primaryNavItems) {
     if (i != 0) {
       $scope.primaryNavItems[i].show = false;
     }
   }
+  for (var i in $scope.accountNavItems) {
+    $scope.accountNavItems[i].show = false;
+  }
+  $scope.showAccountInfo.show = false;
   if ($window.sessionStorage.token) {
     //Validate the token
     $http({

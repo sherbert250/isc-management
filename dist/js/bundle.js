@@ -119,7 +119,7 @@ AbstractChainedBatch.prototype.write = function (options, callback) {
 module.exports = AbstractChainedBatch
 }).call(this,require('_process'))
 
-},{"_process":105}],4:[function(require,module,exports){
+},{"_process":25}],4:[function(require,module,exports){
 (function (process){
 /* Copyright (c) 2013 Rod Vagg, MIT License */
 
@@ -173,7 +173,7 @@ module.exports = AbstractIterator
 
 }).call(this,require('_process'))
 
-},{"_process":105}],5:[function(require,module,exports){
+},{"_process":25}],5:[function(require,module,exports){
 (function (Buffer,process){
 /* Copyright (c) 2013 Rod Vagg, MIT License */
 
@@ -432,9 +432,9 @@ module.exports.AbstractLevelDOWN    = AbstractLevelDOWN
 module.exports.AbstractIterator     = AbstractIterator
 module.exports.AbstractChainedBatch = AbstractChainedBatch
 
-}).call(this,{"isBuffer":require("../is-buffer/index.js")},require('_process'))
+}).call(this,{"isBuffer":require("../browserify/node_modules/insert-module-globals/node_modules/is-buffer/index.js")},require('_process'))
 
-},{"../is-buffer/index.js":45,"./abstract-chained-batch":3,"./abstract-iterator":4,"_process":105,"xtend":6}],6:[function(require,module,exports){
+},{"../browserify/node_modules/insert-module-globals/node_modules/is-buffer/index.js":22,"./abstract-chained-batch":3,"./abstract-iterator":4,"_process":25,"xtend":6}],6:[function(require,module,exports){
 module.exports = extend
 
 function extend() {
@@ -528,7 +528,7 @@ function register (angular) {
 
 module.exports = register;
 
-},{"dragula":27}],9:[function(require,module,exports){
+},{"dragula":53}],9:[function(require,module,exports){
 'use strict';
 
 var atoa = require('atoa');
@@ -685,10 +685,10 @@ function register (angular) {
 
 module.exports = register;
 
-},{"./replicate-events":9,"dragula":27}],11:[function(require,module,exports){
+},{"./replicate-events":9,"dragula":53}],11:[function(require,module,exports){
 /**
- * @license AngularJS v1.5.0
- * (c) 2010-2016 Google, Inc. http://angularjs.org
+ * @license AngularJS v1.4.9
+ * (c) 2010-2015 Google, Inc. http://angularjs.org
  * License: MIT
  */
 (function(window, document, undefined) {'use strict';
@@ -745,7 +745,7 @@ function minErr(module, ErrorConstructor) {
       return match;
     });
 
-    message += '\nhttp://errors.angularjs.org/1.5.0/' +
+    message += '\nhttp://errors.angularjs.org/1.4.9/' +
       (module ? module + '/' : '') + code;
 
     for (i = SKIP_INDEXES, paramPrefix = '?'; i < templateArgs.length; i++, paramPrefix = '&') {
@@ -876,9 +876,29 @@ var REGEX_STRING_REGEXP = /^\/(.+)\/([a-z]*)$/;
 // This is used so that it's possible for internal tests to create mock ValidityStates.
 var VALIDITY_STATE_PROPERTY = 'validity';
 
+/**
+ * @ngdoc function
+ * @name angular.lowercase
+ * @module ng
+ * @kind function
+ *
+ * @description Converts the specified string to lowercase.
+ * @param {string} string String to be converted to lowercase.
+ * @returns {string} Lowercased string.
+ */
+var lowercase = function(string) {return isString(string) ? string.toLowerCase() : string;};
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-var lowercase = function(string) {return isString(string) ? string.toLowerCase() : string;};
+/**
+ * @ngdoc function
+ * @name angular.uppercase
+ * @module ng
+ * @kind function
+ *
+ * @description Converts the specified string to uppercase.
+ * @param {string} string String to be converted to uppercase.
+ * @returns {string} Uppercased string.
+ */
 var uppercase = function(string) {return isString(string) ? string.toUpperCase() : string;};
 
 
@@ -898,7 +918,7 @@ var manualUppercase = function(s) {
 
 // String#toLowerCase and String#toUpperCase don't produce correct results in browsers with Turkish
 // locale, for this reason we need to detect this case and redefine lowercase/uppercase methods
-// with correct but slower alternatives. See https://github.com/angular/angular.js/issues/11387
+// with correct but slower alternatives.
 if ('i' !== 'I'.toLowerCase()) {
   lowercase = manualLowercase;
   uppercase = manualUppercase;
@@ -941,7 +961,7 @@ function isArrayLike(obj) {
 
   // arrays, strings and jQuery/jqLite objects are array like
   // * jqLite is either the jQuery or jqLite constructor function
-  // * we have to check the existence of jqLite first as this method is called
+  // * we have to check the existance of jqLite first as this method is called
   //   via the forEach method when constructing the jqLite object in the first place
   if (isArray(obj) || isString(obj) || (jqLite && obj instanceof jqLite)) return true;
 
@@ -1050,7 +1070,7 @@ function forEachSorted(obj, iterator, context) {
  * @returns {function(*, string)}
  */
 function reverseParams(iteratorFn) {
-  return function(value, key) {iteratorFn(key, value);};
+  return function(value, key) { iteratorFn(key, value); };
 }
 
 /**
@@ -1421,10 +1441,6 @@ function isTypedArray(value) {
   return value && isNumber(value.length) && TYPED_ARRAY_REGEXP.test(toString.call(value));
 }
 
-function isArrayBuffer(obj) {
-  return toString.call(obj) === '[object ArrayBuffer]';
-}
-
 
 var trim = function(value) {
   return isString(value) ? value.trim() : value;
@@ -1462,7 +1478,7 @@ function isElement(node) {
  * @returns {object} in the form of {key1:true, key2:true, ...}
  */
 function makeMap(str) {
-  var obj = {}, items = str.split(','), i;
+  var obj = {}, items = str.split(","), i;
   for (i = 0; i < items.length; i++) {
     obj[items[i]] = true;
   }
@@ -1549,7 +1565,7 @@ function copy(source, destination) {
   var stackDest = [];
 
   if (destination) {
-    if (isTypedArray(destination) || isArrayBuffer(destination)) {
+    if (isTypedArray(destination)) {
       throw ngMinErr('cpta', "Can't copy! TypedArray destination cannot be mutated.");
     }
     if (source === destination) {
@@ -1623,10 +1639,22 @@ function copy(source, destination) {
     }
 
     var needsRecurse = false;
-    var destination = copyType(source);
+    var destination;
 
-    if (destination === undefined) {
-      destination = isArray(source) ? [] : Object.create(getPrototypeOf(source));
+    if (isArray(source)) {
+      destination = [];
+      needsRecurse = true;
+    } else if (isTypedArray(source)) {
+      destination = new source.constructor(source);
+    } else if (isDate(source)) {
+      destination = new Date(source.getTime());
+    } else if (isRegExp(source)) {
+      destination = new RegExp(source.source, source.toString().match(/[^\/]*$/)[0]);
+      destination.lastIndex = source.lastIndex;
+    } else if (isFunction(source.cloneNode)) {
+        destination = source.cloneNode(true);
+    } else {
+      destination = Object.create(getPrototypeOf(source));
       needsRecurse = true;
     }
 
@@ -1636,45 +1664,6 @@ function copy(source, destination) {
     return needsRecurse
       ? copyRecurse(source, destination)
       : destination;
-  }
-
-  function copyType(source) {
-    switch (toString.call(source)) {
-      case '[object Int8Array]':
-      case '[object Int16Array]':
-      case '[object Int32Array]':
-      case '[object Float32Array]':
-      case '[object Float64Array]':
-      case '[object Uint8Array]':
-      case '[object Uint8ClampedArray]':
-      case '[object Uint16Array]':
-      case '[object Uint32Array]':
-        return new source.constructor(copyElement(source.buffer));
-
-      case '[object ArrayBuffer]':
-        //Support: IE10
-        if (!source.slice) {
-          var copied = new ArrayBuffer(source.byteLength);
-          new Uint8Array(copied).set(new Uint8Array(source));
-          return copied;
-        }
-        return source.slice(0);
-
-      case '[object Boolean]':
-      case '[object Number]':
-      case '[object String]':
-      case '[object Date]':
-        return new source.constructor(source.valueOf());
-
-      case '[object RegExp]':
-        var re = new RegExp(source.source, source.toString().match(/[^\/]*$/)[0]);
-        re.lastIndex = source.lastIndex;
-        return re;
-    }
-
-    if (isFunction(source.cloneNode)) {
-      return source.cloneNode(true);
-    }
   }
 }
 
@@ -1738,37 +1727,38 @@ function equals(o1, o2) {
   if (o1 === null || o2 === null) return false;
   if (o1 !== o1 && o2 !== o2) return true; // NaN === NaN
   var t1 = typeof o1, t2 = typeof o2, length, key, keySet;
-  if (t1 == t2 && t1 == 'object') {
-    if (isArray(o1)) {
-      if (!isArray(o2)) return false;
-      if ((length = o1.length) == o2.length) {
-        for (key = 0; key < length; key++) {
+  if (t1 == t2) {
+    if (t1 == 'object') {
+      if (isArray(o1)) {
+        if (!isArray(o2)) return false;
+        if ((length = o1.length) == o2.length) {
+          for (key = 0; key < length; key++) {
+            if (!equals(o1[key], o2[key])) return false;
+          }
+          return true;
+        }
+      } else if (isDate(o1)) {
+        if (!isDate(o2)) return false;
+        return equals(o1.getTime(), o2.getTime());
+      } else if (isRegExp(o1)) {
+        return isRegExp(o2) ? o1.toString() == o2.toString() : false;
+      } else {
+        if (isScope(o1) || isScope(o2) || isWindow(o1) || isWindow(o2) ||
+          isArray(o2) || isDate(o2) || isRegExp(o2)) return false;
+        keySet = createMap();
+        for (key in o1) {
+          if (key.charAt(0) === '$' || isFunction(o1[key])) continue;
           if (!equals(o1[key], o2[key])) return false;
+          keySet[key] = true;
+        }
+        for (key in o2) {
+          if (!(key in keySet) &&
+              key.charAt(0) !== '$' &&
+              isDefined(o2[key]) &&
+              !isFunction(o2[key])) return false;
         }
         return true;
       }
-    } else if (isDate(o1)) {
-      if (!isDate(o2)) return false;
-      return equals(o1.getTime(), o2.getTime());
-    } else if (isRegExp(o1)) {
-      if (!isRegExp(o2)) return false;
-      return o1.toString() == o2.toString();
-    } else {
-      if (isScope(o1) || isScope(o2) || isWindow(o1) || isWindow(o2) ||
-        isArray(o2) || isDate(o2) || isRegExp(o2)) return false;
-      keySet = createMap();
-      for (key in o1) {
-        if (key.charAt(0) === '$' || isFunction(o1[key])) continue;
-        if (!equals(o1[key], o2[key])) return false;
-        keySet[key] = true;
-      }
-      for (key in o2) {
-        if (!(key in keySet) &&
-            key.charAt(0) !== '$' &&
-            isDefined(o2[key]) &&
-            !isFunction(o2[key])) return false;
-      }
-      return true;
     }
   }
   return false;
@@ -1945,7 +1935,7 @@ function toJsonReplacer(key, value) {
  * @returns {string|undefined} JSON-ified string representing `obj`.
  */
 function toJson(obj, pretty) {
-  if (isUndefined(obj)) return undefined;
+  if (typeof obj === 'undefined') return undefined;
   if (!isNumber(pretty)) {
     pretty = pretty ? 2 : null;
   }
@@ -1972,10 +1962,7 @@ function fromJson(json) {
 }
 
 
-var ALL_COLONS = /:/g;
 function timezoneToOffset(timezone, fallback) {
-  // IE/Edge do not "understand" colon (`:`) in timezone
-  timezone = timezone.replace(ALL_COLONS, '');
   var requestedTimezoneOffset = Date.parse('Jan 01, 1970 00:00:00 ' + timezone) / 60000;
   return isNaN(requestedTimezoneOffset) ? fallback : requestedTimezoneOffset;
 }
@@ -1990,9 +1977,8 @@ function addDateMinutes(date, minutes) {
 
 function convertTimezoneToLocal(date, timezone, reverse) {
   reverse = reverse ? -1 : 1;
-  var dateTimezoneOffset = date.getTimezoneOffset();
-  var timezoneOffset = timezoneToOffset(timezone, dateTimezoneOffset);
-  return addDateMinutes(date, reverse * (timezoneOffset - dateTimezoneOffset));
+  var timezoneOffset = timezoneToOffset(timezone, date.getTimezoneOffset());
+  return addDateMinutes(date, reverse * (timezoneOffset - date.getTimezoneOffset()));
 }
 
 
@@ -2011,7 +1997,7 @@ function startingTag(element) {
     return element[0].nodeType === NODE_TYPE_TEXT ? lowercase(elemHtml) :
         elemHtml.
           match(/^(<[^>]+>)/)[1].
-          replace(/^<([\w\-]+)/, function(match, nodeName) {return '<' + lowercase(nodeName);});
+          replace(/^<([\w\-]+)/, function(match, nodeName) { return '<' + lowercase(nodeName); });
   } catch (e) {
     return lowercase(elemHtml);
   }
@@ -2454,6 +2440,7 @@ function snake_case(name, separator) {
 }
 
 var bindJQueryFired = false;
+var skipDestroyOnNextJQueryCleanData;
 function bindJQuery() {
   var originalCleanData;
 
@@ -2487,11 +2474,15 @@ function bindJQuery() {
     originalCleanData = jQuery.cleanData;
     jQuery.cleanData = function(elems) {
       var events;
-      for (var i = 0, elem; (elem = elems[i]) != null; i++) {
-        events = jQuery._data(elem, "events");
-        if (events && events.$destroy) {
-          jQuery(elem).triggerHandler('$destroy');
+      if (!skipDestroyOnNextJQueryCleanData) {
+        for (var i = 0, elem; (elem = elems[i]) != null; i++) {
+          events = jQuery._data(elem, "events");
+          if (events && events.$destroy) {
+            jQuery(elem).triggerHandler('$destroy');
+          }
         }
+      } else {
+        skipDestroyOnNextJQueryCleanData = false;
       }
       originalCleanData(elems);
     };
@@ -2893,19 +2884,6 @@ function setupModuleLoader(window) {
 
           /**
            * @ngdoc method
-           * @name angular.Module#component
-           * @module ng
-           * @param {string} name Name of the component in camel-case (i.e. myComp which will match as my-comp)
-           * @param {Object} options Component definition object (a simplified
-           *    {@link ng.$compile#directive-definition-object directive definition object})
-           *
-           * @description
-           * See {@link ng.$compileProvider#component $compileProvider.component()}.
-           */
-          component: invokeLaterAndSetModuleName('$compileProvider', 'component'),
-
-          /**
-           * @ngdoc method
            * @name angular.Module#config
            * @module ng
            * @param {Function} configFn Execute this function on module load. Useful for service
@@ -3062,7 +3040,6 @@ function toDebugString(obj) {
   $BrowserProvider,
   $CacheFactoryProvider,
   $ControllerProvider,
-  $DateProvider,
   $DocumentProvider,
   $ExceptionHandlerProvider,
   $FilterProvider,
@@ -3112,11 +3089,11 @@ function toDebugString(obj) {
  * - `codeName` – `{string}` – Code name of the release, such as "jiggling-armfat".
  */
 var version = {
-  full: '1.5.0',    // all of these placeholder strings will be replaced by grunt's
+  full: '1.4.9',    // all of these placeholder strings will be replaced by grunt's
   major: 1,    // package task
-  minor: 5,
-  dot: 0,
-  codeName: 'ennoblement-facilitation'
+  minor: 4,
+  dot: 9,
+  codeName: 'implicit-superannuation'
 };
 
 
@@ -3455,12 +3432,6 @@ function jqLiteHasData(node) {
   return false;
 }
 
-function jqLiteCleanData(nodes) {
-  for (var i = 0, ii = nodes.length; i < ii; i++) {
-    jqLiteRemoveData(nodes[i]);
-  }
-}
-
 function jqLiteBuildFragment(html, context) {
   var tmp, tag, wrap,
       fragment = context.createDocumentFragment(),
@@ -3511,16 +3482,6 @@ function jqLiteParseHTML(html, context) {
   }
 
   return [];
-}
-
-function jqLiteWrapNode(node, wrapper) {
-  var parent = node.parentNode;
-
-  if (parent) {
-    parent.replaceChild(wrapper, node);
-  }
-
-  wrapper.appendChild(node);
 }
 
 
@@ -3773,7 +3734,7 @@ function jqLiteRemove(element, keepData) {
 function jqLiteDocumentLoaded(action, win) {
   win = win || window;
   if (win.document.readyState === 'complete') {
-    // Force the action to be run async for consistent behavior
+    // Force the action to be run async for consistent behaviour
     // from the action's point of view
     // i.e. it will definitely not be in a $apply
     win.setTimeout(action);
@@ -3859,8 +3820,7 @@ function getAliasedAttrName(name) {
 forEach({
   data: jqLiteData,
   removeData: jqLiteRemoveData,
-  hasData: jqLiteHasData,
-  cleanData: jqLiteCleanData
+  hasData: jqLiteHasData
 }, function(fn, name) {
   JQLite[name] = fn;
 });
@@ -4215,7 +4175,12 @@ forEach({
   },
 
   wrap: function(element, wrapNode) {
-    jqLiteWrapNode(element, jqLite(wrapNode).eq(0).clone()[0]);
+    wrapNode = jqLite(wrapNode).eq(0).clone()[0];
+    var parent = element.parentNode;
+    if (parent) {
+      parent.replaceChild(wrapNode, element);
+    }
+    wrapNode.appendChild(element);
   },
 
   remove: jqLiteRemove,
@@ -4493,23 +4458,17 @@ var $$HashMapProvider = [function() {
  * Implicit module which gets automatically added to each {@link auto.$injector $injector}.
  */
 
-var ARROW_ARG = /^([^\(]+?)=>/;
 var FN_ARGS = /^[^\(]*\(\s*([^\)]*)\)/m;
 var FN_ARG_SPLIT = /,/;
 var FN_ARG = /^\s*(_?)(\S+?)\1\s*$/;
 var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
 var $injectorMinErr = minErr('$injector');
 
-function extractArgs(fn) {
-  var fnText = fn.toString().replace(STRIP_COMMENTS, ''),
-      args = fnText.match(ARROW_ARG) || fnText.match(FN_ARGS);
-  return args;
-}
-
 function anonFn(fn) {
   // For anonymous functions, showing at the very least the function signature can help in
   // debugging.
-  var args = extractArgs(fn);
+  var fnText = fn.toString().replace(STRIP_COMMENTS, ''),
+      args = fnText.match(FN_ARGS);
   if (args) {
     return 'function(' + (args[1] || '').replace(/[\s\r\n]+/, ' ') + ')';
   }
@@ -4518,6 +4477,7 @@ function anonFn(fn) {
 
 function annotate(fn, strictDi, name) {
   var $inject,
+      fnText,
       argDecl,
       last;
 
@@ -4532,7 +4492,8 @@ function annotate(fn, strictDi, name) {
           throw $injectorMinErr('strictdi',
             '{0} is not using explicit annotation and cannot be invoked in strict mode', name);
         }
-        argDecl = extractArgs(fn);
+        fnText = fn.toString().replace(STRIP_COMMENTS, '');
+        argDecl = fnText.match(FN_ARGS);
         forEach(argDecl[1].split(FN_ARG_SPLIT), function(arg) {
           arg.replace(FN_ARG, function(all, underscore, name) {
             $inject.push(name);
@@ -4922,20 +4883,8 @@ function annotate(fn, strictDi, name) {
  *
  * Register a **service constructor**, which will be invoked with `new` to create the service
  * instance.
- * This is short for registering a service where its provider's `$get` property is a factory
- * function that returns an instance instantiated by the injector from the service constructor
- * function.
- *
- * Internally it looks a bit like this:
- *
- * ```
- * {
- *   $get: function() {
- *     return $injector.instantiate(constructor);
- *   }
- * }
- * ```
- *
+ * This is short for registering a service where its provider's `$get` property is the service
+ * constructor function that will be used to instantiate the service instance.
  *
  * You should use {@link auto.$provide#service $provide.service(class)} if you define your service
  * as a type/class.
@@ -5085,19 +5034,14 @@ function createInjector(modulesToLoad, strictDi) {
             throw $injectorMinErr('unpr', "Unknown provider: {0}", path.join(' <- '));
           })),
       instanceCache = {},
-      protoInstanceInjector =
+      instanceInjector = (instanceCache.$injector =
           createInternalInjector(instanceCache, function(serviceName, caller) {
             var provider = providerInjector.get(serviceName + providerSuffix, caller);
-            return instanceInjector.invoke(
-                provider.$get, provider, undefined, serviceName);
-          }),
-      instanceInjector = protoInstanceInjector;
+            return instanceInjector.invoke(provider.$get, provider, undefined, serviceName);
+          }));
 
-  providerCache['$injector' + providerSuffix] = { $get: valueFn(protoInstanceInjector) };
-  var runBlocks = loadModules(modulesToLoad);
-  instanceInjector = protoInstanceInjector.get('$injector');
-  instanceInjector.strictDi = strictDi;
-  forEach(runBlocks, function(fn) { if (fn) instanceInjector.invoke(fn); });
+
+  forEach(loadModules(modulesToLoad), function(fn) { if (fn) instanceInjector.invoke(fn); });
 
   return instanceInjector;
 
@@ -5247,66 +5191,47 @@ function createInjector(modulesToLoad, strictDi) {
       }
     }
 
-
-    function injectionArgs(fn, locals, serviceName) {
-      var args = [],
-          $inject = createInjector.$$annotate(fn, strictDi, serviceName);
-
-      for (var i = 0, length = $inject.length; i < length; i++) {
-        var key = $inject[i];
-        if (typeof key !== 'string') {
-          throw $injectorMinErr('itkn',
-                  'Incorrect injection token! Expected service name as string, got {0}', key);
-        }
-        args.push(locals && locals.hasOwnProperty(key) ? locals[key] :
-                                                         getService(key, serviceName));
-      }
-      return args;
-    }
-
-    function isClass(func) {
-      // IE 9-11 do not support classes and IE9 leaks with the code below.
-      if (msie <= 11) {
-        return false;
-      }
-      // Workaround for MS Edge.
-      // Check https://connect.microsoft.com/IE/Feedback/Details/2211653
-      return typeof func === 'function'
-        && /^(?:class\s|constructor\()/.test(Function.prototype.toString.call(func));
-    }
-
     function invoke(fn, self, locals, serviceName) {
       if (typeof locals === 'string') {
         serviceName = locals;
         locals = null;
       }
 
-      var args = injectionArgs(fn, locals, serviceName);
+      var args = [],
+          $inject = createInjector.$$annotate(fn, strictDi, serviceName),
+          length, i,
+          key;
+
+      for (i = 0, length = $inject.length; i < length; i++) {
+        key = $inject[i];
+        if (typeof key !== 'string') {
+          throw $injectorMinErr('itkn',
+                  'Incorrect injection token! Expected service name as string, got {0}', key);
+        }
+        args.push(
+          locals && locals.hasOwnProperty(key)
+          ? locals[key]
+          : getService(key, serviceName)
+        );
+      }
       if (isArray(fn)) {
-        fn = fn[fn.length - 1];
+        fn = fn[length];
       }
 
-      if (!isClass(fn)) {
-        // http://jsperf.com/angularjs-invoke-apply-vs-switch
-        // #5388
-        return fn.apply(self, args);
-      } else {
-        args.unshift(null);
-        return new (Function.prototype.bind.apply(fn, args))();
-      }
+      // http://jsperf.com/angularjs-invoke-apply-vs-switch
+      // #5388
+      return fn.apply(self, args);
     }
-
 
     function instantiate(Type, locals, serviceName) {
       // Check if Type is annotated and use just the given function at n-1 as parameter
       // e.g. someModule.factory('greeter', ['$window', function(renamed$window) {}]);
-      var ctor = (isArray(Type) ? Type[Type.length - 1] : Type);
-      var args = injectionArgs(Type, locals, serviceName);
-      // Empty object at position 0 is ignored for invocation with `new`, but required.
-      args.unshift(null);
-      return new (Function.prototype.bind.apply(ctor, args))();
-    }
+      // Object creation: http://jsperf.com/create-constructor/2
+      var instance = Object.create((isArray(Type) ? Type[Type.length - 1] : Type).prototype || null);
+      var returnedValue = invoke(Type, instance, locals, serviceName);
 
+      return isObject(returnedValue) || isFunction(returnedValue) ? returnedValue : instance;
+    }
 
     return {
       invoke: invoke,
@@ -5922,8 +5847,8 @@ var $AnimateProvider = ['$provide', function($provide) {
        * // remove all the animation event listeners listening for `enter` on the given element and its children
        * $animate.off('enter', container);
        *
-       * // remove the event listener function provided by `callback` that is set
-       * // to listen for `enter` on the given `container` as well as its children
+       * // remove the event listener function provided by `listenerFn` that is set
+       * // to listen for `enter` on the given `element` as well as its children
        * $animate.off('enter', container, callback);
        * ```
        *
@@ -6146,7 +6071,7 @@ var $AnimateProvider = ['$provide', function($provide) {
        *
        * @description Performs an inline animation on the element which applies the provided to and from CSS styles to the element.
        * If any detected CSS transition, keyframe or JavaScript matches the provided className value, then the animation will take
-       * on the provided styles. For example, if a transition animation is set for the given classNamem, then the provided `from` and
+       * on the provided styles. For example, if a transition animation is set for the given className, then the provided `from` and
        * `to` styles will be applied alongside the given transition. If the CSS style provided in `from` does not have a corresponding
        * style in `to`, the style in `from` is applied immediately, and no animation is run.
        * If a JavaScript animation is detected then the provided styles will be given in as function parameters into the `animate`
@@ -6168,7 +6093,7 @@ var $AnimateProvider = ['$provide', function($provide) {
        * @param {object} to the to (destination) CSS styles that will be applied to the element and across the animation.
        * @param {string=} className an optional CSS class that will be applied to the element for the duration of the animation. If
        *    this value is left as empty then a CSS class of `ng-inline-animate` will be applied to the element.
-       *    (Note that if no animation is detected then this value will not be applied to the element.)
+       *    (Note that if no animation is detected then this value will not be appplied to the element.)
        * @param {object=} options an optional collection of options/styles that will be applied to the element
        *
        * @return {Promise} the animation callback promise
@@ -6406,7 +6331,7 @@ var $CoreAnimateCssProvider = function() {
         options.from = null;
       }
 
-      /* jshint newcap: false */
+      /* jshint newcap: false*/
       var closed, runner = new $$AnimateRunner();
       return {
         start: run,
@@ -7332,7 +7257,7 @@ function $TemplateCacheProvider() {
  * When this property is set to true, the HTML compiler will collect DOM nodes between
  * nodes with the attributes `directive-name-start` and `directive-name-end`, and group them
  * together as the directive elements. It is recommended that this feature be used on directives
- * which are not strictly behavioral (such as {@link ngClick}), and which
+ * which are not strictly behavioural (such as {@link ngClick}), and which
  * do not manipulate or replace child nodes (such as {@link ngInclude}).
  *
  * #### `priority`
@@ -7370,62 +7295,35 @@ function $TemplateCacheProvider() {
  * is bound to the parent scope, via matching attributes on the directive's element:
  *
  * * `@` or `@attr` - bind a local scope property to the value of DOM attribute. The result is
- *   always a string since DOM attributes are strings. If no `attr` name is specified then the
- *   attribute name is assumed to be the same as the local name. Given `<my-component
- *   my-attr="hello {{name}}">` and the isolate scope definition `scope: { localName:'@myAttr' }`,
- *   the directive's scope property `localName` will reflect the interpolated value of `hello
- *   {{name}}`. As the `name` attribute changes so will the `localName` property on the directive's
- *   scope. The `name` is read from the parent scope (not the directive's scope).
+ *   always a string since DOM attributes are strings. If no `attr` name is specified  then the
+ *   attribute name is assumed to be the same as the local name.
+ *   Given `<widget my-attr="hello {{name}}">` and widget definition
+ *   of `scope: { localName:'@myAttr' }`, then widget scope property `localName` will reflect
+ *   the interpolated value of `hello {{name}}`. As the `name` attribute changes so will the
+ *   `localName` property on the widget scope. The `name` is read from the parent scope (not
+ *   component scope).
  *
- * * `=` or `=attr` - set up a bidirectional binding between a local scope property and an expression
- *   passed via the attribute `attr`. The expression is evaluated in the context of the parent scope.
- *   If no `attr` name is specified then the attribute name is assumed to be the same as the local
- *   name. Given `<my-component my-attr="parentModel">` and the isolate scope definition `scope: {
- *   localModel: '=myAttr' }`, the property `localModel` on the directive's scope will reflect the
- *   value of `parentModel` on the parent scope. Changes to `parentModel` will be reflected in
- *   `localModel` and vice versa. Optional attributes should be marked as such with a question mark:
- *   `=?` or `=?attr`. If the binding expression is non-assignable, or if the attribute isn't
- *   optional and doesn't exist, an exception ({@link error/$compile/nonassign `$compile:nonassign`})
- *   will be thrown upon discovering changes to the local value, since it will be impossible to sync
- *   them back to the parent scope. By default, the {@link ng.$rootScope.Scope#$watch `$watch`}
- *   method is used for tracking changes, and the equality check is based on object identity.
- *   However, if an object literal or an array literal is passed as the binding expression, the
- *   equality check is done by value (using the {@link angular.equals} function). It's also possible
- *   to watch the evaluated value shallowly with {@link ng.$rootScope.Scope#$watchCollection
- *   `$watchCollection`}: use `=*` or `=*attr` (`=*?` or `=*?attr` if the attribute is optional).
- *
-  * * `<` or `<attr` - set up a one-way (one-directional) binding between a local scope property and an
- *   expression passed via the attribute `attr`. The expression is evaluated in the context of the
- *   parent scope. If no `attr` name is specified then the attribute name is assumed to be the same as the
- *   local name. You can also make the binding optional by adding `?`: `<?` or `<?attr`.
- *
- *   For example, given `<my-component my-attr="parentModel">` and directive definition of
- *   `scope: { localModel:'<myAttr' }`, then the isolated scope property `localModel` will reflect the
+ * * `=` or `=attr` - set up bi-directional binding between a local scope property and the
+ *   parent scope property of name defined via the value of the `attr` attribute. If no `attr`
+ *   name is specified then the attribute name is assumed to be the same as the local name.
+ *   Given `<widget my-attr="parentModel">` and widget definition of
+ *   `scope: { localModel:'=myAttr' }`, then widget scope property `localModel` will reflect the
  *   value of `parentModel` on the parent scope. Any changes to `parentModel` will be reflected
- *   in `localModel`, but changes in `localModel` will not reflect in `parentModel`. There are however
- *   two caveats:
- *     1. one-way binding does not copy the value from the parent to the isolate scope, it simply
- *     sets the same value. That means if your bound value is an object, changes to its properties
- *     in the isolated scope will be reflected in the parent scope (because both reference the same object).
- *     2. one-way binding watches changes to the **identity** of the parent value. That means the
- *     {@link ng.$rootScope.Scope#$watch `$watch`} on the parent value only fires if the reference
- *     to the value has changed. In most cases, this should not be of concern, but can be important
- *     to know if you one-way bind to an object, and then replace that object in the isolated scope.
- *     If you now change a property of the object in your parent scope, the change will not be
- *     propagated to the isolated scope, because the identity of the object on the parent scope
- *     has not changed. Instead you must assign a new object.
+ *   in `localModel` and any changes in `localModel` will reflect in `parentModel`. If the parent
+ *   scope property doesn't exist, it will throw a NON_ASSIGNABLE_MODEL_EXPRESSION exception. You
+ *   can avoid this behavior using `=?` or `=?attr` in order to flag the property as optional. If
+ *   you want to shallow watch for changes (i.e. $watchCollection instead of $watch) you can use
+ *   `=*` or `=*attr` (`=*?` or `=*?attr` if the property is optional).
  *
- *   One-way binding is useful if you do not plan to propagate changes to your isolated scope bindings
- *   back to the parent. However, it does not make this completely impossible.
- *
- * * `&` or `&attr` - provides a way to execute an expression in the context of the parent scope. If
- *   no `attr` name is specified then the attribute name is assumed to be the same as the local name.
- *   Given `<my-component my-attr="count = count + value">` and the isolate scope definition `scope: {
- *   localFn:'&myAttr' }`, the isolate scope property `localFn` will point to a function wrapper for
- *   the `count = count + value` expression. Often it's desirable to pass data from the isolated scope
- *   via an expression to the parent scope. This can be done by passing a map of local variable names
- *   and values into the expression wrapper fn. For example, if the expression is `increment(amount)`
- *   then we can specify the amount value by calling the `localFn` as `localFn({amount: 22})`.
+ * * `&` or `&attr` - provides a way to execute an expression in the context of the parent scope.
+ *   If no `attr` name is specified then the attribute name is assumed to be the same as the
+ *   local name. Given `<widget my-attr="count = count + value">` and widget definition of
+ *   `scope: { localFn:'&myAttr' }`, then isolate scope property `localFn` will point to
+ *   a function wrapper for the `count = count + value` expression. Often it's desirable to
+ *   pass data from the isolated scope via an expression to the parent scope, this can be
+ *   done by passing a map of local variable names and values into the expression wrapper fn.
+ *   For example, if the expression is `increment(amount)` then we can specify the amount value
+ *   by calling the `localFn` as `localFn({amount: 22})`.
  *
  * In general it's possible to apply more than one directive to one element, but there might be limitations
  * depending on the type of scope required by the directives. The following points will help explain these limitations.
@@ -7449,18 +7347,8 @@ function $TemplateCacheProvider() {
  * definition: `controller: 'myCtrl as myAlias'`.
  *
  * When an isolate scope is used for a directive (see above), `bindToController: true` will
- * allow a component to have its properties bound to the controller, rather than to scope.
- *
- * After the controller is instantiated, the initial values of the isolate scope bindings will be bound to the controller
- * properties. You can access these bindings once they have been initialized by providing a controller method called
- * `$onInit`, which is called after all the controllers on an element have been constructed and had their bindings
- * initialized.
- *
- * <div class="alert alert-warning">
- * **Deprecation warning:** although bindings for non-ES6 class controllers are currently
- * bound to `this` before the controller constructor is called, this use is now deprecated. Please place initialization
- * code that relies upon bindings inside a `$onInit` method on the controller, instead.
- * </div>
+ * allow a component to have its properties bound to the controller, rather than to scope. When the controller
+ * is instantiated, the initial values of the isolate scope bindings are already available.
  *
  * It is also possible to set `bindToController` to an object hash with the same format as the `scope` property.
  * This will set up the scope bindings to the controller directly. Note that `scope` can still be used
@@ -7480,10 +7368,10 @@ function $TemplateCacheProvider() {
  * * `$element` - Current element
  * * `$attrs` - Current attributes object for the element
  * * `$transclude` - A transclude linking function pre-bound to the correct transclusion scope:
- *   `function([scope], cloneLinkingFn, futureParentElement, slotName)`:
- *    * `scope`: (optional) override the scope.
- *    * `cloneLinkingFn`: (optional) argument to create clones of the original transcluded content.
- *    * `futureParentElement` (optional):
+ *   `function([scope], cloneLinkingFn, futureParentElement)`.
+ *    * `scope`: optional argument to override the scope.
+ *    * `cloneLinkingFn`: optional argument to create clones of the original transcluded content.
+ *    * `futureParentElement`:
  *        * defines the parent to which the `cloneLinkingFn` will add the cloned elements.
  *        * default: `$element.parent()` resp. `$element` for `transclude:'element'` resp. `transclude:true`.
  *        * only needed for transcludes that are allowed to contain non html elements (e.g. SVG elements)
@@ -7491,34 +7379,14 @@ function $TemplateCacheProvider() {
  *          as those elements need to created and cloned in a special way when they are defined outside their
  *          usual containers (e.g. like `<svg>`).
  *        * See also the `directive.templateNamespace` property.
- *    * `slotName`: (optional) the name of the slot to transclude. If falsy (e.g. `null`, `undefined` or `''`)
- *      then the default translusion is provided.
- *    The `$transclude` function also has a method on it, `$transclude.isSlotFilled(slotName)`, which returns
- *    `true` if the specified slot contains content (i.e. one or more DOM nodes).
  *
- * The controller can provide the following methods that act as life-cycle hooks:
- * * `$onInit` - Called on each controller after all the controllers on an element have been constructed and
- *   had their bindings initialized (and before the pre &amp; post linking functions for the directives on
- *   this element). This is a good place to put initialization code for your controller.
  *
  * #### `require`
  * Require another directive and inject its controller as the fourth argument to the linking function. The
- * `require` property can be a string, an array or an object:
- * * a **string** containing the name of the directive to pass to the linking function
- * * an **array** containing the names of directives to pass to the linking function. The argument passed to the
- * linking function will be an array of controllers in the same order as the names in the `require` property
- * * an **object** whose property values are the names of the directives to pass to the linking function. The argument
- * passed to the linking function will also be an object with matching keys, whose values will hold the corresponding
- * controllers.
- *
- * If the `require` property is an object and `bindToController` is truthy, then the required controllers are
- * bound to the controller using the keys of the `require` property. This binding occurs after all the controllers
- * have been constructed but before `$onInit` is called.
- * See the {@link $compileProvider#component} helper for an example of how this can be used.
- *
- * If no such required directive(s) can be found, or if the directive does not have a controller, then an error is
- * raised (unless no link function is specified and the required controllers are not being bound to the directive
- * controller, in which case error checking is skipped). The name can be prefixed with:
+ * `require` takes a string name (or array of strings) of the directive(s) to pass in. If an array is used, the
+ * injected argument will be an array in corresponding order. If no such directive can be
+ * found, or if the directive does not have a controller, then an error is raised (unless no link function
+ * is specified, in which case error checking is skipped). The name can be prefixed with:
  *
  * * (no prefix) - Locate the required controller on the current element. Throw an error if not found.
  * * `?` - Attempt to locate the required controller or pass `null` to the `link` fn if not found.
@@ -7611,6 +7479,14 @@ function $TemplateCacheProvider() {
  * The contents are compiled and provided to the directive as a **transclusion function**. See the
  * {@link $compile#transclusion Transclusion} section below.
  *
+ * There are two kinds of transclusion depending upon whether you want to transclude just the contents of the
+ * directive's element or the entire element:
+ *
+ * * `true` - transclude the content (i.e. the child nodes) of the directive's element.
+ * * `'element'` - transclude the whole of the directive's element including any directives on this
+ *   element that defined at a lower priority than this directive. When used, the `template`
+ *   property is ignored.
+ *
  *
  * #### `compile`
  *
@@ -7638,7 +7514,7 @@ function $TemplateCacheProvider() {
 
  * <div class="alert alert-warning">
  * **Note:** The compile function cannot handle directives that recursively use themselves in their
- * own templates or compile functions. Compiling these directives results in an infinite loop and
+ * own templates or compile functions. Compiling these directives results in an infinite loop and a
  * stack overflow errors.
  *
  * This can be avoided by manually using $compile in the postLink function to imperatively compile
@@ -7740,34 +7616,6 @@ function $TemplateCacheProvider() {
  * Testing Transclusion Directives}.
  * </div>
  *
- * There are three kinds of transclusion depending upon whether you want to transclude just the contents of the
- * directive's element, the entire element or multiple parts of the element contents:
- *
- * * `true` - transclude the content (i.e. the child nodes) of the directive's element.
- * * `'element'` - transclude the whole of the directive's element including any directives on this
- *   element that defined at a lower priority than this directive. When used, the `template`
- *   property is ignored.
- * * **`{...}` (an object hash):** - map elements of the content onto transclusion "slots" in the template.
- *
- * **Mult-slot transclusion** is declared by providing an object for the `transclude` property.
- *
- * This object is a map where the keys are the name of the slot to fill and the value is an element selector
- * used to match the HTML to the slot. The element selector should be in normalized form (e.g. `myElement`)
- * and will match the standard element variants (e.g. `my-element`, `my:element`, `data-my-element`, etc).
- *
- * For further information check out the guide on {@link guide/directive#matching-directives Matching Directives}
- *
- * If the element selector is prefixed with a `?` then that slot is optional.
- *
- * For example, the transclude object `{ slotA: '?myCustomElement' }` maps `<my-custom-element>` elements to
- * the `slotA` slot, which can be accessed via the `$transclude` function or via the {@link ngTransclude} directive.
- *
- * Slots that are not marked as optional (`?`) will trigger a compile time error if there are no matching elements
- * in the transclude content. If you wish to know if an optional slot was filled with content, then you can call
- * `$transclude.isSlotFilled(slotName)` on the transclude function passed to the directive's link function and
- * injectable into the directive's controller.
- *
- *
  * #### Transclusion Functions
  *
  * When a directive requests transclusion, the compiler extracts its contents and provides a **transclusion
@@ -7788,7 +7636,7 @@ function $TemplateCacheProvider() {
  * content and the `scope` is the newly created transclusion scope, to which the clone is bound.
  *
  * <div class="alert alert-info">
- * **Best Practice**: Always provide a `cloneFn` (clone attach function) when you call a transclude function
+ * **Best Practice**: Always provide a `cloneFn` (clone attach function) when you call a translude function
  * since you then get a fresh clone of the original DOM and also have access to the new transclusion scope.
  * </div>
  *
@@ -7820,7 +7668,7 @@ function $TemplateCacheProvider() {
  * </div>
  *
  * The built-in DOM manipulation directives, such as {@link ngIf}, {@link ngSwitch} and {@link ngRepeat}
- * automatically destroy their transcluded clones as necessary so you do not need to worry about this if
+ * automatically destroy their transluded clones as necessary so you do not need to worry about this if
  * you are simply using {@link ngTransclude} to inject the transclusion into your directive.
  *
  *
@@ -7865,9 +7713,10 @@ function $TemplateCacheProvider() {
  * The {@link ng.$compile.directive.Attributes Attributes} object - passed as a parameter in the
  * `link()` or `compile()` functions. It has a variety of uses.
  *
- * * *Accessing normalized attribute names:* Directives like 'ngBind' can be expressed in many ways:
- *   'ng:bind', `data-ng-bind`, or 'x-ng-bind'. The attributes object allows for normalized access
- *   to the attributes.
+ * accessing *Normalized attribute names:*
+ * Directives like 'ngBind' can be expressed in many ways: 'ng:bind', `data-ng-bind`, or 'x-ng-bind'.
+ * the attributes object allows for normalized access to
+ *   the attributes.
  *
  * * *Directive inter-communication:* All directives share the same instance of the attributes
  *   object which allows the directives to use the attributes object as inter directive
@@ -8057,7 +7906,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
   var EVENT_HANDLER_ATTR_REGEXP = /^(on[a-z]+|formaction)$/;
 
   function parseIsolateBindings(scope, directiveName, isController) {
-    var LOCAL_REGEXP = /^\s*([@&<]|=(\*?))(\??)\s*(\w*)\s*$/;
+    var LOCAL_REGEXP = /^\s*([@&]|=(\*?))(\??)\s*(\w*)\s*$/;
 
     var bindings = {};
 
@@ -8144,8 +7993,8 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
    * @param {string|Object} name Name of the directive in camel-case (i.e. <code>ngBind</code> which
    *    will match as <code>ng-bind</code>), or an object map of directives where the keys are the
    *    names and the values are the factories.
-   * @param {Function|Array} directiveFactory An injectable directive factory function. See the
-   *    {@link guide/directive directive guide} and the {@link $compile compile API} for more info.
+   * @param {Function|Array} directiveFactory An injectable directive factory function. See
+   *    {@link guide/directive} for more info.
    * @returns {ng.$compileProvider} Self for chaining.
    */
    this.directive = function registerDirective(name, directiveFactory) {
@@ -8190,128 +8039,6 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
       forEach(name, reverseParams(registerDirective));
     }
     return this;
-  };
-
-  /**
-   * @ngdoc method
-   * @name $compileProvider#component
-   * @module ng
-   * @param {string} name Name of the component in camelCase (i.e. `myComp` which will match `<my-comp>`)
-   * @param {Object} options Component definition object (a simplified
-   *    {@link ng.$compile#directive-definition-object directive definition object}),
-   *    with the following properties (all optional):
-   *
-   *    - `controller` – `{(string|function()=}` – controller constructor function that should be
-   *      associated with newly created scope or the name of a {@link ng.$compile#-controller-
-   *      registered controller} if passed as a string. An empty `noop` function by default.
-   *    - `controllerAs` – `{string=}` – identifier name for to reference the controller in the component's scope.
-   *      If present, the controller will be published to scope under the `controllerAs` name.
-   *      If not present, this will default to be `$ctrl`.
-   *    - `template` – `{string=|function()=}` – html template as a string or a function that
-   *      returns an html template as a string which should be used as the contents of this component.
-   *      Empty string by default.
-   *
-   *      If `template` is a function, then it is {@link auto.$injector#invoke injected} with
-   *      the following locals:
-   *
-   *      - `$element` - Current element
-   *      - `$attrs` - Current attributes object for the element
-   *
-   *    - `templateUrl` – `{string=|function()=}` – path or function that returns a path to an html
-   *      template that should be used  as the contents of this component.
-   *
-   *      If `templateUrl` is a function, then it is {@link auto.$injector#invoke injected} with
-   *      the following locals:
-   *
-   *      - `$element` - Current element
-   *      - `$attrs` - Current attributes object for the element
-   *
-   *    - `bindings` – `{object=}` – defines bindings between DOM attributes and component properties.
-   *      Component properties are always bound to the component controller and not to the scope.
-   *      See {@link ng.$compile#-bindtocontroller- `bindToController`}.
-   *    - `transclude` – `{boolean=}` – whether {@link $compile#transclusion content transclusion} is enabled.
-   *      Disabled by default.
-   *    - `$...` – `{function()=}` – additional annotations to provide to the directive factory function.
-   *
-   * @returns {ng.$compileProvider} the compile provider itself, for chaining of function calls.
-   * @description
-   * Register a **component definition** with the compiler. This is a shorthand for registering a special
-   * type of directive, which represents a self-contained UI component in your application. Such components
-   * are always isolated (i.e. `scope: {}`) and are always restricted to elements (i.e. `restrict: 'E'`).
-   *
-   * Component definitions are very simple and do not require as much configuration as defining general
-   * directives. Component definitions usually consist only of a template and a controller backing it.
-   *
-   * In order to make the definition easier, components enforce best practices like use of `controllerAs`,
-   * `bindToController`. They always have **isolate scope** and are restricted to elements.
-   *
-   * Here are a few examples of how you would usually define components:
-   *
-   * ```js
-   *   var myMod = angular.module(...);
-   *   myMod.component('myComp', {
-   *     template: '<div>My name is {{$ctrl.name}}</div>',
-   *     controller: function() {
-   *       this.name = 'shahar';
-   *     }
-   *   });
-   *
-   *   myMod.component('myComp', {
-   *     template: '<div>My name is {{$ctrl.name}}</div>',
-   *     bindings: {name: '@'}
-   *   });
-   *
-   *   myMod.component('myComp', {
-   *     templateUrl: 'views/my-comp.html',
-   *     controller: 'MyCtrl as ctrl',
-   *     bindings: {name: '@'}
-   *   });
-   *
-   * ```
-   * For more examples, and an in-depth guide, see the {@link guide/component component guide}.
-   *
-   * <br />
-   * See also {@link ng.$compileProvider#directive $compileProvider.directive()}.
-   */
-  this.component = function registerComponent(name, options) {
-    var controller = options.controller || function() {};
-
-    function factory($injector) {
-      function makeInjectable(fn) {
-        if (isFunction(fn) || isArray(fn)) {
-          return function(tElement, tAttrs) {
-            return $injector.invoke(fn, this, {$element: tElement, $attrs: tAttrs});
-          };
-        } else {
-          return fn;
-        }
-      }
-
-      var template = (!options.template && !options.templateUrl ? '' : options.template);
-      return {
-        controller: controller,
-        controllerAs: identifierForController(options.controller) || options.controllerAs || '$ctrl',
-        template: makeInjectable(template),
-        templateUrl: makeInjectable(options.templateUrl),
-        transclude: options.transclude,
-        scope: {},
-        bindToController: options.bindings || {},
-        restrict: 'E',
-        require: options.require
-      };
-    }
-
-    // Copy any annotation properties (starting with $) over to the factory function
-    // These could be used by libraries such as the new component router
-    forEach(options, function(val, key) {
-      if (key.charAt(0) === '$') {
-        factory[key] = val;
-      }
-    });
-
-    factory.$inject = ['$injector'];
-
-    return this.directive(name, factory);
   };
 
 
@@ -8411,8 +8138,6 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
     function($injector,   $interpolate,   $exceptionHandler,   $templateRequest,   $parse,
              $controller,   $rootScope,   $sce,   $animate,   $$sanitizeUri) {
 
-    var SIMPLE_ATTR_NAME = /^\w/;
-    var specialAttrHolder = document.createElement('div');
     var Attributes = function(element, attributesToCopy) {
       if (attributesToCopy) {
         var keys = Object.keys(attributesToCopy);
@@ -8548,7 +8273,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
 
         nodeName = nodeName_(this.$$element);
 
-        if ((nodeName === 'a' && (key === 'href' || key === 'xlinkHref')) ||
+        if ((nodeName === 'a' && key === 'href') ||
             (nodeName === 'img' && key === 'src')) {
           // sanitize a[href] and img[src] values
           this[key] = value = $$sanitizeUri(value, key === 'src');
@@ -8592,11 +8317,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           if (value === null || isUndefined(value)) {
             this.$$element.removeAttr(attrName);
           } else {
-            if (SIMPLE_ATTR_NAME.test(attrName)) {
-              this.$$element.attr(attrName, value);
-            } else {
-              setSpecialAttr(this.$$element[0], attrName, value);
-            }
+            this.$$element.attr(attrName, value);
           }
         }
 
@@ -8650,18 +8371,6 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
       }
     };
 
-    function setSpecialAttr(element, attrName, value) {
-      // Attributes names that do not start with letters (such as `(click)`) cannot be set using `setAttribute`
-      // so we have to jump through some hoops to get such an attribute
-      // https://github.com/angular/angular.js/pull/13318
-      specialAttrHolder.innerHTML = "<span " + attrName + ">";
-      var attributes = specialAttrHolder.firstChild.attributes;
-      var attribute = attributes[0];
-      // We have to remove the attribute from its container element before we can add it to the destination element
-      attributes.removeNamedItem(attribute.name);
-      attribute.value = value;
-      element.attributes.setNamedItem(attribute);
-    }
 
     function safeAddClass($element, className) {
       try {
@@ -8675,7 +8384,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
 
     var startSymbol = $interpolate.startSymbol(),
         endSymbol = $interpolate.endSymbol(),
-        denormalizeTemplate = (startSymbol == '{{' && endSymbol  == '}}')
+        denormalizeTemplate = (startSymbol == '{{' || endSymbol  == '}}')
             ? identity
             : function denormalizeTemplate(template) {
               return template.replace(/\{\{/g, startSymbol).replace(/}}/g, endSymbol);
@@ -8719,19 +8428,13 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
         // modify it.
         $compileNodes = jqLite($compileNodes);
       }
-
-      var NOT_EMPTY = /\S+/;
-
       // We can not compile top level text elements since text nodes can be merged and we will
       // not be able to attach scope data to them, so we will wrap them in <span>
-      for (var i = 0, len = $compileNodes.length; i < len; i++) {
-        var domNode = $compileNodes[i];
-
-        if (domNode.nodeType === NODE_TYPE_TEXT && domNode.nodeValue.match(NOT_EMPTY) /* non-empty */) {
-          jqLiteWrapNode(domNode, $compileNodes[i] = document.createElement('span'));
+      forEach($compileNodes, function(node, index) {
+        if (node.nodeType == NODE_TYPE_TEXT && node.nodeValue.match(/\S+/) /* non-empty */ ) {
+          $compileNodes[index] = jqLite(node).wrap('<span></span>').parent()[0];
         }
-      }
-
+      });
       var compositeLinkFn =
               compileNodes($compileNodes, transcludeFn, $compileNodes,
                            maxPriority, ignoreDirective, previousCompileContext);
@@ -8802,7 +8505,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
       if (!node) {
         return 'html';
       } else {
-        return nodeName_(node) !== 'foreignobject' && toString.call(node).match(/SVG/) ? 'svg' : 'html';
+        return nodeName_(node) !== 'foreignobject' && node.toString().match(/SVG/) ? 'svg' : 'html';
       }
     }
 
@@ -8935,17 +8638,6 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           futureParentElement: futureParentElement
         });
       };
-
-      // We need  to attach the transclusion slots onto the `boundTranscludeFn`
-      // so that they are available inside the `controllersBoundTransclude` function
-      var boundSlots = boundTranscludeFn.$$slots = createMap();
-      for (var slotName in transcludeFn.$$slots) {
-        if (transcludeFn.$$slots[slotName]) {
-          boundSlots[slotName] = createBoundTranscludeFn(scope, transcludeFn.$$slots[slotName], previousBoundTranscludeFn);
-        } else {
-          boundSlots[slotName] = null;
-        }
-      }
 
       return boundTranscludeFn;
     }
@@ -9106,37 +8798,6 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
     }
 
     /**
-     * A function generator that is used to support both eager and lazy compilation
-     * linking function.
-     * @param eager
-     * @param $compileNodes
-     * @param transcludeFn
-     * @param maxPriority
-     * @param ignoreDirective
-     * @param previousCompileContext
-     * @returns {Function}
-     */
-    function compilationGenerator(eager, $compileNodes, transcludeFn, maxPriority, ignoreDirective, previousCompileContext) {
-        if (eager) {
-            return compile($compileNodes, transcludeFn, maxPriority, ignoreDirective, previousCompileContext);
-        }
-
-        var compiled;
-
-        return function() {
-            if (!compiled) {
-                compiled = compile($compileNodes, transcludeFn, maxPriority, ignoreDirective, previousCompileContext);
-
-                // Null out all of these references in order to make them eligible for garbage collection
-                // since this is a potentially long lived closure
-                $compileNodes = transcludeFn = previousCompileContext = null;
-            }
-
-            return compiled.apply(this, arguments);
-        };
-    }
-
-    /**
      * Once the directives have been collected, their compile functions are executed. This method
      * is responsible for inlining directive templates as well as terminating the application
      * of the directives if the terminal directive has been reached.
@@ -9180,8 +8841,6 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           replaceDirective = originalReplaceDirective,
           childTranscludeFn = transcludeFn,
           linkFn,
-          didScanForMultipleTransclusion = false,
-          mightHaveMultipleTransclusionError = false,
           directiveValue;
 
       // executes all directives on the current element
@@ -9224,27 +8883,6 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
 
         directiveName = directive.name;
 
-        // If we encounter a condition that can result in transclusion on the directive,
-        // then scan ahead in the remaining directives for others that may cause a multiple
-        // transclusion error to be thrown during the compilation process.  If a matching directive
-        // is found, then we know that when we encounter a transcluded directive, we need to eagerly
-        // compile the `transclude` function rather than doing it lazily in order to throw
-        // exceptions at the correct time
-        if (!didScanForMultipleTransclusion && ((directive.replace && (directive.templateUrl || directive.template))
-            || (directive.transclude && !directive.$$tlb))) {
-                var candidateDirective;
-
-                for (var scanningIndex = i + 1; candidateDirective = directives[scanningIndex++];) {
-                    if ((candidateDirective.transclude && !candidateDirective.$$tlb)
-                        || (candidateDirective.replace && (candidateDirective.templateUrl || candidateDirective.template))) {
-                        mightHaveMultipleTransclusionError = true;
-                        break;
-                    }
-                }
-
-                didScanForMultipleTransclusion = true;
-        }
-
         if (!directive.templateUrl && directive.controller) {
           directiveValue = directive.controller;
           controllerDirectives = controllerDirectives || createMap();
@@ -9274,7 +8912,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
             compileNode = $compileNode[0];
             replaceWith(jqCollection, sliceArgs($template), compileNode);
 
-            childTranscludeFn = compilationGenerator(mightHaveMultipleTransclusionError, $template, transcludeFn, terminalPriority,
+            childTranscludeFn = compile($template, transcludeFn, terminalPriority,
                                         replaceDirective && replaceDirective.name, {
                                           // Don't pass in:
                                           // - controllerDirectives - otherwise we'll create duplicates controllers
@@ -9286,69 +8924,10 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
                                           nonTlbTranscludeDirective: nonTlbTranscludeDirective
                                         });
           } else {
-
-            var slots = createMap();
-
             $template = jqLite(jqLiteClone(compileNode)).contents();
-
-            if (isObject(directiveValue)) {
-
-              // We have transclusion slots,
-              // collect them up, compile them and store their transclusion functions
-              $template = [];
-
-              var slotMap = createMap();
-              var filledSlots = createMap();
-
-              // Parse the element selectors
-              forEach(directiveValue, function(elementSelector, slotName) {
-                // If an element selector starts with a ? then it is optional
-                var optional = (elementSelector.charAt(0) === '?');
-                elementSelector = optional ? elementSelector.substring(1) : elementSelector;
-
-                slotMap[elementSelector] = slotName;
-
-                // We explicitly assign `null` since this implies that a slot was defined but not filled.
-                // Later when calling boundTransclusion functions with a slot name we only error if the
-                // slot is `undefined`
-                slots[slotName] = null;
-
-                // filledSlots contains `true` for all slots that are either optional or have been
-                // filled. This is used to check that we have not missed any required slots
-                filledSlots[slotName] = optional;
-              });
-
-              // Add the matching elements into their slot
-              forEach($compileNode.contents(), function(node) {
-                var slotName = slotMap[directiveNormalize(nodeName_(node))];
-                if (slotName) {
-                  filledSlots[slotName] = true;
-                  slots[slotName] = slots[slotName] || [];
-                  slots[slotName].push(node);
-                } else {
-                  $template.push(node);
-                }
-              });
-
-              // Check for required slots that were not filled
-              forEach(filledSlots, function(filled, slotName) {
-                if (!filled) {
-                  throw $compileMinErr('reqslot', 'Required transclusion slot `{0}` was not filled.', slotName);
-                }
-              });
-
-              for (var slotName in slots) {
-                if (slots[slotName]) {
-                  // Only define a transclusion function if the slot was filled
-                  slots[slotName] = compilationGenerator(mightHaveMultipleTransclusionError, slots[slotName], transcludeFn);
-                }
-              }
-            }
-
             $compileNode.empty(); // clear contents
-            childTranscludeFn = compilationGenerator(mightHaveMultipleTransclusionError, $template, transcludeFn, undefined,
+            childTranscludeFn = compile($template, transcludeFn, undefined,
                 undefined, { needsNewScope: directive.$$isolateScope || directive.$$newScope});
-            childTranscludeFn.$$slots = slots;
           }
         }
 
@@ -9511,11 +9090,6 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           for (var i = 0, ii = require.length; i < ii; i++) {
             value[i] = getControllers(directiveName, require[i], $element, elementControllers);
           }
-        } else if (isObject(require)) {
-          value = {};
-          forEach(require, function(controller, property) {
-            value[property] = getControllers(directiveName, controller, $element, elementControllers);
-          });
         }
 
         return value || null;
@@ -9553,7 +9127,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
       }
 
       function nodeLinkFn(childLinkFn, scope, linkNode, $rootElement, boundTranscludeFn) {
-        var i, ii, linkFn, isolateScope, controllerScope, elementControllers, transcludeFn, $element,
+        var linkFn, isolateScope, controllerScope, elementControllers, transcludeFn, $element,
             attrs, removeScopeBindingWatches, removeControllerBindingWatches;
 
         if (compileNode === linkNode) {
@@ -9576,10 +9150,6 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           // is later passed as `parentBoundTranscludeFn` to `publicLinkFn`
           transcludeFn = controllersBoundTransclude;
           transcludeFn.$$boundTransclude = boundTranscludeFn;
-          // expose the slots on the `$transclude` function
-          transcludeFn.isSlotFilled = function(slotName) {
-            return !!boundTranscludeFn.$$slots[slotName];
-          };
         }
 
         if (controllerDirectives) {
@@ -9624,21 +9194,6 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           }
         }
 
-        // Bind the required controllers to the controller, if `require` is an object and `bindToController` is truthy
-        forEach(controllerDirectives, function(controllerDirective, name) {
-          var require = controllerDirective.require;
-          if (controllerDirective.bindToController && !isArray(require) && isObject(require)) {
-            extend(elementControllers[name].instance, getControllers(name, require, $element, elementControllers));
-          }
-        });
-
-        // Trigger the `$onInit` method on all controllers that have one
-        forEach(elementControllers, function(controller) {
-          if (isFunction(controller.instance.$onInit)) {
-            controller.instance.$onInit();
-          }
-        });
-
         // PRELINKING
         for (i = 0, ii = preLinkFns.length; i < ii; i++) {
           linkFn = preLinkFns[i];
@@ -9674,11 +9229,11 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
 
         // This is the function that is injected as `$transclude`.
         // Note: all arguments are optional!
-        function controllersBoundTransclude(scope, cloneAttachFn, futureParentElement, slotName) {
+        function controllersBoundTransclude(scope, cloneAttachFn, futureParentElement) {
           var transcludeControllers;
+
           // No scope passed in:
           if (!isScope(scope)) {
-            slotName = futureParentElement;
             futureParentElement = cloneAttachFn;
             cloneAttachFn = scope;
             scope = undefined;
@@ -9690,23 +9245,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
           if (!futureParentElement) {
             futureParentElement = hasElementTranscludeDirective ? $element.parent() : $element;
           }
-          if (slotName) {
-            // slotTranscludeFn can be one of three things:
-            //  * a transclude function - a filled slot
-            //  * `null` - an optional slot that was not filled
-            //  * `undefined` - a slot that was not declared (i.e. invalid)
-            var slotTranscludeFn = boundTranscludeFn.$$slots[slotName];
-            if (slotTranscludeFn) {
-              return slotTranscludeFn(scope, cloneAttachFn, transcludeControllers, futureParentElement, scopeToChild);
-            } else if (isUndefined(slotTranscludeFn)) {
-              throw $compileMinErr('noslot',
-               'No parent directive that requires a transclusion with slot name "{0}". ' +
-               'Element: {1}',
-               slotName, startingTag($element));
-            }
-          } else {
-            return boundTranscludeFn(scope, cloneAttachFn, transcludeControllers, futureParentElement, scopeToChild);
-          }
+          return boundTranscludeFn(scope, cloneAttachFn, transcludeControllers, futureParentElement, scopeToChild);
         }
       }
     }
@@ -10138,14 +9677,9 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
         parent.replaceChild(newNode, firstElementToRemove);
       }
 
-      // Append all the `elementsToRemove` to a fragment. This will...
-      // - remove them from the DOM
-      // - allow them to still be traversed with .nextSibling
-      // - allow a single fragment.qSA to fetch all elements being removed
+      // TODO(perf): what's this document fragment for? is it needed? can we at least reuse it?
       var fragment = document.createDocumentFragment();
-      for (i = 0; i < removeCount; i++) {
-        fragment.appendChild(elementsToRemove[i]);
-      }
+      fragment.appendChild(firstElementToRemove);
 
       if (jqLite.hasData(firstElementToRemove)) {
         // Copy over user data (that includes Angular's $scope etc.). Don't copy private
@@ -10153,18 +9687,31 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
         // event listeners (which is the main use of private data) wouldn't work anyway.
         jqLite.data(newNode, jqLite.data(firstElementToRemove));
 
-        // Remove $destroy event listeners from `firstElementToRemove`
-        jqLite(firstElementToRemove).off('$destroy');
+        // Remove data of the replaced element. We cannot just call .remove()
+        // on the element it since that would deallocate scope that is needed
+        // for the new node. Instead, remove the data "manually".
+        if (!jQuery) {
+          delete jqLite.cache[firstElementToRemove[jqLite.expando]];
+        } else {
+          // jQuery 2.x doesn't expose the data storage. Use jQuery.cleanData to clean up after
+          // the replaced element. The cleanData version monkey-patched by Angular would cause
+          // the scope to be trashed and we do need the very same scope to work with the new
+          // element. However, we cannot just cache the non-patched version and use it here as
+          // that would break if another library patches the method after Angular does (one
+          // example is jQuery UI). Instead, set a flag indicating scope destroying should be
+          // skipped this one time.
+          skipDestroyOnNextJQueryCleanData = true;
+          jQuery.cleanData([firstElementToRemove]);
+        }
       }
 
-      // Cleanup any data/listeners on the elements and children.
-      // This includes invoking the $destroy event on any elements with listeners.
-      jqLite.cleanData(fragment.querySelectorAll('*'));
-
-      // Update the jqLite collection to only contain the `newNode`
-      for (i = 1; i < removeCount; i++) {
-        delete elementsToRemove[i];
+      for (var k = 1, kk = elementsToRemove.length; k < kk; k++) {
+        var element = elementsToRemove[k];
+        jqLite(element).remove(); // must do this way to clean up expando
+        fragment.appendChild(element);
+        delete elementsToRemove[k];
       }
+
       elementsToRemove[0] = newNode;
       elementsToRemove.length = 1;
     }
@@ -10193,7 +9740,7 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
         optional = definition.optional,
         mode = definition.mode, // @, =, or &
         lastValue,
-        parentGet, parentSet, compare, removeWatch;
+        parentGet, parentSet, compare;
 
         switch (mode) {
 
@@ -10207,15 +9754,10 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
               }
             });
             attrs.$$observers[attrName].$$scope = scope;
-            lastValue = attrs[attrName];
-            if (isString(lastValue)) {
+            if (isString(attrs[attrName])) {
               // If the attribute has been provided then we trigger an interpolation to ensure
               // the value is there for use in the link fn
-              destination[scopeName] = $interpolate(lastValue)(scope);
-            } else if (isBoolean(lastValue)) {
-              // If the attributes is one of the BOOLEAN_ATTR then Angular will have converted
-              // the value to boolean rather than a string, so we special case this situation
-              destination[scopeName] = lastValue;
+              destination[scopeName] = $interpolate(attrs[attrName])(scope);
             }
             break;
 
@@ -10236,8 +9778,8 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
               // reset the change, or we will throw this exception on every $digest
               lastValue = destination[scopeName] = parentGet(scope);
               throw $compileMinErr('nonassign',
-                  "Expression '{0}' in attribute '{1}' used with directive '{2}' is non-assignable!",
-                  attrs[attrName], attrName, directive.name);
+                  "Expression '{0}' used with directive '{1}' is non-assignable!",
+                  attrs[attrName], directive.name);
             };
             lastValue = destination[scopeName] = parentGet(scope);
             var parentValueWatch = function parentValueWatch(parentValue) {
@@ -10254,29 +9796,12 @@ function $CompileProvider($provide, $$sanitizeUriProvider) {
               return lastValue = parentValue;
             };
             parentValueWatch.$stateful = true;
+            var removeWatch;
             if (definition.collection) {
               removeWatch = scope.$watchCollection(attrs[attrName], parentValueWatch);
             } else {
               removeWatch = scope.$watch($parse(attrs[attrName], parentValueWatch), null, parentGet.literal);
             }
-            removeWatchCollection.push(removeWatch);
-            break;
-
-          case '<':
-            if (!hasOwnProperty.call(attrs, attrName)) {
-              if (optional) break;
-              attrs[attrName] = void 0;
-            }
-            if (optional && !attrs[attrName]) break;
-
-            parentGet = $parse(attrs[attrName]);
-
-            destination[scopeName] = parentGet(scope);
-
-            removeWatch = scope.$watch(parentGet, function parentValueWatchAction(newParentValue) {
-              destination[scopeName] = newParentValue;
-            }, parentGet.literal);
-
             removeWatchCollection.push(removeWatch);
             break;
 
@@ -11199,7 +10724,7 @@ function $HttpProvider() {
      *
      * ```
      * module.run(function($http) {
-     *   $http.defaults.headers.common.Authorization = 'Basic YmVlcDpib29w';
+     *   $http.defaults.headers.common.Authorization = 'Basic YmVlcDpib29w'
      * });
      * ```
      *
@@ -11427,13 +10952,13 @@ function $HttpProvider() {
      *
      * ### Cross Site Request Forgery (XSRF) Protection
      *
-     * [XSRF](http://en.wikipedia.org/wiki/Cross-site_request_forgery) is an attack technique by
-     * which the attacker can trick an authenticated user into unknowingly executing actions on your
-     * website. Angular provides a mechanism to counter XSRF. When performing XHR requests, the
-     * $http service reads a token from a cookie (by default, `XSRF-TOKEN`) and sets it as an HTTP
-     * header (`X-XSRF-TOKEN`). Since only JavaScript that runs on your domain could read the
-     * cookie, your server can be assured that the XHR came from JavaScript running on your domain.
-     * The header will not be set for cross-domain requests.
+     * [XSRF](http://en.wikipedia.org/wiki/Cross-site_request_forgery) is a technique by which
+     * an unauthorized site can gain your user's private data. Angular provides a mechanism
+     * to counter XSRF. When performing XHR requests, the $http service reads a token from a cookie
+     * (by default, `XSRF-TOKEN`) and sets it as an HTTP header (`X-XSRF-TOKEN`). Since only
+     * JavaScript that runs on your domain could read the cookie, your server can be assured that
+     * the XHR came from JavaScript running on your domain. The header will not be set for
+     * cross-domain requests.
      *
      * To take advantage of this, your server needs to set a token in a JavaScript readable session
      * cookie called `XSRF-TOKEN` on the first HTTP GET request. On subsequent XHR requests the
@@ -11592,7 +11117,7 @@ function $HttpProvider() {
      */
     function $http(requestConfig) {
 
-      if (!isObject(requestConfig)) {
+      if (!angular.isObject(requestConfig)) {
         throw minErr('$http')('badreq', 'Http request configuration must be an object.  Received: {0}', requestConfig);
       }
 
@@ -11712,7 +11237,7 @@ function $HttpProvider() {
 
         defHeaders = extend({}, defHeaders.common, defHeaders[lowercase(config.method)]);
 
-        // using for-in instead of forEach to avoid unnecessary iteration after header has been found
+        // using for-in instead of forEach to avoid unecessary iteration after header has been found
         defaultHeadersIteration:
         for (defHeaderName in defHeaders) {
           lowercaseDefHeaderName = lowercase(defHeaderName);
@@ -12211,14 +11736,6 @@ $interpolateMinErr.interr = function(text, err) {
  *
  * Used for configuring the interpolation markup. Defaults to `{{` and `}}`.
  *
- * <div class="alert alert-danger">
- * This feature is sometimes used to mix different markup languages, e.g. to wrap an Angular
- * template within a Python Jinja template (or any other template language). Mixing templating
- * languages is **very dangerous**. The embedding template language will not safely escape Angular
- * expressions, so any user-controlled values in the template will cause Cross Site Scripting (XSS)
- * security bugs!
- * </div>
- *
  * @example
 <example name="custom-interpolation-markup" module="customInterpolationApp">
 <file name="index.html">
@@ -12319,15 +11836,6 @@ function $InterpolateProvider() {
       return value;
     }
 
-    //TODO: this is the same as the constantWatchDelegate in parse.js
-    function constantWatchDelegate(scope, listener, objectEquality, constantInterp) {
-      var unwatch;
-      return unwatch = scope.$watch(function constantInterpolateWatch(scope) {
-        unwatch();
-        return constantInterp(scope);
-      }, listener, objectEquality);
-    }
-
     /**
      * @ngdoc service
      * @name $interpolate
@@ -12423,19 +11931,6 @@ function $InterpolateProvider() {
      * - `context`: evaluation context for all expressions embedded in the interpolated text
      */
     function $interpolate(text, mustHaveExpression, trustedContext, allOrNothing) {
-      // Provide a quick exit and simplified result function for text with no interpolation
-      if (!text.length || text.indexOf(startSymbol) === -1) {
-        var constantInterp;
-        if (!mustHaveExpression) {
-          var unescapedText = unescapeText(text);
-          constantInterp = valueFn(unescapedText);
-          constantInterp.exp = text;
-          constantInterp.expressions = [];
-          constantInterp.$$watchDelegate = constantWatchDelegate;
-        }
-        return constantInterp;
-      }
-
       allOrNothing = !!allOrNothing;
       var startIndex,
           endIndex,
@@ -12572,8 +12067,8 @@ function $InterpolateProvider() {
 }
 
 function $IntervalProvider() {
-  this.$get = ['$rootScope', '$window', '$q', '$$q', '$browser',
-       function($rootScope,   $window,   $q,   $$q,   $browser) {
+  this.$get = ['$rootScope', '$window', '$q', '$$q',
+       function($rootScope,   $window,   $q,   $$q) {
     var intervals = {};
 
 
@@ -12714,12 +12209,11 @@ function $IntervalProvider() {
 
       count = isDefined(count) ? count : 0;
 
+      promise.then(null, null, (!hasParams) ? fn : function() {
+        fn.apply(null, args);
+      });
+
       promise.$$intervalId = setInterval(function tick() {
-        if (skipApply) {
-          $browser.defer(callback);
-        } else {
-          $rootScope.$evalAsync(callback);
-        }
         deferred.notify(iteration++);
 
         if (count > 0 && iteration >= count) {
@@ -12735,14 +12229,6 @@ function $IntervalProvider() {
       intervals[promise.$$intervalId] = deferred;
 
       return promise;
-
-      function callback() {
-        if (!hasParams) {
-          fn(iteration);
-        } else {
-          fn.apply(null, args);
-        }
-      }
     }
 
 
@@ -13982,22 +13468,23 @@ function ensureSafeMemberName(name, fullExpression) {
   return name;
 }
 
-function getStringValue(name) {
+function getStringValue(name, fullExpression) {
+  // From the JavaScript docs:
   // Property names must be strings. This means that non-string objects cannot be used
   // as keys in an object. Any non-string object, including a number, is typecasted
   // into a string via the toString method.
-  // -- MDN, https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Property_accessors#Property_names
   //
-  // So, to ensure that we are checking the same `name` that JavaScript would use, we cast it
-  // to a string. It's not always possible. If `name` is an object and its `toString` method is
-  // 'broken' (doesn't return a string, isn't a function, etc.), an error will be thrown:
-  //
-  // TypeError: Cannot convert object to primitive value
-  //
-  // For performance reasons, we don't catch this error here and allow it to propagate up the call
-  // stack. Note that you'll get the same error in JavaScript if you try to access a property using
-  // such a 'broken' object as a key.
-  return name + '';
+  // So, to ensure that we are checking the same `name` that JavaScript would use,
+  // we cast it to a string, if possible.
+  // Doing `name + ''` can cause a repl error if the result to `toString` is not a string,
+  // this is, this will handle objects that misbehave.
+  name = name + '';
+  if (!isString(name)) {
+    throw $parseMinErr('iseccst',
+        'Cannot convert object to primitive value! '
+        + 'Expression: {0}', fullExpression);
+  }
+  return name;
 }
 
 function ensureSafeObject(obj, fullExpression) {
@@ -14258,7 +13745,6 @@ AST.ArrayExpression = 'ArrayExpression';
 AST.Property = 'Property';
 AST.ObjectExpression = 'ObjectExpression';
 AST.ThisExpression = 'ThisExpression';
-AST.LocalsExpression = 'LocalsExpression';
 
 // Internal use only
 AST.NGValueParameter = 'NGValueParameter';
@@ -14559,8 +14045,7 @@ AST.prototype = {
     'false': { type: AST.Literal, value: false },
     'null': { type: AST.Literal, value: null },
     'undefined': {type: AST.Literal, value: undefined },
-    'this': {type: AST.ThisExpression },
-    '$locals': {type: AST.LocalsExpression }
+    'this': {type: AST.ThisExpression }
   }
 };
 
@@ -14677,10 +14162,6 @@ function findConstantAndWatchExpressions(ast, $filter) {
     ast.toWatch = argsToWatch;
     break;
   case AST.ThisExpression:
-    ast.constant = false;
-    ast.toWatch = [];
-    break;
-  case AST.LocalsExpression:
     ast.constant = false;
     ast.toWatch = [];
     break;
@@ -14927,9 +14408,6 @@ ASTCompiler.prototype = {
       intoId = intoId || this.nextId();
       self.recurse(ast.object, left, undefined, function() {
         self.if_(self.notNull(left), function() {
-          if (create && create !== 1) {
-            self.addEnsureSafeAssignContext(left);
-          }
           if (ast.computed) {
             right = self.nextId();
             self.recurse(ast.property, right);
@@ -15053,10 +14531,6 @@ ASTCompiler.prototype = {
       this.assign(intoId, 's');
       recursionFn('s');
       break;
-    case AST.LocalsExpression:
-      this.assign(intoId, 'l');
-      recursionFn('l');
-      break;
     case AST.NGValueParameter:
       this.assign(intoId, 'v');
       recursionFn('v');
@@ -15164,7 +14638,7 @@ ASTCompiler.prototype = {
   },
 
   getStringValue: function(item) {
-    this.assign(item, 'getStringValue(' + item + ')');
+    this.assign(item, 'getStringValue(' + item + ',text)');
   },
 
   ensureSafeAssignContext: function(item) {
@@ -15384,10 +14858,6 @@ ASTInterpreter.prototype = {
       return function(scope) {
         return context ? {value: scope} : scope;
       };
-    case AST.LocalsExpression:
-      return function(scope, locals) {
-        return context ? {value: locals} : locals;
-      };
     case AST.NGValueParameter:
       return function(scope, locals, assign, inputs) {
         return context ? {value: assign} : assign;
@@ -15552,11 +15022,8 @@ ASTInterpreter.prototype = {
         rhs = right(scope, locals, assign, inputs);
         rhs = getStringValue(rhs);
         ensureSafeMemberName(rhs, expression);
-        if (create && create !== 1) {
-          ensureSafeAssignContext(lhs);
-          if (lhs && !(lhs[rhs])) {
-            lhs[rhs] = {};
-          }
+        if (create && create !== 1 && lhs && !(lhs[rhs])) {
+          lhs[rhs] = {};
         }
         value = lhs[rhs];
         ensureSafeObject(value, expression);
@@ -15571,11 +15038,8 @@ ASTInterpreter.prototype = {
   nonComputedMember: function(left, right, expensiveChecks, context, create, expression) {
     return function(scope, locals, assign, inputs) {
       var lhs = left(scope, locals, assign, inputs);
-      if (create && create !== 1) {
-        ensureSafeAssignContext(lhs);
-        if (lhs && !(lhs[right])) {
-          lhs[right] = {};
-        }
+      if (create && create !== 1 && lhs && !(lhs[right])) {
+        lhs[right] = {};
       }
       var value = lhs != null ? lhs[right] : undefined;
       if (expensiveChecks || isPossiblyDangerousMemberName(right)) {
@@ -15691,18 +15155,9 @@ function $ParseProvider() {
           csp: noUnsafeEval,
           expensiveChecks: true
         };
-    var runningChecksEnabled = false;
 
-    $parse.$$runningExpensiveChecks = function() {
-      return runningChecksEnabled;
-    };
-
-    return $parse;
-
-    function $parse(exp, interceptorFn, expensiveChecks) {
+    return function $parse(exp, interceptorFn, expensiveChecks) {
       var parsedExpression, oneTime, cacheKey;
-
-      expensiveChecks = expensiveChecks || runningChecksEnabled;
 
       switch (typeof exp) {
         case 'string':
@@ -15729,9 +15184,6 @@ function $ParseProvider() {
             } else if (parsedExpression.inputs) {
               parsedExpression.$$watchDelegate = inputsWatchDelegate;
             }
-            if (expensiveChecks) {
-              parsedExpression = expensiveChecksInterceptor(parsedExpression);
-            }
             cache[cacheKey] = parsedExpression;
           }
           return addInterceptor(parsedExpression, interceptorFn);
@@ -15742,31 +15194,7 @@ function $ParseProvider() {
         default:
           return addInterceptor(noop, interceptorFn);
       }
-    }
-
-    function expensiveChecksInterceptor(fn) {
-      if (!fn) return fn;
-      expensiveCheckFn.$$watchDelegate = fn.$$watchDelegate;
-      expensiveCheckFn.assign = expensiveChecksInterceptor(fn.assign);
-      expensiveCheckFn.constant = fn.constant;
-      expensiveCheckFn.literal = fn.literal;
-      for (var i = 0; fn.inputs && i < fn.inputs.length; ++i) {
-        fn.inputs[i] = expensiveChecksInterceptor(fn.inputs[i]);
-      }
-      expensiveCheckFn.inputs = fn.inputs;
-
-      return expensiveCheckFn;
-
-      function expensiveCheckFn(scope, locals, assign, inputs) {
-        var expensiveCheckOldValue = runningChecksEnabled;
-        runningChecksEnabled = true;
-        try {
-          return fn(scope, locals, assign, inputs);
-        } finally {
-          runningChecksEnabled = expensiveCheckOldValue;
-        }
-      }
-    }
+    };
 
     function expressionInputDirtyCheck(newValue, oldValueOfValue) {
 
@@ -15883,9 +15311,13 @@ function $ParseProvider() {
     function constantWatchDelegate(scope, listener, objectEquality, parsedExpression) {
       var unwatch;
       return unwatch = scope.$watch(function constantWatch(scope) {
-        unwatch();
         return parsedExpression(scope);
-      }, listener, objectEquality);
+      }, function constantListener(value, old, scope) {
+        if (isFunction(listener)) {
+          listener.apply(this, arguments);
+        }
+        unwatch();
+      }, objectEquality);
     }
 
     function addInterceptor(parsedExpression, interceptorFn) {
@@ -15978,7 +15410,7 @@ function $ParseProvider() {
  *
  * Note: progress/notify callbacks are not currently supported via the ES6-style interface.
  *
- * Note: unlike ES6 behavior, an exception thrown in the constructor function will NOT implicitly reject the promise.
+ * Note: unlike ES6 behaviour, an exception thrown in the constructor function will NOT implicitly reject the promise.
  *
  * However, the more traditional CommonJS-style usage is still available, and documented below.
  *
@@ -16168,6 +15600,18 @@ function $$QProvider() {
  */
 function qFactory(nextTick, exceptionHandler) {
   var $qMinErr = minErr('$q', TypeError);
+  function callOnce(self, resolveFn, rejectFn) {
+    var called = false;
+    function wrap(fn) {
+      return function(value) {
+        if (called) return;
+        called = true;
+        fn.call(self, value);
+      };
+    }
+
+    return [wrap(resolveFn), wrap(rejectFn)];
+  }
 
   /**
    * @ngdoc method
@@ -16180,12 +15624,7 @@ function qFactory(nextTick, exceptionHandler) {
    * @returns {Deferred} Returns a new instance of deferred.
    */
   var defer = function() {
-    var d = new Deferred();
-    //Necessary to support unbound execution :/
-    d.resolve = simpleBind(d, d.resolve);
-    d.reject = simpleBind(d, d.reject);
-    d.notify = simpleBind(d, d.notify);
-    return d;
+    return new Deferred();
   };
 
   function Promise() {
@@ -16258,6 +15697,10 @@ function qFactory(nextTick, exceptionHandler) {
 
   function Deferred() {
     this.promise = new Promise();
+    //Necessary to support unbound execution :/
+    this.resolve = simpleBind(this, this.resolve);
+    this.reject = simpleBind(this, this.reject);
+    this.notify = simpleBind(this, this.notify);
   }
 
   extend(Deferred.prototype, {
@@ -16275,33 +15718,22 @@ function qFactory(nextTick, exceptionHandler) {
     },
 
     $$resolve: function(val) {
-      var then;
-      var that = this;
-      var done = false;
+      var then, fns;
+
+      fns = callOnce(this, this.$$resolve, this.$$reject);
       try {
         if ((isObject(val) || isFunction(val))) then = val && val.then;
         if (isFunction(then)) {
           this.promise.$$state.status = -1;
-          then.call(val, resolvePromise, rejectPromise, simpleBind(this, this.notify));
+          then.call(val, fns[0], fns[1], this.notify);
         } else {
           this.promise.$$state.value = val;
           this.promise.$$state.status = 1;
           scheduleProcessQueue(this.promise.$$state);
         }
       } catch (e) {
-        rejectPromise(e);
+        fns[1](e);
         exceptionHandler(e);
-      }
-
-      function resolvePromise(val) {
-        if (done) return;
-        done = true;
-        that.$$resolve(val);
-      }
-      function rejectPromise(val) {
-        if (done) return;
-        done = true;
-        that.$$reject(val);
       }
     },
 
@@ -16491,6 +15923,11 @@ function qFactory(nextTick, exceptionHandler) {
       throw $qMinErr('norslvr', "Expected resolverFn, got '{0}'", resolver);
     }
 
+    if (!(this instanceof Q)) {
+      // More useful when $Q is the Promise itself.
+      return new Q(resolver);
+    }
+
     var deferred = new Deferred();
 
     function resolveFn(value) {
@@ -16505,10 +15942,6 @@ function qFactory(nextTick, exceptionHandler) {
 
     return deferred.promise;
   };
-
-  // Let's make the instanceof operator work for promises, so that
-  // `new $q(fn) instanceof $q` would evaluate to true.
-  $Q.prototype = Promise.prototype;
 
   $Q.defer = defer;
   $Q.reject = reject;
@@ -16643,8 +16076,8 @@ function $RootScopeProvider() {
     return ChildScope;
   }
 
-  this.$get = ['$exceptionHandler', '$parse', '$browser',
-      function($exceptionHandler, $parse, $browser) {
+  this.$get = ['$injector', '$exceptionHandler', '$parse', '$browser',
+      function($injector, $exceptionHandler, $parse, $browser) {
 
     function destroyChildScope($event) {
         $event.currentScope.$$destroyed = true;
@@ -16928,7 +16361,7 @@ function $RootScopeProvider() {
        *    - `newVal` contains the current value of the `watchExpression`
        *    - `oldVal` contains the previous value of the `watchExpression`
        *    - `scope` refers to the current scope
-       * @param {boolean=} [objectEquality=false] Compare for object equality using {@link angular.equals} instead of
+       * @param {boolean=} objectEquality Compare for object equality using {@link angular.equals} instead of
        *     comparing for reference equality.
        * @returns {function()} Returns a deregistration function for this listener.
        */
@@ -17293,7 +16726,7 @@ function $RootScopeProvider() {
        *
        */
       $digest: function() {
-        var watch, value, last, fn, get,
+        var watch, value, last,
             watchers,
             length,
             dirty, ttl = TTL,
@@ -17339,8 +16772,7 @@ function $RootScopeProvider() {
                   // Most common watches are on primitives, in which case we can short
                   // circuit it with === operator, only when === fails do we use .equals
                   if (watch) {
-                    get = watch.get;
-                    if ((value = get(current)) !== (last = watch.last) &&
+                    if ((value = watch.get(current)) !== (last = watch.last) &&
                         !(watch.eq
                             ? equals(value, last)
                             : (typeof value === 'number' && typeof last === 'number'
@@ -17348,8 +16780,7 @@ function $RootScopeProvider() {
                       dirty = true;
                       lastDirtyWatch = watch;
                       watch.last = watch.eq ? copy(value, null) : value;
-                      fn = watch.fn;
-                      fn(value, ((last === initWatchVal) ? value : last), current);
+                      watch.fn(value, ((last === initWatchVal) ? value : last), current);
                       if (ttl < 5) {
                         logIdx = 4 - ttl;
                         if (!watchLog[logIdx]) watchLog[logIdx] = [];
@@ -17549,7 +16980,7 @@ function $RootScopeProvider() {
           });
         }
 
-        asyncQueue.push({scope: this, expression: $parse(expr), locals: locals});
+        asyncQueue.push({scope: this, expression: expr, locals: locals});
       },
 
       $$postDigest: function(fn) {
@@ -17641,7 +17072,6 @@ function $RootScopeProvider() {
       $applyAsync: function(expr) {
         var scope = this;
         expr && applyAsyncQueue.push($applyAsyncExpression);
-        expr = $parse(expr);
         scheduleApplyAsync();
 
         function $applyAsyncExpression() {
@@ -18145,15 +17575,13 @@ function $SceDelegateProvider() {
    * @kind function
    *
    * @param {Array=} whitelist When provided, replaces the resourceUrlWhitelist with the value
-   *    provided.  This must be an array or null.  A snapshot of this array is used so further
-   *    changes to the array are ignored.
+   *     provided.  This must be an array or null.  A snapshot of this array is used so further
+   *     changes to the array are ignored.
    *
-   *    Follow {@link ng.$sce#resourceUrlPatternItem this link} for a description of the items
-   *    allowed in this array.
+   *     Follow {@link ng.$sce#resourceUrlPatternItem this link} for a description of the items
+   *     allowed in this array.
    *
-   *    <div class="alert alert-warning">
-   *    **Note:** an empty whitelist array will block all URLs!
-   *    </div>
+   *     Note: **an empty whitelist array will block all URLs**!
    *
    * @return {Array} the currently set whitelist array.
    *
@@ -18176,17 +17604,17 @@ function $SceDelegateProvider() {
    * @kind function
    *
    * @param {Array=} blacklist When provided, replaces the resourceUrlBlacklist with the value
-   *    provided.  This must be an array or null.  A snapshot of this array is used so further
-   *    changes to the array are ignored.
+   *     provided.  This must be an array or null.  A snapshot of this array is used so further
+   *     changes to the array are ignored.
    *
-   *    Follow {@link ng.$sce#resourceUrlPatternItem this link} for a description of the items
-   *    allowed in this array.
+   *     Follow {@link ng.$sce#resourceUrlPatternItem this link} for a description of the items
+   *     allowed in this array.
    *
-   *    The typical usage for the blacklist is to **block
-   *    [open redirects](http://cwe.mitre.org/data/definitions/601.html)** served by your domain as
-   *    these would otherwise be trusted but actually return content from the redirected domain.
+   *     The typical usage for the blacklist is to **block
+   *     [open redirects](http://cwe.mitre.org/data/definitions/601.html)** served by your domain as
+   *     these would otherwise be trusted but actually return content from the redirected domain.
    *
-   *    Finally, **the blacklist overrides the whitelist** and has the final say.
+   *     Finally, **the blacklist overrides the whitelist** and has the final say.
    *
    * @return {Array} the currently set blacklist array.
    *
@@ -18344,11 +17772,6 @@ function $SceDelegateProvider() {
      * Takes the result of a {@link ng.$sceDelegate#trustAs `$sceDelegate.trustAs`} call and
      * returns the originally supplied value if the queried context type is a supertype of the
      * created type.  If this condition isn't satisfied, throws an exception.
-     *
-     * <div class="alert alert-danger">
-     * Disabling auto-escaping is extremely dangerous, it usually creates a Cross Site Scripting
-     * (XSS) vulnerability in your application.
-     * </div>
      *
      * @param {string} type The kind of context in which this value is to be used.
      * @param {*} maybeTrusted The result of a prior {@link ng.$sceDelegate#trustAs
@@ -19157,63 +18580,26 @@ function $SnifferProvider() {
 var $compileMinErr = minErr('$compile');
 
 /**
- * @ngdoc provider
- * @name $templateRequestProvider
- * @description
- * Used to configure the options passed to the {@link $http} service when making a template request.
+ * @ngdoc service
+ * @name $templateRequest
  *
- * For example, it can be used for specifying the "Accept" header that is sent to the server, when
- * requesting a template.
+ * @description
+ * The `$templateRequest` service runs security checks then downloads the provided template using
+ * `$http` and, upon success, stores the contents inside of `$templateCache`. If the HTTP request
+ * fails or the response data of the HTTP request is empty, a `$compile` error will be thrown (the
+ * exception can be thwarted by setting the 2nd parameter of the function to true). Note that the
+ * contents of `$templateCache` are trusted, so the call to `$sce.getTrustedUrl(tpl)` is omitted
+ * when `tpl` is of type string and `$templateCache` has the matching entry.
+ *
+ * @param {string|TrustedResourceUrl} tpl The HTTP request template URL
+ * @param {boolean=} ignoreRequestError Whether or not to ignore the exception when the request fails or the template is empty
+ *
+ * @return {Promise} a promise for the HTTP response data of the given URL.
+ *
+ * @property {number} totalPendingRequests total amount of pending template requests being downloaded.
  */
 function $TemplateRequestProvider() {
-
-  var httpOptions;
-
-  /**
-   * @ngdoc method
-   * @name $templateRequestProvider#httpOptions
-   * @description
-   * The options to be passed to the {@link $http} service when making the request.
-   * You can use this to override options such as the "Accept" header for template requests.
-   *
-   * The {@link $templateRequest} will set the `cache` and the `transformResponse` properties of the
-   * options if not overridden here.
-   *
-   * @param {string=} value new value for the {@link $http} options.
-   * @returns {string|self} Returns the {@link $http} options when used as getter and self if used as setter.
-   */
-  this.httpOptions = function(val) {
-    if (val) {
-      httpOptions = val;
-      return this;
-    }
-    return httpOptions;
-  };
-
-  /**
-   * @ngdoc service
-   * @name $templateRequest
-   *
-   * @description
-   * The `$templateRequest` service runs security checks then downloads the provided template using
-   * `$http` and, upon success, stores the contents inside of `$templateCache`. If the HTTP request
-   * fails or the response data of the HTTP request is empty, a `$compile` error will be thrown (the
-   * exception can be thwarted by setting the 2nd parameter of the function to true). Note that the
-   * contents of `$templateCache` are trusted, so the call to `$sce.getTrustedUrl(tpl)` is omitted
-   * when `tpl` is of type string and `$templateCache` has the matching entry.
-   *
-   * If you want to pass custom options to the `$http` service, such as setting the Accept header you
-   * can configure this via {@link $templateRequestProvider#httpOptions}.
-   *
-   * @param {string|TrustedResourceUrl} tpl The HTTP request template URL
-   * @param {boolean=} ignoreRequestError Whether or not to ignore the exception when the request fails or the template is empty
-   *
-   * @return {Promise} a promise for the HTTP response data of the given URL.
-   *
-   * @property {number} totalPendingRequests total amount of pending template requests being downloaded.
-   */
   this.$get = ['$templateCache', '$http', '$q', '$sce', function($templateCache, $http, $q, $sce) {
-
     function handleRequestFn(tpl, ignoreRequestError) {
       handleRequestFn.totalPendingRequests++;
 
@@ -19236,10 +18622,12 @@ function $TemplateRequestProvider() {
         transformResponse = null;
       }
 
-      return $http.get(tpl, extend({
-          cache: $templateCache,
-          transformResponse: transformResponse
-        }, httpOptions))
+      var httpOptions = {
+        cache: $templateCache,
+        transformResponse: transformResponse
+      };
+
+      return $http.get(tpl, httpOptions)
         ['finally'](function() {
           handleRequestFn.totalPendingRequests--;
         })
@@ -20694,13 +20082,13 @@ function dateFilter($locale) {
 
     var dateTimezoneOffset = date.getTimezoneOffset();
     if (timezone) {
-      dateTimezoneOffset = timezoneToOffset(timezone, dateTimezoneOffset);
+      dateTimezoneOffset = timezoneToOffset(timezone, date.getTimezoneOffset());
       date = convertTimezoneToLocal(date, timezone, true);
     }
     forEach(parts, function(value) {
       fn = DATE_FORMATS[value];
       text += fn ? fn(date, $locale.DATETIME_FORMATS, dateTimezoneOffset)
-                 : value === "''" ? "'" : value.replace(/(^'|'$)/g, '').replace(/''/g, "'");
+                 : value.replace(/(^'|'$)/g, '').replace(/''/g, "'");
     });
 
     return text;
@@ -20904,9 +20292,8 @@ function limitToFilter() {
  * Orders a specified `array` by the `expression` predicate. It is ordered alphabetically
  * for strings and numerically for numbers. Note: if you notice numbers are not being sorted
  * as expected, make sure they are actually being saved as numbers and not strings.
- * Array-like values (e.g. NodeLists, jQuery objects, TypedArrays, Strings, etc) are also supported.
  *
- * @param {Array} array The array (or array-like object) to sort.
+ * @param {Array} array The array to sort.
  * @param {function(*)|string|Array.<(function(*)|string)>=} expression A predicate to be
  *    used by the comparator to determine the order of elements.
  *
@@ -21093,10 +20480,7 @@ orderByFilter.$inject = ['$parse'];
 function orderByFilter($parse) {
   return function(array, sortPredicate, reverseOrder) {
 
-    if (array == null) return array;
-    if (!isArrayLike(array)) {
-      throw minErr('orderBy')('notarray', 'Expected array but received: {0}', array);
-    }
+    if (!(isArrayLike(array))) return array;
 
     if (!isArray(sortPredicate)) { sortPredicate = [sortPredicate]; }
     if (sortPredicate.length === 0) { sortPredicate = ['+']; }
@@ -21806,7 +21190,7 @@ function FormController(element, attrs, $scope, $animate, $interpolate) {
    *
    * However, if the method is used programmatically, for example by adding dynamically created controls,
    * or controls that have been previously removed without destroying their corresponding DOM element,
-   * it's the developers responsibility to make sure the current state propagates to the parent form.
+   * it's the developers responsiblity to make sure the current state propagates to the parent form.
    *
    * For example, if an input control is added that is already `$dirty` and has `$error` properties,
    * calling `$setDirty()` and `$validate()` afterwards will propagate the state to the parent form.
@@ -22283,8 +21667,8 @@ var inputType = {
    * @param {string=} pattern Similar to `ngPattern` except that the attribute value is the actual string
    *    that contains the regular expression body that will be converted to a regular expression
    *    as in the ngPattern directive.
-   * @param {string=} ngPattern Sets `pattern` validation error key if the ngModel {@link ngModel.NgModelController#$viewValue $viewValue}
-   *    does not match a RegExp found by evaluating the Angular expression given in the attribute value.
+   * @param {string=} ngPattern Sets `pattern` validation error key if the ngModel value does not match
+   *    a RegExp found by evaluating the Angular expression given in the attribute value.
    *    If the expression evaluates to a RegExp object, then this is used directly.
    *    If the expression evaluates to a string, then it will be converted to a RegExp
    *    after wrapping it in `^` and `$` characters. For instance, `"abc"` will be converted to
@@ -22571,7 +21955,7 @@ var inputType = {
    *
    * @description
    * Input with time validation and transformation. In browsers that do not yet support
-   * the HTML5 time input, a text element will be used. In that case, the text must be entered in a valid ISO-8601
+   * the HTML5 date input, a text element will be used. In that case, the text must be entered in a valid ISO-8601
    * local time format (HH:mm:ss), for example: `14:57:00`. Model must be a Date object. This binding will always output a
    * Date object to the model of January 1, 1970, or local date `new Date(1970, 0, 1, HH, mm, ss)`.
    *
@@ -22918,8 +22302,8 @@ var inputType = {
    * @param {string=} pattern Similar to `ngPattern` except that the attribute value is the actual string
    *    that contains the regular expression body that will be converted to a regular expression
    *    as in the ngPattern directive.
-   * @param {string=} ngPattern Sets `pattern` validation error key if the ngModel {@link ngModel.NgModelController#$viewValue $viewValue}
-   *    does not match a RegExp found by evaluating the Angular expression given in the attribute value.
+   * @param {string=} ngPattern Sets `pattern` validation error key if the ngModel value does not match
+   *    a RegExp found by evaluating the Angular expression given in the attribute value.
    *    If the expression evaluates to a RegExp object, then this is used directly.
    *    If the expression evaluates to a string, then it will be converted to a RegExp
    *    after wrapping it in `^` and `$` characters. For instance, `"abc"` will be converted to
@@ -23016,8 +22400,8 @@ var inputType = {
    * @param {string=} pattern Similar to `ngPattern` except that the attribute value is the actual string
    *    that contains the regular expression body that will be converted to a regular expression
    *    as in the ngPattern directive.
-   * @param {string=} ngPattern Sets `pattern` validation error key if the ngModel {@link ngModel.NgModelController#$viewValue $viewValue}
-   *    does not match a RegExp found by evaluating the Angular expression given in the attribute value.
+   * @param {string=} ngPattern Sets `pattern` validation error key if the ngModel value does not match
+   *    a RegExp found by evaluating the Angular expression given in the attribute value.
    *    If the expression evaluates to a RegExp object, then this is used directly.
    *    If the expression evaluates to a string, then it will be converted to a RegExp
    *    after wrapping it in `^` and `$` characters. For instance, `"abc"` will be converted to
@@ -23115,8 +22499,8 @@ var inputType = {
    * @param {string=} pattern Similar to `ngPattern` except that the attribute value is the actual string
    *    that contains the regular expression body that will be converted to a regular expression
    *    as in the ngPattern directive.
-   * @param {string=} ngPattern Sets `pattern` validation error key if the ngModel {@link ngModel.NgModelController#$viewValue $viewValue}
-   *    does not match a RegExp found by evaluating the Angular expression given in the attribute value.
+   * @param {string=} ngPattern Sets `pattern` validation error key if the ngModel value does not match
+   *    a RegExp found by evaluating the Angular expression given in the attribute value.
    *    If the expression evaluates to a RegExp object, then this is used directly.
    *    If the expression evaluates to a string, then it will be converted to a RegExp
    *    after wrapping it in `^` and `$` characters. For instance, `"abc"` will be converted to
@@ -23576,7 +22960,11 @@ function badInputChecker(scope, element, attr, ctrl) {
   if (nativeValidation) {
     ctrl.$parsers.push(function(value) {
       var validity = element.prop(VALIDITY_STATE_PROPERTY) || {};
-      return validity.badInput || validity.typeMismatch ? undefined : value;
+      // Detect bug in FF35 for input[email] (https://bugzilla.mozilla.org/show_bug.cgi?id=1064430):
+      // - also sets validity.badInput (should only be validity.typeMismatch).
+      // - see http://www.whatwg.org/specs/web-apps/current-work/multipage/forms.html#e-mail-state-(type=email)
+      // - can ignore this case as we can still read out the erroneous email...
+      return validity.badInput && !validity.typeMismatch ? undefined : value;
     });
   }
 }
@@ -23748,8 +23136,8 @@ function checkboxInputType(scope, element, attr, ctrl, $sniffer, $browser, $filt
  * @param {number=} ngMaxlength Sets `maxlength` validation error key if the value is longer than
  *    maxlength. Setting the attribute to a negative or non-numeric value, allows view values of any
  *    length.
- * @param {string=} ngPattern Sets `pattern` validation error key if the ngModel {@link ngModel.NgModelController#$viewValue $viewValue}
- *    does not match a RegExp found by evaluating the Angular expression given in the attribute value.
+ * @param {string=} ngPattern Sets `pattern` validation error key if the ngModel value does not match
+ *    a RegExp found by evaluating the Angular expression given in the attribute value.
  *    If the expression evaluates to a RegExp object, then this is used directly.
  *    If the expression evaluates to a string, then it will be converted to a RegExp
  *    after wrapping it in `^` and `$` characters. For instance, `"abc"` will be converted to
@@ -23787,8 +23175,8 @@ function checkboxInputType(scope, element, attr, ctrl, $sniffer, $browser, $filt
  * @param {number=} ngMaxlength Sets `maxlength` validation error key if the value is longer than
  *    maxlength. Setting the attribute to a negative or non-numeric value, allows view values of any
  *    length.
- * @param {string=} ngPattern Sets `pattern` validation error key if the ngModel {@link ngModel.NgModelController#$viewValue $viewValue}
- *    value does not match a RegExp found by evaluating the Angular expression given in the attribute value.
+ * @param {string=} ngPattern Sets `pattern` validation error key if the ngModel value does not match
+ *    a RegExp found by evaluating the Angular expression given in the attribute value.
  *    If the expression evaluates to a RegExp object, then this is used directly.
  *    If the expression evaluates to a string, then it will be converted to a RegExp
  *    after wrapping it in `^` and `$` characters. For instance, `"abc"` will be converted to
@@ -25014,7 +24402,7 @@ var ngControllerDirective = [function() {
  *
  * * no-inline-style: this stops Angular from injecting CSS styles into the DOM
  *
- * * no-unsafe-eval: this stops Angular from optimizing $parse with unsafe eval of strings
+ * * no-unsafe-eval: this stops Angular from optimising $parse with unsafe eval of strings
  *
  * You can use these values in the following combinations:
  *
@@ -25031,7 +24419,7 @@ var ngControllerDirective = [function() {
  * inline styles. E.g. `<body ng-csp="no-unsafe-eval">`.
  *
  * * Specifying only `no-inline-style` tells Angular that we must not inject styles, but that we can
- * run eval - no automatic check for unsafe eval will occur. E.g. `<body ng-csp="no-inline-style">`
+ * run eval - no automcatic check for unsafe eval will occur. E.g. `<body ng-csp="no-inline-style">`
  *
  * * Specifying both `no-unsafe-eval` and `no-inline-style` tells Angular that we must not inject
  * styles nor use eval, which is the same as an empty: ng-csp.
@@ -26063,7 +25451,7 @@ var ngIncludeFillContentDirective = ['$compile',
       priority: -400,
       require: 'ngInclude',
       link: function(scope, $element, $attr, ctrl) {
-        if (toString.call($element[0]).match(/SVG/)) {
+        if (/SVG/.test($element[0].toString())) {
           // WebKit: https://bugs.webkit.org/show_bug.cgi?id=135698 --- SVG elements do not
           // support innerHTML, so detect this here and try to generate the contents
           // specially.
@@ -26292,9 +25680,7 @@ var VALID_CLASS = 'ng-valid',
     DIRTY_CLASS = 'ng-dirty',
     UNTOUCHED_CLASS = 'ng-untouched',
     TOUCHED_CLASS = 'ng-touched',
-    PENDING_CLASS = 'ng-pending',
-    EMPTY_CLASS = 'ng-empty',
-    NOT_EMPTY_CLASS = 'ng-not-empty';
+    PENDING_CLASS = 'ng-pending';
 
 var ngModelMinErr = minErr('ngModel');
 
@@ -26597,17 +25983,6 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
   this.$isEmpty = function(value) {
     return isUndefined(value) || value === '' || value === null || value !== value;
   };
-
-  this.$$updateEmptyClasses = function(value) {
-    if (ctrl.$isEmpty(value)) {
-      $animate.removeClass($element, NOT_EMPTY_CLASS);
-      $animate.addClass($element, EMPTY_CLASS);
-    } else {
-      $animate.removeClass($element, EMPTY_CLASS);
-      $animate.addClass($element, NOT_EMPTY_CLASS);
-    }
-  };
-
 
   var currentValidationRunId = 0;
 
@@ -26972,7 +26347,6 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
     if (ctrl.$$lastCommittedViewValue === viewValue && (viewValue !== '' || !ctrl.$$hasNativeValidators)) {
       return;
     }
-    ctrl.$$updateEmptyClasses(viewValue);
     ctrl.$$lastCommittedViewValue = viewValue;
 
     // change to dirty
@@ -27071,7 +26445,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
    * However, custom controls might also pass objects to this method. In this case, we should make
    * a copy of the object before passing it to `$setViewValue`. This is because `ngModel` does not
    * perform a deep watch of objects, it only looks for a change of identity. If you only change
-   * the property of the object then ngModel will not realize that the object has changed and
+   * the property of the object then ngModel will not realise that the object has changed and
    * will not invoke the `$parsers` and `$validators` pipelines. For this reason, you should
    * not change properties of the copy once it has been passed to `$setViewValue`.
    * Otherwise you may cause the model value on the scope to change incorrectly.
@@ -27155,7 +26529,6 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
         viewValue = formatters[idx](viewValue);
       }
       if (ctrl.$viewValue !== viewValue) {
-        ctrl.$$updateEmptyClasses(viewValue);
         ctrl.$viewValue = ctrl.$$lastCommittedViewValue = viewValue;
         ctrl.$render();
 
@@ -27186,8 +26559,7 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
  *   require.
  * - Providing validation behavior (i.e. required, number, email, url).
  * - Keeping the state of the control (valid/invalid, dirty/pristine, touched/untouched, validation errors).
- * - Setting related css classes on the element (`ng-valid`, `ng-invalid`, `ng-dirty`, `ng-pristine`, `ng-touched`,
- *   `ng-untouched`, `ng-empty`, `ng-not-empty`) including animations.
+ * - Setting related css classes on the element (`ng-valid`, `ng-invalid`, `ng-dirty`, `ng-pristine`, `ng-touched`, `ng-untouched`) including animations.
  * - Registering the control with its parent {@link ng.directive:form form}.
  *
  * Note: `ngModel` will try to bind to the property given by evaluating the expression on the
@@ -27215,22 +26587,6 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
  *  - {@link ng.directive:select select}
  *  - {@link ng.directive:textarea textarea}
  *
- * # Complex Models (objects or collections)
- *
- * By default, `ngModel` watches the model by reference, not value. This is important to know when
- * binding inputs to models that are objects (e.g. `Date`) or collections (e.g. arrays). If only properties of the
- * object or collection change, `ngModel` will not be notified and so the input will not be  re-rendered.
- *
- * The model must be assigned an entirely new object or collection before a re-rendering will occur.
- *
- * Some directives have options that will cause them to use a custom `$watchCollection` on the model expression
- * - for example, `ngOptions` will do so when a `track by` clause is included in the comprehension expression or
- * if the select is given the `multiple` attribute.
- *
- * The `$watchCollection()` method only does a shallow comparison, meaning that changing properties deeper than the
- * first level of the object (or only changing the properties of an item in the collection if it's an array) will still
- * not trigger a re-rendering of the model.
- *
  * # CSS classes
  * The following CSS classes are added and removed on the associated input/select/textarea element
  * depending on the validity of the model.
@@ -27244,16 +26600,13 @@ var NgModelController = ['$scope', '$exceptionHandler', '$attrs', '$element', '$
  *  - `ng-touched`: the control has been blurred
  *  - `ng-untouched`: the control hasn't been blurred
  *  - `ng-pending`: any `$asyncValidators` are unfulfilled
- *  - `ng-empty`: the view does not contain a value or the value is deemed "empty", as defined
- *     by the {@link ngModel.NgModelController#$isEmpty} method
- *  - `ng-not-empty`: the view contains a non-empty value
  *
  * Keep in mind that ngAnimate can detect each of these classes when added and removed.
  *
  * ## Animation Hooks
  *
  * Animations within models are triggered when any of the associated CSS classes are added and removed
- * on the input element which is attached to the model. These classes include: `.ng-pristine`, `.ng-dirty`,
+ * on the input element which is attached to the model. These classes are: `.ng-pristine`, `.ng-dirty`,
  * `.ng-invalid` and `.ng-valid` as well as any other validations that are performed on the model itself.
  * The animations that are triggered within ngModel are similar to how they work in ngClass and
  * animations can be hooked into using CSS transitions, keyframes as well as JS animations.
@@ -28146,10 +27499,14 @@ var ngOptionsDirective = ['$compile', '$parse', function($compile, $parse) {
   var optionTemplate = document.createElement('option'),
       optGroupTemplate = document.createElement('optgroup');
 
+
     function ngOptionsPostLink(scope, selectElement, attr, ctrls) {
 
-      var selectCtrl = ctrls[0];
+      // if ngModel is not defined, we don't need to do anything
       var ngModelCtrl = ctrls[1];
+      if (!ngModelCtrl) return;
+
+      var selectCtrl = ctrls[0];
       var multiple = attr.multiple;
 
       // The emptyOption allows the application developer to provide their own custom "empty"
@@ -28409,7 +27766,7 @@ var ngOptionsDirective = ['$compile', '$parse', function($compile, $parse) {
           var groupElement;
           var optionElement;
 
-          if (isDefined(option.group)) {
+          if (option.group) {
 
             // This option is to live in a group
             // See if we have already created this group
@@ -28483,7 +27840,7 @@ var ngOptionsDirective = ['$compile', '$parse', function($compile, $parse) {
   return {
     restrict: 'A',
     terminal: true,
-    require: ['select', 'ngModel'],
+    require: ['select', '?ngModel'],
     link: {
       pre: function ngOptionsPreLink(scope, selectElement, attr, ctrls) {
         // Deactivate the SelectController.register method to prevent
@@ -28711,7 +28068,7 @@ var ngPluralizeDirective = ['$locale', '$interpolate', '$log', function($locale,
         }
 
         // If both `count` and `lastCount` are NaN, we don't need to re-register a watch.
-        // In JS `NaN !== NaN`, so we have to explicitly check.
+        // In JS `NaN !== NaN`, so we have to exlicitly check.
         if ((count !== lastCount) && !(countIsNaN && isNumber(lastCount) && isNaN(lastCount))) {
           watchRemover();
           var whenExpFn = whensExpFns[count];
@@ -28828,7 +28185,7 @@ var ngPluralizeDirective = ['$locale', '$interpolate', '$log', function($locale,
  * by the identifier instead of the whole object. Should you reload your data later, `ngRepeat`
  * will not have to rebuild the DOM elements for items it has already rendered, even if the
  * JavaScript objects in the collection have been substituted for new ones. For large collections,
- * this significantly improves rendering performance. If you don't have a unique identifier,
+ * this signifincantly improves rendering performance. If you don't have a unique identifier,
  * `track by $index` can also provide a performance boost.
  * </div>
  * ```html
@@ -28905,8 +28262,6 @@ var ngPluralizeDirective = ['$locale', '$interpolate', '$log', function($locale,
  *
  * **.move** - when an adjacent item is filtered out causing a reorder or when the item contents are reordered
  *
- * See the example below for defining CSS animations with ngRepeat.
- *
  * @element ANY
  * @scope
  * @priority 1000
@@ -28959,11 +28314,22 @@ var ngPluralizeDirective = ['$locale', '$interpolate', '$log', function($locale,
  *     For example: `item in items | filter : x | orderBy : order | limitTo : limit as results` .
  *
  * @example
- * This example uses `ngRepeat` to display a list of people. A filter is used to restrict the displayed
- * results by name. New (entering) and removed (leaving) items are animated.
-  <example module="ngRepeat" name="ngRepeat" deps="angular-animate.js" animations="true">
+ * This example initializes the scope to a list of names and
+ * then uses `ngRepeat` to display every person:
+  <example module="ngAnimate" deps="angular-animate.js" animations="true">
     <file name="index.html">
-      <div ng-controller="repeatController">
+      <div ng-init="friends = [
+        {name:'John', age:25, gender:'boy'},
+        {name:'Jessie', age:30, gender:'girl'},
+        {name:'Johanna', age:28, gender:'girl'},
+        {name:'Joy', age:15, gender:'girl'},
+        {name:'Mary', age:28, gender:'girl'},
+        {name:'Peter', age:95, gender:'boy'},
+        {name:'Sebastian', age:50, gender:'boy'},
+        {name:'Erika', age:27, gender:'girl'},
+        {name:'Patrick', age:40, gender:'boy'},
+        {name:'Samantha', age:60, gender:'girl'}
+      ]">
         I have {{friends.length}} friends. They are:
         <input type="search" ng-model="q" placeholder="filter friends..." aria-label="filter friends" />
         <ul class="example-animate-container">
@@ -28976,22 +28342,6 @@ var ngPluralizeDirective = ['$locale', '$interpolate', '$log', function($locale,
         </ul>
       </div>
     </file>
-    <file name="script.js">
-      angular.module('ngRepeat', ['ngAnimate']).controller('repeatController', function($scope) {
-        $scope.friends = [
-          {name:'John', age:25, gender:'boy'},
-          {name:'Jessie', age:30, gender:'girl'},
-          {name:'Johanna', age:28, gender:'girl'},
-          {name:'Joy', age:15, gender:'girl'},
-          {name:'Mary', age:28, gender:'girl'},
-          {name:'Peter', age:95, gender:'boy'},
-          {name:'Sebastian', age:50, gender:'boy'},
-          {name:'Erika', age:27, gender:'girl'},
-          {name:'Patrick', age:40, gender:'boy'},
-          {name:'Samantha', age:60, gender:'girl'}
-        ];
-      });
-    </file>
     <file name="animations.css">
       .example-animate-container {
         background:white;
@@ -29002,7 +28352,7 @@ var ngPluralizeDirective = ['$locale', '$interpolate', '$log', function($locale,
       }
 
       .animate-repeat {
-        line-height:30px;
+        line-height:40px;
         list-style:none;
         box-sizing:border-box;
       }
@@ -29024,7 +28374,7 @@ var ngPluralizeDirective = ['$locale', '$interpolate', '$log', function($locale,
       .animate-repeat.ng-move.ng-move-active,
       .animate-repeat.ng-enter.ng-enter-active {
         opacity:1;
-        max-height:30px;
+        max-height:40px;
       }
     </file>
     <file name="protractor.js" type="protractor">
@@ -29881,186 +29231,67 @@ var ngSwitchDefaultDirective = ngDirective({
  * @description
  * Directive that marks the insertion point for the transcluded DOM of the nearest parent directive that uses transclusion.
  *
- * You can specify that you want to insert a named transclusion slot, instead of the default slot, by providing the slot name
- * as the value of the `ng-transclude` or `ng-transclude-slot` attribute.
- *
- * If the transcluded content is not empty (i.e. contains one or more DOM nodes, including whitespace text nodes), any existing
- * content of this element will be removed before the transcluded content is inserted.
- * If the transcluded content is empty, the existing content is left intact. This lets you provide fallback content in the case
- * that no transcluded content is provided.
+ * Any existing content of the element that this directive is placed on will be removed before the transcluded content is inserted.
  *
  * @element ANY
  *
- * @param {string} ngTransclude|ngTranscludeSlot the name of the slot to insert at this point. If this is not provided, is empty
- *                                               or its value is the same as the name of the attribute then the default slot is used.
- *
  * @example
- * ### Basic transclusion
- * This example demonstrates basic transclusion of content into a component directive.
- * <example name="simpleTranscludeExample" module="transcludeExample">
- *   <file name="index.html">
- *     <script>
- *       angular.module('transcludeExample', [])
- *        .directive('pane', function(){
- *           return {
- *             restrict: 'E',
- *             transclude: true,
- *             scope: { title:'@' },
- *             template: '<div style="border: 1px solid black;">' +
- *                         '<div style="background-color: gray">{{title}}</div>' +
- *                         '<ng-transclude></ng-transclude>' +
- *                       '</div>'
- *           };
- *       })
- *       .controller('ExampleController', ['$scope', function($scope) {
- *         $scope.title = 'Lorem Ipsum';
- *         $scope.text = 'Neque porro quisquam est qui dolorem ipsum quia dolor...';
- *       }]);
- *     </script>
- *     <div ng-controller="ExampleController">
- *       <input ng-model="title" aria-label="title"> <br/>
- *       <textarea ng-model="text" aria-label="text"></textarea> <br/>
- *       <pane title="{{title}}">{{text}}</pane>
- *     </div>
- *   </file>
- *   <file name="protractor.js" type="protractor">
- *      it('should have transcluded', function() {
- *        var titleElement = element(by.model('title'));
- *        titleElement.clear();
- *        titleElement.sendKeys('TITLE');
- *        var textElement = element(by.model('text'));
- *        textElement.clear();
- *        textElement.sendKeys('TEXT');
- *        expect(element(by.binding('title')).getText()).toEqual('TITLE');
- *        expect(element(by.binding('text')).getText()).toEqual('TEXT');
- *      });
- *   </file>
- * </example>
+   <example module="transcludeExample">
+     <file name="index.html">
+       <script>
+         angular.module('transcludeExample', [])
+          .directive('pane', function(){
+             return {
+               restrict: 'E',
+               transclude: true,
+               scope: { title:'@' },
+               template: '<div style="border: 1px solid black;">' +
+                           '<div style="background-color: gray">{{title}}</div>' +
+                           '<ng-transclude></ng-transclude>' +
+                         '</div>'
+             };
+         })
+         .controller('ExampleController', ['$scope', function($scope) {
+           $scope.title = 'Lorem Ipsum';
+           $scope.text = 'Neque porro quisquam est qui dolorem ipsum quia dolor...';
+         }]);
+       </script>
+       <div ng-controller="ExampleController">
+         <input ng-model="title" aria-label="title"> <br/>
+         <textarea ng-model="text" aria-label="text"></textarea> <br/>
+         <pane title="{{title}}">{{text}}</pane>
+       </div>
+     </file>
+     <file name="protractor.js" type="protractor">
+        it('should have transcluded', function() {
+          var titleElement = element(by.model('title'));
+          titleElement.clear();
+          titleElement.sendKeys('TITLE');
+          var textElement = element(by.model('text'));
+          textElement.clear();
+          textElement.sendKeys('TEXT');
+          expect(element(by.binding('title')).getText()).toEqual('TITLE');
+          expect(element(by.binding('text')).getText()).toEqual('TEXT');
+        });
+     </file>
+   </example>
  *
- * @example
- * ### Transclude fallback content
- * This example shows how to use `NgTransclude` with fallback content, that
- * is displayed if no transcluded content is provided.
- *
- * <example module="transcludeFallbackContentExample">
- * <file name="index.html">
- * <script>
- * angular.module('transcludeFallbackContentExample', [])
- * .directive('myButton', function(){
- *             return {
- *               restrict: 'E',
- *               transclude: true,
- *               scope: true,
- *               template: '<button style="cursor: pointer;">' +
- *                           '<ng-transclude>' +
- *                             '<b style="color: red;">Button1</b>' +
- *                           '</ng-transclude>' +
- *                         '</button>'
- *             };
- *         });
- * </script>
- * <!-- fallback button content -->
- * <my-button id="fallback"></my-button>
- * <!-- modified button content -->
- * <my-button id="modified">
- *   <i style="color: green;">Button2</i>
- * </my-button>
- * </file>
- * <file name="protractor.js" type="protractor">
- * it('should have different transclude element content', function() {
- *          expect(element(by.id('fallback')).getText()).toBe('Button1');
- *          expect(element(by.id('modified')).getText()).toBe('Button2');
- *        });
- * </file>
- * </example>
- *
- * @example
- * ### Multi-slot transclusion
- * This example demonstrates using multi-slot transclusion in a component directive.
- * <example name="multiSlotTranscludeExample" module="multiSlotTranscludeExample">
- *   <file name="index.html">
- *    <style>
- *      .title, .footer {
- *        background-color: gray
- *      }
- *    </style>
- *    <div ng-controller="ExampleController">
- *      <input ng-model="title" aria-label="title"> <br/>
- *      <textarea ng-model="text" aria-label="text"></textarea> <br/>
- *      <pane>
- *        <pane-title><a ng-href="{{link}}">{{title}}</a></pane-title>
- *        <pane-body><p>{{text}}</p></pane-body>
- *      </pane>
- *    </div>
- *   </file>
- *   <file name="app.js">
- *    angular.module('multiSlotTranscludeExample', [])
- *     .directive('pane', function(){
- *        return {
- *          restrict: 'E',
- *          transclude: {
- *            'title': '?paneTitle',
- *            'body': 'paneBody',
- *            'footer': '?paneFooter'
- *          },
- *          template: '<div style="border: 1px solid black;">' +
- *                      '<div class="title" ng-transclude="title">Fallback Title</div>' +
- *                      '<div ng-transclude="body"></div>' +
- *                      '<div class="footer" ng-transclude="footer">Fallback Footer</div>' +
- *                    '</div>'
- *        };
- *    })
- *    .controller('ExampleController', ['$scope', function($scope) {
- *      $scope.title = 'Lorem Ipsum';
- *      $scope.link = "https://google.com";
- *      $scope.text = 'Neque porro quisquam est qui dolorem ipsum quia dolor...';
- *    }]);
- *   </file>
- *   <file name="protractor.js" type="protractor">
- *      it('should have transcluded the title and the body', function() {
- *        var titleElement = element(by.model('title'));
- *        titleElement.clear();
- *        titleElement.sendKeys('TITLE');
- *        var textElement = element(by.model('text'));
- *        textElement.clear();
- *        textElement.sendKeys('TEXT');
- *        expect(element(by.css('.title')).getText()).toEqual('TITLE');
- *        expect(element(by.binding('text')).getText()).toEqual('TEXT');
- *        expect(element(by.css('.footer')).getText()).toEqual('Fallback Footer');
- *      });
- *   </file>
- * </example>
  */
-var ngTranscludeMinErr = minErr('ngTransclude');
 var ngTranscludeDirective = ngDirective({
   restrict: 'EAC',
   link: function($scope, $element, $attrs, controller, $transclude) {
-
-    if ($attrs.ngTransclude === $attrs.$attr.ngTransclude) {
-      // If the attribute is of the form: `ng-transclude="ng-transclude"`
-      // then treat it like the default
-      $attrs.ngTransclude = '';
-    }
-
-    function ngTranscludeCloneAttachFn(clone) {
-      if (clone.length) {
-        $element.empty();
-        $element.append(clone);
-      }
-    }
-
     if (!$transclude) {
-      throw ngTranscludeMinErr('orphan',
+      throw minErr('ngTransclude')('orphan',
        'Illegal use of ngTransclude directive in the template! ' +
        'No parent directive that requires a transclusion found. ' +
        'Element: {0}',
        startingTag($element));
     }
 
-    // If there is no slot name defined or the slot name is not optional
-    // then transclude the slot
-    var slotName = $attrs.ngTransclude || $attrs.ngTranscludeSlot;
-    $transclude(ngTranscludeCloneAttachFn, null, slotName);
+    $transclude(function(clone) {
+      $element.empty();
+      $element.append(clone);
+    });
   }
 });
 
@@ -30192,9 +29423,6 @@ var SelectController =
 
   // Tell the select control that an option, with the given value, has been added
   self.addOption = function(value, element) {
-    // Skip comment nodes, as they only pollute the `optionsMap`
-    if (element[0].nodeType === NODE_TYPE_COMMENT) return;
-
     assertNotHasOwnProperty(value, '"option value"');
     if (value === '') {
       self.emptyOption = element;
@@ -30279,7 +29507,7 @@ var SelectController =
  *
  * <div class="alert alert-warning">
  * Note that the value of a `select` directive used without `ngOptions` is always a string.
- * When the model needs to be bound to a non-string value, you must either explicitly convert it
+ * When the model needs to be bound to a non-string value, you must either explictly convert it
  * using a directive (see example below) or use `ngOptions` to specify the set of options.
  * This is because an option element can only be bound to string values at present.
  * </div>
@@ -30567,6 +29795,7 @@ var optionDirective = ['$interpolate', function($interpolate) {
     restrict: 'E',
     priority: 100,
     compile: function(element, attr) {
+
       if (isDefined(attr.value)) {
         // If the value attribute is defined, check if it contains an interpolation
         var interpolateValueFn = $interpolate(attr.value, true);
@@ -30580,6 +29809,7 @@ var optionDirective = ['$interpolate', function($interpolate) {
       }
 
       return function(scope, element, attr) {
+
         // This is an optimization over using ^^ since we don't want to have to search
         // all the way to the root of the DOM for every single option element
         var selectCtrlName = '$selectController',
@@ -30616,7 +29846,7 @@ var styleDirective = valueFn({
  * for more info.
  *
  * The validator will set the `required` error key to true if the `required` attribute is set and
- * calling {@link ngModel.NgModelController#$isEmpty `NgModelController.$isEmpty`} with the
+ * calling {@link ngModel.NgModelController#$isEmpty `NgModelController.$isEmpty` with the
  * {@link ngModel.NgModelController#$viewValue `ngModel.$viewValue`} returns `true`. For example, the
  * `$isEmpty()` implementation for `input[text]` checks the length of the `$viewValue`. When developing
  * custom controls, `$isEmpty()` can be overwritten to account for a $viewValue that is not string-based.
@@ -31102,7 +30332,6 @@ $provide.value("$locale", {
     ]
   },
   "id": "en-us",
-  "localeID": "en_US",
   "pluralCat": function(n, opt_precision) {  var i = n | 0;  var vf = getVF(n, opt_precision);  if (i == 1 && vf.v == 0) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
 });
 }]);
@@ -31122,141 +30351,15 @@ module.exports = angular;
 module.exports = function atoa (a, n) { return Array.prototype.slice.call(a, n); }
 
 },{}],14:[function(require,module,exports){
-var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-
-;(function (exports) {
-	'use strict';
-
-  var Arr = (typeof Uint8Array !== 'undefined')
-    ? Uint8Array
-    : Array
-
-	var PLUS   = '+'.charCodeAt(0)
-	var SLASH  = '/'.charCodeAt(0)
-	var NUMBER = '0'.charCodeAt(0)
-	var LOWER  = 'a'.charCodeAt(0)
-	var UPPER  = 'A'.charCodeAt(0)
-	var PLUS_URL_SAFE = '-'.charCodeAt(0)
-	var SLASH_URL_SAFE = '_'.charCodeAt(0)
-
-	function decode (elt) {
-		var code = elt.charCodeAt(0)
-		if (code === PLUS ||
-		    code === PLUS_URL_SAFE)
-			return 62 // '+'
-		if (code === SLASH ||
-		    code === SLASH_URL_SAFE)
-			return 63 // '/'
-		if (code < NUMBER)
-			return -1 //no match
-		if (code < NUMBER + 10)
-			return code - NUMBER + 26 + 26
-		if (code < UPPER + 26)
-			return code - UPPER
-		if (code < LOWER + 26)
-			return code - LOWER + 26
-	}
-
-	function b64ToByteArray (b64) {
-		var i, j, l, tmp, placeHolders, arr
-
-		if (b64.length % 4 > 0) {
-			throw new Error('Invalid string. Length must be a multiple of 4')
-		}
-
-		// the number of equal signs (place holders)
-		// if there are two placeholders, than the two characters before it
-		// represent one byte
-		// if there is only one, then the three characters before it represent 2 bytes
-		// this is just a cheap hack to not do indexOf twice
-		var len = b64.length
-		placeHolders = '=' === b64.charAt(len - 2) ? 2 : '=' === b64.charAt(len - 1) ? 1 : 0
-
-		// base64 is 4/3 + up to two characters of the original data
-		arr = new Arr(b64.length * 3 / 4 - placeHolders)
-
-		// if there are placeholders, only get up to the last complete 4 chars
-		l = placeHolders > 0 ? b64.length - 4 : b64.length
-
-		var L = 0
-
-		function push (v) {
-			arr[L++] = v
-		}
-
-		for (i = 0, j = 0; i < l; i += 4, j += 3) {
-			tmp = (decode(b64.charAt(i)) << 18) | (decode(b64.charAt(i + 1)) << 12) | (decode(b64.charAt(i + 2)) << 6) | decode(b64.charAt(i + 3))
-			push((tmp & 0xFF0000) >> 16)
-			push((tmp & 0xFF00) >> 8)
-			push(tmp & 0xFF)
-		}
-
-		if (placeHolders === 2) {
-			tmp = (decode(b64.charAt(i)) << 2) | (decode(b64.charAt(i + 1)) >> 4)
-			push(tmp & 0xFF)
-		} else if (placeHolders === 1) {
-			tmp = (decode(b64.charAt(i)) << 10) | (decode(b64.charAt(i + 1)) << 4) | (decode(b64.charAt(i + 2)) >> 2)
-			push((tmp >> 8) & 0xFF)
-			push(tmp & 0xFF)
-		}
-
-		return arr
-	}
-
-	function uint8ToBase64 (uint8) {
-		var i,
-			extraBytes = uint8.length % 3, // if we have 1 byte left, pad 2 bytes
-			output = "",
-			temp, length
-
-		function encode (num) {
-			return lookup.charAt(num)
-		}
-
-		function tripletToBase64 (num) {
-			return encode(num >> 18 & 0x3F) + encode(num >> 12 & 0x3F) + encode(num >> 6 & 0x3F) + encode(num & 0x3F)
-		}
-
-		// go through the array every three bytes, we'll deal with trailing stuff later
-		for (i = 0, length = uint8.length - extraBytes; i < length; i += 3) {
-			temp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
-			output += tripletToBase64(temp)
-		}
-
-		// pad the end with zeros, but make sure to not forget the extra bytes
-		switch (extraBytes) {
-			case 1:
-				temp = uint8[uint8.length - 1]
-				output += encode(temp >> 2)
-				output += encode((temp << 4) & 0x3F)
-				output += '=='
-				break
-			case 2:
-				temp = (uint8[uint8.length - 2] << 8) + (uint8[uint8.length - 1])
-				output += encode(temp >> 10)
-				output += encode((temp >> 4) & 0x3F)
-				output += encode((temp << 2) & 0x3F)
-				output += '='
-				break
-		}
-
-		return output
-	}
-
-	exports.toByteArray = b64ToByteArray
-	exports.fromByteArray = uint8ToBase64
-}(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
-
-},{}],15:[function(require,module,exports){
-
-},{}],16:[function(require,module,exports){
 var leveljs = require('level-js');
 var levelup = require('levelup');
 var fs = require('level-filesystem');
 
 var db = levelup('level-filesystem', {db:leveljs});
 module.exports = fs(db);
-},{"level-filesystem":58,"level-js":66,"levelup":84}],17:[function(require,module,exports){
+},{"level-filesystem":80,"level-js":88,"levelup":105}],15:[function(require,module,exports){
+
+},{}],16:[function(require,module,exports){
 (function (global){
 /*!
  * The buffer module from node.js, for the browser.
@@ -31266,9 +30369,11 @@ module.exports = fs(db);
  */
 /* eslint-disable no-proto */
 
+'use strict'
+
 var base64 = require('base64-js')
 var ieee754 = require('ieee754')
-var isArray = require('is-array')
+var isArray = require('isarray')
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -31348,8 +30453,10 @@ function Buffer (arg) {
     return new Buffer(arg)
   }
 
-  this.length = 0
-  this.parent = undefined
+  if (!Buffer.TYPED_ARRAY_SUPPORT) {
+    this.length = 0
+    this.parent = undefined
+  }
 
   // Common case.
   if (typeof arg === 'number') {
@@ -31480,6 +30587,10 @@ function fromJsonObject (that, object) {
 if (Buffer.TYPED_ARRAY_SUPPORT) {
   Buffer.prototype.__proto__ = Uint8Array.prototype
   Buffer.__proto__ = Uint8Array
+} else {
+  // pre-set for values that may exist in the future
+  Buffer.prototype.length = undefined
+  Buffer.prototype.parent = undefined
 }
 
 function allocate (that, length) {
@@ -31629,10 +30740,6 @@ function byteLength (string, encoding) {
   }
 }
 Buffer.byteLength = byteLength
-
-// pre-set for values that may exist in the future
-Buffer.prototype.length = undefined
-Buffer.prototype.parent = undefined
 
 function slowToString (encoding, start, end) {
   var loweredCase = false
@@ -32805,7 +31912,4054 @@ function blitBuffer (src, dst, offset, length) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"base64-js":14,"ieee754":42,"is-array":44}],18:[function(require,module,exports){
+},{"base64-js":17,"ieee754":18,"isarray":19}],17:[function(require,module,exports){
+var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
+;(function (exports) {
+	'use strict';
+
+  var Arr = (typeof Uint8Array !== 'undefined')
+    ? Uint8Array
+    : Array
+
+	var PLUS   = '+'.charCodeAt(0)
+	var SLASH  = '/'.charCodeAt(0)
+	var NUMBER = '0'.charCodeAt(0)
+	var LOWER  = 'a'.charCodeAt(0)
+	var UPPER  = 'A'.charCodeAt(0)
+	var PLUS_URL_SAFE = '-'.charCodeAt(0)
+	var SLASH_URL_SAFE = '_'.charCodeAt(0)
+
+	function decode (elt) {
+		var code = elt.charCodeAt(0)
+		if (code === PLUS ||
+		    code === PLUS_URL_SAFE)
+			return 62 // '+'
+		if (code === SLASH ||
+		    code === SLASH_URL_SAFE)
+			return 63 // '/'
+		if (code < NUMBER)
+			return -1 //no match
+		if (code < NUMBER + 10)
+			return code - NUMBER + 26 + 26
+		if (code < UPPER + 26)
+			return code - UPPER
+		if (code < LOWER + 26)
+			return code - LOWER + 26
+	}
+
+	function b64ToByteArray (b64) {
+		var i, j, l, tmp, placeHolders, arr
+
+		if (b64.length % 4 > 0) {
+			throw new Error('Invalid string. Length must be a multiple of 4')
+		}
+
+		// the number of equal signs (place holders)
+		// if there are two placeholders, than the two characters before it
+		// represent one byte
+		// if there is only one, then the three characters before it represent 2 bytes
+		// this is just a cheap hack to not do indexOf twice
+		var len = b64.length
+		placeHolders = '=' === b64.charAt(len - 2) ? 2 : '=' === b64.charAt(len - 1) ? 1 : 0
+
+		// base64 is 4/3 + up to two characters of the original data
+		arr = new Arr(b64.length * 3 / 4 - placeHolders)
+
+		// if there are placeholders, only get up to the last complete 4 chars
+		l = placeHolders > 0 ? b64.length - 4 : b64.length
+
+		var L = 0
+
+		function push (v) {
+			arr[L++] = v
+		}
+
+		for (i = 0, j = 0; i < l; i += 4, j += 3) {
+			tmp = (decode(b64.charAt(i)) << 18) | (decode(b64.charAt(i + 1)) << 12) | (decode(b64.charAt(i + 2)) << 6) | decode(b64.charAt(i + 3))
+			push((tmp & 0xFF0000) >> 16)
+			push((tmp & 0xFF00) >> 8)
+			push(tmp & 0xFF)
+		}
+
+		if (placeHolders === 2) {
+			tmp = (decode(b64.charAt(i)) << 2) | (decode(b64.charAt(i + 1)) >> 4)
+			push(tmp & 0xFF)
+		} else if (placeHolders === 1) {
+			tmp = (decode(b64.charAt(i)) << 10) | (decode(b64.charAt(i + 1)) << 4) | (decode(b64.charAt(i + 2)) >> 2)
+			push((tmp >> 8) & 0xFF)
+			push(tmp & 0xFF)
+		}
+
+		return arr
+	}
+
+	function uint8ToBase64 (uint8) {
+		var i,
+			extraBytes = uint8.length % 3, // if we have 1 byte left, pad 2 bytes
+			output = "",
+			temp, length
+
+		function encode (num) {
+			return lookup.charAt(num)
+		}
+
+		function tripletToBase64 (num) {
+			return encode(num >> 18 & 0x3F) + encode(num >> 12 & 0x3F) + encode(num >> 6 & 0x3F) + encode(num & 0x3F)
+		}
+
+		// go through the array every three bytes, we'll deal with trailing stuff later
+		for (i = 0, length = uint8.length - extraBytes; i < length; i += 3) {
+			temp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
+			output += tripletToBase64(temp)
+		}
+
+		// pad the end with zeros, but make sure to not forget the extra bytes
+		switch (extraBytes) {
+			case 1:
+				temp = uint8[uint8.length - 1]
+				output += encode(temp >> 2)
+				output += encode((temp << 4) & 0x3F)
+				output += '=='
+				break
+			case 2:
+				temp = (uint8[uint8.length - 2] << 8) + (uint8[uint8.length - 1])
+				output += encode(temp >> 10)
+				output += encode((temp >> 4) & 0x3F)
+				output += encode((temp << 2) & 0x3F)
+				output += '='
+				break
+		}
+
+		return output
+	}
+
+	exports.toByteArray = b64ToByteArray
+	exports.fromByteArray = uint8ToBase64
+}(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
+
+},{}],18:[function(require,module,exports){
+exports.read = function (buffer, offset, isLE, mLen, nBytes) {
+  var e, m
+  var eLen = nBytes * 8 - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var nBits = -7
+  var i = isLE ? (nBytes - 1) : 0
+  var d = isLE ? -1 : 1
+  var s = buffer[offset + i]
+
+  i += d
+
+  e = s & ((1 << (-nBits)) - 1)
+  s >>= (-nBits)
+  nBits += eLen
+  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+
+  m = e & ((1 << (-nBits)) - 1)
+  e >>= (-nBits)
+  nBits += mLen
+  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+
+  if (e === 0) {
+    e = 1 - eBias
+  } else if (e === eMax) {
+    return m ? NaN : ((s ? -1 : 1) * Infinity)
+  } else {
+    m = m + Math.pow(2, mLen)
+    e = e - eBias
+  }
+  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
+}
+
+exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
+  var e, m, c
+  var eLen = nBytes * 8 - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
+  var i = isLE ? 0 : (nBytes - 1)
+  var d = isLE ? 1 : -1
+  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
+
+  value = Math.abs(value)
+
+  if (isNaN(value) || value === Infinity) {
+    m = isNaN(value) ? 1 : 0
+    e = eMax
+  } else {
+    e = Math.floor(Math.log(value) / Math.LN2)
+    if (value * (c = Math.pow(2, -e)) < 1) {
+      e--
+      c *= 2
+    }
+    if (e + eBias >= 1) {
+      value += rt / c
+    } else {
+      value += rt * Math.pow(2, 1 - eBias)
+    }
+    if (value * c >= 2) {
+      e++
+      c /= 2
+    }
+
+    if (e + eBias >= eMax) {
+      m = 0
+      e = eMax
+    } else if (e + eBias >= 1) {
+      m = (value * c - 1) * Math.pow(2, mLen)
+      e = e + eBias
+    } else {
+      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
+      e = 0
+    }
+  }
+
+  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
+
+  e = (e << mLen) | m
+  eLen += mLen
+  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
+
+  buffer[offset + i - d] |= s * 128
+}
+
+},{}],19:[function(require,module,exports){
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+},{}],20:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+function EventEmitter() {
+  this._events = this._events || {};
+  this._maxListeners = this._maxListeners || undefined;
+}
+module.exports = EventEmitter;
+
+// Backwards-compat with node 0.10.x
+EventEmitter.EventEmitter = EventEmitter;
+
+EventEmitter.prototype._events = undefined;
+EventEmitter.prototype._maxListeners = undefined;
+
+// By default EventEmitters will print a warning if more than 10 listeners are
+// added to it. This is a useful default which helps finding memory leaks.
+EventEmitter.defaultMaxListeners = 10;
+
+// Obviously not all Emitters should be limited to 10. This function allows
+// that to be increased. Set to zero for unlimited.
+EventEmitter.prototype.setMaxListeners = function(n) {
+  if (!isNumber(n) || n < 0 || isNaN(n))
+    throw TypeError('n must be a positive number');
+  this._maxListeners = n;
+  return this;
+};
+
+EventEmitter.prototype.emit = function(type) {
+  var er, handler, len, args, i, listeners;
+
+  if (!this._events)
+    this._events = {};
+
+  // If there is no 'error' event listener then throw.
+  if (type === 'error') {
+    if (!this._events.error ||
+        (isObject(this._events.error) && !this._events.error.length)) {
+      er = arguments[1];
+      if (er instanceof Error) {
+        throw er; // Unhandled 'error' event
+      }
+      throw TypeError('Uncaught, unspecified "error" event.');
+    }
+  }
+
+  handler = this._events[type];
+
+  if (isUndefined(handler))
+    return false;
+
+  if (isFunction(handler)) {
+    switch (arguments.length) {
+      // fast cases
+      case 1:
+        handler.call(this);
+        break;
+      case 2:
+        handler.call(this, arguments[1]);
+        break;
+      case 3:
+        handler.call(this, arguments[1], arguments[2]);
+        break;
+      // slower
+      default:
+        args = Array.prototype.slice.call(arguments, 1);
+        handler.apply(this, args);
+    }
+  } else if (isObject(handler)) {
+    args = Array.prototype.slice.call(arguments, 1);
+    listeners = handler.slice();
+    len = listeners.length;
+    for (i = 0; i < len; i++)
+      listeners[i].apply(this, args);
+  }
+
+  return true;
+};
+
+EventEmitter.prototype.addListener = function(type, listener) {
+  var m;
+
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  if (!this._events)
+    this._events = {};
+
+  // To avoid recursion in the case that type === "newListener"! Before
+  // adding it to the listeners, first emit "newListener".
+  if (this._events.newListener)
+    this.emit('newListener', type,
+              isFunction(listener.listener) ?
+              listener.listener : listener);
+
+  if (!this._events[type])
+    // Optimize the case of one listener. Don't need the extra array object.
+    this._events[type] = listener;
+  else if (isObject(this._events[type]))
+    // If we've already got an array, just append.
+    this._events[type].push(listener);
+  else
+    // Adding the second element, need to change to array.
+    this._events[type] = [this._events[type], listener];
+
+  // Check for listener leak
+  if (isObject(this._events[type]) && !this._events[type].warned) {
+    if (!isUndefined(this._maxListeners)) {
+      m = this._maxListeners;
+    } else {
+      m = EventEmitter.defaultMaxListeners;
+    }
+
+    if (m && m > 0 && this._events[type].length > m) {
+      this._events[type].warned = true;
+      console.error('(node) warning: possible EventEmitter memory ' +
+                    'leak detected. %d listeners added. ' +
+                    'Use emitter.setMaxListeners() to increase limit.',
+                    this._events[type].length);
+      if (typeof console.trace === 'function') {
+        // not supported in IE 10
+        console.trace();
+      }
+    }
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+
+EventEmitter.prototype.once = function(type, listener) {
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  var fired = false;
+
+  function g() {
+    this.removeListener(type, g);
+
+    if (!fired) {
+      fired = true;
+      listener.apply(this, arguments);
+    }
+  }
+
+  g.listener = listener;
+  this.on(type, g);
+
+  return this;
+};
+
+// emits a 'removeListener' event iff the listener was removed
+EventEmitter.prototype.removeListener = function(type, listener) {
+  var list, position, length, i;
+
+  if (!isFunction(listener))
+    throw TypeError('listener must be a function');
+
+  if (!this._events || !this._events[type])
+    return this;
+
+  list = this._events[type];
+  length = list.length;
+  position = -1;
+
+  if (list === listener ||
+      (isFunction(list.listener) && list.listener === listener)) {
+    delete this._events[type];
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+
+  } else if (isObject(list)) {
+    for (i = length; i-- > 0;) {
+      if (list[i] === listener ||
+          (list[i].listener && list[i].listener === listener)) {
+        position = i;
+        break;
+      }
+    }
+
+    if (position < 0)
+      return this;
+
+    if (list.length === 1) {
+      list.length = 0;
+      delete this._events[type];
+    } else {
+      list.splice(position, 1);
+    }
+
+    if (this._events.removeListener)
+      this.emit('removeListener', type, listener);
+  }
+
+  return this;
+};
+
+EventEmitter.prototype.removeAllListeners = function(type) {
+  var key, listeners;
+
+  if (!this._events)
+    return this;
+
+  // not listening for removeListener, no need to emit
+  if (!this._events.removeListener) {
+    if (arguments.length === 0)
+      this._events = {};
+    else if (this._events[type])
+      delete this._events[type];
+    return this;
+  }
+
+  // emit removeListener for all listeners on all events
+  if (arguments.length === 0) {
+    for (key in this._events) {
+      if (key === 'removeListener') continue;
+      this.removeAllListeners(key);
+    }
+    this.removeAllListeners('removeListener');
+    this._events = {};
+    return this;
+  }
+
+  listeners = this._events[type];
+
+  if (isFunction(listeners)) {
+    this.removeListener(type, listeners);
+  } else if (listeners) {
+    // LIFO order
+    while (listeners.length)
+      this.removeListener(type, listeners[listeners.length - 1]);
+  }
+  delete this._events[type];
+
+  return this;
+};
+
+EventEmitter.prototype.listeners = function(type) {
+  var ret;
+  if (!this._events || !this._events[type])
+    ret = [];
+  else if (isFunction(this._events[type]))
+    ret = [this._events[type]];
+  else
+    ret = this._events[type].slice();
+  return ret;
+};
+
+EventEmitter.prototype.listenerCount = function(type) {
+  if (this._events) {
+    var evlistener = this._events[type];
+
+    if (isFunction(evlistener))
+      return 1;
+    else if (evlistener)
+      return evlistener.length;
+  }
+  return 0;
+};
+
+EventEmitter.listenerCount = function(emitter, type) {
+  return emitter.listenerCount(type);
+};
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+
+},{}],21:[function(require,module,exports){
+if (typeof Object.create === 'function') {
+  // implementation from standard node.js 'util' module
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
+  };
+} else {
+  // old school shim for old browsers
+  module.exports = function inherits(ctor, superCtor) {
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
+  }
+}
+
+},{}],22:[function(require,module,exports){
+/**
+ * Determine if an object is Buffer
+ *
+ * Author:   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * License:  MIT
+ *
+ * `npm install is-buffer`
+ */
+
+module.exports = function (obj) {
+  return !!(obj != null &&
+    (obj._isBuffer || // For Safari 5-7 (missing Object.prototype.constructor)
+      (obj.constructor &&
+      typeof obj.constructor.isBuffer === 'function' &&
+      obj.constructor.isBuffer(obj))
+    ))
+}
+
+},{}],23:[function(require,module,exports){
+module.exports = Array.isArray || function (arr) {
+  return Object.prototype.toString.call(arr) == '[object Array]';
+};
+
+},{}],24:[function(require,module,exports){
+(function (process){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+// resolves . and .. elements in a path array with directory names there
+// must be no slashes, empty elements, or device names (c:\) in the array
+// (so also no leading and trailing slashes - it does not distinguish
+// relative and absolute paths)
+function normalizeArray(parts, allowAboveRoot) {
+  // if the path tries to go above the root, `up` ends up > 0
+  var up = 0;
+  for (var i = parts.length - 1; i >= 0; i--) {
+    var last = parts[i];
+    if (last === '.') {
+      parts.splice(i, 1);
+    } else if (last === '..') {
+      parts.splice(i, 1);
+      up++;
+    } else if (up) {
+      parts.splice(i, 1);
+      up--;
+    }
+  }
+
+  // if the path is allowed to go above the root, restore leading ..s
+  if (allowAboveRoot) {
+    for (; up--; up) {
+      parts.unshift('..');
+    }
+  }
+
+  return parts;
+}
+
+// Split a filename into [root, dir, basename, ext], unix version
+// 'root' is just a slash, or nothing.
+var splitPathRe =
+    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
+var splitPath = function(filename) {
+  return splitPathRe.exec(filename).slice(1);
+};
+
+// path.resolve([from ...], to)
+// posix version
+exports.resolve = function() {
+  var resolvedPath = '',
+      resolvedAbsolute = false;
+
+  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+    var path = (i >= 0) ? arguments[i] : process.cwd();
+
+    // Skip empty and invalid entries
+    if (typeof path !== 'string') {
+      throw new TypeError('Arguments to path.resolve must be strings');
+    } else if (!path) {
+      continue;
+    }
+
+    resolvedPath = path + '/' + resolvedPath;
+    resolvedAbsolute = path.charAt(0) === '/';
+  }
+
+  // At this point the path should be resolved to a full absolute path, but
+  // handle relative paths to be safe (might happen when process.cwd() fails)
+
+  // Normalize the path
+  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
+    return !!p;
+  }), !resolvedAbsolute).join('/');
+
+  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
+};
+
+// path.normalize(path)
+// posix version
+exports.normalize = function(path) {
+  var isAbsolute = exports.isAbsolute(path),
+      trailingSlash = substr(path, -1) === '/';
+
+  // Normalize the path
+  path = normalizeArray(filter(path.split('/'), function(p) {
+    return !!p;
+  }), !isAbsolute).join('/');
+
+  if (!path && !isAbsolute) {
+    path = '.';
+  }
+  if (path && trailingSlash) {
+    path += '/';
+  }
+
+  return (isAbsolute ? '/' : '') + path;
+};
+
+// posix version
+exports.isAbsolute = function(path) {
+  return path.charAt(0) === '/';
+};
+
+// posix version
+exports.join = function() {
+  var paths = Array.prototype.slice.call(arguments, 0);
+  return exports.normalize(filter(paths, function(p, index) {
+    if (typeof p !== 'string') {
+      throw new TypeError('Arguments to path.join must be strings');
+    }
+    return p;
+  }).join('/'));
+};
+
+
+// path.relative(from, to)
+// posix version
+exports.relative = function(from, to) {
+  from = exports.resolve(from).substr(1);
+  to = exports.resolve(to).substr(1);
+
+  function trim(arr) {
+    var start = 0;
+    for (; start < arr.length; start++) {
+      if (arr[start] !== '') break;
+    }
+
+    var end = arr.length - 1;
+    for (; end >= 0; end--) {
+      if (arr[end] !== '') break;
+    }
+
+    if (start > end) return [];
+    return arr.slice(start, end - start + 1);
+  }
+
+  var fromParts = trim(from.split('/'));
+  var toParts = trim(to.split('/'));
+
+  var length = Math.min(fromParts.length, toParts.length);
+  var samePartsLength = length;
+  for (var i = 0; i < length; i++) {
+    if (fromParts[i] !== toParts[i]) {
+      samePartsLength = i;
+      break;
+    }
+  }
+
+  var outputParts = [];
+  for (var i = samePartsLength; i < fromParts.length; i++) {
+    outputParts.push('..');
+  }
+
+  outputParts = outputParts.concat(toParts.slice(samePartsLength));
+
+  return outputParts.join('/');
+};
+
+exports.sep = '/';
+exports.delimiter = ':';
+
+exports.dirname = function(path) {
+  var result = splitPath(path),
+      root = result[0],
+      dir = result[1];
+
+  if (!root && !dir) {
+    // No dirname whatsoever
+    return '.';
+  }
+
+  if (dir) {
+    // It has a dirname, strip trailing slash
+    dir = dir.substr(0, dir.length - 1);
+  }
+
+  return root + dir;
+};
+
+
+exports.basename = function(path, ext) {
+  var f = splitPath(path)[2];
+  // TODO: make this comparison case-insensitive on windows?
+  if (ext && f.substr(-1 * ext.length) === ext) {
+    f = f.substr(0, f.length - ext.length);
+  }
+  return f;
+};
+
+
+exports.extname = function(path) {
+  return splitPath(path)[3];
+};
+
+function filter (xs, f) {
+    if (xs.filter) return xs.filter(f);
+    var res = [];
+    for (var i = 0; i < xs.length; i++) {
+        if (f(xs[i], i, xs)) res.push(xs[i]);
+    }
+    return res;
+}
+
+// String.prototype.substr - negative index don't work in IE8
+var substr = 'ab'.substr(-1) === 'b'
+    ? function (str, start, len) { return str.substr(start, len) }
+    : function (str, start, len) {
+        if (start < 0) start = str.length + start;
+        return str.substr(start, len);
+    }
+;
+
+}).call(this,require('_process'))
+
+},{"_process":25}],25:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = setTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    clearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        setTimeout(drainQueue, 0);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],26:[function(require,module,exports){
+module.exports = require("./lib/_stream_duplex.js")
+
+},{"./lib/_stream_duplex.js":27}],27:[function(require,module,exports){
+// a duplex stream is just a stream that is both readable and writable.
+// Since JS doesn't have multiple prototypal inheritance, this class
+// prototypally inherits from Readable, and then parasitically from
+// Writable.
+
+'use strict';
+
+/*<replacement>*/
+var objectKeys = Object.keys || function (obj) {
+  var keys = [];
+  for (var key in obj) keys.push(key);
+  return keys;
+}
+/*</replacement>*/
+
+
+module.exports = Duplex;
+
+/*<replacement>*/
+var processNextTick = require('process-nextick-args');
+/*</replacement>*/
+
+
+
+/*<replacement>*/
+var util = require('core-util-is');
+util.inherits = require('inherits');
+/*</replacement>*/
+
+var Readable = require('./_stream_readable');
+var Writable = require('./_stream_writable');
+
+util.inherits(Duplex, Readable);
+
+var keys = objectKeys(Writable.prototype);
+for (var v = 0; v < keys.length; v++) {
+  var method = keys[v];
+  if (!Duplex.prototype[method])
+    Duplex.prototype[method] = Writable.prototype[method];
+}
+
+function Duplex(options) {
+  if (!(this instanceof Duplex))
+    return new Duplex(options);
+
+  Readable.call(this, options);
+  Writable.call(this, options);
+
+  if (options && options.readable === false)
+    this.readable = false;
+
+  if (options && options.writable === false)
+    this.writable = false;
+
+  this.allowHalfOpen = true;
+  if (options && options.allowHalfOpen === false)
+    this.allowHalfOpen = false;
+
+  this.once('end', onend);
+}
+
+// the no-half-open enforcer
+function onend() {
+  // if we allow half-open state, or if the writable side ended,
+  // then we're ok.
+  if (this.allowHalfOpen || this._writableState.ended)
+    return;
+
+  // no more data can be written.
+  // But allow more writes to happen in this tick.
+  processNextTick(onEndNT, this);
+}
+
+function onEndNT(self) {
+  self.end();
+}
+
+function forEach (xs, f) {
+  for (var i = 0, l = xs.length; i < l; i++) {
+    f(xs[i], i);
+  }
+}
+
+},{"./_stream_readable":29,"./_stream_writable":31,"core-util-is":32,"inherits":21,"process-nextick-args":33}],28:[function(require,module,exports){
+// a passthrough stream.
+// basically just the most minimal sort of Transform stream.
+// Every written chunk gets output as-is.
+
+'use strict';
+
+module.exports = PassThrough;
+
+var Transform = require('./_stream_transform');
+
+/*<replacement>*/
+var util = require('core-util-is');
+util.inherits = require('inherits');
+/*</replacement>*/
+
+util.inherits(PassThrough, Transform);
+
+function PassThrough(options) {
+  if (!(this instanceof PassThrough))
+    return new PassThrough(options);
+
+  Transform.call(this, options);
+}
+
+PassThrough.prototype._transform = function(chunk, encoding, cb) {
+  cb(null, chunk);
+};
+
+},{"./_stream_transform":30,"core-util-is":32,"inherits":21}],29:[function(require,module,exports){
+(function (process){
+'use strict';
+
+module.exports = Readable;
+
+/*<replacement>*/
+var processNextTick = require('process-nextick-args');
+/*</replacement>*/
+
+
+/*<replacement>*/
+var isArray = require('isarray');
+/*</replacement>*/
+
+
+/*<replacement>*/
+var Buffer = require('buffer').Buffer;
+/*</replacement>*/
+
+Readable.ReadableState = ReadableState;
+
+var EE = require('events');
+
+/*<replacement>*/
+var EElistenerCount = function(emitter, type) {
+  return emitter.listeners(type).length;
+};
+/*</replacement>*/
+
+
+
+/*<replacement>*/
+var Stream;
+(function (){try{
+  Stream = require('st' + 'ream');
+}catch(_){}finally{
+  if (!Stream)
+    Stream = require('events').EventEmitter;
+}}())
+/*</replacement>*/
+
+var Buffer = require('buffer').Buffer;
+
+/*<replacement>*/
+var util = require('core-util-is');
+util.inherits = require('inherits');
+/*</replacement>*/
+
+
+
+/*<replacement>*/
+var debugUtil = require('util');
+var debug;
+if (debugUtil && debugUtil.debuglog) {
+  debug = debugUtil.debuglog('stream');
+} else {
+  debug = function () {};
+}
+/*</replacement>*/
+
+var StringDecoder;
+
+util.inherits(Readable, Stream);
+
+var Duplex;
+function ReadableState(options, stream) {
+  Duplex = Duplex || require('./_stream_duplex');
+
+  options = options || {};
+
+  // object stream flag. Used to make read(n) ignore n and to
+  // make all the buffer merging and length checks go away
+  this.objectMode = !!options.objectMode;
+
+  if (stream instanceof Duplex)
+    this.objectMode = this.objectMode || !!options.readableObjectMode;
+
+  // the point at which it stops calling _read() to fill the buffer
+  // Note: 0 is a valid value, means "don't call _read preemptively ever"
+  var hwm = options.highWaterMark;
+  var defaultHwm = this.objectMode ? 16 : 16 * 1024;
+  this.highWaterMark = (hwm || hwm === 0) ? hwm : defaultHwm;
+
+  // cast to ints.
+  this.highWaterMark = ~~this.highWaterMark;
+
+  this.buffer = [];
+  this.length = 0;
+  this.pipes = null;
+  this.pipesCount = 0;
+  this.flowing = null;
+  this.ended = false;
+  this.endEmitted = false;
+  this.reading = false;
+
+  // a flag to be able to tell if the onwrite cb is called immediately,
+  // or on a later tick.  We set this to true at first, because any
+  // actions that shouldn't happen until "later" should generally also
+  // not happen before the first write call.
+  this.sync = true;
+
+  // whenever we return null, then we set a flag to say
+  // that we're awaiting a 'readable' event emission.
+  this.needReadable = false;
+  this.emittedReadable = false;
+  this.readableListening = false;
+
+  // Crypto is kind of old and crusty.  Historically, its default string
+  // encoding is 'binary' so we have to make this configurable.
+  // Everything else in the universe uses 'utf8', though.
+  this.defaultEncoding = options.defaultEncoding || 'utf8';
+
+  // when piping, we only care about 'readable' events that happen
+  // after read()ing all the bytes and not getting any pushback.
+  this.ranOut = false;
+
+  // the number of writers that are awaiting a drain event in .pipe()s
+  this.awaitDrain = 0;
+
+  // if true, a maybeReadMore has been scheduled
+  this.readingMore = false;
+
+  this.decoder = null;
+  this.encoding = null;
+  if (options.encoding) {
+    if (!StringDecoder)
+      StringDecoder = require('string_decoder/').StringDecoder;
+    this.decoder = new StringDecoder(options.encoding);
+    this.encoding = options.encoding;
+  }
+}
+
+var Duplex;
+function Readable(options) {
+  Duplex = Duplex || require('./_stream_duplex');
+
+  if (!(this instanceof Readable))
+    return new Readable(options);
+
+  this._readableState = new ReadableState(options, this);
+
+  // legacy
+  this.readable = true;
+
+  if (options && typeof options.read === 'function')
+    this._read = options.read;
+
+  Stream.call(this);
+}
+
+// Manually shove something into the read() buffer.
+// This returns true if the highWaterMark has not been hit yet,
+// similar to how Writable.write() returns true if you should
+// write() some more.
+Readable.prototype.push = function(chunk, encoding) {
+  var state = this._readableState;
+
+  if (!state.objectMode && typeof chunk === 'string') {
+    encoding = encoding || state.defaultEncoding;
+    if (encoding !== state.encoding) {
+      chunk = new Buffer(chunk, encoding);
+      encoding = '';
+    }
+  }
+
+  return readableAddChunk(this, state, chunk, encoding, false);
+};
+
+// Unshift should *always* be something directly out of read()
+Readable.prototype.unshift = function(chunk) {
+  var state = this._readableState;
+  return readableAddChunk(this, state, chunk, '', true);
+};
+
+Readable.prototype.isPaused = function() {
+  return this._readableState.flowing === false;
+};
+
+function readableAddChunk(stream, state, chunk, encoding, addToFront) {
+  var er = chunkInvalid(state, chunk);
+  if (er) {
+    stream.emit('error', er);
+  } else if (chunk === null) {
+    state.reading = false;
+    onEofChunk(stream, state);
+  } else if (state.objectMode || chunk && chunk.length > 0) {
+    if (state.ended && !addToFront) {
+      var e = new Error('stream.push() after EOF');
+      stream.emit('error', e);
+    } else if (state.endEmitted && addToFront) {
+      var e = new Error('stream.unshift() after end event');
+      stream.emit('error', e);
+    } else {
+      if (state.decoder && !addToFront && !encoding)
+        chunk = state.decoder.write(chunk);
+
+      if (!addToFront)
+        state.reading = false;
+
+      // if we want the data now, just emit it.
+      if (state.flowing && state.length === 0 && !state.sync) {
+        stream.emit('data', chunk);
+        stream.read(0);
+      } else {
+        // update the buffer info.
+        state.length += state.objectMode ? 1 : chunk.length;
+        if (addToFront)
+          state.buffer.unshift(chunk);
+        else
+          state.buffer.push(chunk);
+
+        if (state.needReadable)
+          emitReadable(stream);
+      }
+
+      maybeReadMore(stream, state);
+    }
+  } else if (!addToFront) {
+    state.reading = false;
+  }
+
+  return needMoreData(state);
+}
+
+
+// if it's past the high water mark, we can push in some more.
+// Also, if we have no data yet, we can stand some
+// more bytes.  This is to work around cases where hwm=0,
+// such as the repl.  Also, if the push() triggered a
+// readable event, and the user called read(largeNumber) such that
+// needReadable was set, then we ought to push more, so that another
+// 'readable' event will be triggered.
+function needMoreData(state) {
+  return !state.ended &&
+         (state.needReadable ||
+          state.length < state.highWaterMark ||
+          state.length === 0);
+}
+
+// backwards compatibility.
+Readable.prototype.setEncoding = function(enc) {
+  if (!StringDecoder)
+    StringDecoder = require('string_decoder/').StringDecoder;
+  this._readableState.decoder = new StringDecoder(enc);
+  this._readableState.encoding = enc;
+  return this;
+};
+
+// Don't raise the hwm > 8MB
+var MAX_HWM = 0x800000;
+function computeNewHighWaterMark(n) {
+  if (n >= MAX_HWM) {
+    n = MAX_HWM;
+  } else {
+    // Get the next highest power of 2
+    n--;
+    n |= n >>> 1;
+    n |= n >>> 2;
+    n |= n >>> 4;
+    n |= n >>> 8;
+    n |= n >>> 16;
+    n++;
+  }
+  return n;
+}
+
+function howMuchToRead(n, state) {
+  if (state.length === 0 && state.ended)
+    return 0;
+
+  if (state.objectMode)
+    return n === 0 ? 0 : 1;
+
+  if (n === null || isNaN(n)) {
+    // only flow one buffer at a time
+    if (state.flowing && state.buffer.length)
+      return state.buffer[0].length;
+    else
+      return state.length;
+  }
+
+  if (n <= 0)
+    return 0;
+
+  // If we're asking for more than the target buffer level,
+  // then raise the water mark.  Bump up to the next highest
+  // power of 2, to prevent increasing it excessively in tiny
+  // amounts.
+  if (n > state.highWaterMark)
+    state.highWaterMark = computeNewHighWaterMark(n);
+
+  // don't have that much.  return null, unless we've ended.
+  if (n > state.length) {
+    if (!state.ended) {
+      state.needReadable = true;
+      return 0;
+    } else {
+      return state.length;
+    }
+  }
+
+  return n;
+}
+
+// you can override either this method, or the async _read(n) below.
+Readable.prototype.read = function(n) {
+  debug('read', n);
+  var state = this._readableState;
+  var nOrig = n;
+
+  if (typeof n !== 'number' || n > 0)
+    state.emittedReadable = false;
+
+  // if we're doing read(0) to trigger a readable event, but we
+  // already have a bunch of data in the buffer, then just trigger
+  // the 'readable' event and move on.
+  if (n === 0 &&
+      state.needReadable &&
+      (state.length >= state.highWaterMark || state.ended)) {
+    debug('read: emitReadable', state.length, state.ended);
+    if (state.length === 0 && state.ended)
+      endReadable(this);
+    else
+      emitReadable(this);
+    return null;
+  }
+
+  n = howMuchToRead(n, state);
+
+  // if we've ended, and we're now clear, then finish it up.
+  if (n === 0 && state.ended) {
+    if (state.length === 0)
+      endReadable(this);
+    return null;
+  }
+
+  // All the actual chunk generation logic needs to be
+  // *below* the call to _read.  The reason is that in certain
+  // synthetic stream cases, such as passthrough streams, _read
+  // may be a completely synchronous operation which may change
+  // the state of the read buffer, providing enough data when
+  // before there was *not* enough.
+  //
+  // So, the steps are:
+  // 1. Figure out what the state of things will be after we do
+  // a read from the buffer.
+  //
+  // 2. If that resulting state will trigger a _read, then call _read.
+  // Note that this may be asynchronous, or synchronous.  Yes, it is
+  // deeply ugly to write APIs this way, but that still doesn't mean
+  // that the Readable class should behave improperly, as streams are
+  // designed to be sync/async agnostic.
+  // Take note if the _read call is sync or async (ie, if the read call
+  // has returned yet), so that we know whether or not it's safe to emit
+  // 'readable' etc.
+  //
+  // 3. Actually pull the requested chunks out of the buffer and return.
+
+  // if we need a readable event, then we need to do some reading.
+  var doRead = state.needReadable;
+  debug('need readable', doRead);
+
+  // if we currently have less than the highWaterMark, then also read some
+  if (state.length === 0 || state.length - n < state.highWaterMark) {
+    doRead = true;
+    debug('length less than watermark', doRead);
+  }
+
+  // however, if we've ended, then there's no point, and if we're already
+  // reading, then it's unnecessary.
+  if (state.ended || state.reading) {
+    doRead = false;
+    debug('reading or ended', doRead);
+  }
+
+  if (doRead) {
+    debug('do read');
+    state.reading = true;
+    state.sync = true;
+    // if the length is currently zero, then we *need* a readable event.
+    if (state.length === 0)
+      state.needReadable = true;
+    // call internal read method
+    this._read(state.highWaterMark);
+    state.sync = false;
+  }
+
+  // If _read pushed data synchronously, then `reading` will be false,
+  // and we need to re-evaluate how much data we can return to the user.
+  if (doRead && !state.reading)
+    n = howMuchToRead(nOrig, state);
+
+  var ret;
+  if (n > 0)
+    ret = fromList(n, state);
+  else
+    ret = null;
+
+  if (ret === null) {
+    state.needReadable = true;
+    n = 0;
+  }
+
+  state.length -= n;
+
+  // If we have nothing in the buffer, then we want to know
+  // as soon as we *do* get something into the buffer.
+  if (state.length === 0 && !state.ended)
+    state.needReadable = true;
+
+  // If we tried to read() past the EOF, then emit end on the next tick.
+  if (nOrig !== n && state.ended && state.length === 0)
+    endReadable(this);
+
+  if (ret !== null)
+    this.emit('data', ret);
+
+  return ret;
+};
+
+function chunkInvalid(state, chunk) {
+  var er = null;
+  if (!(Buffer.isBuffer(chunk)) &&
+      typeof chunk !== 'string' &&
+      chunk !== null &&
+      chunk !== undefined &&
+      !state.objectMode) {
+    er = new TypeError('Invalid non-string/buffer chunk');
+  }
+  return er;
+}
+
+
+function onEofChunk(stream, state) {
+  if (state.ended) return;
+  if (state.decoder) {
+    var chunk = state.decoder.end();
+    if (chunk && chunk.length) {
+      state.buffer.push(chunk);
+      state.length += state.objectMode ? 1 : chunk.length;
+    }
+  }
+  state.ended = true;
+
+  // emit 'readable' now to make sure it gets picked up.
+  emitReadable(stream);
+}
+
+// Don't emit readable right away in sync mode, because this can trigger
+// another read() call => stack overflow.  This way, it might trigger
+// a nextTick recursion warning, but that's not so bad.
+function emitReadable(stream) {
+  var state = stream._readableState;
+  state.needReadable = false;
+  if (!state.emittedReadable) {
+    debug('emitReadable', state.flowing);
+    state.emittedReadable = true;
+    if (state.sync)
+      processNextTick(emitReadable_, stream);
+    else
+      emitReadable_(stream);
+  }
+}
+
+function emitReadable_(stream) {
+  debug('emit readable');
+  stream.emit('readable');
+  flow(stream);
+}
+
+
+// at this point, the user has presumably seen the 'readable' event,
+// and called read() to consume some data.  that may have triggered
+// in turn another _read(n) call, in which case reading = true if
+// it's in progress.
+// However, if we're not ended, or reading, and the length < hwm,
+// then go ahead and try to read some more preemptively.
+function maybeReadMore(stream, state) {
+  if (!state.readingMore) {
+    state.readingMore = true;
+    processNextTick(maybeReadMore_, stream, state);
+  }
+}
+
+function maybeReadMore_(stream, state) {
+  var len = state.length;
+  while (!state.reading && !state.flowing && !state.ended &&
+         state.length < state.highWaterMark) {
+    debug('maybeReadMore read 0');
+    stream.read(0);
+    if (len === state.length)
+      // didn't get any data, stop spinning.
+      break;
+    else
+      len = state.length;
+  }
+  state.readingMore = false;
+}
+
+// abstract method.  to be overridden in specific implementation classes.
+// call cb(er, data) where data is <= n in length.
+// for virtual (non-string, non-buffer) streams, "length" is somewhat
+// arbitrary, and perhaps not very meaningful.
+Readable.prototype._read = function(n) {
+  this.emit('error', new Error('not implemented'));
+};
+
+Readable.prototype.pipe = function(dest, pipeOpts) {
+  var src = this;
+  var state = this._readableState;
+
+  switch (state.pipesCount) {
+    case 0:
+      state.pipes = dest;
+      break;
+    case 1:
+      state.pipes = [state.pipes, dest];
+      break;
+    default:
+      state.pipes.push(dest);
+      break;
+  }
+  state.pipesCount += 1;
+  debug('pipe count=%d opts=%j', state.pipesCount, pipeOpts);
+
+  var doEnd = (!pipeOpts || pipeOpts.end !== false) &&
+              dest !== process.stdout &&
+              dest !== process.stderr;
+
+  var endFn = doEnd ? onend : cleanup;
+  if (state.endEmitted)
+    processNextTick(endFn);
+  else
+    src.once('end', endFn);
+
+  dest.on('unpipe', onunpipe);
+  function onunpipe(readable) {
+    debug('onunpipe');
+    if (readable === src) {
+      cleanup();
+    }
+  }
+
+  function onend() {
+    debug('onend');
+    dest.end();
+  }
+
+  // when the dest drains, it reduces the awaitDrain counter
+  // on the source.  This would be more elegant with a .once()
+  // handler in flow(), but adding and removing repeatedly is
+  // too slow.
+  var ondrain = pipeOnDrain(src);
+  dest.on('drain', ondrain);
+
+  var cleanedUp = false;
+  function cleanup() {
+    debug('cleanup');
+    // cleanup event handlers once the pipe is broken
+    dest.removeListener('close', onclose);
+    dest.removeListener('finish', onfinish);
+    dest.removeListener('drain', ondrain);
+    dest.removeListener('error', onerror);
+    dest.removeListener('unpipe', onunpipe);
+    src.removeListener('end', onend);
+    src.removeListener('end', cleanup);
+    src.removeListener('data', ondata);
+
+    cleanedUp = true;
+
+    // if the reader is waiting for a drain event from this
+    // specific writer, then it would cause it to never start
+    // flowing again.
+    // So, if this is awaiting a drain, then we just call it now.
+    // If we don't know, then assume that we are waiting for one.
+    if (state.awaitDrain &&
+        (!dest._writableState || dest._writableState.needDrain))
+      ondrain();
+  }
+
+  src.on('data', ondata);
+  function ondata(chunk) {
+    debug('ondata');
+    var ret = dest.write(chunk);
+    if (false === ret) {
+      // If the user unpiped during `dest.write()`, it is possible
+      // to get stuck in a permanently paused state if that write
+      // also returned false.
+      if (state.pipesCount === 1 &&
+          state.pipes[0] === dest &&
+          src.listenerCount('data') === 1 &&
+          !cleanedUp) {
+        debug('false write response, pause', src._readableState.awaitDrain);
+        src._readableState.awaitDrain++;
+      }
+      src.pause();
+    }
+  }
+
+  // if the dest has an error, then stop piping into it.
+  // however, don't suppress the throwing behavior for this.
+  function onerror(er) {
+    debug('onerror', er);
+    unpipe();
+    dest.removeListener('error', onerror);
+    if (EElistenerCount(dest, 'error') === 0)
+      dest.emit('error', er);
+  }
+  // This is a brutally ugly hack to make sure that our error handler
+  // is attached before any userland ones.  NEVER DO THIS.
+  if (!dest._events || !dest._events.error)
+    dest.on('error', onerror);
+  else if (isArray(dest._events.error))
+    dest._events.error.unshift(onerror);
+  else
+    dest._events.error = [onerror, dest._events.error];
+
+
+  // Both close and finish should trigger unpipe, but only once.
+  function onclose() {
+    dest.removeListener('finish', onfinish);
+    unpipe();
+  }
+  dest.once('close', onclose);
+  function onfinish() {
+    debug('onfinish');
+    dest.removeListener('close', onclose);
+    unpipe();
+  }
+  dest.once('finish', onfinish);
+
+  function unpipe() {
+    debug('unpipe');
+    src.unpipe(dest);
+  }
+
+  // tell the dest that it's being piped to
+  dest.emit('pipe', src);
+
+  // start the flow if it hasn't been started already.
+  if (!state.flowing) {
+    debug('pipe resume');
+    src.resume();
+  }
+
+  return dest;
+};
+
+function pipeOnDrain(src) {
+  return function() {
+    var state = src._readableState;
+    debug('pipeOnDrain', state.awaitDrain);
+    if (state.awaitDrain)
+      state.awaitDrain--;
+    if (state.awaitDrain === 0 && EElistenerCount(src, 'data')) {
+      state.flowing = true;
+      flow(src);
+    }
+  };
+}
+
+
+Readable.prototype.unpipe = function(dest) {
+  var state = this._readableState;
+
+  // if we're not piping anywhere, then do nothing.
+  if (state.pipesCount === 0)
+    return this;
+
+  // just one destination.  most common case.
+  if (state.pipesCount === 1) {
+    // passed in one, but it's not the right one.
+    if (dest && dest !== state.pipes)
+      return this;
+
+    if (!dest)
+      dest = state.pipes;
+
+    // got a match.
+    state.pipes = null;
+    state.pipesCount = 0;
+    state.flowing = false;
+    if (dest)
+      dest.emit('unpipe', this);
+    return this;
+  }
+
+  // slow case. multiple pipe destinations.
+
+  if (!dest) {
+    // remove all.
+    var dests = state.pipes;
+    var len = state.pipesCount;
+    state.pipes = null;
+    state.pipesCount = 0;
+    state.flowing = false;
+
+    for (var i = 0; i < len; i++)
+      dests[i].emit('unpipe', this);
+    return this;
+  }
+
+  // try to find the right one.
+  var i = indexOf(state.pipes, dest);
+  if (i === -1)
+    return this;
+
+  state.pipes.splice(i, 1);
+  state.pipesCount -= 1;
+  if (state.pipesCount === 1)
+    state.pipes = state.pipes[0];
+
+  dest.emit('unpipe', this);
+
+  return this;
+};
+
+// set up data events if they are asked for
+// Ensure readable listeners eventually get something
+Readable.prototype.on = function(ev, fn) {
+  var res = Stream.prototype.on.call(this, ev, fn);
+
+  // If listening to data, and it has not explicitly been paused,
+  // then call resume to start the flow of data on the next tick.
+  if (ev === 'data' && false !== this._readableState.flowing) {
+    this.resume();
+  }
+
+  if (ev === 'readable' && this.readable) {
+    var state = this._readableState;
+    if (!state.readableListening) {
+      state.readableListening = true;
+      state.emittedReadable = false;
+      state.needReadable = true;
+      if (!state.reading) {
+        processNextTick(nReadingNextTick, this);
+      } else if (state.length) {
+        emitReadable(this, state);
+      }
+    }
+  }
+
+  return res;
+};
+Readable.prototype.addListener = Readable.prototype.on;
+
+function nReadingNextTick(self) {
+  debug('readable nexttick read 0');
+  self.read(0);
+}
+
+// pause() and resume() are remnants of the legacy readable stream API
+// If the user uses them, then switch into old mode.
+Readable.prototype.resume = function() {
+  var state = this._readableState;
+  if (!state.flowing) {
+    debug('resume');
+    state.flowing = true;
+    resume(this, state);
+  }
+  return this;
+};
+
+function resume(stream, state) {
+  if (!state.resumeScheduled) {
+    state.resumeScheduled = true;
+    processNextTick(resume_, stream, state);
+  }
+}
+
+function resume_(stream, state) {
+  if (!state.reading) {
+    debug('resume read 0');
+    stream.read(0);
+  }
+
+  state.resumeScheduled = false;
+  stream.emit('resume');
+  flow(stream);
+  if (state.flowing && !state.reading)
+    stream.read(0);
+}
+
+Readable.prototype.pause = function() {
+  debug('call pause flowing=%j', this._readableState.flowing);
+  if (false !== this._readableState.flowing) {
+    debug('pause');
+    this._readableState.flowing = false;
+    this.emit('pause');
+  }
+  return this;
+};
+
+function flow(stream) {
+  var state = stream._readableState;
+  debug('flow', state.flowing);
+  if (state.flowing) {
+    do {
+      var chunk = stream.read();
+    } while (null !== chunk && state.flowing);
+  }
+}
+
+// wrap an old-style stream as the async data source.
+// This is *not* part of the readable stream interface.
+// It is an ugly unfortunate mess of history.
+Readable.prototype.wrap = function(stream) {
+  var state = this._readableState;
+  var paused = false;
+
+  var self = this;
+  stream.on('end', function() {
+    debug('wrapped end');
+    if (state.decoder && !state.ended) {
+      var chunk = state.decoder.end();
+      if (chunk && chunk.length)
+        self.push(chunk);
+    }
+
+    self.push(null);
+  });
+
+  stream.on('data', function(chunk) {
+    debug('wrapped data');
+    if (state.decoder)
+      chunk = state.decoder.write(chunk);
+
+    // don't skip over falsy values in objectMode
+    if (state.objectMode && (chunk === null || chunk === undefined))
+      return;
+    else if (!state.objectMode && (!chunk || !chunk.length))
+      return;
+
+    var ret = self.push(chunk);
+    if (!ret) {
+      paused = true;
+      stream.pause();
+    }
+  });
+
+  // proxy all the other methods.
+  // important when wrapping filters and duplexes.
+  for (var i in stream) {
+    if (this[i] === undefined && typeof stream[i] === 'function') {
+      this[i] = function(method) { return function() {
+        return stream[method].apply(stream, arguments);
+      }; }(i);
+    }
+  }
+
+  // proxy certain important events.
+  var events = ['error', 'close', 'destroy', 'pause', 'resume'];
+  forEach(events, function(ev) {
+    stream.on(ev, self.emit.bind(self, ev));
+  });
+
+  // when we try to consume some more bytes, simply unpause the
+  // underlying stream.
+  self._read = function(n) {
+    debug('wrapped _read', n);
+    if (paused) {
+      paused = false;
+      stream.resume();
+    }
+  };
+
+  return self;
+};
+
+
+// exposed for testing purposes only.
+Readable._fromList = fromList;
+
+// Pluck off n bytes from an array of buffers.
+// Length is the combined lengths of all the buffers in the list.
+function fromList(n, state) {
+  var list = state.buffer;
+  var length = state.length;
+  var stringMode = !!state.decoder;
+  var objectMode = !!state.objectMode;
+  var ret;
+
+  // nothing in the list, definitely empty.
+  if (list.length === 0)
+    return null;
+
+  if (length === 0)
+    ret = null;
+  else if (objectMode)
+    ret = list.shift();
+  else if (!n || n >= length) {
+    // read it all, truncate the array.
+    if (stringMode)
+      ret = list.join('');
+    else if (list.length === 1)
+      ret = list[0];
+    else
+      ret = Buffer.concat(list, length);
+    list.length = 0;
+  } else {
+    // read just some of it.
+    if (n < list[0].length) {
+      // just take a part of the first list item.
+      // slice is the same for buffers and strings.
+      var buf = list[0];
+      ret = buf.slice(0, n);
+      list[0] = buf.slice(n);
+    } else if (n === list[0].length) {
+      // first list is a perfect match
+      ret = list.shift();
+    } else {
+      // complex case.
+      // we have enough to cover it, but it spans past the first buffer.
+      if (stringMode)
+        ret = '';
+      else
+        ret = new Buffer(n);
+
+      var c = 0;
+      for (var i = 0, l = list.length; i < l && c < n; i++) {
+        var buf = list[0];
+        var cpy = Math.min(n - c, buf.length);
+
+        if (stringMode)
+          ret += buf.slice(0, cpy);
+        else
+          buf.copy(ret, c, 0, cpy);
+
+        if (cpy < buf.length)
+          list[0] = buf.slice(cpy);
+        else
+          list.shift();
+
+        c += cpy;
+      }
+    }
+  }
+
+  return ret;
+}
+
+function endReadable(stream) {
+  var state = stream._readableState;
+
+  // If we get here before consuming all the bytes, then that is a
+  // bug in node.  Should never happen.
+  if (state.length > 0)
+    throw new Error('endReadable called on non-empty stream');
+
+  if (!state.endEmitted) {
+    state.ended = true;
+    processNextTick(endReadableNT, state, stream);
+  }
+}
+
+function endReadableNT(state, stream) {
+  // Check that we didn't get one last unshift.
+  if (!state.endEmitted && state.length === 0) {
+    state.endEmitted = true;
+    stream.readable = false;
+    stream.emit('end');
+  }
+}
+
+function forEach (xs, f) {
+  for (var i = 0, l = xs.length; i < l; i++) {
+    f(xs[i], i);
+  }
+}
+
+function indexOf (xs, x) {
+  for (var i = 0, l = xs.length; i < l; i++) {
+    if (xs[i] === x) return i;
+  }
+  return -1;
+}
+
+}).call(this,require('_process'))
+
+},{"./_stream_duplex":27,"_process":25,"buffer":16,"core-util-is":32,"events":20,"inherits":21,"isarray":23,"process-nextick-args":33,"string_decoder/":40,"util":15}],30:[function(require,module,exports){
+// a transform stream is a readable/writable stream where you do
+// something with the data.  Sometimes it's called a "filter",
+// but that's not a great name for it, since that implies a thing where
+// some bits pass through, and others are simply ignored.  (That would
+// be a valid example of a transform, of course.)
+//
+// While the output is causally related to the input, it's not a
+// necessarily symmetric or synchronous transformation.  For example,
+// a zlib stream might take multiple plain-text writes(), and then
+// emit a single compressed chunk some time in the future.
+//
+// Here's how this works:
+//
+// The Transform stream has all the aspects of the readable and writable
+// stream classes.  When you write(chunk), that calls _write(chunk,cb)
+// internally, and returns false if there's a lot of pending writes
+// buffered up.  When you call read(), that calls _read(n) until
+// there's enough pending readable data buffered up.
+//
+// In a transform stream, the written data is placed in a buffer.  When
+// _read(n) is called, it transforms the queued up data, calling the
+// buffered _write cb's as it consumes chunks.  If consuming a single
+// written chunk would result in multiple output chunks, then the first
+// outputted bit calls the readcb, and subsequent chunks just go into
+// the read buffer, and will cause it to emit 'readable' if necessary.
+//
+// This way, back-pressure is actually determined by the reading side,
+// since _read has to be called to start processing a new chunk.  However,
+// a pathological inflate type of transform can cause excessive buffering
+// here.  For example, imagine a stream where every byte of input is
+// interpreted as an integer from 0-255, and then results in that many
+// bytes of output.  Writing the 4 bytes {ff,ff,ff,ff} would result in
+// 1kb of data being output.  In this case, you could write a very small
+// amount of input, and end up with a very large amount of output.  In
+// such a pathological inflating mechanism, there'd be no way to tell
+// the system to stop doing the transform.  A single 4MB write could
+// cause the system to run out of memory.
+//
+// However, even in such a pathological case, only a single written chunk
+// would be consumed, and then the rest would wait (un-transformed) until
+// the results of the previous transformed chunk were consumed.
+
+'use strict';
+
+module.exports = Transform;
+
+var Duplex = require('./_stream_duplex');
+
+/*<replacement>*/
+var util = require('core-util-is');
+util.inherits = require('inherits');
+/*</replacement>*/
+
+util.inherits(Transform, Duplex);
+
+
+function TransformState(stream) {
+  this.afterTransform = function(er, data) {
+    return afterTransform(stream, er, data);
+  };
+
+  this.needTransform = false;
+  this.transforming = false;
+  this.writecb = null;
+  this.writechunk = null;
+}
+
+function afterTransform(stream, er, data) {
+  var ts = stream._transformState;
+  ts.transforming = false;
+
+  var cb = ts.writecb;
+
+  if (!cb)
+    return stream.emit('error', new Error('no writecb in Transform class'));
+
+  ts.writechunk = null;
+  ts.writecb = null;
+
+  if (data !== null && data !== undefined)
+    stream.push(data);
+
+  if (cb)
+    cb(er);
+
+  var rs = stream._readableState;
+  rs.reading = false;
+  if (rs.needReadable || rs.length < rs.highWaterMark) {
+    stream._read(rs.highWaterMark);
+  }
+}
+
+
+function Transform(options) {
+  if (!(this instanceof Transform))
+    return new Transform(options);
+
+  Duplex.call(this, options);
+
+  this._transformState = new TransformState(this);
+
+  // when the writable side finishes, then flush out anything remaining.
+  var stream = this;
+
+  // start out asking for a readable event once data is transformed.
+  this._readableState.needReadable = true;
+
+  // we have implemented the _read method, and done the other things
+  // that Readable wants before the first _read call, so unset the
+  // sync guard flag.
+  this._readableState.sync = false;
+
+  if (options) {
+    if (typeof options.transform === 'function')
+      this._transform = options.transform;
+
+    if (typeof options.flush === 'function')
+      this._flush = options.flush;
+  }
+
+  this.once('prefinish', function() {
+    if (typeof this._flush === 'function')
+      this._flush(function(er) {
+        done(stream, er);
+      });
+    else
+      done(stream);
+  });
+}
+
+Transform.prototype.push = function(chunk, encoding) {
+  this._transformState.needTransform = false;
+  return Duplex.prototype.push.call(this, chunk, encoding);
+};
+
+// This is the part where you do stuff!
+// override this function in implementation classes.
+// 'chunk' is an input chunk.
+//
+// Call `push(newChunk)` to pass along transformed output
+// to the readable side.  You may call 'push' zero or more times.
+//
+// Call `cb(err)` when you are done with this chunk.  If you pass
+// an error, then that'll put the hurt on the whole operation.  If you
+// never call cb(), then you'll never get another chunk.
+Transform.prototype._transform = function(chunk, encoding, cb) {
+  throw new Error('not implemented');
+};
+
+Transform.prototype._write = function(chunk, encoding, cb) {
+  var ts = this._transformState;
+  ts.writecb = cb;
+  ts.writechunk = chunk;
+  ts.writeencoding = encoding;
+  if (!ts.transforming) {
+    var rs = this._readableState;
+    if (ts.needTransform ||
+        rs.needReadable ||
+        rs.length < rs.highWaterMark)
+      this._read(rs.highWaterMark);
+  }
+};
+
+// Doesn't matter what the args are here.
+// _transform does all the work.
+// That we got here means that the readable side wants more data.
+Transform.prototype._read = function(n) {
+  var ts = this._transformState;
+
+  if (ts.writechunk !== null && ts.writecb && !ts.transforming) {
+    ts.transforming = true;
+    this._transform(ts.writechunk, ts.writeencoding, ts.afterTransform);
+  } else {
+    // mark that we need a transform, so that any data that comes in
+    // will get processed, now that we've asked for it.
+    ts.needTransform = true;
+  }
+};
+
+
+function done(stream, er) {
+  if (er)
+    return stream.emit('error', er);
+
+  // if there's nothing in the write buffer, then that means
+  // that nothing more will ever be provided
+  var ws = stream._writableState;
+  var ts = stream._transformState;
+
+  if (ws.length)
+    throw new Error('calling transform done when ws.length != 0');
+
+  if (ts.transforming)
+    throw new Error('calling transform done when still transforming');
+
+  return stream.push(null);
+}
+
+},{"./_stream_duplex":27,"core-util-is":32,"inherits":21}],31:[function(require,module,exports){
+// A bit simpler than readable streams.
+// Implement an async ._write(chunk, encoding, cb), and it'll handle all
+// the drain event emission and buffering.
+
+'use strict';
+
+module.exports = Writable;
+
+/*<replacement>*/
+var processNextTick = require('process-nextick-args');
+/*</replacement>*/
+
+
+/*<replacement>*/
+var Buffer = require('buffer').Buffer;
+/*</replacement>*/
+
+Writable.WritableState = WritableState;
+
+
+/*<replacement>*/
+var util = require('core-util-is');
+util.inherits = require('inherits');
+/*</replacement>*/
+
+
+/*<replacement>*/
+var internalUtil = {
+  deprecate: require('util-deprecate')
+};
+/*</replacement>*/
+
+
+
+/*<replacement>*/
+var Stream;
+(function (){try{
+  Stream = require('st' + 'ream');
+}catch(_){}finally{
+  if (!Stream)
+    Stream = require('events').EventEmitter;
+}}())
+/*</replacement>*/
+
+var Buffer = require('buffer').Buffer;
+
+util.inherits(Writable, Stream);
+
+function nop() {}
+
+function WriteReq(chunk, encoding, cb) {
+  this.chunk = chunk;
+  this.encoding = encoding;
+  this.callback = cb;
+  this.next = null;
+}
+
+var Duplex;
+function WritableState(options, stream) {
+  Duplex = Duplex || require('./_stream_duplex');
+
+  options = options || {};
+
+  // object stream flag to indicate whether or not this stream
+  // contains buffers or objects.
+  this.objectMode = !!options.objectMode;
+
+  if (stream instanceof Duplex)
+    this.objectMode = this.objectMode || !!options.writableObjectMode;
+
+  // the point at which write() starts returning false
+  // Note: 0 is a valid value, means that we always return false if
+  // the entire buffer is not flushed immediately on write()
+  var hwm = options.highWaterMark;
+  var defaultHwm = this.objectMode ? 16 : 16 * 1024;
+  this.highWaterMark = (hwm || hwm === 0) ? hwm : defaultHwm;
+
+  // cast to ints.
+  this.highWaterMark = ~~this.highWaterMark;
+
+  this.needDrain = false;
+  // at the start of calling end()
+  this.ending = false;
+  // when end() has been called, and returned
+  this.ended = false;
+  // when 'finish' is emitted
+  this.finished = false;
+
+  // should we decode strings into buffers before passing to _write?
+  // this is here so that some node-core streams can optimize string
+  // handling at a lower level.
+  var noDecode = options.decodeStrings === false;
+  this.decodeStrings = !noDecode;
+
+  // Crypto is kind of old and crusty.  Historically, its default string
+  // encoding is 'binary' so we have to make this configurable.
+  // Everything else in the universe uses 'utf8', though.
+  this.defaultEncoding = options.defaultEncoding || 'utf8';
+
+  // not an actual buffer we keep track of, but a measurement
+  // of how much we're waiting to get pushed to some underlying
+  // socket or file.
+  this.length = 0;
+
+  // a flag to see when we're in the middle of a write.
+  this.writing = false;
+
+  // when true all writes will be buffered until .uncork() call
+  this.corked = 0;
+
+  // a flag to be able to tell if the onwrite cb is called immediately,
+  // or on a later tick.  We set this to true at first, because any
+  // actions that shouldn't happen until "later" should generally also
+  // not happen before the first write call.
+  this.sync = true;
+
+  // a flag to know if we're processing previously buffered items, which
+  // may call the _write() callback in the same tick, so that we don't
+  // end up in an overlapped onwrite situation.
+  this.bufferProcessing = false;
+
+  // the callback that's passed to _write(chunk,cb)
+  this.onwrite = function(er) {
+    onwrite(stream, er);
+  };
+
+  // the callback that the user supplies to write(chunk,encoding,cb)
+  this.writecb = null;
+
+  // the amount that is being written when _write is called.
+  this.writelen = 0;
+
+  this.bufferedRequest = null;
+  this.lastBufferedRequest = null;
+
+  // number of pending user-supplied write callbacks
+  // this must be 0 before 'finish' can be emitted
+  this.pendingcb = 0;
+
+  // emit prefinish if the only thing we're waiting for is _write cbs
+  // This is relevant for synchronous Transform streams
+  this.prefinished = false;
+
+  // True if the error was already emitted and should not be thrown again
+  this.errorEmitted = false;
+}
+
+WritableState.prototype.getBuffer = function writableStateGetBuffer() {
+  var current = this.bufferedRequest;
+  var out = [];
+  while (current) {
+    out.push(current);
+    current = current.next;
+  }
+  return out;
+};
+
+(function (){try {
+Object.defineProperty(WritableState.prototype, 'buffer', {
+  get: internalUtil.deprecate(function() {
+    return this.getBuffer();
+  }, '_writableState.buffer is deprecated. Use _writableState.getBuffer ' +
+     'instead.')
+});
+}catch(_){}}());
+
+
+var Duplex;
+function Writable(options) {
+  Duplex = Duplex || require('./_stream_duplex');
+
+  // Writable ctor is applied to Duplexes, though they're not
+  // instanceof Writable, they're instanceof Readable.
+  if (!(this instanceof Writable) && !(this instanceof Duplex))
+    return new Writable(options);
+
+  this._writableState = new WritableState(options, this);
+
+  // legacy.
+  this.writable = true;
+
+  if (options) {
+    if (typeof options.write === 'function')
+      this._write = options.write;
+
+    if (typeof options.writev === 'function')
+      this._writev = options.writev;
+  }
+
+  Stream.call(this);
+}
+
+// Otherwise people can pipe Writable streams, which is just wrong.
+Writable.prototype.pipe = function() {
+  this.emit('error', new Error('Cannot pipe. Not readable.'));
+};
+
+
+function writeAfterEnd(stream, cb) {
+  var er = new Error('write after end');
+  // TODO: defer error events consistently everywhere, not just the cb
+  stream.emit('error', er);
+  processNextTick(cb, er);
+}
+
+// If we get something that is not a buffer, string, null, or undefined,
+// and we're not in objectMode, then that's an error.
+// Otherwise stream chunks are all considered to be of length=1, and the
+// watermarks determine how many objects to keep in the buffer, rather than
+// how many bytes or characters.
+function validChunk(stream, state, chunk, cb) {
+  var valid = true;
+
+  if (!(Buffer.isBuffer(chunk)) &&
+      typeof chunk !== 'string' &&
+      chunk !== null &&
+      chunk !== undefined &&
+      !state.objectMode) {
+    var er = new TypeError('Invalid non-string/buffer chunk');
+    stream.emit('error', er);
+    processNextTick(cb, er);
+    valid = false;
+  }
+  return valid;
+}
+
+Writable.prototype.write = function(chunk, encoding, cb) {
+  var state = this._writableState;
+  var ret = false;
+
+  if (typeof encoding === 'function') {
+    cb = encoding;
+    encoding = null;
+  }
+
+  if (Buffer.isBuffer(chunk))
+    encoding = 'buffer';
+  else if (!encoding)
+    encoding = state.defaultEncoding;
+
+  if (typeof cb !== 'function')
+    cb = nop;
+
+  if (state.ended)
+    writeAfterEnd(this, cb);
+  else if (validChunk(this, state, chunk, cb)) {
+    state.pendingcb++;
+    ret = writeOrBuffer(this, state, chunk, encoding, cb);
+  }
+
+  return ret;
+};
+
+Writable.prototype.cork = function() {
+  var state = this._writableState;
+
+  state.corked++;
+};
+
+Writable.prototype.uncork = function() {
+  var state = this._writableState;
+
+  if (state.corked) {
+    state.corked--;
+
+    if (!state.writing &&
+        !state.corked &&
+        !state.finished &&
+        !state.bufferProcessing &&
+        state.bufferedRequest)
+      clearBuffer(this, state);
+  }
+};
+
+Writable.prototype.setDefaultEncoding = function setDefaultEncoding(encoding) {
+  // node::ParseEncoding() requires lower case.
+  if (typeof encoding === 'string')
+    encoding = encoding.toLowerCase();
+  if (!(['hex', 'utf8', 'utf-8', 'ascii', 'binary', 'base64',
+'ucs2', 'ucs-2','utf16le', 'utf-16le', 'raw']
+.indexOf((encoding + '').toLowerCase()) > -1))
+    throw new TypeError('Unknown encoding: ' + encoding);
+  this._writableState.defaultEncoding = encoding;
+};
+
+function decodeChunk(state, chunk, encoding) {
+  if (!state.objectMode &&
+      state.decodeStrings !== false &&
+      typeof chunk === 'string') {
+    chunk = new Buffer(chunk, encoding);
+  }
+  return chunk;
+}
+
+// if we're already writing something, then just put this
+// in the queue, and wait our turn.  Otherwise, call _write
+// If we return false, then we need a drain event, so set that flag.
+function writeOrBuffer(stream, state, chunk, encoding, cb) {
+  chunk = decodeChunk(state, chunk, encoding);
+
+  if (Buffer.isBuffer(chunk))
+    encoding = 'buffer';
+  var len = state.objectMode ? 1 : chunk.length;
+
+  state.length += len;
+
+  var ret = state.length < state.highWaterMark;
+  // we must ensure that previous needDrain will not be reset to false.
+  if (!ret)
+    state.needDrain = true;
+
+  if (state.writing || state.corked) {
+    var last = state.lastBufferedRequest;
+    state.lastBufferedRequest = new WriteReq(chunk, encoding, cb);
+    if (last) {
+      last.next = state.lastBufferedRequest;
+    } else {
+      state.bufferedRequest = state.lastBufferedRequest;
+    }
+  } else {
+    doWrite(stream, state, false, len, chunk, encoding, cb);
+  }
+
+  return ret;
+}
+
+function doWrite(stream, state, writev, len, chunk, encoding, cb) {
+  state.writelen = len;
+  state.writecb = cb;
+  state.writing = true;
+  state.sync = true;
+  if (writev)
+    stream._writev(chunk, state.onwrite);
+  else
+    stream._write(chunk, encoding, state.onwrite);
+  state.sync = false;
+}
+
+function onwriteError(stream, state, sync, er, cb) {
+  --state.pendingcb;
+  if (sync)
+    processNextTick(cb, er);
+  else
+    cb(er);
+
+  stream._writableState.errorEmitted = true;
+  stream.emit('error', er);
+}
+
+function onwriteStateUpdate(state) {
+  state.writing = false;
+  state.writecb = null;
+  state.length -= state.writelen;
+  state.writelen = 0;
+}
+
+function onwrite(stream, er) {
+  var state = stream._writableState;
+  var sync = state.sync;
+  var cb = state.writecb;
+
+  onwriteStateUpdate(state);
+
+  if (er)
+    onwriteError(stream, state, sync, er, cb);
+  else {
+    // Check if we're actually ready to finish, but don't emit yet
+    var finished = needFinish(state);
+
+    if (!finished &&
+        !state.corked &&
+        !state.bufferProcessing &&
+        state.bufferedRequest) {
+      clearBuffer(stream, state);
+    }
+
+    if (sync) {
+      processNextTick(afterWrite, stream, state, finished, cb);
+    } else {
+      afterWrite(stream, state, finished, cb);
+    }
+  }
+}
+
+function afterWrite(stream, state, finished, cb) {
+  if (!finished)
+    onwriteDrain(stream, state);
+  state.pendingcb--;
+  cb();
+  finishMaybe(stream, state);
+}
+
+// Must force callback to be called on nextTick, so that we don't
+// emit 'drain' before the write() consumer gets the 'false' return
+// value, and has a chance to attach a 'drain' listener.
+function onwriteDrain(stream, state) {
+  if (state.length === 0 && state.needDrain) {
+    state.needDrain = false;
+    stream.emit('drain');
+  }
+}
+
+
+// if there's something in the buffer waiting, then process it
+function clearBuffer(stream, state) {
+  state.bufferProcessing = true;
+  var entry = state.bufferedRequest;
+
+  if (stream._writev && entry && entry.next) {
+    // Fast case, write everything using _writev()
+    var buffer = [];
+    var cbs = [];
+    while (entry) {
+      cbs.push(entry.callback);
+      buffer.push(entry);
+      entry = entry.next;
+    }
+
+    // count the one we are adding, as well.
+    // TODO(isaacs) clean this up
+    state.pendingcb++;
+    state.lastBufferedRequest = null;
+    doWrite(stream, state, true, state.length, buffer, '', function(err) {
+      for (var i = 0; i < cbs.length; i++) {
+        state.pendingcb--;
+        cbs[i](err);
+      }
+    });
+
+    // Clear buffer
+  } else {
+    // Slow case, write chunks one-by-one
+    while (entry) {
+      var chunk = entry.chunk;
+      var encoding = entry.encoding;
+      var cb = entry.callback;
+      var len = state.objectMode ? 1 : chunk.length;
+
+      doWrite(stream, state, false, len, chunk, encoding, cb);
+      entry = entry.next;
+      // if we didn't call the onwrite immediately, then
+      // it means that we need to wait until it does.
+      // also, that means that the chunk and cb are currently
+      // being processed, so move the buffer counter past them.
+      if (state.writing) {
+        break;
+      }
+    }
+
+    if (entry === null)
+      state.lastBufferedRequest = null;
+  }
+  state.bufferedRequest = entry;
+  state.bufferProcessing = false;
+}
+
+Writable.prototype._write = function(chunk, encoding, cb) {
+  cb(new Error('not implemented'));
+};
+
+Writable.prototype._writev = null;
+
+Writable.prototype.end = function(chunk, encoding, cb) {
+  var state = this._writableState;
+
+  if (typeof chunk === 'function') {
+    cb = chunk;
+    chunk = null;
+    encoding = null;
+  } else if (typeof encoding === 'function') {
+    cb = encoding;
+    encoding = null;
+  }
+
+  if (chunk !== null && chunk !== undefined)
+    this.write(chunk, encoding);
+
+  // .end() fully uncorks
+  if (state.corked) {
+    state.corked = 1;
+    this.uncork();
+  }
+
+  // ignore unnecessary end() calls.
+  if (!state.ending && !state.finished)
+    endWritable(this, state, cb);
+};
+
+
+function needFinish(state) {
+  return (state.ending &&
+          state.length === 0 &&
+          state.bufferedRequest === null &&
+          !state.finished &&
+          !state.writing);
+}
+
+function prefinish(stream, state) {
+  if (!state.prefinished) {
+    state.prefinished = true;
+    stream.emit('prefinish');
+  }
+}
+
+function finishMaybe(stream, state) {
+  var need = needFinish(state);
+  if (need) {
+    if (state.pendingcb === 0) {
+      prefinish(stream, state);
+      state.finished = true;
+      stream.emit('finish');
+    } else {
+      prefinish(stream, state);
+    }
+  }
+  return need;
+}
+
+function endWritable(stream, state, cb) {
+  state.ending = true;
+  finishMaybe(stream, state);
+  if (cb) {
+    if (state.finished)
+      processNextTick(cb);
+    else
+      stream.once('finish', cb);
+  }
+  state.ended = true;
+}
+
+},{"./_stream_duplex":27,"buffer":16,"core-util-is":32,"events":20,"inherits":21,"process-nextick-args":33,"util-deprecate":34}],32:[function(require,module,exports){
+(function (Buffer){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+// NOTE: These type checking functions intentionally don't use `instanceof`
+// because it is fragile and can be easily faked with `Object.create()`.
+
+function isArray(arg) {
+  if (Array.isArray) {
+    return Array.isArray(arg);
+  }
+  return objectToString(arg) === '[object Array]';
+}
+exports.isArray = isArray;
+
+function isBoolean(arg) {
+  return typeof arg === 'boolean';
+}
+exports.isBoolean = isBoolean;
+
+function isNull(arg) {
+  return arg === null;
+}
+exports.isNull = isNull;
+
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+exports.isNullOrUndefined = isNullOrUndefined;
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+exports.isNumber = isNumber;
+
+function isString(arg) {
+  return typeof arg === 'string';
+}
+exports.isString = isString;
+
+function isSymbol(arg) {
+  return typeof arg === 'symbol';
+}
+exports.isSymbol = isSymbol;
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+exports.isUndefined = isUndefined;
+
+function isRegExp(re) {
+  return objectToString(re) === '[object RegExp]';
+}
+exports.isRegExp = isRegExp;
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+exports.isObject = isObject;
+
+function isDate(d) {
+  return objectToString(d) === '[object Date]';
+}
+exports.isDate = isDate;
+
+function isError(e) {
+  return (objectToString(e) === '[object Error]' || e instanceof Error);
+}
+exports.isError = isError;
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+exports.isFunction = isFunction;
+
+function isPrimitive(arg) {
+  return arg === null ||
+         typeof arg === 'boolean' ||
+         typeof arg === 'number' ||
+         typeof arg === 'string' ||
+         typeof arg === 'symbol' ||  // ES6 symbol
+         typeof arg === 'undefined';
+}
+exports.isPrimitive = isPrimitive;
+
+exports.isBuffer = Buffer.isBuffer;
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+}).call(this,{"isBuffer":require("../../../../insert-module-globals/node_modules/is-buffer/index.js")})
+
+},{"../../../../insert-module-globals/node_modules/is-buffer/index.js":22}],33:[function(require,module,exports){
+(function (process){
+'use strict';
+
+if (!process.version ||
+    process.version.indexOf('v0.') === 0 ||
+    process.version.indexOf('v1.') === 0 && process.version.indexOf('v1.8.') !== 0) {
+  module.exports = nextTick;
+} else {
+  module.exports = process.nextTick;
+}
+
+function nextTick(fn) {
+  var args = new Array(arguments.length - 1);
+  var i = 0;
+  while (i < args.length) {
+    args[i++] = arguments[i];
+  }
+  process.nextTick(function afterTick() {
+    fn.apply(null, args);
+  });
+}
+
+}).call(this,require('_process'))
+
+},{"_process":25}],34:[function(require,module,exports){
+(function (global){
+
+/**
+ * Module exports.
+ */
+
+module.exports = deprecate;
+
+/**
+ * Mark that a method should not be used.
+ * Returns a modified function which warns once by default.
+ *
+ * If `localStorage.noDeprecation = true` is set, then it is a no-op.
+ *
+ * If `localStorage.throwDeprecation = true` is set, then deprecated functions
+ * will throw an Error when invoked.
+ *
+ * If `localStorage.traceDeprecation = true` is set, then deprecated functions
+ * will invoke `console.trace()` instead of `console.error()`.
+ *
+ * @param {Function} fn - the function to deprecate
+ * @param {String} msg - the string to print to the console when `fn` is invoked
+ * @returns {Function} a new "deprecated" version of `fn`
+ * @api public
+ */
+
+function deprecate (fn, msg) {
+  if (config('noDeprecation')) {
+    return fn;
+  }
+
+  var warned = false;
+  function deprecated() {
+    if (!warned) {
+      if (config('throwDeprecation')) {
+        throw new Error(msg);
+      } else if (config('traceDeprecation')) {
+        console.trace(msg);
+      } else {
+        console.warn(msg);
+      }
+      warned = true;
+    }
+    return fn.apply(this, arguments);
+  }
+
+  return deprecated;
+}
+
+/**
+ * Checks `localStorage` for boolean values for the given `name`.
+ *
+ * @param {String} name
+ * @returns {Boolean}
+ * @api private
+ */
+
+function config (name) {
+  // accessing global.localStorage can trigger a DOMException in sandboxed iframes
+  try {
+    if (!global.localStorage) return false;
+  } catch (_) {
+    return false;
+  }
+  var val = global.localStorage[name];
+  if (null == val) return false;
+  return String(val).toLowerCase() === 'true';
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
+},{}],35:[function(require,module,exports){
+module.exports = require("./lib/_stream_passthrough.js")
+
+},{"./lib/_stream_passthrough.js":28}],36:[function(require,module,exports){
+var Stream = (function (){
+  try {
+    return require('st' + 'ream'); // hack to fix a circular dependency issue when used with browserify
+  } catch(_){}
+}());
+exports = module.exports = require('./lib/_stream_readable.js');
+exports.Stream = Stream || exports;
+exports.Readable = exports;
+exports.Writable = require('./lib/_stream_writable.js');
+exports.Duplex = require('./lib/_stream_duplex.js');
+exports.Transform = require('./lib/_stream_transform.js');
+exports.PassThrough = require('./lib/_stream_passthrough.js');
+
+},{"./lib/_stream_duplex.js":27,"./lib/_stream_passthrough.js":28,"./lib/_stream_readable.js":29,"./lib/_stream_transform.js":30,"./lib/_stream_writable.js":31}],37:[function(require,module,exports){
+module.exports = require("./lib/_stream_transform.js")
+
+},{"./lib/_stream_transform.js":30}],38:[function(require,module,exports){
+module.exports = require("./lib/_stream_writable.js")
+
+},{"./lib/_stream_writable.js":31}],39:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+module.exports = Stream;
+
+var EE = require('events').EventEmitter;
+var inherits = require('inherits');
+
+inherits(Stream, EE);
+Stream.Readable = require('readable-stream/readable.js');
+Stream.Writable = require('readable-stream/writable.js');
+Stream.Duplex = require('readable-stream/duplex.js');
+Stream.Transform = require('readable-stream/transform.js');
+Stream.PassThrough = require('readable-stream/passthrough.js');
+
+// Backwards-compat with node 0.4.x
+Stream.Stream = Stream;
+
+
+
+// old-style streams.  Note that the pipe method (the only relevant
+// part of this class) is overridden in the Readable class.
+
+function Stream() {
+  EE.call(this);
+}
+
+Stream.prototype.pipe = function(dest, options) {
+  var source = this;
+
+  function ondata(chunk) {
+    if (dest.writable) {
+      if (false === dest.write(chunk) && source.pause) {
+        source.pause();
+      }
+    }
+  }
+
+  source.on('data', ondata);
+
+  function ondrain() {
+    if (source.readable && source.resume) {
+      source.resume();
+    }
+  }
+
+  dest.on('drain', ondrain);
+
+  // If the 'end' option is not supplied, dest.end() will be called when
+  // source gets the 'end' or 'close' events.  Only dest.end() once.
+  if (!dest._isStdio && (!options || options.end !== false)) {
+    source.on('end', onend);
+    source.on('close', onclose);
+  }
+
+  var didOnEnd = false;
+  function onend() {
+    if (didOnEnd) return;
+    didOnEnd = true;
+
+    dest.end();
+  }
+
+
+  function onclose() {
+    if (didOnEnd) return;
+    didOnEnd = true;
+
+    if (typeof dest.destroy === 'function') dest.destroy();
+  }
+
+  // don't leave dangling pipes when there are errors.
+  function onerror(er) {
+    cleanup();
+    if (EE.listenerCount(this, 'error') === 0) {
+      throw er; // Unhandled stream error in pipe.
+    }
+  }
+
+  source.on('error', onerror);
+  dest.on('error', onerror);
+
+  // remove all the event listeners that were added.
+  function cleanup() {
+    source.removeListener('data', ondata);
+    dest.removeListener('drain', ondrain);
+
+    source.removeListener('end', onend);
+    source.removeListener('close', onclose);
+
+    source.removeListener('error', onerror);
+    dest.removeListener('error', onerror);
+
+    source.removeListener('end', cleanup);
+    source.removeListener('close', cleanup);
+
+    dest.removeListener('close', cleanup);
+  }
+
+  source.on('end', cleanup);
+  source.on('close', cleanup);
+
+  dest.on('close', cleanup);
+
+  dest.emit('pipe', source);
+
+  // Allow for unix-like usage: A.pipe(B).pipe(C)
+  return dest;
+};
+
+},{"events":20,"inherits":21,"readable-stream/duplex.js":26,"readable-stream/passthrough.js":35,"readable-stream/readable.js":36,"readable-stream/transform.js":37,"readable-stream/writable.js":38}],40:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+var Buffer = require('buffer').Buffer;
+
+var isBufferEncoding = Buffer.isEncoding
+  || function(encoding) {
+       switch (encoding && encoding.toLowerCase()) {
+         case 'hex': case 'utf8': case 'utf-8': case 'ascii': case 'binary': case 'base64': case 'ucs2': case 'ucs-2': case 'utf16le': case 'utf-16le': case 'raw': return true;
+         default: return false;
+       }
+     }
+
+
+function assertEncoding(encoding) {
+  if (encoding && !isBufferEncoding(encoding)) {
+    throw new Error('Unknown encoding: ' + encoding);
+  }
+}
+
+// StringDecoder provides an interface for efficiently splitting a series of
+// buffers into a series of JS strings without breaking apart multi-byte
+// characters. CESU-8 is handled as part of the UTF-8 encoding.
+//
+// @TODO Handling all encodings inside a single object makes it very difficult
+// to reason about this code, so it should be split up in the future.
+// @TODO There should be a utf8-strict encoding that rejects invalid UTF-8 code
+// points as used by CESU-8.
+var StringDecoder = exports.StringDecoder = function(encoding) {
+  this.encoding = (encoding || 'utf8').toLowerCase().replace(/[-_]/, '');
+  assertEncoding(encoding);
+  switch (this.encoding) {
+    case 'utf8':
+      // CESU-8 represents each of Surrogate Pair by 3-bytes
+      this.surrogateSize = 3;
+      break;
+    case 'ucs2':
+    case 'utf16le':
+      // UTF-16 represents each of Surrogate Pair by 2-bytes
+      this.surrogateSize = 2;
+      this.detectIncompleteChar = utf16DetectIncompleteChar;
+      break;
+    case 'base64':
+      // Base-64 stores 3 bytes in 4 chars, and pads the remainder.
+      this.surrogateSize = 3;
+      this.detectIncompleteChar = base64DetectIncompleteChar;
+      break;
+    default:
+      this.write = passThroughWrite;
+      return;
+  }
+
+  // Enough space to store all bytes of a single character. UTF-8 needs 4
+  // bytes, but CESU-8 may require up to 6 (3 bytes per surrogate).
+  this.charBuffer = new Buffer(6);
+  // Number of bytes received for the current incomplete multi-byte character.
+  this.charReceived = 0;
+  // Number of bytes expected for the current incomplete multi-byte character.
+  this.charLength = 0;
+};
+
+
+// write decodes the given buffer and returns it as JS string that is
+// guaranteed to not contain any partial multi-byte characters. Any partial
+// character found at the end of the buffer is buffered up, and will be
+// returned when calling write again with the remaining bytes.
+//
+// Note: Converting a Buffer containing an orphan surrogate to a String
+// currently works, but converting a String to a Buffer (via `new Buffer`, or
+// Buffer#write) will replace incomplete surrogates with the unicode
+// replacement character. See https://codereview.chromium.org/121173009/ .
+StringDecoder.prototype.write = function(buffer) {
+  var charStr = '';
+  // if our last write ended with an incomplete multibyte character
+  while (this.charLength) {
+    // determine how many remaining bytes this buffer has to offer for this char
+    var available = (buffer.length >= this.charLength - this.charReceived) ?
+        this.charLength - this.charReceived :
+        buffer.length;
+
+    // add the new bytes to the char buffer
+    buffer.copy(this.charBuffer, this.charReceived, 0, available);
+    this.charReceived += available;
+
+    if (this.charReceived < this.charLength) {
+      // still not enough chars in this buffer? wait for more ...
+      return '';
+    }
+
+    // remove bytes belonging to the current character from the buffer
+    buffer = buffer.slice(available, buffer.length);
+
+    // get the character that was split
+    charStr = this.charBuffer.slice(0, this.charLength).toString(this.encoding);
+
+    // CESU-8: lead surrogate (D800-DBFF) is also the incomplete character
+    var charCode = charStr.charCodeAt(charStr.length - 1);
+    if (charCode >= 0xD800 && charCode <= 0xDBFF) {
+      this.charLength += this.surrogateSize;
+      charStr = '';
+      continue;
+    }
+    this.charReceived = this.charLength = 0;
+
+    // if there are no more bytes in this buffer, just emit our char
+    if (buffer.length === 0) {
+      return charStr;
+    }
+    break;
+  }
+
+  // determine and set charLength / charReceived
+  this.detectIncompleteChar(buffer);
+
+  var end = buffer.length;
+  if (this.charLength) {
+    // buffer the incomplete character bytes we got
+    buffer.copy(this.charBuffer, 0, buffer.length - this.charReceived, end);
+    end -= this.charReceived;
+  }
+
+  charStr += buffer.toString(this.encoding, 0, end);
+
+  var end = charStr.length - 1;
+  var charCode = charStr.charCodeAt(end);
+  // CESU-8: lead surrogate (D800-DBFF) is also the incomplete character
+  if (charCode >= 0xD800 && charCode <= 0xDBFF) {
+    var size = this.surrogateSize;
+    this.charLength += size;
+    this.charReceived += size;
+    this.charBuffer.copy(this.charBuffer, size, 0, size);
+    buffer.copy(this.charBuffer, 0, 0, size);
+    return charStr.substring(0, end);
+  }
+
+  // or just emit the charStr
+  return charStr;
+};
+
+// detectIncompleteChar determines if there is an incomplete UTF-8 character at
+// the end of the given buffer. If so, it sets this.charLength to the byte
+// length that character, and sets this.charReceived to the number of bytes
+// that are available for this character.
+StringDecoder.prototype.detectIncompleteChar = function(buffer) {
+  // determine how many bytes we have to check at the end of this buffer
+  var i = (buffer.length >= 3) ? 3 : buffer.length;
+
+  // Figure out if one of the last i bytes of our buffer announces an
+  // incomplete char.
+  for (; i > 0; i--) {
+    var c = buffer[buffer.length - i];
+
+    // See http://en.wikipedia.org/wiki/UTF-8#Description
+
+    // 110XXXXX
+    if (i == 1 && c >> 5 == 0x06) {
+      this.charLength = 2;
+      break;
+    }
+
+    // 1110XXXX
+    if (i <= 2 && c >> 4 == 0x0E) {
+      this.charLength = 3;
+      break;
+    }
+
+    // 11110XXX
+    if (i <= 3 && c >> 3 == 0x1E) {
+      this.charLength = 4;
+      break;
+    }
+  }
+  this.charReceived = i;
+};
+
+StringDecoder.prototype.end = function(buffer) {
+  var res = '';
+  if (buffer && buffer.length)
+    res = this.write(buffer);
+
+  if (this.charReceived) {
+    var cr = this.charReceived;
+    var buf = this.charBuffer;
+    var enc = this.encoding;
+    res += buf.slice(0, cr).toString(enc);
+  }
+
+  return res;
+};
+
+function passThroughWrite(buffer) {
+  return buffer.toString(this.encoding);
+}
+
+function utf16DetectIncompleteChar(buffer) {
+  this.charReceived = buffer.length % 2;
+  this.charLength = this.charReceived ? 2 : 0;
+}
+
+function base64DetectIncompleteChar(buffer) {
+  this.charReceived = buffer.length % 3;
+  this.charLength = this.charReceived ? 3 : 0;
+}
+
+},{"buffer":16}],41:[function(require,module,exports){
+module.exports = function isBuffer(arg) {
+  return arg && typeof arg === 'object'
+    && typeof arg.copy === 'function'
+    && typeof arg.fill === 'function'
+    && typeof arg.readUInt8 === 'function';
+}
+},{}],42:[function(require,module,exports){
+(function (process,global){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+var formatRegExp = /%[sdj%]/g;
+exports.format = function(f) {
+  if (!isString(f)) {
+    var objects = [];
+    for (var i = 0; i < arguments.length; i++) {
+      objects.push(inspect(arguments[i]));
+    }
+    return objects.join(' ');
+  }
+
+  var i = 1;
+  var args = arguments;
+  var len = args.length;
+  var str = String(f).replace(formatRegExp, function(x) {
+    if (x === '%%') return '%';
+    if (i >= len) return x;
+    switch (x) {
+      case '%s': return String(args[i++]);
+      case '%d': return Number(args[i++]);
+      case '%j':
+        try {
+          return JSON.stringify(args[i++]);
+        } catch (_) {
+          return '[Circular]';
+        }
+      default:
+        return x;
+    }
+  });
+  for (var x = args[i]; i < len; x = args[++i]) {
+    if (isNull(x) || !isObject(x)) {
+      str += ' ' + x;
+    } else {
+      str += ' ' + inspect(x);
+    }
+  }
+  return str;
+};
+
+
+// Mark that a method should not be used.
+// Returns a modified function which warns once by default.
+// If --no-deprecation is set, then it is a no-op.
+exports.deprecate = function(fn, msg) {
+  // Allow for deprecating things in the process of starting up.
+  if (isUndefined(global.process)) {
+    return function() {
+      return exports.deprecate(fn, msg).apply(this, arguments);
+    };
+  }
+
+  if (process.noDeprecation === true) {
+    return fn;
+  }
+
+  var warned = false;
+  function deprecated() {
+    if (!warned) {
+      if (process.throwDeprecation) {
+        throw new Error(msg);
+      } else if (process.traceDeprecation) {
+        console.trace(msg);
+      } else {
+        console.error(msg);
+      }
+      warned = true;
+    }
+    return fn.apply(this, arguments);
+  }
+
+  return deprecated;
+};
+
+
+var debugs = {};
+var debugEnviron;
+exports.debuglog = function(set) {
+  if (isUndefined(debugEnviron))
+    debugEnviron = process.env.NODE_DEBUG || '';
+  set = set.toUpperCase();
+  if (!debugs[set]) {
+    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
+      var pid = process.pid;
+      debugs[set] = function() {
+        var msg = exports.format.apply(exports, arguments);
+        console.error('%s %d: %s', set, pid, msg);
+      };
+    } else {
+      debugs[set] = function() {};
+    }
+  }
+  return debugs[set];
+};
+
+
+/**
+ * Echos the value of a value. Trys to print the value out
+ * in the best way possible given the different types.
+ *
+ * @param {Object} obj The object to print out.
+ * @param {Object} opts Optional options object that alters the output.
+ */
+/* legacy: obj, showHidden, depth, colors*/
+function inspect(obj, opts) {
+  // default options
+  var ctx = {
+    seen: [],
+    stylize: stylizeNoColor
+  };
+  // legacy...
+  if (arguments.length >= 3) ctx.depth = arguments[2];
+  if (arguments.length >= 4) ctx.colors = arguments[3];
+  if (isBoolean(opts)) {
+    // legacy...
+    ctx.showHidden = opts;
+  } else if (opts) {
+    // got an "options" object
+    exports._extend(ctx, opts);
+  }
+  // set default options
+  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
+  if (isUndefined(ctx.depth)) ctx.depth = 2;
+  if (isUndefined(ctx.colors)) ctx.colors = false;
+  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
+  if (ctx.colors) ctx.stylize = stylizeWithColor;
+  return formatValue(ctx, obj, ctx.depth);
+}
+exports.inspect = inspect;
+
+
+// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+inspect.colors = {
+  'bold' : [1, 22],
+  'italic' : [3, 23],
+  'underline' : [4, 24],
+  'inverse' : [7, 27],
+  'white' : [37, 39],
+  'grey' : [90, 39],
+  'black' : [30, 39],
+  'blue' : [34, 39],
+  'cyan' : [36, 39],
+  'green' : [32, 39],
+  'magenta' : [35, 39],
+  'red' : [31, 39],
+  'yellow' : [33, 39]
+};
+
+// Don't use 'blue' not visible on cmd.exe
+inspect.styles = {
+  'special': 'cyan',
+  'number': 'yellow',
+  'boolean': 'yellow',
+  'undefined': 'grey',
+  'null': 'bold',
+  'string': 'green',
+  'date': 'magenta',
+  // "name": intentionally not styling
+  'regexp': 'red'
+};
+
+
+function stylizeWithColor(str, styleType) {
+  var style = inspect.styles[styleType];
+
+  if (style) {
+    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
+           '\u001b[' + inspect.colors[style][1] + 'm';
+  } else {
+    return str;
+  }
+}
+
+
+function stylizeNoColor(str, styleType) {
+  return str;
+}
+
+
+function arrayToHash(array) {
+  var hash = {};
+
+  array.forEach(function(val, idx) {
+    hash[val] = true;
+  });
+
+  return hash;
+}
+
+
+function formatValue(ctx, value, recurseTimes) {
+  // Provide a hook for user-specified inspect functions.
+  // Check that value is an object with an inspect function on it
+  if (ctx.customInspect &&
+      value &&
+      isFunction(value.inspect) &&
+      // Filter out the util module, it's inspect function is special
+      value.inspect !== exports.inspect &&
+      // Also filter out any prototype objects using the circular check.
+      !(value.constructor && value.constructor.prototype === value)) {
+    var ret = value.inspect(recurseTimes, ctx);
+    if (!isString(ret)) {
+      ret = formatValue(ctx, ret, recurseTimes);
+    }
+    return ret;
+  }
+
+  // Primitive types cannot have properties
+  var primitive = formatPrimitive(ctx, value);
+  if (primitive) {
+    return primitive;
+  }
+
+  // Look up the keys of the object.
+  var keys = Object.keys(value);
+  var visibleKeys = arrayToHash(keys);
+
+  if (ctx.showHidden) {
+    keys = Object.getOwnPropertyNames(value);
+  }
+
+  // IE doesn't make error fields non-enumerable
+  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
+  if (isError(value)
+      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
+    return formatError(value);
+  }
+
+  // Some type of object without properties can be shortcutted.
+  if (keys.length === 0) {
+    if (isFunction(value)) {
+      var name = value.name ? ': ' + value.name : '';
+      return ctx.stylize('[Function' + name + ']', 'special');
+    }
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    }
+    if (isDate(value)) {
+      return ctx.stylize(Date.prototype.toString.call(value), 'date');
+    }
+    if (isError(value)) {
+      return formatError(value);
+    }
+  }
+
+  var base = '', array = false, braces = ['{', '}'];
+
+  // Make Array say that they are Array
+  if (isArray(value)) {
+    array = true;
+    braces = ['[', ']'];
+  }
+
+  // Make functions say that they are functions
+  if (isFunction(value)) {
+    var n = value.name ? ': ' + value.name : '';
+    base = ' [Function' + n + ']';
+  }
+
+  // Make RegExps say that they are RegExps
+  if (isRegExp(value)) {
+    base = ' ' + RegExp.prototype.toString.call(value);
+  }
+
+  // Make dates with properties first say the date
+  if (isDate(value)) {
+    base = ' ' + Date.prototype.toUTCString.call(value);
+  }
+
+  // Make error with message first say the error
+  if (isError(value)) {
+    base = ' ' + formatError(value);
+  }
+
+  if (keys.length === 0 && (!array || value.length == 0)) {
+    return braces[0] + base + braces[1];
+  }
+
+  if (recurseTimes < 0) {
+    if (isRegExp(value)) {
+      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
+    } else {
+      return ctx.stylize('[Object]', 'special');
+    }
+  }
+
+  ctx.seen.push(value);
+
+  var output;
+  if (array) {
+    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
+  } else {
+    output = keys.map(function(key) {
+      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
+    });
+  }
+
+  ctx.seen.pop();
+
+  return reduceToSingleString(output, base, braces);
+}
+
+
+function formatPrimitive(ctx, value) {
+  if (isUndefined(value))
+    return ctx.stylize('undefined', 'undefined');
+  if (isString(value)) {
+    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
+                                             .replace(/'/g, "\\'")
+                                             .replace(/\\"/g, '"') + '\'';
+    return ctx.stylize(simple, 'string');
+  }
+  if (isNumber(value))
+    return ctx.stylize('' + value, 'number');
+  if (isBoolean(value))
+    return ctx.stylize('' + value, 'boolean');
+  // For some reason typeof null is "object", so special case here.
+  if (isNull(value))
+    return ctx.stylize('null', 'null');
+}
+
+
+function formatError(value) {
+  return '[' + Error.prototype.toString.call(value) + ']';
+}
+
+
+function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
+  var output = [];
+  for (var i = 0, l = value.length; i < l; ++i) {
+    if (hasOwnProperty(value, String(i))) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+          String(i), true));
+    } else {
+      output.push('');
+    }
+  }
+  keys.forEach(function(key) {
+    if (!key.match(/^\d+$/)) {
+      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
+          key, true));
+    }
+  });
+  return output;
+}
+
+
+function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
+  var name, str, desc;
+  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
+  if (desc.get) {
+    if (desc.set) {
+      str = ctx.stylize('[Getter/Setter]', 'special');
+    } else {
+      str = ctx.stylize('[Getter]', 'special');
+    }
+  } else {
+    if (desc.set) {
+      str = ctx.stylize('[Setter]', 'special');
+    }
+  }
+  if (!hasOwnProperty(visibleKeys, key)) {
+    name = '[' + key + ']';
+  }
+  if (!str) {
+    if (ctx.seen.indexOf(desc.value) < 0) {
+      if (isNull(recurseTimes)) {
+        str = formatValue(ctx, desc.value, null);
+      } else {
+        str = formatValue(ctx, desc.value, recurseTimes - 1);
+      }
+      if (str.indexOf('\n') > -1) {
+        if (array) {
+          str = str.split('\n').map(function(line) {
+            return '  ' + line;
+          }).join('\n').substr(2);
+        } else {
+          str = '\n' + str.split('\n').map(function(line) {
+            return '   ' + line;
+          }).join('\n');
+        }
+      }
+    } else {
+      str = ctx.stylize('[Circular]', 'special');
+    }
+  }
+  if (isUndefined(name)) {
+    if (array && key.match(/^\d+$/)) {
+      return str;
+    }
+    name = JSON.stringify('' + key);
+    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
+      name = name.substr(1, name.length - 2);
+      name = ctx.stylize(name, 'name');
+    } else {
+      name = name.replace(/'/g, "\\'")
+                 .replace(/\\"/g, '"')
+                 .replace(/(^"|"$)/g, "'");
+      name = ctx.stylize(name, 'string');
+    }
+  }
+
+  return name + ': ' + str;
+}
+
+
+function reduceToSingleString(output, base, braces) {
+  var numLinesEst = 0;
+  var length = output.reduce(function(prev, cur) {
+    numLinesEst++;
+    if (cur.indexOf('\n') >= 0) numLinesEst++;
+    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
+  }, 0);
+
+  if (length > 60) {
+    return braces[0] +
+           (base === '' ? '' : base + '\n ') +
+           ' ' +
+           output.join(',\n  ') +
+           ' ' +
+           braces[1];
+  }
+
+  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
+}
+
+
+// NOTE: These type checking functions intentionally don't use `instanceof`
+// because it is fragile and can be easily faked with `Object.create()`.
+function isArray(ar) {
+  return Array.isArray(ar);
+}
+exports.isArray = isArray;
+
+function isBoolean(arg) {
+  return typeof arg === 'boolean';
+}
+exports.isBoolean = isBoolean;
+
+function isNull(arg) {
+  return arg === null;
+}
+exports.isNull = isNull;
+
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+exports.isNullOrUndefined = isNullOrUndefined;
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+exports.isNumber = isNumber;
+
+function isString(arg) {
+  return typeof arg === 'string';
+}
+exports.isString = isString;
+
+function isSymbol(arg) {
+  return typeof arg === 'symbol';
+}
+exports.isSymbol = isSymbol;
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+exports.isUndefined = isUndefined;
+
+function isRegExp(re) {
+  return isObject(re) && objectToString(re) === '[object RegExp]';
+}
+exports.isRegExp = isRegExp;
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+exports.isObject = isObject;
+
+function isDate(d) {
+  return isObject(d) && objectToString(d) === '[object Date]';
+}
+exports.isDate = isDate;
+
+function isError(e) {
+  return isObject(e) &&
+      (objectToString(e) === '[object Error]' || e instanceof Error);
+}
+exports.isError = isError;
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+exports.isFunction = isFunction;
+
+function isPrimitive(arg) {
+  return arg === null ||
+         typeof arg === 'boolean' ||
+         typeof arg === 'number' ||
+         typeof arg === 'string' ||
+         typeof arg === 'symbol' ||  // ES6 symbol
+         typeof arg === 'undefined';
+}
+exports.isPrimitive = isPrimitive;
+
+exports.isBuffer = require('./support/isBuffer');
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+
+function pad(n) {
+  return n < 10 ? '0' + n.toString(10) : n.toString(10);
+}
+
+
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
+              'Oct', 'Nov', 'Dec'];
+
+// 26 Feb 16:19:34
+function timestamp() {
+  var d = new Date();
+  var time = [pad(d.getHours()),
+              pad(d.getMinutes()),
+              pad(d.getSeconds())].join(':');
+  return [d.getDate(), months[d.getMonth()], time].join(' ');
+}
+
+
+// log is just a thin wrapper to console.log that prepends a timestamp
+exports.log = function() {
+  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
+};
+
+
+/**
+ * Inherit the prototype methods from one constructor into another.
+ *
+ * The Function.prototype.inherits from lang.js rewritten as a standalone
+ * function (not on Function.prototype). NOTE: If this file is to be loaded
+ * during bootstrapping this function needs to be rewritten using some native
+ * functions as prototype setup using normal JavaScript does not work as
+ * expected during bootstrapping (see mirror.js in r114903).
+ *
+ * @param {function} ctor Constructor function which needs to inherit the
+ *     prototype.
+ * @param {function} superCtor Constructor function to inherit prototype from.
+ */
+exports.inherits = require('inherits');
+
+exports._extend = function(origin, add) {
+  // Don't do anything if add isn't an object
+  if (!add || !isObject(add)) return origin;
+
+  var keys = Object.keys(add);
+  var i = keys.length;
+  while (i--) {
+    origin[keys[i]] = add[keys[i]];
+  }
+  return origin;
+};
+
+function hasOwnProperty(obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
+},{"./support/isBuffer":41,"_process":25,"inherits":21}],43:[function(require,module,exports){
+(function (Buffer){
+'use strict';
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+// shim for Node's 'util' package
+// DO NOT REMOVE THIS! It is required for compatibility with EnderJS (http://enderjs.com/).
+var util = {
+  isArray: function (ar) {
+    return Array.isArray(ar) || (typeof ar === 'object' && objectToString(ar) === '[object Array]');
+  },
+  isDate: function (d) {
+    return typeof d === 'object' && objectToString(d) === '[object Date]';
+  },
+  isRegExp: function (re) {
+    return typeof re === 'object' && objectToString(re) === '[object RegExp]';
+  },
+  getRegExpFlags: function (re) {
+    var flags = '';
+    re.global && (flags += 'g');
+    re.ignoreCase && (flags += 'i');
+    re.multiline && (flags += 'm');
+    return flags;
+  }
+};
+
+
+if (typeof module === 'object')
+  module.exports = clone;
+
+/**
+ * Clones (copies) an Object using deep copying.
+ *
+ * This function supports circular references by default, but if you are certain
+ * there are no circular references in your object, you can save some CPU time
+ * by calling clone(obj, false).
+ *
+ * Caution: if `circular` is false and `parent` contains circular references,
+ * your program may enter an infinite loop and crash.
+ *
+ * @param `parent` - the object to be cloned
+ * @param `circular` - set to true if the object to be cloned may contain
+ *    circular references. (optional - true by default)
+ * @param `depth` - set to a number if the object is only to be cloned to
+ *    a particular depth. (optional - defaults to Infinity)
+ * @param `prototype` - sets the prototype to be used when cloning an object.
+ *    (optional - defaults to parent prototype).
+*/
+
+function clone(parent, circular, depth, prototype) {
+  // maintain two arrays for circular references, where corresponding parents
+  // and children have the same index
+  var allParents = [];
+  var allChildren = [];
+
+  var useBuffer = typeof Buffer != 'undefined';
+
+  if (typeof circular == 'undefined')
+    circular = true;
+
+  if (typeof depth == 'undefined')
+    depth = Infinity;
+
+  // recurse this function so we don't reset allParents and allChildren
+  function _clone(parent, depth) {
+    // cloning null always returns null
+    if (parent === null)
+      return null;
+
+    if (depth == 0)
+      return parent;
+
+    var child;
+    var proto;
+    if (typeof parent != 'object') {
+      return parent;
+    }
+
+    if (util.isArray(parent)) {
+      child = [];
+    } else if (util.isRegExp(parent)) {
+      child = new RegExp(parent.source, util.getRegExpFlags(parent));
+      if (parent.lastIndex) child.lastIndex = parent.lastIndex;
+    } else if (util.isDate(parent)) {
+      child = new Date(parent.getTime());
+    } else if (useBuffer && Buffer.isBuffer(parent)) {
+      child = new Buffer(parent.length);
+      parent.copy(child);
+      return child;
+    } else {
+      if (typeof prototype == 'undefined') {
+        proto = Object.getPrototypeOf(parent);
+        child = Object.create(proto);
+      }
+      else {
+        child = Object.create(prototype);
+        proto = prototype;
+      }
+    }
+
+    if (circular) {
+      var index = allParents.indexOf(parent);
+
+      if (index != -1) {
+        return allChildren[index];
+      }
+      allParents.push(parent);
+      allChildren.push(child);
+    }
+
+    for (var i in parent) {
+      var attrs;
+      if (proto) {
+        attrs = Object.getOwnPropertyDescriptor(proto, i);
+      }
+      
+      if (attrs && attrs.set == null) {
+        continue;
+      }
+      child[i] = _clone(parent[i], depth - 1);
+    }
+
+    return child;
+  }
+
+  return _clone(parent, depth);
+}
+
+/**
+ * Simple flat clone using prototype, accepts only objects, usefull for property
+ * override on FLAT configuration object (no nested props).
+ *
+ * USE WITH CAUTION! This may not behave as you wish if you do not know how this
+ * works.
+ */
+clone.clonePrototype = function(parent) {
+  if (parent === null)
+    return null;
+
+  var c = function () {};
+  c.prototype = parent;
+  return new c();
+};
+
+}).call(this,require("buffer").Buffer)
+
+},{"buffer":16}],44:[function(require,module,exports){
 (function (Buffer){
 var Writable = require('readable-stream').Writable
 var inherits = require('inherits')
@@ -32946,7 +36100,7 @@ function u8Concat (parts) {
 
 }).call(this,require("buffer").Buffer)
 
-},{"buffer":17,"inherits":43,"readable-stream":114,"typedarray":122}],19:[function(require,module,exports){
+},{"buffer":16,"inherits":67,"readable-stream":131,"typedarray":136}],45:[function(require,module,exports){
 'use strict';
 
 var ticky = require('ticky');
@@ -32958,7 +36112,7 @@ module.exports = function debounce (fn, args, ctx) {
   });
 };
 
-},{"ticky":120}],20:[function(require,module,exports){
+},{"ticky":134}],46:[function(require,module,exports){
 'use strict';
 
 var atoa = require('atoa');
@@ -33014,7 +36168,7 @@ module.exports = function emitter (thing, options) {
   return thing;
 };
 
-},{"./debounce":19,"atoa":13}],21:[function(require,module,exports){
+},{"./debounce":45,"atoa":13}],47:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -33039,8 +36193,12 @@ module.exports = function emitter (thing, options) {
 
 // NOTE: These type checking functions intentionally don't use `instanceof`
 // because it is fragile and can be easily faked with `Object.create()`.
-function isArray(ar) {
-  return Array.isArray(ar);
+
+function isArray(arg) {
+  if (Array.isArray) {
+    return Array.isArray(arg);
+  }
+  return objectToString(arg) === '[object Array]';
 }
 exports.isArray = isArray;
 
@@ -33080,7 +36238,7 @@ function isUndefined(arg) {
 exports.isUndefined = isUndefined;
 
 function isRegExp(re) {
-  return isObject(re) && objectToString(re) === '[object RegExp]';
+  return objectToString(re) === '[object RegExp]';
 }
 exports.isRegExp = isRegExp;
 
@@ -33090,13 +36248,12 @@ function isObject(arg) {
 exports.isObject = isObject;
 
 function isDate(d) {
-  return isObject(d) && objectToString(d) === '[object Date]';
+  return objectToString(d) === '[object Date]';
 }
 exports.isDate = isDate;
 
 function isError(e) {
-  return isObject(e) &&
-      (objectToString(e) === '[object Error]' || e instanceof Error);
+  return (objectToString(e) === '[object Error]' || e instanceof Error);
 }
 exports.isError = isError;
 
@@ -33115,17 +36272,15 @@ function isPrimitive(arg) {
 }
 exports.isPrimitive = isPrimitive;
 
-function isBuffer(arg) {
-  return Buffer.isBuffer(arg);
-}
-exports.isBuffer = isBuffer;
+exports.isBuffer = Buffer.isBuffer;
 
 function objectToString(o) {
   return Object.prototype.toString.call(o);
 }
-}).call(this,{"isBuffer":require("../../is-buffer/index.js")})
 
-},{"../../is-buffer/index.js":45}],22:[function(require,module,exports){
+}).call(this,{"isBuffer":require("../../browserify/node_modules/insert-module-globals/node_modules/is-buffer/index.js")})
+
+},{"../../browserify/node_modules/insert-module-globals/node_modules/is-buffer/index.js":22}],48:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -33231,7 +36386,7 @@ function find (el, type, fn) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"./eventmap":23,"custom-event":24}],23:[function(require,module,exports){
+},{"./eventmap":49,"custom-event":50}],49:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -33249,7 +36404,7 @@ module.exports = eventmap;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],24:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 (function (global){
 
 var NativeCustomEvent = global.CustomEvent;
@@ -33302,7 +36457,7 @@ function CustomEvent (type, params) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],25:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 (function (Buffer,process){
 var util              = require('util')
   , AbstractLevelDOWN = require('abstract-leveldown').AbstractLevelDOWN
@@ -33352,9 +36507,9 @@ DeferredLevelDOWN.prototype._iterator = function () {
 
 module.exports = DeferredLevelDOWN
 
-}).call(this,{"isBuffer":require("../is-buffer/index.js")},require('_process'))
+}).call(this,{"isBuffer":require("../browserify/node_modules/insert-module-globals/node_modules/is-buffer/index.js")},require('_process'))
 
-},{"../is-buffer/index.js":45,"_process":105,"abstract-leveldown":5,"util":125}],26:[function(require,module,exports){
+},{"../browserify/node_modules/insert-module-globals/node_modules/is-buffer/index.js":22,"_process":25,"abstract-leveldown":5,"util":42}],52:[function(require,module,exports){
 'use strict';
 
 var cache = {};
@@ -33389,7 +36544,7 @@ module.exports = {
   rm: rmClass
 };
 
-},{}],27:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -33783,7 +36938,7 @@ function dragula (initialContainers, options) {
       return;
     }
     if (
-      (reference === null && changed) ||
+      reference === null ||
       reference !== item &&
       reference !== nextEl(item) &&
       reference !== _currentSibling
@@ -33906,8 +37061,8 @@ function touchy (el, op, type, fn) {
 
 function whichMouseButton (e) {
   if (e.touches !== void 0) { return e.touches.length; }
-  if (e.which !== void 0 && e.which !== 0) { return e.which; } // see https://github.com/bevacqua/dragula/issues/261
   if (e.buttons !== void 0) { return e.buttons; }
+  if (e.which !== void 0) { return e.which; }
   var button = e.button;
   if (button !== void 0) { // see https://github.com/jquery/jquery/blob/99e8ff1baa7ae341e94bb89c3e84570c7c3ad9ea/src/event.js#L573-L575
     return button & 1 ? 1 : button & 2 ? 3 : (button & 4 ? 2 : 0);
@@ -33995,7 +37150,7 @@ module.exports = dragula;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"./classes":26,"contra/emitter":20,"crossvent":22}],28:[function(require,module,exports){
+},{"./classes":52,"contra/emitter":46,"crossvent":48}],54:[function(require,module,exports){
 var prr = require('prr')
 
 function init (type, message, cause) {
@@ -34052,7 +37207,7 @@ module.exports = function (errno) {
   }
 }
 
-},{"prr":106}],29:[function(require,module,exports){
+},{"prr":125}],55:[function(require,module,exports){
 var all = module.exports.all = [
   {
     errno: -2,
@@ -34367,307 +37522,7 @@ all.forEach(function (error) {
 module.exports.custom = require('./custom')(module.exports)
 module.exports.create = module.exports.custom.createError
 
-},{"./custom":28}],30:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-function EventEmitter() {
-  this._events = this._events || {};
-  this._maxListeners = this._maxListeners || undefined;
-}
-module.exports = EventEmitter;
-
-// Backwards-compat with node 0.10.x
-EventEmitter.EventEmitter = EventEmitter;
-
-EventEmitter.prototype._events = undefined;
-EventEmitter.prototype._maxListeners = undefined;
-
-// By default EventEmitters will print a warning if more than 10 listeners are
-// added to it. This is a useful default which helps finding memory leaks.
-EventEmitter.defaultMaxListeners = 10;
-
-// Obviously not all Emitters should be limited to 10. This function allows
-// that to be increased. Set to zero for unlimited.
-EventEmitter.prototype.setMaxListeners = function(n) {
-  if (!isNumber(n) || n < 0 || isNaN(n))
-    throw TypeError('n must be a positive number');
-  this._maxListeners = n;
-  return this;
-};
-
-EventEmitter.prototype.emit = function(type) {
-  var er, handler, len, args, i, listeners;
-
-  if (!this._events)
-    this._events = {};
-
-  // If there is no 'error' event listener then throw.
-  if (type === 'error') {
-    if (!this._events.error ||
-        (isObject(this._events.error) && !this._events.error.length)) {
-      er = arguments[1];
-      if (er instanceof Error) {
-        throw er; // Unhandled 'error' event
-      }
-      throw TypeError('Uncaught, unspecified "error" event.');
-    }
-  }
-
-  handler = this._events[type];
-
-  if (isUndefined(handler))
-    return false;
-
-  if (isFunction(handler)) {
-    switch (arguments.length) {
-      // fast cases
-      case 1:
-        handler.call(this);
-        break;
-      case 2:
-        handler.call(this, arguments[1]);
-        break;
-      case 3:
-        handler.call(this, arguments[1], arguments[2]);
-        break;
-      // slower
-      default:
-        args = Array.prototype.slice.call(arguments, 1);
-        handler.apply(this, args);
-    }
-  } else if (isObject(handler)) {
-    args = Array.prototype.slice.call(arguments, 1);
-    listeners = handler.slice();
-    len = listeners.length;
-    for (i = 0; i < len; i++)
-      listeners[i].apply(this, args);
-  }
-
-  return true;
-};
-
-EventEmitter.prototype.addListener = function(type, listener) {
-  var m;
-
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  if (!this._events)
-    this._events = {};
-
-  // To avoid recursion in the case that type === "newListener"! Before
-  // adding it to the listeners, first emit "newListener".
-  if (this._events.newListener)
-    this.emit('newListener', type,
-              isFunction(listener.listener) ?
-              listener.listener : listener);
-
-  if (!this._events[type])
-    // Optimize the case of one listener. Don't need the extra array object.
-    this._events[type] = listener;
-  else if (isObject(this._events[type]))
-    // If we've already got an array, just append.
-    this._events[type].push(listener);
-  else
-    // Adding the second element, need to change to array.
-    this._events[type] = [this._events[type], listener];
-
-  // Check for listener leak
-  if (isObject(this._events[type]) && !this._events[type].warned) {
-    if (!isUndefined(this._maxListeners)) {
-      m = this._maxListeners;
-    } else {
-      m = EventEmitter.defaultMaxListeners;
-    }
-
-    if (m && m > 0 && this._events[type].length > m) {
-      this._events[type].warned = true;
-      console.error('(node) warning: possible EventEmitter memory ' +
-                    'leak detected. %d listeners added. ' +
-                    'Use emitter.setMaxListeners() to increase limit.',
-                    this._events[type].length);
-      if (typeof console.trace === 'function') {
-        // not supported in IE 10
-        console.trace();
-      }
-    }
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-
-EventEmitter.prototype.once = function(type, listener) {
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  var fired = false;
-
-  function g() {
-    this.removeListener(type, g);
-
-    if (!fired) {
-      fired = true;
-      listener.apply(this, arguments);
-    }
-  }
-
-  g.listener = listener;
-  this.on(type, g);
-
-  return this;
-};
-
-// emits a 'removeListener' event iff the listener was removed
-EventEmitter.prototype.removeListener = function(type, listener) {
-  var list, position, length, i;
-
-  if (!isFunction(listener))
-    throw TypeError('listener must be a function');
-
-  if (!this._events || !this._events[type])
-    return this;
-
-  list = this._events[type];
-  length = list.length;
-  position = -1;
-
-  if (list === listener ||
-      (isFunction(list.listener) && list.listener === listener)) {
-    delete this._events[type];
-    if (this._events.removeListener)
-      this.emit('removeListener', type, listener);
-
-  } else if (isObject(list)) {
-    for (i = length; i-- > 0;) {
-      if (list[i] === listener ||
-          (list[i].listener && list[i].listener === listener)) {
-        position = i;
-        break;
-      }
-    }
-
-    if (position < 0)
-      return this;
-
-    if (list.length === 1) {
-      list.length = 0;
-      delete this._events[type];
-    } else {
-      list.splice(position, 1);
-    }
-
-    if (this._events.removeListener)
-      this.emit('removeListener', type, listener);
-  }
-
-  return this;
-};
-
-EventEmitter.prototype.removeAllListeners = function(type) {
-  var key, listeners;
-
-  if (!this._events)
-    return this;
-
-  // not listening for removeListener, no need to emit
-  if (!this._events.removeListener) {
-    if (arguments.length === 0)
-      this._events = {};
-    else if (this._events[type])
-      delete this._events[type];
-    return this;
-  }
-
-  // emit removeListener for all listeners on all events
-  if (arguments.length === 0) {
-    for (key in this._events) {
-      if (key === 'removeListener') continue;
-      this.removeAllListeners(key);
-    }
-    this.removeAllListeners('removeListener');
-    this._events = {};
-    return this;
-  }
-
-  listeners = this._events[type];
-
-  if (isFunction(listeners)) {
-    this.removeListener(type, listeners);
-  } else if (listeners) {
-    // LIFO order
-    while (listeners.length)
-      this.removeListener(type, listeners[listeners.length - 1]);
-  }
-  delete this._events[type];
-
-  return this;
-};
-
-EventEmitter.prototype.listeners = function(type) {
-  var ret;
-  if (!this._events || !this._events[type])
-    ret = [];
-  else if (isFunction(this._events[type]))
-    ret = [this._events[type]];
-  else
-    ret = this._events[type].slice();
-  return ret;
-};
-
-EventEmitter.prototype.listenerCount = function(type) {
-  if (this._events) {
-    var evlistener = this._events[type];
-
-    if (isFunction(evlistener))
-      return 1;
-    else if (evlistener)
-      return evlistener.length;
-  }
-  return 0;
-};
-
-EventEmitter.listenerCount = function(emitter, type) {
-  return emitter.listenerCount(type);
-};
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-
-},{}],31:[function(require,module,exports){
+},{"./custom":54}],56:[function(require,module,exports){
 
 var hasOwn = Object.prototype.hasOwnProperty;
 var toString = Object.prototype.toString;
@@ -34691,7 +37546,7 @@ module.exports = function forEach (obj, fn, ctx) {
 };
 
 
-},{}],32:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 (function (process,Buffer){
 var Writable = require('readable-stream/writable');
 var Readable = require('readable-stream/readable');
@@ -34854,10 +37709,9 @@ exports.duplex = function(opts, initWritable, initReadable) {
 };
 }).call(this,require('_process'),require("buffer").Buffer)
 
-},{"_process":105,"buffer":17,"readable-stream/duplex":33,"readable-stream/readable":39,"readable-stream/writable":40}],33:[function(require,module,exports){
-module.exports = require("./lib/_stream_duplex.js")
-
-},{"./lib/_stream_duplex.js":34}],34:[function(require,module,exports){
+},{"_process":25,"buffer":16,"readable-stream/duplex":58,"readable-stream/readable":64,"readable-stream/writable":65}],58:[function(require,module,exports){
+arguments[4][26][0].apply(exports,arguments)
+},{"./lib/_stream_duplex.js":59,"dup":26}],59:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -34951,7 +37805,7 @@ function forEach (xs, f) {
 
 }).call(this,require('_process'))
 
-},{"./_stream_readable":36,"./_stream_writable":38,"_process":105,"core-util-is":21,"inherits":43}],35:[function(require,module,exports){
+},{"./_stream_readable":61,"./_stream_writable":63,"_process":25,"core-util-is":47,"inherits":67}],60:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -34999,7 +37853,7 @@ PassThrough.prototype._transform = function(chunk, encoding, cb) {
   cb(null, chunk);
 };
 
-},{"./_stream_transform":37,"core-util-is":21,"inherits":43}],36:[function(require,module,exports){
+},{"./_stream_transform":62,"core-util-is":47,"inherits":67}],61:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -35986,7 +38840,7 @@ function indexOf (xs, x) {
 
 }).call(this,require('_process'))
 
-},{"_process":105,"buffer":17,"core-util-is":21,"events":30,"inherits":43,"isarray":47,"stream":117,"string_decoder/":119}],37:[function(require,module,exports){
+},{"_process":25,"buffer":16,"core-util-is":47,"events":20,"inherits":67,"isarray":69,"stream":39,"string_decoder/":133}],62:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -36198,7 +39052,7 @@ function done(stream, er) {
   return stream.push(null);
 }
 
-},{"./_stream_duplex":34,"core-util-is":21,"inherits":43}],38:[function(require,module,exports){
+},{"./_stream_duplex":59,"core-util-is":47,"inherits":67}],63:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -36589,7 +39443,7 @@ function endWritable(stream, state, cb) {
 
 }).call(this,require('_process'))
 
-},{"./_stream_duplex":34,"_process":105,"buffer":17,"core-util-is":21,"inherits":43,"stream":117}],39:[function(require,module,exports){
+},{"./_stream_duplex":59,"_process":25,"buffer":16,"core-util-is":47,"inherits":67,"stream":39}],64:[function(require,module,exports){
 var Stream = require('stream'); // hack to fix a circular dependency issue when used with browserify
 exports = module.exports = require('./lib/_stream_readable.js');
 exports.Stream = Stream;
@@ -36599,10 +39453,9 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":34,"./lib/_stream_passthrough.js":35,"./lib/_stream_readable.js":36,"./lib/_stream_transform.js":37,"./lib/_stream_writable.js":38,"stream":117}],40:[function(require,module,exports){
-module.exports = require("./lib/_stream_writable.js")
-
-},{"./lib/_stream_writable.js":38}],41:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":59,"./lib/_stream_passthrough.js":60,"./lib/_stream_readable.js":61,"./lib/_stream_transform.js":62,"./lib/_stream_writable.js":63,"stream":39}],65:[function(require,module,exports){
+arguments[4][38][0].apply(exports,arguments)
+},{"./lib/_stream_writable.js":63,"dup":38}],66:[function(require,module,exports){
 /*global window:false, self:false, define:false, module:false */
 
 /**
@@ -37965,172 +40818,9 @@ module.exports = require("./lib/_stream_writable.js")
 
 }, this);
 
-},{}],42:[function(require,module,exports){
-exports.read = function (buffer, offset, isLE, mLen, nBytes) {
-  var e, m
-  var eLen = nBytes * 8 - mLen - 1
-  var eMax = (1 << eLen) - 1
-  var eBias = eMax >> 1
-  var nBits = -7
-  var i = isLE ? (nBytes - 1) : 0
-  var d = isLE ? -1 : 1
-  var s = buffer[offset + i]
-
-  i += d
-
-  e = s & ((1 << (-nBits)) - 1)
-  s >>= (-nBits)
-  nBits += eLen
-  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
-
-  m = e & ((1 << (-nBits)) - 1)
-  e >>= (-nBits)
-  nBits += mLen
-  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
-
-  if (e === 0) {
-    e = 1 - eBias
-  } else if (e === eMax) {
-    return m ? NaN : ((s ? -1 : 1) * Infinity)
-  } else {
-    m = m + Math.pow(2, mLen)
-    e = e - eBias
-  }
-  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
-}
-
-exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
-  var e, m, c
-  var eLen = nBytes * 8 - mLen - 1
-  var eMax = (1 << eLen) - 1
-  var eBias = eMax >> 1
-  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
-  var i = isLE ? 0 : (nBytes - 1)
-  var d = isLE ? 1 : -1
-  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
-
-  value = Math.abs(value)
-
-  if (isNaN(value) || value === Infinity) {
-    m = isNaN(value) ? 1 : 0
-    e = eMax
-  } else {
-    e = Math.floor(Math.log(value) / Math.LN2)
-    if (value * (c = Math.pow(2, -e)) < 1) {
-      e--
-      c *= 2
-    }
-    if (e + eBias >= 1) {
-      value += rt / c
-    } else {
-      value += rt * Math.pow(2, 1 - eBias)
-    }
-    if (value * c >= 2) {
-      e++
-      c /= 2
-    }
-
-    if (e + eBias >= eMax) {
-      m = 0
-      e = eMax
-    } else if (e + eBias >= 1) {
-      m = (value * c - 1) * Math.pow(2, mLen)
-      e = e + eBias
-    } else {
-      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
-      e = 0
-    }
-  }
-
-  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
-
-  e = (e << mLen) | m
-  eLen += mLen
-  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
-
-  buffer[offset + i - d] |= s * 128
-}
-
-},{}],43:[function(require,module,exports){
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
-}
-
-},{}],44:[function(require,module,exports){
-
-/**
- * isArray
- */
-
-var isArray = Array.isArray;
-
-/**
- * toString
- */
-
-var str = Object.prototype.toString;
-
-/**
- * Whether or not the given `val`
- * is an array.
- *
- * example:
- *
- *        isArray([]);
- *        // > true
- *        isArray(arguments);
- *        // > false
- *        isArray('');
- *        // > false
- *
- * @param {mixed} val
- * @return {bool}
- */
-
-module.exports = isArray || function (val) {
-  return !! val && '[object Array]' == str.call(val);
-};
-
-},{}],45:[function(require,module,exports){
-/**
- * Determine if an object is Buffer
- *
- * Author:   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
- * License:  MIT
- *
- * `npm install is-buffer`
- */
-
-module.exports = function (obj) {
-  return !!(obj != null &&
-    (obj._isBuffer || // For Safari 5-7 (missing Object.prototype.constructor)
-      (obj.constructor &&
-      typeof obj.constructor.isBuffer === 'function' &&
-      obj.constructor.isBuffer(obj))
-    ))
-}
-
-},{}],46:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
+arguments[4][21][0].apply(exports,arguments)
+},{"dup":21}],68:[function(require,module,exports){
 
 /**!
  * is
@@ -38834,12 +41524,9 @@ is.string = function (value) {
 };
 
 
-},{}],47:[function(require,module,exports){
-module.exports = Array.isArray || function (arr) {
-  return Object.prototype.toString.call(arr) == '[object Array]';
-};
-
-},{}],48:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
+arguments[4][23][0].apply(exports,arguments)
+},{"dup":23}],70:[function(require,module,exports){
 var Buffer = require('buffer').Buffer;
 
 module.exports = isBuffer;
@@ -38849,7 +41536,7 @@ function isBuffer (o) {
     || /\[object (.+Array|Array.+)\]/.test(Object.prototype.toString.call(o));
 }
 
-},{"buffer":17}],49:[function(require,module,exports){
+},{"buffer":16}],71:[function(require,module,exports){
 (function (process,Buffer){
 var Writable = require('readable-stream/writable');
 var Readable = require('readable-stream/readable');
@@ -39245,7 +41932,7 @@ module.exports = function(db, opts) {
 };
 }).call(this,require('_process'),require("buffer").Buffer)
 
-},{"_process":105,"buffer":17,"level-peek":74,"once":102,"readable-stream/readable":55,"readable-stream/writable":56,"util":125}],50:[function(require,module,exports){
+},{"_process":25,"buffer":16,"level-peek":96,"once":123,"readable-stream/readable":77,"readable-stream/writable":78,"util":42}],72:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -39339,9 +42026,9 @@ function forEach (xs, f) {
 
 }).call(this,require('_process'))
 
-},{"./_stream_readable":52,"./_stream_writable":54,"_process":105,"core-util-is":21,"inherits":43}],51:[function(require,module,exports){
-arguments[4][35][0].apply(exports,arguments)
-},{"./_stream_transform":53,"core-util-is":21,"dup":35,"inherits":43}],52:[function(require,module,exports){
+},{"./_stream_readable":74,"./_stream_writable":76,"_process":25,"core-util-is":47,"inherits":67}],73:[function(require,module,exports){
+arguments[4][60][0].apply(exports,arguments)
+},{"./_stream_transform":75,"core-util-is":47,"dup":60,"inherits":67}],74:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -40297,7 +42984,7 @@ function indexOf (xs, x) {
 
 }).call(this,require('_process'))
 
-},{"./_stream_duplex":50,"_process":105,"buffer":17,"core-util-is":21,"events":30,"inherits":43,"isarray":47,"stream":117,"string_decoder/":119,"util":15}],53:[function(require,module,exports){
+},{"./_stream_duplex":72,"_process":25,"buffer":16,"core-util-is":47,"events":20,"inherits":67,"isarray":69,"stream":39,"string_decoder/":133,"util":15}],75:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -40508,7 +43195,7 @@ function done(stream, er) {
   return stream.push(null);
 }
 
-},{"./_stream_duplex":50,"core-util-is":21,"inherits":43}],54:[function(require,module,exports){
+},{"./_stream_duplex":72,"core-util-is":47,"inherits":67}],76:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -40990,7 +43677,7 @@ function endWritable(stream, state, cb) {
 
 }).call(this,require('_process'))
 
-},{"./_stream_duplex":50,"_process":105,"buffer":17,"core-util-is":21,"inherits":43,"stream":117}],55:[function(require,module,exports){
+},{"./_stream_duplex":72,"_process":25,"buffer":16,"core-util-is":47,"inherits":67,"stream":39}],77:[function(require,module,exports){
 exports = module.exports = require('./lib/_stream_readable.js');
 exports.Stream = require('stream');
 exports.Readable = exports;
@@ -40999,9 +43686,9 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":50,"./lib/_stream_passthrough.js":51,"./lib/_stream_readable.js":52,"./lib/_stream_transform.js":53,"./lib/_stream_writable.js":54,"stream":117}],56:[function(require,module,exports){
-arguments[4][40][0].apply(exports,arguments)
-},{"./lib/_stream_writable.js":54,"dup":40}],57:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":72,"./lib/_stream_passthrough.js":73,"./lib/_stream_readable.js":74,"./lib/_stream_transform.js":75,"./lib/_stream_writable.js":76,"stream":39}],78:[function(require,module,exports){
+arguments[4][38][0].apply(exports,arguments)
+},{"./lib/_stream_writable.js":76,"dup":38}],79:[function(require,module,exports){
 var errno = require('errno');
 
 Object.keys(errno.code).forEach(function(code) {
@@ -41015,7 +43702,7 @@ Object.keys(errno.code).forEach(function(code) {
 		return err;
 	};
 });
-},{"errno":29}],58:[function(require,module,exports){
+},{"errno":55}],80:[function(require,module,exports){
 (function (process,Buffer){
 var fwd = require('fwd-stream');
 var sublevel = require('level-sublevel');
@@ -41617,7 +44304,7 @@ module.exports = function(db, opts) {
 
 }).call(this,require('_process'),require("buffer").Buffer)
 
-},{"./errno":57,"./paths":61,"./watchers":63,"_process":105,"buffer":17,"fwd-stream":32,"level-blobs":49,"level-peek":74,"level-sublevel":76,"octal":101,"once":102}],59:[function(require,module,exports){
+},{"./errno":79,"./paths":83,"./watchers":85,"_process":25,"buffer":16,"fwd-stream":57,"level-blobs":71,"level-peek":96,"level-sublevel":98,"octal":122,"once":123}],81:[function(require,module,exports){
 module.exports = hasKeys
 
 function hasKeys(source) {
@@ -41626,7 +44313,7 @@ function hasKeys(source) {
         typeof source === "function")
 }
 
-},{}],60:[function(require,module,exports){
+},{}],82:[function(require,module,exports){
 var hasKeys = require("./has-keys")
 
 module.exports = extend
@@ -41651,7 +44338,7 @@ function extend() {
     return target
 }
 
-},{"./has-keys":59}],61:[function(require,module,exports){
+},{"./has-keys":81}],83:[function(require,module,exports){
 (function (process){
 var path = require('path');
 var once = require('once');
@@ -41772,7 +44459,7 @@ module.exports = function(db) {
 
 }).call(this,require('_process'))
 
-},{"./errno":57,"./stat":62,"_process":105,"concat-stream":18,"octal":101,"once":102,"path":103,"xtend":60}],62:[function(require,module,exports){
+},{"./errno":79,"./stat":84,"_process":25,"concat-stream":44,"octal":122,"once":123,"path":24,"xtend":82}],84:[function(require,module,exports){
 var toDate = function(date) {
 	if (!date) return new Date();
 	if (typeof date === 'string') return new Date(date);
@@ -41824,7 +44511,7 @@ Stat.prototype.isSocket = function() {
 module.exports = function(opts) {
 	return new Stat(opts);
 };
-},{}],63:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 var events = require('events');
 
 module.exports = function() {
@@ -41877,7 +44564,7 @@ module.exports = function() {
 
 	return that;
 };
-},{"events":30}],64:[function(require,module,exports){
+},{"events":20}],86:[function(require,module,exports){
 
 module.exports = 
 function fixRange(opts) {
@@ -41897,7 +44584,7 @@ function fixRange(opts) {
 }
 
 
-},{}],65:[function(require,module,exports){
+},{}],87:[function(require,module,exports){
 var ranges = require('string-range')
 
 module.exports = function (db) {
@@ -42067,7 +44754,7 @@ module.exports = function (db) {
   }
 }
 
-},{"string-range":118}],66:[function(require,module,exports){
+},{"string-range":132}],88:[function(require,module,exports){
 (function (Buffer){
 module.exports = Level
 
@@ -42242,7 +44929,7 @@ var checkKeyValue = Level.prototype._checkKeyValue = function (obj, type) {
 
 }).call(this,require("buffer").Buffer)
 
-},{"./iterator":67,"abstract-leveldown":5,"buffer":17,"idb-wrapper":41,"isbuffer":48,"typedarray-to-buffer":121,"util":125,"xtend":73}],67:[function(require,module,exports){
+},{"./iterator":89,"abstract-leveldown":5,"buffer":16,"idb-wrapper":66,"isbuffer":70,"typedarray-to-buffer":135,"util":42,"xtend":95}],89:[function(require,module,exports){
 var util = require('util')
 var AbstractIterator  = require('abstract-leveldown').AbstractIterator
 var ltgt = require('ltgt')
@@ -42316,7 +45003,7 @@ Iterator.prototype._next = function (callback) {
   this.callback = callback
 }
 
-},{"abstract-leveldown":5,"ltgt":98,"util":125}],68:[function(require,module,exports){
+},{"abstract-leveldown":5,"ltgt":119,"util":42}],90:[function(require,module,exports){
 var hasOwn = Object.prototype.hasOwnProperty;
 var toString = Object.prototype.toString;
 
@@ -42358,11 +45045,11 @@ module.exports = function forEach(obj, fn) {
 };
 
 
-},{}],69:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 module.exports = Object.keys || require('./shim');
 
 
-},{"./shim":71}],70:[function(require,module,exports){
+},{"./shim":93}],92:[function(require,module,exports){
 var toString = Object.prototype.toString;
 
 module.exports = function isArguments(value) {
@@ -42380,7 +45067,7 @@ module.exports = function isArguments(value) {
 };
 
 
-},{}],71:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 (function () {
 	"use strict";
 
@@ -42444,9 +45131,9 @@ module.exports = function isArguments(value) {
 }());
 
 
-},{"./foreach":68,"./isArguments":70}],72:[function(require,module,exports){
-arguments[4][59][0].apply(exports,arguments)
-},{"dup":59}],73:[function(require,module,exports){
+},{"./foreach":90,"./isArguments":92}],94:[function(require,module,exports){
+arguments[4][81][0].apply(exports,arguments)
+},{"dup":81}],95:[function(require,module,exports){
 var Keys = require("object-keys")
 var hasKeys = require("./has-keys")
 
@@ -42473,7 +45160,7 @@ function extend() {
     return target
 }
 
-},{"./has-keys":72,"object-keys":69}],74:[function(require,module,exports){
+},{"./has-keys":94,"object-keys":91}],96:[function(require,module,exports){
 var fixRange = require('level-fix-range')
 //get the first/last record in a range
 
@@ -42550,7 +45237,7 @@ function last (db, opts, cb) {
 }
 
 
-},{"level-fix-range":64}],75:[function(require,module,exports){
+},{"level-fix-range":86}],97:[function(require,module,exports){
 function addOperation (type, key, value, options) {
   var operation = {
     type: type,
@@ -42590,7 +45277,7 @@ B.write = function (cb) {
 
 module.exports = Batch
 
-},{}],76:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 (function (process){
 var EventEmitter = require('events').EventEmitter
 var next         = process.nextTick
@@ -42685,156 +45372,7 @@ module.exports   = function (_db, options) {
 
 }).call(this,require('_process'))
 
-},{"./batch":75,"./sub":81,"_process":105,"events":30,"level-fix-range":78,"level-hooks":65}],77:[function(require,module,exports){
-(function (Buffer){
-'use strict';
-
-function objectToString(o) {
-  return Object.prototype.toString.call(o);
-}
-
-// shim for Node's 'util' package
-// DO NOT REMOVE THIS! It is required for compatibility with EnderJS (http://enderjs.com/).
-var util = {
-  isArray: function (ar) {
-    return Array.isArray(ar) || (typeof ar === 'object' && objectToString(ar) === '[object Array]');
-  },
-  isDate: function (d) {
-    return typeof d === 'object' && objectToString(d) === '[object Date]';
-  },
-  isRegExp: function (re) {
-    return typeof re === 'object' && objectToString(re) === '[object RegExp]';
-  },
-  getRegExpFlags: function (re) {
-    var flags = '';
-    re.global && (flags += 'g');
-    re.ignoreCase && (flags += 'i');
-    re.multiline && (flags += 'm');
-    return flags;
-  }
-};
-
-
-if (typeof module === 'object')
-  module.exports = clone;
-
-/**
- * Clones (copies) an Object using deep copying.
- *
- * This function supports circular references by default, but if you are certain
- * there are no circular references in your object, you can save some CPU time
- * by calling clone(obj, false).
- *
- * Caution: if `circular` is false and `parent` contains circular references,
- * your program may enter an infinite loop and crash.
- *
- * @param `parent` - the object to be cloned
- * @param `circular` - set to true if the object to be cloned may contain
- *    circular references. (optional - true by default)
- * @param `depth` - set to a number if the object is only to be cloned to
- *    a particular depth. (optional - defaults to Infinity)
- * @param `prototype` - sets the prototype to be used when cloning an object.
- *    (optional - defaults to parent prototype).
-*/
-
-function clone(parent, circular, depth, prototype) {
-  // maintain two arrays for circular references, where corresponding parents
-  // and children have the same index
-  var allParents = [];
-  var allChildren = [];
-
-  var useBuffer = typeof Buffer != 'undefined';
-
-  if (typeof circular == 'undefined')
-    circular = true;
-
-  if (typeof depth == 'undefined')
-    depth = Infinity;
-
-  // recurse this function so we don't reset allParents and allChildren
-  function _clone(parent, depth) {
-    // cloning null always returns null
-    if (parent === null)
-      return null;
-
-    if (depth == 0)
-      return parent;
-
-    var child;
-    var proto;
-    if (typeof parent != 'object') {
-      return parent;
-    }
-
-    if (util.isArray(parent)) {
-      child = [];
-    } else if (util.isRegExp(parent)) {
-      child = new RegExp(parent.source, util.getRegExpFlags(parent));
-      if (parent.lastIndex) child.lastIndex = parent.lastIndex;
-    } else if (util.isDate(parent)) {
-      child = new Date(parent.getTime());
-    } else if (useBuffer && Buffer.isBuffer(parent)) {
-      child = new Buffer(parent.length);
-      parent.copy(child);
-      return child;
-    } else {
-      if (typeof prototype == 'undefined') {
-        proto = Object.getPrototypeOf(parent);
-        child = Object.create(proto);
-      }
-      else {
-        child = Object.create(prototype);
-        proto = prototype;
-      }
-    }
-
-    if (circular) {
-      var index = allParents.indexOf(parent);
-
-      if (index != -1) {
-        return allChildren[index];
-      }
-      allParents.push(parent);
-      allChildren.push(child);
-    }
-
-    for (var i in parent) {
-      var attrs;
-      if (proto) {
-        attrs = Object.getOwnPropertyDescriptor(proto, i);
-      }
-      
-      if (attrs && attrs.set == null) {
-        continue;
-      }
-      child[i] = _clone(parent[i], depth - 1);
-    }
-
-    return child;
-  }
-
-  return _clone(parent, depth);
-}
-
-/**
- * Simple flat clone using prototype, accepts only objects, usefull for property
- * override on FLAT configuration object (no nested props).
- *
- * USE WITH CAUTION! This may not behave as you wish if you do not know how this
- * works.
- */
-clone.clonePrototype = function(parent) {
-  if (parent === null)
-    return null;
-
-  var c = function () {};
-  c.prototype = parent;
-  return new c();
-};
-
-}).call(this,require("buffer").Buffer)
-
-},{"buffer":17}],78:[function(require,module,exports){
+},{"./batch":97,"./sub":102,"_process":25,"events":20,"level-fix-range":99,"level-hooks":87}],99:[function(require,module,exports){
 var clone = require('clone')
 
 module.exports = 
@@ -42860,11 +45398,11 @@ function fixRange(opts) {
   return opts
 }
 
-},{"clone":77}],79:[function(require,module,exports){
-arguments[4][59][0].apply(exports,arguments)
-},{"dup":59}],80:[function(require,module,exports){
-arguments[4][73][0].apply(exports,arguments)
-},{"./has-keys":79,"dup":73,"object-keys":99}],81:[function(require,module,exports){
+},{"clone":43}],100:[function(require,module,exports){
+arguments[4][81][0].apply(exports,arguments)
+},{"dup":81}],101:[function(require,module,exports){
+arguments[4][95][0].apply(exports,arguments)
+},{"./has-keys":100,"dup":95,"object-keys":120}],102:[function(require,module,exports){
 var EventEmitter = require('events').EventEmitter
 var inherits     = require('util').inherits
 var ranges       = require('string-range')
@@ -43143,7 +45681,7 @@ SDB.post = function (range, hook) {
 var exports = module.exports = SubDB
 
 
-},{"./batch":75,"events":30,"level-fix-range":78,"string-range":118,"util":125,"xtend":80}],82:[function(require,module,exports){
+},{"./batch":97,"events":20,"level-fix-range":99,"string-range":132,"util":42,"xtend":101}],103:[function(require,module,exports){
 /* Copyright (c) 2012-2014 LevelUP contributors
  * See list at <https://github.com/rvagg/node-levelup#contributing>
  * MIT License
@@ -43223,7 +45761,7 @@ Batch.prototype.write = function (callback) {
 
 module.exports = Batch
 
-},{"./errors":83,"./util":86}],83:[function(require,module,exports){
+},{"./errors":104,"./util":107}],104:[function(require,module,exports){
 /* Copyright (c) 2012-2014 LevelUP contributors
  * See list at <https://github.com/rvagg/node-levelup#contributing>
  * MIT License
@@ -43247,7 +45785,7 @@ module.exports = {
   , EncodingError       : createError('EncodingError', LevelUPError)
 }
 
-},{"errno":29}],84:[function(require,module,exports){
+},{"errno":55}],105:[function(require,module,exports){
 (function (process){
 /* Copyright (c) 2012-2014 LevelUP contributors
  * See list at <https://github.com/rvagg/node-levelup#contributing>
@@ -43687,7 +46225,7 @@ module.exports.repair  = utilStatic('repair')
 
 }).call(this,require('_process'))
 
-},{"./batch":82,"./errors":83,"./read-stream":85,"./util":86,"./write-stream":87,"_process":105,"deferred-leveldown":25,"events":30,"prr":106,"util":125,"xtend":95}],85:[function(require,module,exports){
+},{"./batch":103,"./errors":104,"./read-stream":106,"./util":107,"./write-stream":108,"_process":25,"deferred-leveldown":51,"events":20,"prr":125,"util":42,"xtend":116}],106:[function(require,module,exports){
 /* Copyright (c) 2012-2014 LevelUP contributors
  * See list at <https://github.com/rvagg/node-levelup#contributing>
  * MIT License <https://github.com/rvagg/node-levelup/blob/master/LICENSE.md>
@@ -43815,7 +46353,7 @@ ReadStream.prototype.toString = function () {
 
 module.exports = ReadStream
 
-},{"./errors":83,"./util":86,"readable-stream":94,"util":125,"xtend":95}],86:[function(require,module,exports){
+},{"./errors":104,"./util":107,"readable-stream":115,"util":42,"xtend":116}],107:[function(require,module,exports){
 (function (process,Buffer){
 /* Copyright (c) 2012-2014 LevelUP contributors
  * See list at <https://github.com/rvagg/node-levelup#contributing>
@@ -44002,7 +46540,7 @@ module.exports = {
 
 }).call(this,require('_process'),require("buffer").Buffer)
 
-},{"../package.json":96,"./errors":83,"_process":105,"buffer":17,"leveldown":15,"leveldown/package":15,"semver":15,"xtend":95}],87:[function(require,module,exports){
+},{"../package.json":117,"./errors":104,"_process":25,"buffer":16,"leveldown":15,"leveldown/package":15,"semver":15,"xtend":116}],108:[function(require,module,exports){
 (function (process,global){
 /* Copyright (c) 2012-2014 LevelUP contributors
  * See list at <https://github.com/rvagg/node-levelup#contributing>
@@ -44185,7 +46723,7 @@ module.exports = WriteStream
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"./util":86,"_process":105,"bl":88,"stream":117,"util":125,"xtend":95}],88:[function(require,module,exports){
+},{"./util":107,"_process":25,"bl":109,"stream":39,"util":42,"xtend":116}],109:[function(require,module,exports){
 (function (Buffer){
 var DuplexStream = require('readable-stream').Duplex
   , util         = require('util')
@@ -44403,7 +46941,7 @@ module.exports = BufferList
 
 }).call(this,require("buffer").Buffer)
 
-},{"buffer":17,"readable-stream":94,"util":125}],89:[function(require,module,exports){
+},{"buffer":16,"readable-stream":115,"util":42}],110:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -44497,9 +47035,9 @@ function forEach (xs, f) {
 
 }).call(this,require('_process'))
 
-},{"./_stream_readable":91,"./_stream_writable":93,"_process":105,"core-util-is":21,"inherits":43}],90:[function(require,module,exports){
-arguments[4][35][0].apply(exports,arguments)
-},{"./_stream_transform":92,"core-util-is":21,"dup":35,"inherits":43}],91:[function(require,module,exports){
+},{"./_stream_readable":112,"./_stream_writable":114,"_process":25,"core-util-is":47,"inherits":67}],111:[function(require,module,exports){
+arguments[4][60][0].apply(exports,arguments)
+},{"./_stream_transform":113,"core-util-is":47,"dup":60,"inherits":67}],112:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -45486,9 +48024,9 @@ function indexOf (xs, x) {
 
 }).call(this,require('_process'))
 
-},{"_process":105,"buffer":17,"core-util-is":21,"events":30,"inherits":43,"isarray":47,"stream":117,"string_decoder/":119}],92:[function(require,module,exports){
-arguments[4][37][0].apply(exports,arguments)
-},{"./_stream_duplex":89,"core-util-is":21,"dup":37,"inherits":43}],93:[function(require,module,exports){
+},{"_process":25,"buffer":16,"core-util-is":47,"events":20,"inherits":67,"isarray":69,"stream":39,"string_decoder/":133}],113:[function(require,module,exports){
+arguments[4][62][0].apply(exports,arguments)
+},{"./_stream_duplex":110,"core-util-is":47,"dup":62,"inherits":67}],114:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -45879,21 +48417,22 @@ function endWritable(stream, state, cb) {
 
 }).call(this,require('_process'))
 
-},{"./_stream_duplex":89,"_process":105,"buffer":17,"core-util-is":21,"inherits":43,"stream":117}],94:[function(require,module,exports){
-arguments[4][39][0].apply(exports,arguments)
-},{"./lib/_stream_duplex.js":89,"./lib/_stream_passthrough.js":90,"./lib/_stream_readable.js":91,"./lib/_stream_transform.js":92,"./lib/_stream_writable.js":93,"dup":39,"stream":117}],95:[function(require,module,exports){
+},{"./_stream_duplex":110,"_process":25,"buffer":16,"core-util-is":47,"inherits":67,"stream":39}],115:[function(require,module,exports){
+arguments[4][64][0].apply(exports,arguments)
+},{"./lib/_stream_duplex.js":110,"./lib/_stream_passthrough.js":111,"./lib/_stream_readable.js":112,"./lib/_stream_transform.js":113,"./lib/_stream_writable.js":114,"dup":64,"stream":39}],116:[function(require,module,exports){
 arguments[4][6][0].apply(exports,arguments)
-},{"dup":6}],96:[function(require,module,exports){
+},{"dup":6}],117:[function(require,module,exports){
 module.exports={
   "_args": [
     [
       "levelup@^0.18.2",
-      "/Users/Jerry/Desktop/Dev/source/isc-management/node_modules/browserify-fs"
+      "/home/garrett/Documents/GitHub/isc-management/node_modules/browserify-fs"
     ]
   ],
   "_from": "levelup@>=0.18.2 <0.19.0",
   "_id": "levelup@0.18.6",
   "_inCache": true,
+  "_installable": true,
   "_location": "/levelup",
   "_npmUser": {
     "email": "rod@vagg.org",
@@ -45901,7 +48440,7 @@ module.exports={
   },
   "_npmVersion": "1.4.14",
   "_phantomChildren": {
-    "core-util-is": "1.0.1",
+    "core-util-is": "1.0.2",
     "inherits": "2.0.1",
     "isarray": "0.0.1",
     "string_decoder": "0.10.31"
@@ -45921,7 +48460,7 @@ module.exports={
   "_shasum": "e6a01cb089616c8ecc0291c2a9bd3f0c44e3e5eb",
   "_shrinkwrap": null,
   "_spec": "levelup@^0.18.2",
-  "_where": "/Users/Jerry/Desktop/Dev/source/isc-management/node_modules/browserify-fs",
+  "_where": "/home/garrett/Documents/GitHub/isc-management/node_modules/browserify-fs",
   "browser": {
     "leveldown": false,
     "leveldown/package": false,
@@ -46032,7 +48571,6 @@ module.exports={
   },
   "gitHead": "213e989e2b75273e2b44c23f84f95e35bff7ea11",
   "homepage": "https://github.com/rvagg/node-levelup",
-  "installable": true,
   "keywords": [
     "database",
     "db",
@@ -46052,9 +48590,10 @@ module.exports={
   ],
   "name": "levelup",
   "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rvagg/node-levelup.git"
+    "url": "git+https://github.com/rvagg/node-levelup.git"
   },
   "scripts": {
     "alltests": "npm test && npm run-script functionaltests",
@@ -46064,7 +48603,7 @@ module.exports={
   "version": "0.18.6"
 }
 
-},{}],97:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -58420,7 +60959,7 @@ module.exports={
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],98:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 (function (Buffer){
 
 exports.compare = function (a, b) {
@@ -58569,11 +61108,11 @@ exports.filter = function (range, compare) {
   }
 }
 
-}).call(this,{"isBuffer":require("../is-buffer/index.js")})
+}).call(this,{"isBuffer":require("../browserify/node_modules/insert-module-globals/node_modules/is-buffer/index.js")})
 
-},{"../is-buffer/index.js":45}],99:[function(require,module,exports){
-arguments[4][69][0].apply(exports,arguments)
-},{"./shim":100,"dup":69}],100:[function(require,module,exports){
+},{"../browserify/node_modules/insert-module-globals/node_modules/is-buffer/index.js":22}],120:[function(require,module,exports){
+arguments[4][91][0].apply(exports,arguments)
+},{"./shim":121,"dup":91}],121:[function(require,module,exports){
 (function () {
 	"use strict";
 
@@ -58619,12 +61158,12 @@ arguments[4][69][0].apply(exports,arguments)
 }());
 
 
-},{"foreach":31,"is":46}],101:[function(require,module,exports){
+},{"foreach":56,"is":68}],122:[function(require,module,exports){
 module.exports = function (num, base) {
   return parseInt(num.toString(), base || 8)
 }
 
-},{}],102:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 var wrappy = require('wrappy')
 module.exports = wrappy(once)
 
@@ -58647,239 +61186,17 @@ function once (fn) {
   return f
 }
 
-},{"wrappy":126}],103:[function(require,module,exports){
-(function (process){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-// resolves . and .. elements in a path array with directory names there
-// must be no slashes, empty elements, or device names (c:\) in the array
-// (so also no leading and trailing slashes - it does not distinguish
-// relative and absolute paths)
-function normalizeArray(parts, allowAboveRoot) {
-  // if the path tries to go above the root, `up` ends up > 0
-  var up = 0;
-  for (var i = parts.length - 1; i >= 0; i--) {
-    var last = parts[i];
-    if (last === '.') {
-      parts.splice(i, 1);
-    } else if (last === '..') {
-      parts.splice(i, 1);
-      up++;
-    } else if (up) {
-      parts.splice(i, 1);
-      up--;
-    }
-  }
-
-  // if the path is allowed to go above the root, restore leading ..s
-  if (allowAboveRoot) {
-    for (; up--; up) {
-      parts.unshift('..');
-    }
-  }
-
-  return parts;
-}
-
-// Split a filename into [root, dir, basename, ext], unix version
-// 'root' is just a slash, or nothing.
-var splitPathRe =
-    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
-var splitPath = function(filename) {
-  return splitPathRe.exec(filename).slice(1);
-};
-
-// path.resolve([from ...], to)
-// posix version
-exports.resolve = function() {
-  var resolvedPath = '',
-      resolvedAbsolute = false;
-
-  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
-    var path = (i >= 0) ? arguments[i] : process.cwd();
-
-    // Skip empty and invalid entries
-    if (typeof path !== 'string') {
-      throw new TypeError('Arguments to path.resolve must be strings');
-    } else if (!path) {
-      continue;
-    }
-
-    resolvedPath = path + '/' + resolvedPath;
-    resolvedAbsolute = path.charAt(0) === '/';
-  }
-
-  // At this point the path should be resolved to a full absolute path, but
-  // handle relative paths to be safe (might happen when process.cwd() fails)
-
-  // Normalize the path
-  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
-    return !!p;
-  }), !resolvedAbsolute).join('/');
-
-  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
-};
-
-// path.normalize(path)
-// posix version
-exports.normalize = function(path) {
-  var isAbsolute = exports.isAbsolute(path),
-      trailingSlash = substr(path, -1) === '/';
-
-  // Normalize the path
-  path = normalizeArray(filter(path.split('/'), function(p) {
-    return !!p;
-  }), !isAbsolute).join('/');
-
-  if (!path && !isAbsolute) {
-    path = '.';
-  }
-  if (path && trailingSlash) {
-    path += '/';
-  }
-
-  return (isAbsolute ? '/' : '') + path;
-};
-
-// posix version
-exports.isAbsolute = function(path) {
-  return path.charAt(0) === '/';
-};
-
-// posix version
-exports.join = function() {
-  var paths = Array.prototype.slice.call(arguments, 0);
-  return exports.normalize(filter(paths, function(p, index) {
-    if (typeof p !== 'string') {
-      throw new TypeError('Arguments to path.join must be strings');
-    }
-    return p;
-  }).join('/'));
-};
-
-
-// path.relative(from, to)
-// posix version
-exports.relative = function(from, to) {
-  from = exports.resolve(from).substr(1);
-  to = exports.resolve(to).substr(1);
-
-  function trim(arr) {
-    var start = 0;
-    for (; start < arr.length; start++) {
-      if (arr[start] !== '') break;
-    }
-
-    var end = arr.length - 1;
-    for (; end >= 0; end--) {
-      if (arr[end] !== '') break;
-    }
-
-    if (start > end) return [];
-    return arr.slice(start, end - start + 1);
-  }
-
-  var fromParts = trim(from.split('/'));
-  var toParts = trim(to.split('/'));
-
-  var length = Math.min(fromParts.length, toParts.length);
-  var samePartsLength = length;
-  for (var i = 0; i < length; i++) {
-    if (fromParts[i] !== toParts[i]) {
-      samePartsLength = i;
-      break;
-    }
-  }
-
-  var outputParts = [];
-  for (var i = samePartsLength; i < fromParts.length; i++) {
-    outputParts.push('..');
-  }
-
-  outputParts = outputParts.concat(toParts.slice(samePartsLength));
-
-  return outputParts.join('/');
-};
-
-exports.sep = '/';
-exports.delimiter = ':';
-
-exports.dirname = function(path) {
-  var result = splitPath(path),
-      root = result[0],
-      dir = result[1];
-
-  if (!root && !dir) {
-    // No dirname whatsoever
-    return '.';
-  }
-
-  if (dir) {
-    // It has a dirname, strip trailing slash
-    dir = dir.substr(0, dir.length - 1);
-  }
-
-  return root + dir;
-};
-
-
-exports.basename = function(path, ext) {
-  var f = splitPath(path)[2];
-  // TODO: make this comparison case-insensitive on windows?
-  if (ext && f.substr(-1 * ext.length) === ext) {
-    f = f.substr(0, f.length - ext.length);
-  }
-  return f;
-};
-
-
-exports.extname = function(path) {
-  return splitPath(path)[3];
-};
-
-function filter (xs, f) {
-    if (xs.filter) return xs.filter(f);
-    var res = [];
-    for (var i = 0; i < xs.length; i++) {
-        if (f(xs[i], i, xs)) res.push(xs[i]);
-    }
-    return res;
-}
-
-// String.prototype.substr - negative index don't work in IE8
-var substr = 'ab'.substr(-1) === 'b'
-    ? function (str, start, len) { return str.substr(start, len) }
-    : function (str, start, len) {
-        if (start < 0) start = str.length + start;
-        return str.substr(start, len);
-    }
-;
-
-}).call(this,require('_process'))
-
-},{"_process":105}],104:[function(require,module,exports){
+},{"wrappy":138}],124:[function(require,module,exports){
 (function (process){
 'use strict';
-module.exports = nextTick;
+
+if (!process.version ||
+    process.version.indexOf('v0.') === 0 ||
+    process.version.indexOf('v1.') === 0 && process.version.indexOf('v1.8.') !== 0) {
+  module.exports = nextTick;
+} else {
+  module.exports = process.nextTick;
+}
 
 function nextTick(fn) {
   var args = new Array(arguments.length - 1);
@@ -58894,100 +61211,7 @@ function nextTick(fn) {
 
 }).call(this,require('_process'))
 
-},{"_process":105}],105:[function(require,module,exports){
-// shim for using process in browser
-
-var process = module.exports = {};
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = setTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    clearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        setTimeout(drainQueue, 0);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],106:[function(require,module,exports){
+},{"_process":25}],125:[function(require,module,exports){
 /*!
   * prr
   * (c) 2013 Rod Vagg <rod@vagg.org>
@@ -59051,122 +61275,11 @@ process.umask = function() { return 0; };
 
   return prr
 })
-},{}],107:[function(require,module,exports){
-arguments[4][33][0].apply(exports,arguments)
-},{"./lib/_stream_duplex.js":108,"dup":33}],108:[function(require,module,exports){
-// a duplex stream is just a stream that is both readable and writable.
-// Since JS doesn't have multiple prototypal inheritance, this class
-// prototypally inherits from Readable, and then parasitically from
-// Writable.
-
-'use strict';
-
-/*<replacement>*/
-var objectKeys = Object.keys || function (obj) {
-  var keys = [];
-  for (var key in obj) keys.push(key);
-  return keys;
-}
-/*</replacement>*/
-
-
-module.exports = Duplex;
-
-/*<replacement>*/
-var processNextTick = require('process-nextick-args');
-/*</replacement>*/
-
-
-
-/*<replacement>*/
-var util = require('core-util-is');
-util.inherits = require('inherits');
-/*</replacement>*/
-
-var Readable = require('./_stream_readable');
-var Writable = require('./_stream_writable');
-
-util.inherits(Duplex, Readable);
-
-var keys = objectKeys(Writable.prototype);
-for (var v = 0; v < keys.length; v++) {
-  var method = keys[v];
-  if (!Duplex.prototype[method])
-    Duplex.prototype[method] = Writable.prototype[method];
-}
-
-function Duplex(options) {
-  if (!(this instanceof Duplex))
-    return new Duplex(options);
-
-  Readable.call(this, options);
-  Writable.call(this, options);
-
-  if (options && options.readable === false)
-    this.readable = false;
-
-  if (options && options.writable === false)
-    this.writable = false;
-
-  this.allowHalfOpen = true;
-  if (options && options.allowHalfOpen === false)
-    this.allowHalfOpen = false;
-
-  this.once('end', onend);
-}
-
-// the no-half-open enforcer
-function onend() {
-  // if we allow half-open state, or if the writable side ended,
-  // then we're ok.
-  if (this.allowHalfOpen || this._writableState.ended)
-    return;
-
-  // no more data can be written.
-  // But allow more writes to happen in this tick.
-  processNextTick(onEndNT, this);
-}
-
-function onEndNT(self) {
-  self.end();
-}
-
-function forEach (xs, f) {
-  for (var i = 0, l = xs.length; i < l; i++) {
-    f(xs[i], i);
-  }
-}
-
-},{"./_stream_readable":110,"./_stream_writable":112,"core-util-is":21,"inherits":43,"process-nextick-args":104}],109:[function(require,module,exports){
-// a passthrough stream.
-// basically just the most minimal sort of Transform stream.
-// Every written chunk gets output as-is.
-
-'use strict';
-
-module.exports = PassThrough;
-
-var Transform = require('./_stream_transform');
-
-/*<replacement>*/
-var util = require('core-util-is');
-util.inherits = require('inherits');
-/*</replacement>*/
-
-util.inherits(PassThrough, Transform);
-
-function PassThrough(options) {
-  if (!(this instanceof PassThrough))
-    return new PassThrough(options);
-
-  Transform.call(this, options);
-}
-
-PassThrough.prototype._transform = function(chunk, encoding, cb) {
-  cb(null, chunk);
-};
-
-},{"./_stream_transform":111,"core-util-is":21,"inherits":43}],110:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
+arguments[4][27][0].apply(exports,arguments)
+},{"./_stream_readable":128,"./_stream_writable":130,"core-util-is":47,"dup":27,"inherits":67,"process-nextick-args":124}],127:[function(require,module,exports){
+arguments[4][28][0].apply(exports,arguments)
+},{"./_stream_transform":129,"core-util-is":47,"dup":28,"inherits":67}],128:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -59231,8 +61344,9 @@ var StringDecoder;
 
 util.inherits(Readable, Stream);
 
+var Duplex;
 function ReadableState(options, stream) {
-  var Duplex = require('./_stream_duplex');
+  Duplex = Duplex || require('./_stream_duplex');
 
   options = options || {};
 
@@ -59298,8 +61412,9 @@ function ReadableState(options, stream) {
   }
 }
 
+var Duplex;
 function Readable(options) {
-  var Duplex = require('./_stream_duplex');
+  Duplex = Duplex || require('./_stream_duplex');
 
   if (!(this instanceof Readable))
     return new Readable(options);
@@ -60144,886 +62259,13 @@ function indexOf (xs, x) {
 
 }).call(this,require('_process'))
 
-},{"./_stream_duplex":108,"_process":105,"buffer":17,"core-util-is":21,"events":30,"inherits":43,"isarray":47,"process-nextick-args":104,"string_decoder/":119,"util":15}],111:[function(require,module,exports){
-// a transform stream is a readable/writable stream where you do
-// something with the data.  Sometimes it's called a "filter",
-// but that's not a great name for it, since that implies a thing where
-// some bits pass through, and others are simply ignored.  (That would
-// be a valid example of a transform, of course.)
-//
-// While the output is causally related to the input, it's not a
-// necessarily symmetric or synchronous transformation.  For example,
-// a zlib stream might take multiple plain-text writes(), and then
-// emit a single compressed chunk some time in the future.
-//
-// Here's how this works:
-//
-// The Transform stream has all the aspects of the readable and writable
-// stream classes.  When you write(chunk), that calls _write(chunk,cb)
-// internally, and returns false if there's a lot of pending writes
-// buffered up.  When you call read(), that calls _read(n) until
-// there's enough pending readable data buffered up.
-//
-// In a transform stream, the written data is placed in a buffer.  When
-// _read(n) is called, it transforms the queued up data, calling the
-// buffered _write cb's as it consumes chunks.  If consuming a single
-// written chunk would result in multiple output chunks, then the first
-// outputted bit calls the readcb, and subsequent chunks just go into
-// the read buffer, and will cause it to emit 'readable' if necessary.
-//
-// This way, back-pressure is actually determined by the reading side,
-// since _read has to be called to start processing a new chunk.  However,
-// a pathological inflate type of transform can cause excessive buffering
-// here.  For example, imagine a stream where every byte of input is
-// interpreted as an integer from 0-255, and then results in that many
-// bytes of output.  Writing the 4 bytes {ff,ff,ff,ff} would result in
-// 1kb of data being output.  In this case, you could write a very small
-// amount of input, and end up with a very large amount of output.  In
-// such a pathological inflating mechanism, there'd be no way to tell
-// the system to stop doing the transform.  A single 4MB write could
-// cause the system to run out of memory.
-//
-// However, even in such a pathological case, only a single written chunk
-// would be consumed, and then the rest would wait (un-transformed) until
-// the results of the previous transformed chunk were consumed.
-
-'use strict';
-
-module.exports = Transform;
-
-var Duplex = require('./_stream_duplex');
-
-/*<replacement>*/
-var util = require('core-util-is');
-util.inherits = require('inherits');
-/*</replacement>*/
-
-util.inherits(Transform, Duplex);
-
-
-function TransformState(stream) {
-  this.afterTransform = function(er, data) {
-    return afterTransform(stream, er, data);
-  };
-
-  this.needTransform = false;
-  this.transforming = false;
-  this.writecb = null;
-  this.writechunk = null;
-}
-
-function afterTransform(stream, er, data) {
-  var ts = stream._transformState;
-  ts.transforming = false;
-
-  var cb = ts.writecb;
-
-  if (!cb)
-    return stream.emit('error', new Error('no writecb in Transform class'));
-
-  ts.writechunk = null;
-  ts.writecb = null;
-
-  if (data !== null && data !== undefined)
-    stream.push(data);
-
-  if (cb)
-    cb(er);
-
-  var rs = stream._readableState;
-  rs.reading = false;
-  if (rs.needReadable || rs.length < rs.highWaterMark) {
-    stream._read(rs.highWaterMark);
-  }
-}
-
-
-function Transform(options) {
-  if (!(this instanceof Transform))
-    return new Transform(options);
-
-  Duplex.call(this, options);
-
-  this._transformState = new TransformState(this);
-
-  // when the writable side finishes, then flush out anything remaining.
-  var stream = this;
-
-  // start out asking for a readable event once data is transformed.
-  this._readableState.needReadable = true;
-
-  // we have implemented the _read method, and done the other things
-  // that Readable wants before the first _read call, so unset the
-  // sync guard flag.
-  this._readableState.sync = false;
-
-  if (options) {
-    if (typeof options.transform === 'function')
-      this._transform = options.transform;
-
-    if (typeof options.flush === 'function')
-      this._flush = options.flush;
-  }
-
-  this.once('prefinish', function() {
-    if (typeof this._flush === 'function')
-      this._flush(function(er) {
-        done(stream, er);
-      });
-    else
-      done(stream);
-  });
-}
-
-Transform.prototype.push = function(chunk, encoding) {
-  this._transformState.needTransform = false;
-  return Duplex.prototype.push.call(this, chunk, encoding);
-};
-
-// This is the part where you do stuff!
-// override this function in implementation classes.
-// 'chunk' is an input chunk.
-//
-// Call `push(newChunk)` to pass along transformed output
-// to the readable side.  You may call 'push' zero or more times.
-//
-// Call `cb(err)` when you are done with this chunk.  If you pass
-// an error, then that'll put the hurt on the whole operation.  If you
-// never call cb(), then you'll never get another chunk.
-Transform.prototype._transform = function(chunk, encoding, cb) {
-  throw new Error('not implemented');
-};
-
-Transform.prototype._write = function(chunk, encoding, cb) {
-  var ts = this._transformState;
-  ts.writecb = cb;
-  ts.writechunk = chunk;
-  ts.writeencoding = encoding;
-  if (!ts.transforming) {
-    var rs = this._readableState;
-    if (ts.needTransform ||
-        rs.needReadable ||
-        rs.length < rs.highWaterMark)
-      this._read(rs.highWaterMark);
-  }
-};
-
-// Doesn't matter what the args are here.
-// _transform does all the work.
-// That we got here means that the readable side wants more data.
-Transform.prototype._read = function(n) {
-  var ts = this._transformState;
-
-  if (ts.writechunk !== null && ts.writecb && !ts.transforming) {
-    ts.transforming = true;
-    this._transform(ts.writechunk, ts.writeencoding, ts.afterTransform);
-  } else {
-    // mark that we need a transform, so that any data that comes in
-    // will get processed, now that we've asked for it.
-    ts.needTransform = true;
-  }
-};
-
-
-function done(stream, er) {
-  if (er)
-    return stream.emit('error', er);
-
-  // if there's nothing in the write buffer, then that means
-  // that nothing more will ever be provided
-  var ws = stream._writableState;
-  var ts = stream._transformState;
-
-  if (ws.length)
-    throw new Error('calling transform done when ws.length != 0');
-
-  if (ts.transforming)
-    throw new Error('calling transform done when still transforming');
-
-  return stream.push(null);
-}
-
-},{"./_stream_duplex":108,"core-util-is":21,"inherits":43}],112:[function(require,module,exports){
-// A bit simpler than readable streams.
-// Implement an async ._write(chunk, encoding, cb), and it'll handle all
-// the drain event emission and buffering.
-
-'use strict';
-
-module.exports = Writable;
-
-/*<replacement>*/
-var processNextTick = require('process-nextick-args');
-/*</replacement>*/
-
-
-/*<replacement>*/
-var Buffer = require('buffer').Buffer;
-/*</replacement>*/
-
-Writable.WritableState = WritableState;
-
-
-/*<replacement>*/
-var util = require('core-util-is');
-util.inherits = require('inherits');
-/*</replacement>*/
-
-
-/*<replacement>*/
-var internalUtil = {
-  deprecate: require('util-deprecate')
-};
-/*</replacement>*/
-
-
-
-/*<replacement>*/
-var Stream;
-(function (){try{
-  Stream = require('st' + 'ream');
-}catch(_){}finally{
-  if (!Stream)
-    Stream = require('events').EventEmitter;
-}}())
-/*</replacement>*/
-
-var Buffer = require('buffer').Buffer;
-
-util.inherits(Writable, Stream);
-
-function nop() {}
-
-function WriteReq(chunk, encoding, cb) {
-  this.chunk = chunk;
-  this.encoding = encoding;
-  this.callback = cb;
-  this.next = null;
-}
-
-function WritableState(options, stream) {
-  var Duplex = require('./_stream_duplex');
-
-  options = options || {};
-
-  // object stream flag to indicate whether or not this stream
-  // contains buffers or objects.
-  this.objectMode = !!options.objectMode;
-
-  if (stream instanceof Duplex)
-    this.objectMode = this.objectMode || !!options.writableObjectMode;
-
-  // the point at which write() starts returning false
-  // Note: 0 is a valid value, means that we always return false if
-  // the entire buffer is not flushed immediately on write()
-  var hwm = options.highWaterMark;
-  var defaultHwm = this.objectMode ? 16 : 16 * 1024;
-  this.highWaterMark = (hwm || hwm === 0) ? hwm : defaultHwm;
-
-  // cast to ints.
-  this.highWaterMark = ~~this.highWaterMark;
-
-  this.needDrain = false;
-  // at the start of calling end()
-  this.ending = false;
-  // when end() has been called, and returned
-  this.ended = false;
-  // when 'finish' is emitted
-  this.finished = false;
-
-  // should we decode strings into buffers before passing to _write?
-  // this is here so that some node-core streams can optimize string
-  // handling at a lower level.
-  var noDecode = options.decodeStrings === false;
-  this.decodeStrings = !noDecode;
-
-  // Crypto is kind of old and crusty.  Historically, its default string
-  // encoding is 'binary' so we have to make this configurable.
-  // Everything else in the universe uses 'utf8', though.
-  this.defaultEncoding = options.defaultEncoding || 'utf8';
-
-  // not an actual buffer we keep track of, but a measurement
-  // of how much we're waiting to get pushed to some underlying
-  // socket or file.
-  this.length = 0;
-
-  // a flag to see when we're in the middle of a write.
-  this.writing = false;
-
-  // when true all writes will be buffered until .uncork() call
-  this.corked = 0;
-
-  // a flag to be able to tell if the onwrite cb is called immediately,
-  // or on a later tick.  We set this to true at first, because any
-  // actions that shouldn't happen until "later" should generally also
-  // not happen before the first write call.
-  this.sync = true;
-
-  // a flag to know if we're processing previously buffered items, which
-  // may call the _write() callback in the same tick, so that we don't
-  // end up in an overlapped onwrite situation.
-  this.bufferProcessing = false;
-
-  // the callback that's passed to _write(chunk,cb)
-  this.onwrite = function(er) {
-    onwrite(stream, er);
-  };
-
-  // the callback that the user supplies to write(chunk,encoding,cb)
-  this.writecb = null;
-
-  // the amount that is being written when _write is called.
-  this.writelen = 0;
-
-  this.bufferedRequest = null;
-  this.lastBufferedRequest = null;
-
-  // number of pending user-supplied write callbacks
-  // this must be 0 before 'finish' can be emitted
-  this.pendingcb = 0;
-
-  // emit prefinish if the only thing we're waiting for is _write cbs
-  // This is relevant for synchronous Transform streams
-  this.prefinished = false;
-
-  // True if the error was already emitted and should not be thrown again
-  this.errorEmitted = false;
-}
-
-WritableState.prototype.getBuffer = function writableStateGetBuffer() {
-  var current = this.bufferedRequest;
-  var out = [];
-  while (current) {
-    out.push(current);
-    current = current.next;
-  }
-  return out;
-};
-
-(function (){try {
-Object.defineProperty(WritableState.prototype, 'buffer', {
-  get: internalUtil.deprecate(function() {
-    return this.getBuffer();
-  }, '_writableState.buffer is deprecated. Use _writableState.getBuffer ' +
-     'instead.')
-});
-}catch(_){}}());
-
-
-function Writable(options) {
-  var Duplex = require('./_stream_duplex');
-
-  // Writable ctor is applied to Duplexes, though they're not
-  // instanceof Writable, they're instanceof Readable.
-  if (!(this instanceof Writable) && !(this instanceof Duplex))
-    return new Writable(options);
-
-  this._writableState = new WritableState(options, this);
-
-  // legacy.
-  this.writable = true;
-
-  if (options) {
-    if (typeof options.write === 'function')
-      this._write = options.write;
-
-    if (typeof options.writev === 'function')
-      this._writev = options.writev;
-  }
-
-  Stream.call(this);
-}
-
-// Otherwise people can pipe Writable streams, which is just wrong.
-Writable.prototype.pipe = function() {
-  this.emit('error', new Error('Cannot pipe. Not readable.'));
-};
-
-
-function writeAfterEnd(stream, cb) {
-  var er = new Error('write after end');
-  // TODO: defer error events consistently everywhere, not just the cb
-  stream.emit('error', er);
-  processNextTick(cb, er);
-}
-
-// If we get something that is not a buffer, string, null, or undefined,
-// and we're not in objectMode, then that's an error.
-// Otherwise stream chunks are all considered to be of length=1, and the
-// watermarks determine how many objects to keep in the buffer, rather than
-// how many bytes or characters.
-function validChunk(stream, state, chunk, cb) {
-  var valid = true;
-
-  if (!(Buffer.isBuffer(chunk)) &&
-      typeof chunk !== 'string' &&
-      chunk !== null &&
-      chunk !== undefined &&
-      !state.objectMode) {
-    var er = new TypeError('Invalid non-string/buffer chunk');
-    stream.emit('error', er);
-    processNextTick(cb, er);
-    valid = false;
-  }
-  return valid;
-}
-
-Writable.prototype.write = function(chunk, encoding, cb) {
-  var state = this._writableState;
-  var ret = false;
-
-  if (typeof encoding === 'function') {
-    cb = encoding;
-    encoding = null;
-  }
-
-  if (Buffer.isBuffer(chunk))
-    encoding = 'buffer';
-  else if (!encoding)
-    encoding = state.defaultEncoding;
-
-  if (typeof cb !== 'function')
-    cb = nop;
-
-  if (state.ended)
-    writeAfterEnd(this, cb);
-  else if (validChunk(this, state, chunk, cb)) {
-    state.pendingcb++;
-    ret = writeOrBuffer(this, state, chunk, encoding, cb);
-  }
-
-  return ret;
-};
-
-Writable.prototype.cork = function() {
-  var state = this._writableState;
-
-  state.corked++;
-};
-
-Writable.prototype.uncork = function() {
-  var state = this._writableState;
-
-  if (state.corked) {
-    state.corked--;
-
-    if (!state.writing &&
-        !state.corked &&
-        !state.finished &&
-        !state.bufferProcessing &&
-        state.bufferedRequest)
-      clearBuffer(this, state);
-  }
-};
-
-Writable.prototype.setDefaultEncoding = function setDefaultEncoding(encoding) {
-  // node::ParseEncoding() requires lower case.
-  if (typeof encoding === 'string')
-    encoding = encoding.toLowerCase();
-  if (!(['hex', 'utf8', 'utf-8', 'ascii', 'binary', 'base64',
-'ucs2', 'ucs-2','utf16le', 'utf-16le', 'raw']
-.indexOf((encoding + '').toLowerCase()) > -1))
-    throw new TypeError('Unknown encoding: ' + encoding);
-  this._writableState.defaultEncoding = encoding;
-};
-
-function decodeChunk(state, chunk, encoding) {
-  if (!state.objectMode &&
-      state.decodeStrings !== false &&
-      typeof chunk === 'string') {
-    chunk = new Buffer(chunk, encoding);
-  }
-  return chunk;
-}
-
-// if we're already writing something, then just put this
-// in the queue, and wait our turn.  Otherwise, call _write
-// If we return false, then we need a drain event, so set that flag.
-function writeOrBuffer(stream, state, chunk, encoding, cb) {
-  chunk = decodeChunk(state, chunk, encoding);
-
-  if (Buffer.isBuffer(chunk))
-    encoding = 'buffer';
-  var len = state.objectMode ? 1 : chunk.length;
-
-  state.length += len;
-
-  var ret = state.length < state.highWaterMark;
-  // we must ensure that previous needDrain will not be reset to false.
-  if (!ret)
-    state.needDrain = true;
-
-  if (state.writing || state.corked) {
-    var last = state.lastBufferedRequest;
-    state.lastBufferedRequest = new WriteReq(chunk, encoding, cb);
-    if (last) {
-      last.next = state.lastBufferedRequest;
-    } else {
-      state.bufferedRequest = state.lastBufferedRequest;
-    }
-  } else {
-    doWrite(stream, state, false, len, chunk, encoding, cb);
-  }
-
-  return ret;
-}
-
-function doWrite(stream, state, writev, len, chunk, encoding, cb) {
-  state.writelen = len;
-  state.writecb = cb;
-  state.writing = true;
-  state.sync = true;
-  if (writev)
-    stream._writev(chunk, state.onwrite);
-  else
-    stream._write(chunk, encoding, state.onwrite);
-  state.sync = false;
-}
-
-function onwriteError(stream, state, sync, er, cb) {
-  --state.pendingcb;
-  if (sync)
-    processNextTick(cb, er);
-  else
-    cb(er);
-
-  stream._writableState.errorEmitted = true;
-  stream.emit('error', er);
-}
-
-function onwriteStateUpdate(state) {
-  state.writing = false;
-  state.writecb = null;
-  state.length -= state.writelen;
-  state.writelen = 0;
-}
-
-function onwrite(stream, er) {
-  var state = stream._writableState;
-  var sync = state.sync;
-  var cb = state.writecb;
-
-  onwriteStateUpdate(state);
-
-  if (er)
-    onwriteError(stream, state, sync, er, cb);
-  else {
-    // Check if we're actually ready to finish, but don't emit yet
-    var finished = needFinish(state);
-
-    if (!finished &&
-        !state.corked &&
-        !state.bufferProcessing &&
-        state.bufferedRequest) {
-      clearBuffer(stream, state);
-    }
-
-    if (sync) {
-      processNextTick(afterWrite, stream, state, finished, cb);
-    } else {
-      afterWrite(stream, state, finished, cb);
-    }
-  }
-}
-
-function afterWrite(stream, state, finished, cb) {
-  if (!finished)
-    onwriteDrain(stream, state);
-  state.pendingcb--;
-  cb();
-  finishMaybe(stream, state);
-}
-
-// Must force callback to be called on nextTick, so that we don't
-// emit 'drain' before the write() consumer gets the 'false' return
-// value, and has a chance to attach a 'drain' listener.
-function onwriteDrain(stream, state) {
-  if (state.length === 0 && state.needDrain) {
-    state.needDrain = false;
-    stream.emit('drain');
-  }
-}
-
-
-// if there's something in the buffer waiting, then process it
-function clearBuffer(stream, state) {
-  state.bufferProcessing = true;
-  var entry = state.bufferedRequest;
-
-  if (stream._writev && entry && entry.next) {
-    // Fast case, write everything using _writev()
-    var buffer = [];
-    var cbs = [];
-    while (entry) {
-      cbs.push(entry.callback);
-      buffer.push(entry);
-      entry = entry.next;
-    }
-
-    // count the one we are adding, as well.
-    // TODO(isaacs) clean this up
-    state.pendingcb++;
-    state.lastBufferedRequest = null;
-    doWrite(stream, state, true, state.length, buffer, '', function(err) {
-      for (var i = 0; i < cbs.length; i++) {
-        state.pendingcb--;
-        cbs[i](err);
-      }
-    });
-
-    // Clear buffer
-  } else {
-    // Slow case, write chunks one-by-one
-    while (entry) {
-      var chunk = entry.chunk;
-      var encoding = entry.encoding;
-      var cb = entry.callback;
-      var len = state.objectMode ? 1 : chunk.length;
-
-      doWrite(stream, state, false, len, chunk, encoding, cb);
-      entry = entry.next;
-      // if we didn't call the onwrite immediately, then
-      // it means that we need to wait until it does.
-      // also, that means that the chunk and cb are currently
-      // being processed, so move the buffer counter past them.
-      if (state.writing) {
-        break;
-      }
-    }
-
-    if (entry === null)
-      state.lastBufferedRequest = null;
-  }
-  state.bufferedRequest = entry;
-  state.bufferProcessing = false;
-}
-
-Writable.prototype._write = function(chunk, encoding, cb) {
-  cb(new Error('not implemented'));
-};
-
-Writable.prototype._writev = null;
-
-Writable.prototype.end = function(chunk, encoding, cb) {
-  var state = this._writableState;
-
-  if (typeof chunk === 'function') {
-    cb = chunk;
-    chunk = null;
-    encoding = null;
-  } else if (typeof encoding === 'function') {
-    cb = encoding;
-    encoding = null;
-  }
-
-  if (chunk !== null && chunk !== undefined)
-    this.write(chunk, encoding);
-
-  // .end() fully uncorks
-  if (state.corked) {
-    state.corked = 1;
-    this.uncork();
-  }
-
-  // ignore unnecessary end() calls.
-  if (!state.ending && !state.finished)
-    endWritable(this, state, cb);
-};
-
-
-function needFinish(state) {
-  return (state.ending &&
-          state.length === 0 &&
-          state.bufferedRequest === null &&
-          !state.finished &&
-          !state.writing);
-}
-
-function prefinish(stream, state) {
-  if (!state.prefinished) {
-    state.prefinished = true;
-    stream.emit('prefinish');
-  }
-}
-
-function finishMaybe(stream, state) {
-  var need = needFinish(state);
-  if (need) {
-    if (state.pendingcb === 0) {
-      prefinish(stream, state);
-      state.finished = true;
-      stream.emit('finish');
-    } else {
-      prefinish(stream, state);
-    }
-  }
-  return need;
-}
-
-function endWritable(stream, state, cb) {
-  state.ending = true;
-  finishMaybe(stream, state);
-  if (cb) {
-    if (state.finished)
-      processNextTick(cb);
-    else
-      stream.once('finish', cb);
-  }
-  state.ended = true;
-}
-
-},{"./_stream_duplex":108,"buffer":17,"core-util-is":21,"events":30,"inherits":43,"process-nextick-args":104,"util-deprecate":123}],113:[function(require,module,exports){
-module.exports = require("./lib/_stream_passthrough.js")
-
-},{"./lib/_stream_passthrough.js":109}],114:[function(require,module,exports){
-var Stream = (function (){
-  try {
-    return require('st' + 'ream'); // hack to fix a circular dependency issue when used with browserify
-  } catch(_){}
-}());
-exports = module.exports = require('./lib/_stream_readable.js');
-exports.Stream = Stream || exports;
-exports.Readable = exports;
-exports.Writable = require('./lib/_stream_writable.js');
-exports.Duplex = require('./lib/_stream_duplex.js');
-exports.Transform = require('./lib/_stream_transform.js');
-exports.PassThrough = require('./lib/_stream_passthrough.js');
-
-},{"./lib/_stream_duplex.js":108,"./lib/_stream_passthrough.js":109,"./lib/_stream_readable.js":110,"./lib/_stream_transform.js":111,"./lib/_stream_writable.js":112}],115:[function(require,module,exports){
-module.exports = require("./lib/_stream_transform.js")
-
-},{"./lib/_stream_transform.js":111}],116:[function(require,module,exports){
-arguments[4][40][0].apply(exports,arguments)
-},{"./lib/_stream_writable.js":112,"dup":40}],117:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-module.exports = Stream;
-
-var EE = require('events').EventEmitter;
-var inherits = require('inherits');
-
-inherits(Stream, EE);
-Stream.Readable = require('readable-stream/readable.js');
-Stream.Writable = require('readable-stream/writable.js');
-Stream.Duplex = require('readable-stream/duplex.js');
-Stream.Transform = require('readable-stream/transform.js');
-Stream.PassThrough = require('readable-stream/passthrough.js');
-
-// Backwards-compat with node 0.4.x
-Stream.Stream = Stream;
-
-
-
-// old-style streams.  Note that the pipe method (the only relevant
-// part of this class) is overridden in the Readable class.
-
-function Stream() {
-  EE.call(this);
-}
-
-Stream.prototype.pipe = function(dest, options) {
-  var source = this;
-
-  function ondata(chunk) {
-    if (dest.writable) {
-      if (false === dest.write(chunk) && source.pause) {
-        source.pause();
-      }
-    }
-  }
-
-  source.on('data', ondata);
-
-  function ondrain() {
-    if (source.readable && source.resume) {
-      source.resume();
-    }
-  }
-
-  dest.on('drain', ondrain);
-
-  // If the 'end' option is not supplied, dest.end() will be called when
-  // source gets the 'end' or 'close' events.  Only dest.end() once.
-  if (!dest._isStdio && (!options || options.end !== false)) {
-    source.on('end', onend);
-    source.on('close', onclose);
-  }
-
-  var didOnEnd = false;
-  function onend() {
-    if (didOnEnd) return;
-    didOnEnd = true;
-
-    dest.end();
-  }
-
-
-  function onclose() {
-    if (didOnEnd) return;
-    didOnEnd = true;
-
-    if (typeof dest.destroy === 'function') dest.destroy();
-  }
-
-  // don't leave dangling pipes when there are errors.
-  function onerror(er) {
-    cleanup();
-    if (EE.listenerCount(this, 'error') === 0) {
-      throw er; // Unhandled stream error in pipe.
-    }
-  }
-
-  source.on('error', onerror);
-  dest.on('error', onerror);
-
-  // remove all the event listeners that were added.
-  function cleanup() {
-    source.removeListener('data', ondata);
-    dest.removeListener('drain', ondrain);
-
-    source.removeListener('end', onend);
-    source.removeListener('close', onclose);
-
-    source.removeListener('error', onerror);
-    dest.removeListener('error', onerror);
-
-    source.removeListener('end', cleanup);
-    source.removeListener('close', cleanup);
-
-    dest.removeListener('close', cleanup);
-  }
-
-  source.on('end', cleanup);
-  source.on('close', cleanup);
-
-  dest.on('close', cleanup);
-
-  dest.emit('pipe', source);
-
-  // Allow for unix-like usage: A.pipe(B).pipe(C)
-  return dest;
-};
-
-},{"events":30,"inherits":43,"readable-stream/duplex.js":107,"readable-stream/passthrough.js":113,"readable-stream/readable.js":114,"readable-stream/transform.js":115,"readable-stream/writable.js":116}],118:[function(require,module,exports){
+},{"./_stream_duplex":126,"_process":25,"buffer":16,"core-util-is":47,"events":20,"inherits":67,"isarray":69,"process-nextick-args":124,"string_decoder/":133,"util":15}],129:[function(require,module,exports){
+arguments[4][30][0].apply(exports,arguments)
+},{"./_stream_duplex":126,"core-util-is":47,"dup":30,"inherits":67}],130:[function(require,module,exports){
+arguments[4][31][0].apply(exports,arguments)
+},{"./_stream_duplex":126,"buffer":16,"core-util-is":47,"dup":31,"events":20,"inherits":67,"process-nextick-args":124,"util-deprecate":137}],131:[function(require,module,exports){
+arguments[4][36][0].apply(exports,arguments)
+},{"./lib/_stream_duplex.js":126,"./lib/_stream_passthrough.js":127,"./lib/_stream_readable.js":128,"./lib/_stream_transform.js":129,"./lib/_stream_writable.js":130,"dup":36}],132:[function(require,module,exports){
 
 //force to a valid range
 var range = exports.range = function (obj) {
@@ -61097,230 +62339,9 @@ var satifies = exports.satisfies = function (key, range) {
 
 
 
-},{}],119:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-var Buffer = require('buffer').Buffer;
-
-var isBufferEncoding = Buffer.isEncoding
-  || function(encoding) {
-       switch (encoding && encoding.toLowerCase()) {
-         case 'hex': case 'utf8': case 'utf-8': case 'ascii': case 'binary': case 'base64': case 'ucs2': case 'ucs-2': case 'utf16le': case 'utf-16le': case 'raw': return true;
-         default: return false;
-       }
-     }
-
-
-function assertEncoding(encoding) {
-  if (encoding && !isBufferEncoding(encoding)) {
-    throw new Error('Unknown encoding: ' + encoding);
-  }
-}
-
-// StringDecoder provides an interface for efficiently splitting a series of
-// buffers into a series of JS strings without breaking apart multi-byte
-// characters. CESU-8 is handled as part of the UTF-8 encoding.
-//
-// @TODO Handling all encodings inside a single object makes it very difficult
-// to reason about this code, so it should be split up in the future.
-// @TODO There should be a utf8-strict encoding that rejects invalid UTF-8 code
-// points as used by CESU-8.
-var StringDecoder = exports.StringDecoder = function(encoding) {
-  this.encoding = (encoding || 'utf8').toLowerCase().replace(/[-_]/, '');
-  assertEncoding(encoding);
-  switch (this.encoding) {
-    case 'utf8':
-      // CESU-8 represents each of Surrogate Pair by 3-bytes
-      this.surrogateSize = 3;
-      break;
-    case 'ucs2':
-    case 'utf16le':
-      // UTF-16 represents each of Surrogate Pair by 2-bytes
-      this.surrogateSize = 2;
-      this.detectIncompleteChar = utf16DetectIncompleteChar;
-      break;
-    case 'base64':
-      // Base-64 stores 3 bytes in 4 chars, and pads the remainder.
-      this.surrogateSize = 3;
-      this.detectIncompleteChar = base64DetectIncompleteChar;
-      break;
-    default:
-      this.write = passThroughWrite;
-      return;
-  }
-
-  // Enough space to store all bytes of a single character. UTF-8 needs 4
-  // bytes, but CESU-8 may require up to 6 (3 bytes per surrogate).
-  this.charBuffer = new Buffer(6);
-  // Number of bytes received for the current incomplete multi-byte character.
-  this.charReceived = 0;
-  // Number of bytes expected for the current incomplete multi-byte character.
-  this.charLength = 0;
-};
-
-
-// write decodes the given buffer and returns it as JS string that is
-// guaranteed to not contain any partial multi-byte characters. Any partial
-// character found at the end of the buffer is buffered up, and will be
-// returned when calling write again with the remaining bytes.
-//
-// Note: Converting a Buffer containing an orphan surrogate to a String
-// currently works, but converting a String to a Buffer (via `new Buffer`, or
-// Buffer#write) will replace incomplete surrogates with the unicode
-// replacement character. See https://codereview.chromium.org/121173009/ .
-StringDecoder.prototype.write = function(buffer) {
-  var charStr = '';
-  // if our last write ended with an incomplete multibyte character
-  while (this.charLength) {
-    // determine how many remaining bytes this buffer has to offer for this char
-    var available = (buffer.length >= this.charLength - this.charReceived) ?
-        this.charLength - this.charReceived :
-        buffer.length;
-
-    // add the new bytes to the char buffer
-    buffer.copy(this.charBuffer, this.charReceived, 0, available);
-    this.charReceived += available;
-
-    if (this.charReceived < this.charLength) {
-      // still not enough chars in this buffer? wait for more ...
-      return '';
-    }
-
-    // remove bytes belonging to the current character from the buffer
-    buffer = buffer.slice(available, buffer.length);
-
-    // get the character that was split
-    charStr = this.charBuffer.slice(0, this.charLength).toString(this.encoding);
-
-    // CESU-8: lead surrogate (D800-DBFF) is also the incomplete character
-    var charCode = charStr.charCodeAt(charStr.length - 1);
-    if (charCode >= 0xD800 && charCode <= 0xDBFF) {
-      this.charLength += this.surrogateSize;
-      charStr = '';
-      continue;
-    }
-    this.charReceived = this.charLength = 0;
-
-    // if there are no more bytes in this buffer, just emit our char
-    if (buffer.length === 0) {
-      return charStr;
-    }
-    break;
-  }
-
-  // determine and set charLength / charReceived
-  this.detectIncompleteChar(buffer);
-
-  var end = buffer.length;
-  if (this.charLength) {
-    // buffer the incomplete character bytes we got
-    buffer.copy(this.charBuffer, 0, buffer.length - this.charReceived, end);
-    end -= this.charReceived;
-  }
-
-  charStr += buffer.toString(this.encoding, 0, end);
-
-  var end = charStr.length - 1;
-  var charCode = charStr.charCodeAt(end);
-  // CESU-8: lead surrogate (D800-DBFF) is also the incomplete character
-  if (charCode >= 0xD800 && charCode <= 0xDBFF) {
-    var size = this.surrogateSize;
-    this.charLength += size;
-    this.charReceived += size;
-    this.charBuffer.copy(this.charBuffer, size, 0, size);
-    buffer.copy(this.charBuffer, 0, 0, size);
-    return charStr.substring(0, end);
-  }
-
-  // or just emit the charStr
-  return charStr;
-};
-
-// detectIncompleteChar determines if there is an incomplete UTF-8 character at
-// the end of the given buffer. If so, it sets this.charLength to the byte
-// length that character, and sets this.charReceived to the number of bytes
-// that are available for this character.
-StringDecoder.prototype.detectIncompleteChar = function(buffer) {
-  // determine how many bytes we have to check at the end of this buffer
-  var i = (buffer.length >= 3) ? 3 : buffer.length;
-
-  // Figure out if one of the last i bytes of our buffer announces an
-  // incomplete char.
-  for (; i > 0; i--) {
-    var c = buffer[buffer.length - i];
-
-    // See http://en.wikipedia.org/wiki/UTF-8#Description
-
-    // 110XXXXX
-    if (i == 1 && c >> 5 == 0x06) {
-      this.charLength = 2;
-      break;
-    }
-
-    // 1110XXXX
-    if (i <= 2 && c >> 4 == 0x0E) {
-      this.charLength = 3;
-      break;
-    }
-
-    // 11110XXX
-    if (i <= 3 && c >> 3 == 0x1E) {
-      this.charLength = 4;
-      break;
-    }
-  }
-  this.charReceived = i;
-};
-
-StringDecoder.prototype.end = function(buffer) {
-  var res = '';
-  if (buffer && buffer.length)
-    res = this.write(buffer);
-
-  if (this.charReceived) {
-    var cr = this.charReceived;
-    var buf = this.charBuffer;
-    var enc = this.encoding;
-    res += buf.slice(0, cr).toString(enc);
-  }
-
-  return res;
-};
-
-function passThroughWrite(buffer) {
-  return buffer.toString(this.encoding);
-}
-
-function utf16DetectIncompleteChar(buffer) {
-  this.charReceived = buffer.length % 2;
-  this.charLength = this.charReceived ? 2 : 0;
-}
-
-function base64DetectIncompleteChar(buffer) {
-  this.charReceived = buffer.length % 3;
-  this.charLength = this.charReceived ? 3 : 0;
-}
-
-},{"buffer":17}],120:[function(require,module,exports){
+},{}],133:[function(require,module,exports){
+arguments[4][40][0].apply(exports,arguments)
+},{"buffer":16,"dup":40}],134:[function(require,module,exports){
 var si = typeof setImmediate === 'function', tick;
 if (si) {
   tick = function (fn) { setImmediate(fn); };
@@ -61329,7 +62350,7 @@ if (si) {
 }
 
 module.exports = tick;
-},{}],121:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 (function (Buffer){
 /**
  * Convert a typed array to a Buffer without a copy
@@ -61353,7 +62374,7 @@ module.exports = function (arr) {
 
 }).call(this,require("buffer").Buffer)
 
-},{"buffer":17}],122:[function(require,module,exports){
+},{"buffer":16}],136:[function(require,module,exports){
 var undefined = (void 0); // Paranoia
 
 // Beyond this value, index getters/setters (i.e. array[0], array[1]) are so slow to
@@ -61985,7 +63006,7 @@ function packF32(v) { return packIEEE754(v, 8, 23); }
 
 }());
 
-},{}],123:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 (function (global){
 
 /**
@@ -62057,605 +63078,7 @@ function config (name) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],124:[function(require,module,exports){
-module.exports = function isBuffer(arg) {
-  return arg && typeof arg === 'object'
-    && typeof arg.copy === 'function'
-    && typeof arg.fill === 'function'
-    && typeof arg.readUInt8 === 'function';
-}
-},{}],125:[function(require,module,exports){
-(function (process,global){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-var formatRegExp = /%[sdj%]/g;
-exports.format = function(f) {
-  if (!isString(f)) {
-    var objects = [];
-    for (var i = 0; i < arguments.length; i++) {
-      objects.push(inspect(arguments[i]));
-    }
-    return objects.join(' ');
-  }
-
-  var i = 1;
-  var args = arguments;
-  var len = args.length;
-  var str = String(f).replace(formatRegExp, function(x) {
-    if (x === '%%') return '%';
-    if (i >= len) return x;
-    switch (x) {
-      case '%s': return String(args[i++]);
-      case '%d': return Number(args[i++]);
-      case '%j':
-        try {
-          return JSON.stringify(args[i++]);
-        } catch (_) {
-          return '[Circular]';
-        }
-      default:
-        return x;
-    }
-  });
-  for (var x = args[i]; i < len; x = args[++i]) {
-    if (isNull(x) || !isObject(x)) {
-      str += ' ' + x;
-    } else {
-      str += ' ' + inspect(x);
-    }
-  }
-  return str;
-};
-
-
-// Mark that a method should not be used.
-// Returns a modified function which warns once by default.
-// If --no-deprecation is set, then it is a no-op.
-exports.deprecate = function(fn, msg) {
-  // Allow for deprecating things in the process of starting up.
-  if (isUndefined(global.process)) {
-    return function() {
-      return exports.deprecate(fn, msg).apply(this, arguments);
-    };
-  }
-
-  if (process.noDeprecation === true) {
-    return fn;
-  }
-
-  var warned = false;
-  function deprecated() {
-    if (!warned) {
-      if (process.throwDeprecation) {
-        throw new Error(msg);
-      } else if (process.traceDeprecation) {
-        console.trace(msg);
-      } else {
-        console.error(msg);
-      }
-      warned = true;
-    }
-    return fn.apply(this, arguments);
-  }
-
-  return deprecated;
-};
-
-
-var debugs = {};
-var debugEnviron;
-exports.debuglog = function(set) {
-  if (isUndefined(debugEnviron))
-    debugEnviron = process.env.NODE_DEBUG || '';
-  set = set.toUpperCase();
-  if (!debugs[set]) {
-    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
-      var pid = process.pid;
-      debugs[set] = function() {
-        var msg = exports.format.apply(exports, arguments);
-        console.error('%s %d: %s', set, pid, msg);
-      };
-    } else {
-      debugs[set] = function() {};
-    }
-  }
-  return debugs[set];
-};
-
-
-/**
- * Echos the value of a value. Trys to print the value out
- * in the best way possible given the different types.
- *
- * @param {Object} obj The object to print out.
- * @param {Object} opts Optional options object that alters the output.
- */
-/* legacy: obj, showHidden, depth, colors*/
-function inspect(obj, opts) {
-  // default options
-  var ctx = {
-    seen: [],
-    stylize: stylizeNoColor
-  };
-  // legacy...
-  if (arguments.length >= 3) ctx.depth = arguments[2];
-  if (arguments.length >= 4) ctx.colors = arguments[3];
-  if (isBoolean(opts)) {
-    // legacy...
-    ctx.showHidden = opts;
-  } else if (opts) {
-    // got an "options" object
-    exports._extend(ctx, opts);
-  }
-  // set default options
-  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
-  if (isUndefined(ctx.depth)) ctx.depth = 2;
-  if (isUndefined(ctx.colors)) ctx.colors = false;
-  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
-  if (ctx.colors) ctx.stylize = stylizeWithColor;
-  return formatValue(ctx, obj, ctx.depth);
-}
-exports.inspect = inspect;
-
-
-// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
-inspect.colors = {
-  'bold' : [1, 22],
-  'italic' : [3, 23],
-  'underline' : [4, 24],
-  'inverse' : [7, 27],
-  'white' : [37, 39],
-  'grey' : [90, 39],
-  'black' : [30, 39],
-  'blue' : [34, 39],
-  'cyan' : [36, 39],
-  'green' : [32, 39],
-  'magenta' : [35, 39],
-  'red' : [31, 39],
-  'yellow' : [33, 39]
-};
-
-// Don't use 'blue' not visible on cmd.exe
-inspect.styles = {
-  'special': 'cyan',
-  'number': 'yellow',
-  'boolean': 'yellow',
-  'undefined': 'grey',
-  'null': 'bold',
-  'string': 'green',
-  'date': 'magenta',
-  // "name": intentionally not styling
-  'regexp': 'red'
-};
-
-
-function stylizeWithColor(str, styleType) {
-  var style = inspect.styles[styleType];
-
-  if (style) {
-    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
-           '\u001b[' + inspect.colors[style][1] + 'm';
-  } else {
-    return str;
-  }
-}
-
-
-function stylizeNoColor(str, styleType) {
-  return str;
-}
-
-
-function arrayToHash(array) {
-  var hash = {};
-
-  array.forEach(function(val, idx) {
-    hash[val] = true;
-  });
-
-  return hash;
-}
-
-
-function formatValue(ctx, value, recurseTimes) {
-  // Provide a hook for user-specified inspect functions.
-  // Check that value is an object with an inspect function on it
-  if (ctx.customInspect &&
-      value &&
-      isFunction(value.inspect) &&
-      // Filter out the util module, it's inspect function is special
-      value.inspect !== exports.inspect &&
-      // Also filter out any prototype objects using the circular check.
-      !(value.constructor && value.constructor.prototype === value)) {
-    var ret = value.inspect(recurseTimes, ctx);
-    if (!isString(ret)) {
-      ret = formatValue(ctx, ret, recurseTimes);
-    }
-    return ret;
-  }
-
-  // Primitive types cannot have properties
-  var primitive = formatPrimitive(ctx, value);
-  if (primitive) {
-    return primitive;
-  }
-
-  // Look up the keys of the object.
-  var keys = Object.keys(value);
-  var visibleKeys = arrayToHash(keys);
-
-  if (ctx.showHidden) {
-    keys = Object.getOwnPropertyNames(value);
-  }
-
-  // IE doesn't make error fields non-enumerable
-  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
-  if (isError(value)
-      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
-    return formatError(value);
-  }
-
-  // Some type of object without properties can be shortcutted.
-  if (keys.length === 0) {
-    if (isFunction(value)) {
-      var name = value.name ? ': ' + value.name : '';
-      return ctx.stylize('[Function' + name + ']', 'special');
-    }
-    if (isRegExp(value)) {
-      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-    }
-    if (isDate(value)) {
-      return ctx.stylize(Date.prototype.toString.call(value), 'date');
-    }
-    if (isError(value)) {
-      return formatError(value);
-    }
-  }
-
-  var base = '', array = false, braces = ['{', '}'];
-
-  // Make Array say that they are Array
-  if (isArray(value)) {
-    array = true;
-    braces = ['[', ']'];
-  }
-
-  // Make functions say that they are functions
-  if (isFunction(value)) {
-    var n = value.name ? ': ' + value.name : '';
-    base = ' [Function' + n + ']';
-  }
-
-  // Make RegExps say that they are RegExps
-  if (isRegExp(value)) {
-    base = ' ' + RegExp.prototype.toString.call(value);
-  }
-
-  // Make dates with properties first say the date
-  if (isDate(value)) {
-    base = ' ' + Date.prototype.toUTCString.call(value);
-  }
-
-  // Make error with message first say the error
-  if (isError(value)) {
-    base = ' ' + formatError(value);
-  }
-
-  if (keys.length === 0 && (!array || value.length == 0)) {
-    return braces[0] + base + braces[1];
-  }
-
-  if (recurseTimes < 0) {
-    if (isRegExp(value)) {
-      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-    } else {
-      return ctx.stylize('[Object]', 'special');
-    }
-  }
-
-  ctx.seen.push(value);
-
-  var output;
-  if (array) {
-    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
-  } else {
-    output = keys.map(function(key) {
-      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
-    });
-  }
-
-  ctx.seen.pop();
-
-  return reduceToSingleString(output, base, braces);
-}
-
-
-function formatPrimitive(ctx, value) {
-  if (isUndefined(value))
-    return ctx.stylize('undefined', 'undefined');
-  if (isString(value)) {
-    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
-                                             .replace(/'/g, "\\'")
-                                             .replace(/\\"/g, '"') + '\'';
-    return ctx.stylize(simple, 'string');
-  }
-  if (isNumber(value))
-    return ctx.stylize('' + value, 'number');
-  if (isBoolean(value))
-    return ctx.stylize('' + value, 'boolean');
-  // For some reason typeof null is "object", so special case here.
-  if (isNull(value))
-    return ctx.stylize('null', 'null');
-}
-
-
-function formatError(value) {
-  return '[' + Error.prototype.toString.call(value) + ']';
-}
-
-
-function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
-  var output = [];
-  for (var i = 0, l = value.length; i < l; ++i) {
-    if (hasOwnProperty(value, String(i))) {
-      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-          String(i), true));
-    } else {
-      output.push('');
-    }
-  }
-  keys.forEach(function(key) {
-    if (!key.match(/^\d+$/)) {
-      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-          key, true));
-    }
-  });
-  return output;
-}
-
-
-function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
-  var name, str, desc;
-  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
-  if (desc.get) {
-    if (desc.set) {
-      str = ctx.stylize('[Getter/Setter]', 'special');
-    } else {
-      str = ctx.stylize('[Getter]', 'special');
-    }
-  } else {
-    if (desc.set) {
-      str = ctx.stylize('[Setter]', 'special');
-    }
-  }
-  if (!hasOwnProperty(visibleKeys, key)) {
-    name = '[' + key + ']';
-  }
-  if (!str) {
-    if (ctx.seen.indexOf(desc.value) < 0) {
-      if (isNull(recurseTimes)) {
-        str = formatValue(ctx, desc.value, null);
-      } else {
-        str = formatValue(ctx, desc.value, recurseTimes - 1);
-      }
-      if (str.indexOf('\n') > -1) {
-        if (array) {
-          str = str.split('\n').map(function(line) {
-            return '  ' + line;
-          }).join('\n').substr(2);
-        } else {
-          str = '\n' + str.split('\n').map(function(line) {
-            return '   ' + line;
-          }).join('\n');
-        }
-      }
-    } else {
-      str = ctx.stylize('[Circular]', 'special');
-    }
-  }
-  if (isUndefined(name)) {
-    if (array && key.match(/^\d+$/)) {
-      return str;
-    }
-    name = JSON.stringify('' + key);
-    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
-      name = name.substr(1, name.length - 2);
-      name = ctx.stylize(name, 'name');
-    } else {
-      name = name.replace(/'/g, "\\'")
-                 .replace(/\\"/g, '"')
-                 .replace(/(^"|"$)/g, "'");
-      name = ctx.stylize(name, 'string');
-    }
-  }
-
-  return name + ': ' + str;
-}
-
-
-function reduceToSingleString(output, base, braces) {
-  var numLinesEst = 0;
-  var length = output.reduce(function(prev, cur) {
-    numLinesEst++;
-    if (cur.indexOf('\n') >= 0) numLinesEst++;
-    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
-  }, 0);
-
-  if (length > 60) {
-    return braces[0] +
-           (base === '' ? '' : base + '\n ') +
-           ' ' +
-           output.join(',\n  ') +
-           ' ' +
-           braces[1];
-  }
-
-  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
-}
-
-
-// NOTE: These type checking functions intentionally don't use `instanceof`
-// because it is fragile and can be easily faked with `Object.create()`.
-function isArray(ar) {
-  return Array.isArray(ar);
-}
-exports.isArray = isArray;
-
-function isBoolean(arg) {
-  return typeof arg === 'boolean';
-}
-exports.isBoolean = isBoolean;
-
-function isNull(arg) {
-  return arg === null;
-}
-exports.isNull = isNull;
-
-function isNullOrUndefined(arg) {
-  return arg == null;
-}
-exports.isNullOrUndefined = isNullOrUndefined;
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-exports.isNumber = isNumber;
-
-function isString(arg) {
-  return typeof arg === 'string';
-}
-exports.isString = isString;
-
-function isSymbol(arg) {
-  return typeof arg === 'symbol';
-}
-exports.isSymbol = isSymbol;
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-exports.isUndefined = isUndefined;
-
-function isRegExp(re) {
-  return isObject(re) && objectToString(re) === '[object RegExp]';
-}
-exports.isRegExp = isRegExp;
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-exports.isObject = isObject;
-
-function isDate(d) {
-  return isObject(d) && objectToString(d) === '[object Date]';
-}
-exports.isDate = isDate;
-
-function isError(e) {
-  return isObject(e) &&
-      (objectToString(e) === '[object Error]' || e instanceof Error);
-}
-exports.isError = isError;
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-exports.isFunction = isFunction;
-
-function isPrimitive(arg) {
-  return arg === null ||
-         typeof arg === 'boolean' ||
-         typeof arg === 'number' ||
-         typeof arg === 'string' ||
-         typeof arg === 'symbol' ||  // ES6 symbol
-         typeof arg === 'undefined';
-}
-exports.isPrimitive = isPrimitive;
-
-exports.isBuffer = require('./support/isBuffer');
-
-function objectToString(o) {
-  return Object.prototype.toString.call(o);
-}
-
-
-function pad(n) {
-  return n < 10 ? '0' + n.toString(10) : n.toString(10);
-}
-
-
-var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
-              'Oct', 'Nov', 'Dec'];
-
-// 26 Feb 16:19:34
-function timestamp() {
-  var d = new Date();
-  var time = [pad(d.getHours()),
-              pad(d.getMinutes()),
-              pad(d.getSeconds())].join(':');
-  return [d.getDate(), months[d.getMonth()], time].join(' ');
-}
-
-
-// log is just a thin wrapper to console.log that prepends a timestamp
-exports.log = function() {
-  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
-};
-
-
-/**
- * Inherit the prototype methods from one constructor into another.
- *
- * The Function.prototype.inherits from lang.js rewritten as a standalone
- * function (not on Function.prototype). NOTE: If this file is to be loaded
- * during bootstrapping this function needs to be rewritten using some native
- * functions as prototype setup using normal JavaScript does not work as
- * expected during bootstrapping (see mirror.js in r114903).
- *
- * @param {function} ctor Constructor function which needs to inherit the
- *     prototype.
- * @param {function} superCtor Constructor function to inherit prototype from.
- */
-exports.inherits = require('inherits');
-
-exports._extend = function(origin, add) {
-  // Don't do anything if add isn't an object
-  if (!add || !isObject(add)) return origin;
-
-  var keys = Object.keys(add);
-  var i = keys.length;
-  while (i--) {
-    origin[keys[i]] = add[keys[i]];
-  }
-  return origin;
-};
-
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
-}
-
-}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
-},{"./support/isBuffer":124,"_process":105,"inherits":43}],126:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 // Returns a wrapper function that returns a wrapped callback
 // The wrapper function should do some stuff, and return a
 // presumably different callback function.
@@ -62690,7 +63113,7 @@ function wrappy (fn, cb) {
   }
 }
 
-},{}],127:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62709,6 +63132,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -62719,6 +63150,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', 'addService', function ($http, $scope, $location, $window, addService) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Add an Admin";
   $scope.employee = {
@@ -62773,7 +63206,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   });
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],128:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],140:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62792,6 +63225,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -62802,6 +63243,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.header = 'Add Admin to Company';
   $scope.employeeID = $routeParams.id;
@@ -62875,7 +63318,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],129:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],141:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62894,6 +63337,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -62904,6 +63355,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.header = 'Add Admin to Office';
   $scope.employeeID = $routeParams.id;
@@ -63008,7 +63461,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],130:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],142:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63027,6 +63480,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63037,6 +63498,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Add a Company";
   $scope.company = {
@@ -63055,7 +63518,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],131:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],143:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63074,6 +63537,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63084,6 +63555,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', 'addService', function ($http, $scope, $location, $window, addService) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.teammates = [];
   $scope.isEmpty = function (obj) {
@@ -63155,7 +63628,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   }
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],132:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],144:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63174,6 +63647,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63184,6 +63665,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', 'addService', function ($http, $scope, $location, $window, addService) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope.employees = [{
     employeeID: 0,
     firstName: " ",
@@ -63227,7 +63710,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   };
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],133:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],145:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63246,6 +63729,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63256,6 +63747,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', 'addService', function ($http, $scope, $location, $window, addService) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Add an Employee";
   $scope.employee = {
@@ -63292,7 +63785,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
       data: { to: $scope.employee.email, reason: 'employeeAdd', password: $scope.employee.password }
     }).then(function (response) {
       addService.set({});
-      $location.path('/view-employees');
+      $window.location.href = '/view-employees';
     }, function (err) {
       console.log(err);
     });
@@ -63308,7 +63801,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   });
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],134:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],146:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63327,6 +63820,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63337,6 +63838,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', 'addService', function ($http, $scope, $location, $window, addService) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope.isEmpty = function (obj) {
     for (var prop in obj) {
       if (obj.hasOwnProperty(prop)) return false;
@@ -63372,7 +63875,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   }
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],135:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],147:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63391,6 +63894,18 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
+var _states = require('../settings/states');
+
+var _states2 = _interopRequireDefault(_states);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63401,6 +63916,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
+  $scope.states = _states2.default;
   $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Add an Office";
   $scope.office = {
@@ -63434,7 +63952,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],136:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188,"../settings/states":189}],148:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63453,6 +63971,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63463,6 +63989,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.employee = {
     firstName: "",
@@ -63475,7 +64003,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     outOfDesk: 1,
     restroomUsage: 1,
     pictureAddress: "",
-    permissioneLevel: "",
+    permissionLevel: "user",
     officeID: $routeParams.id
   };
   $http({
@@ -63501,7 +64029,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],137:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],149:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63520,6 +64048,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63530,19 +64066,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Add a Temperature Range";
   $scope.temperatureRange = {
     lower: 0,
-    upper: 1
+    upper: 2
   };
   $scope.submit = function () {
-    var temp;
-    if ($scope.temperatureRange.lower > $scope.temperatureRange.upper) {
-      temp = $scope.temperatureRange.lower;
-      $scope.temperatureRange.lower = $scope.temperatureRange.upper;
-      $scope.temperatureRange.upper = temp;
-    }
+    $scope.temperatureRange.upper = $scope.temperatureRange.lower + 2;
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddTemperatureRange',
@@ -63555,7 +64088,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],138:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],150:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63574,6 +64107,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63584,6 +64125,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Admin Management";
   $scope.message = "";
@@ -63734,7 +64277,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],139:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],151:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63753,6 +64296,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63763,6 +64314,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.header = 'Reassign Admin to Company';
   $scope.employeeID = $routeParams.id;
@@ -63822,7 +64375,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],140:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],152:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63841,6 +64394,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63851,6 +64412,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.header = 'All Companies';
   $scope.add = function () {
@@ -63892,7 +64455,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],141:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],153:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63911,6 +64474,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -63921,6 +64492,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope.companyID = $routeParams.id;
   $scope.controlCompanies = false;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
@@ -63978,7 +64551,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],142:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],154:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63997,6 +64570,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64007,6 +64588,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Edit a Company";
   $scope.companyID = $routeParams.id;
@@ -64032,7 +64615,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],143:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],155:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64051,6 +64634,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64061,8 +64652,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'Upload', function ($http, $scope, $location, $routeParams, $window, Upload) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.userPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Edit an Employee";
+  $scope.office = {};
   $scope.employeeID = $routeParams.id;
   $http({
     method: 'GET',
@@ -64082,7 +64676,9 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'U
   }, function (err) {
     //console.log(err);
   });
-
+  $scope.isInt = function (value) {
+    return !isNaN(value) && parseInt(Number(value)) == value && !isNaN(parseInt(value, 10));
+  };
   // Upload on file select or drop
   $scope.upload = function (file) {
     Upload.upload({
@@ -64103,29 +64699,33 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'U
       url: _env2.default.api.root + '/Api/EditEmployee/' + $scope.employeeID,
       data: $scope.employee
     }).then(function (response) {
-      $http({
-        method: 'POST',
-        url: _env2.default.api.root + '/Api/EditEmployeeUpdatedForOffice/' + $scope.office.officeID,
-        data: { employeeUpdated: 1 }
-      }).then(function (response) {
-        if ($scope.editEmployeeForm.file.$valid && $scope.file) {
-          $scope.upload($scope.file);
-        }
+      if ($scope.office != undefined && $scope.isInt($scope.office.officeID)) {
         $http({
           method: 'POST',
-          url: _env2.default.api.root + '/Api/SendEmail',
-          data: { reason: 'employeeUpdate' }
+          url: _env2.default.api.root + '/Api/EditEmployeeUpdatedForOffice/' + $scope.office.officeID,
+          data: { employeeUpdated: 1 }
         }).then(function (response) {
-          $location.path('/view-employees');
+          if ($scope.editEmployeeForm.file.$valid && $scope.file) {
+            $scope.upload($scope.file);
+          }
+          $http({
+            method: 'POST',
+            url: _env2.default.api.root + '/Api/SendEmail',
+            data: { reason: 'employeeUpdate' }
+          }).then(function (response) {
+            $location.path('/view-employees');
+          }, function (err) {});
         }, function (err) {});
-      }, function (err) {});
+      } else {
+        $location.path('/view-employees');
+      }
     }, function (err) {
       //console.log(err);
     });
   };
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],144:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],156:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64144,6 +64744,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64154,6 +64762,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope.employeeID = $routeParams.id;
   $scope.isEmpty = function (obj) {
     for (var prop in obj) {
@@ -64194,7 +64804,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],145:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],157:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64213,6 +64823,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64223,6 +64841,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Edit an Office";
   $scope.officeID = $routeParams.id;
@@ -64248,7 +64868,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],146:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],158:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64267,6 +64887,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64277,6 +64905,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Edit a Temperature Range";
   $scope.temperatureRangeID = $routeParams.id;
@@ -64290,9 +64920,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     ////console.log(err);
   });
   $scope.submit = function () {
+    $scope.temperatureRange.upper = $scope.temperatureRange.lower + 2;
     $http({
       method: 'POST',
-      url: _env2.default.api.root + '/Api/EditCompany/' + $scope.temperatureRangeID,
+      url: _env2.default.api.root + '/Api/EditTemperatureRange/' + $scope.temperatureRangeID,
       data: $scope.temperatureRange
     }).then(function (response) {
       $window.location.href = '/temperature-ranges';
@@ -64302,7 +64933,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],147:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],159:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64321,6 +64952,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64331,9 +64970,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
+  $scope.isEmpty = function (obj) {
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) {
+        return false;
+      }
+    }
+    return true;
+  };
   $scope.canEdit = false;
   $scope.canReassign = false;
   $scope.adminAccess = false;
+  $scope.hasEmployees = true;
   $scope.employeeID = $routeParams.employeeID;
   $scope.officeID = $routeParams.officeID;
   $scope.companyID;
@@ -64378,12 +65028,6 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
       $location.path('/employee-coworkers/' + employeeID + '/' + officeID);
     }, function (err) {});
   };
-  $scope.isEmpty = function (obj) {
-    for (var prop in obj) {
-      if (obj.hasOwnProperty(prop)) return false;
-    }
-    return true;
-  };
   $scope.reassignEmployee = function (employeeID) {
     $location.path('/employee-reassign-to-office/' + employeeID);
   };
@@ -64398,8 +65042,12 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     url: _env2.default.api.root + '/Api/EmployeesNotInWhiteListOrBlackList/' + $scope.employeeID + '/' + $scope.officeID
   }).then(function (response) {
     //console.log(response.data);
-    $scope.employees = response.data;
-    $scope.employeesCopy = response.data;
+    if (!$scope.isEmpty(response.data)) {
+      $scope.employees = response.data;
+      $scope.employeesCopy = response.data;
+    } else {
+      $scope.hasEmployees = false;
+    }
   }, function (err) {
     //console.log(err);
   });
@@ -64408,7 +65056,11 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     url: _env2.default.api.root + '/Api/EmployeeWhitelist/' + $scope.employeeID
   }).then(function (response) {
     //console.log(response.data);
-    $scope.whitelist = response.data;
+    if (!$scope.isEmpty(response.data)) {
+      $scope.whitelist = response.data;
+    } else {
+      $scope.hasEmployees = false;
+    }
   }, function (err) {
     //console.log(err);
   });
@@ -64417,7 +65069,11 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     url: _env2.default.api.root + '/Api/EmployeeBlacklist/' + $scope.employeeID
   }).then(function (response) {
     //console.log(response.data)
-    $scope.blacklist = response.data;
+    if (!$scope.isEmpty(response.data)) {
+      $scope.blacklist = response.data;
+    } else {
+      $scope.hasEmployees = false;
+    }
   }, function (err) {
     //console.log(err);
   });
@@ -64469,7 +65125,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],148:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],160:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64488,6 +65144,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64498,6 +65162,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope.adminAccess = false;
   $scope.canEdit = false;
   $scope.canReassign = false;
@@ -64589,7 +65255,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],149:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],161:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64608,6 +65274,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64618,6 +65292,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope.adminAccess = false;
   $scope.canEdit = false;
   $scope.canReassign = false;
@@ -64709,7 +65385,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],150:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],162:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64728,6 +65404,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64738,6 +65422,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.header = 'Reassign Employee to Office';
   $scope.employeeID = $routeParams.id;
@@ -64852,7 +65538,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],151:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],163:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64873,7 +65559,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {}];
 
-},{"../../core/env":171}],152:[function(require,module,exports){
+},{"../../core/env":183}],164:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64892,6 +65578,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64903,6 +65597,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.officeID = $routeParams.id;
   $scope.header = 'View Current FloorPLan';
@@ -64910,7 +65606,8 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     var adder = {
       chartFile: 'c32.json',
       employeeFile: 'e32.json',
-      similarityFile: 's32.json'
+      similarityFile: 's32.json',
+      output: 'office' + $scope.officeID + '_output.json'
     };
     $http({
       method: 'POST',
@@ -64947,7 +65644,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],153:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],165:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64962,6 +65659,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64972,11 +65677,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   for (var i in $scope.primaryNavItems) {
     if (i != 0) {
       $scope.primaryNavItems[i].show = false;
     }
   }
+  for (var i in $scope.accountNavItems) {
+    $scope.accountNavItems[i].show = false;
+  }
+  $scope.showAccountInfo.show = false;
   if ($window.sessionStorage.token) {
     //Validate the token
     $http({
@@ -65146,7 +65857,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":171,"../settings/primary_nav_items":175}],154:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/primary_nav_items":188}],166:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65160,6 +65871,10 @@ var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
 var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -65178,9 +65893,10 @@ exports.default = ['$scope', '$route', '$routeParams', '$location', function ($s
     return $location.path() === path ? 'active' : '';
   };
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
 }];
 
-},{"../settings/account_nav_items":173,"../settings/primary_nav_items":175}],155:[function(require,module,exports){
+},{"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/primary_nav_items":188}],167:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65195,6 +65911,14 @@ var _primary_nav_items = require('../../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -65205,6 +65929,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
+  $scope.showAccountInfo.show = true;
   $scope.adminAccess = false;
   $scope.canReassign = false;
   $scope.editEmployee = function (employeeID) {
@@ -65277,17 +66004,6 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
               }).then(function (err) {
                 //console.log('Error: ', err);
               });
-              $http({
-                method: 'GET',
-                url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
-              }).then(function (response) {
-                //console.log('Response: ', response.data);
-                if (response.data[0].result == 0) {
-                  $window.location.href = '/add-superadmin-to-office';
-                }
-              }).then(function (err) {
-                //console.log('Error: ', err);
-              });
             }
           }).then(function (err) {
             //console.log('Error: ', err);
@@ -65298,6 +66014,9 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       });
 
       // Check Permission Level
+      for (var i in $scope.accountNavItems) {
+        $scope.accountNavItems[i].show = true;
+      }
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -65389,7 +66108,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   }
 }];
 
-},{"../../core/env":171,"../../settings/primary_nav_items":175}],156:[function(require,module,exports){
+},{"../../core/env":183,"../../settings/account_info":185,"../../settings/account_nav_items":186,"../../settings/primary_nav_items":188}],168:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65415,7 +66134,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $location.path('/login');
 }];
 
-},{"../../core/env":171}],157:[function(require,module,exports){
+},{"../../core/env":183}],169:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65434,6 +66153,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -65444,6 +66171,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.edit = function (officeID) {
     $location.path('/edit-office/' + officeID);
@@ -65475,7 +66204,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],158:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],170:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65494,7 +66223,17 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+;
 
 //
 // Office Employees Controller
@@ -65504,28 +66243,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.emps = [];
   $scope.officeID = $routeParams.id;
-  $http({
-    method: 'GET',
-    url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.officeID
-  }).then(function (response) {
-    //console.log(response);
-    $scope.emps = response.data;
-  }, function (err) {
-    //console.log(err);
-  });
-  $http({
-    method: 'GET',
-    url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
-  }).then(function (response) {
-    //console.log(response);
-    $scope.header = response.data[0].companyName;
-    $scope.companyID = response.data[0].companyID;
-  }, function (err) {
-    //console.log(err);
-  });
+  $scope.errorMessage = "";
   $scope.add = function () {
     $location.path('/add-office-employee/' + $scope.officeID);
   };
@@ -65535,7 +66258,6 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
       url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID
     }).then(function (response) {
       //console.log(response);
-      $scope.emps = response.data;
     }, function (err) {
       //console.log(err);
     });
@@ -65550,73 +66272,77 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     });
   };
   $scope.upload = function () {
-    var f = document.getElementById('csv-upload').files[0],
-        r = new FileReader();
-    r.onloadend = function (e) {
-      var data = e.target.result;
-      var employees = [];
-      data = data.trim();
-      data = data.replace(/(?:\r\n|\r|\n)/g, ",");
-      var splitted = data.split(",");
-      var i = 0;
-      var max = 0;
+    try {
+      var f = document.getElementById('csv-upload').files[0],
+          r = new FileReader();
+      r.onloadend = function (e) {
+        var data = e.target.result;
+        var employees = [];
+        data = data.trim();
+        data = data.replace(/(?:\r\n|\r|\n)/g, ",");
+        var splitted = data.split(",");
+        var i = 0;
+        var max = 0;
 
-      if (splitted.length % 3 == 0) {
-        max = splitted.length;
-        while (i < max) {
-          var employee = {};
-          employee.firstName = splitted[i++];
-          employee.lastName = splitted[i++];
-          employee.email = splitted[i++];
-          employee.password = "randompassword";
-          employee.department = "no department";
-          employee.title = "no title";
-          employee.restroomUsage = 1;
-          employee.noisePreference = 1;
-          employee.outOfDesk = 1;
-          employee.pictureAddress = "no picture address";
-          employee.permissionLevel = "user";
-          employees.push(employee);
-        }
-        /*if (splitted.length % 11 == 0) {
+        if (splitted.length % 3 == 0) {
           max = splitted.length;
           while (i < max) {
             var employee = {};
             employee.firstName = splitted[i++];
             employee.lastName = splitted[i++];
             employee.email = splitted[i++];
-            employee.password = splitted[i++];
-            employee.department = splitted[i++];
-            employee.title = splitted[i++];
-            employee.restroomUsage = splitted[i++];
-            employee.noisePreference = splitted[i++];
-            employee.outOfDesk = splitted[i++];
-            employee.pictureAddress = splitted[i++];
-            employee.permissionLevel = splitted[i++];
+            employee.password = "randompassword";
+            employee.department = "no department";
+            employee.title = "no title";
+            employee.restroomUsage = 1;
+            employee.noisePreference = 1;
+            employee.outOfDesk = 1;
+            employee.pictureAddress = "no picture address";
+            employee.permissionLevel = "user";
             employees.push(employee);
-          }*/
-        $http({
-          method: 'POST',
-          url: _env2.default.api.root + '/Api/AddEmployees',
-          data: { employees: employees, officeID: $scope.officeID }
-        }).then(function (response) {
-          alert("CSV successfully uploaded.");
+          }
+          /*if (splitted.length % 11 == 0) {
+            max = splitted.length;
+            while (i < max) {
+              var employee = {};
+              employee.firstName = splitted[i++];
+              employee.lastName = splitted[i++];
+              employee.email = splitted[i++];
+              employee.password = splitted[i++];
+              employee.department = splitted[i++];
+              employee.title = splitted[i++];
+              employee.restroomUsage = splitted[i++];
+              employee.noisePreference = splitted[i++];
+              employee.outOfDesk = splitted[i++];
+              employee.pictureAddress = splitted[i++];
+              employee.permissionLevel = splitted[i++];
+              employees.push(employee);
+            }*/
           $http({
-            method: 'GET',
-            url: _env2.default.api.root + '/Api/AllEmployees'
+            method: 'POST',
+            url: _env2.default.api.root + '/Api/AddEmployees',
+            data: { employees: employees, officeID: $scope.officeID }
           }).then(function (response) {
-            $scope.emps = response.data;
+            alert("CSV successfully uploaded.");
+            $http({
+              method: 'GET',
+              url: _env2.default.api.root + '/Api/AllEmployees'
+            }).then(function (response) {
+              $scope.emps = response.data;
+            }, function (err) {
+              //console.log(err);
+            });
           }, function (err) {
             //console.log(err);
           });
-        }, function (err) {
-          //console.log(err);
-        });
-      } else {
-          alert("Incorrect csv format.\nThe correct format is firstName,lastName,email,password,department,title,restroomUsage,noisePreference,outOfDesk,pictureAddress,permissionLevel");
-        }
-    };
-    r.readAsText(f);
+        } else {
+            alert("Incorrect csv format.\nThe correct format is firstName,lastName,email,password,department,title,restroomUsage,noisePreference,outOfDesk,pictureAddress,permissionLevel");
+          }
+      };
+      r.readAsText(f);
+    } catch (err) {
+      $scope.errorMessage = "Please choose a CSV file to upload employees";
+    }
   };
   $scope.edit = function (employeeID) {
     $location.path('/edit-employee/' + employeeID);
@@ -65624,9 +66350,32 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.view = function (employeeID) {
     $location.path('/employee-detail/' + employeeID);
   };
+  if ($scope.officeID == 0) {
+    $location.path('/offices');
+  } else {
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.officeID
+    }).then(function (response) {
+      //console.log(response);
+      $scope.emps = response.data;
+    }, function (err) {
+      //console.log(err);
+    });
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+    }).then(function (response) {
+      //console.log(response);
+      $scope.header = response.data[0].companyName;
+      $scope.companyID = response.data[0].companyID;
+    }, function (err) {
+      //console.log(err);
+    });
+  }
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],159:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],171:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65645,6 +66394,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -65655,6 +66412,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.header = 'All Offices';
   $scope.add = function () {
@@ -65730,7 +66489,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],160:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],172:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65745,6 +66504,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -65755,6 +66522,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   //$scope = permissions.userPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Password Reset";
   $scope.invalid = false;
@@ -65850,7 +66619,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
 }];
 //import permissions from '../settings/permissions';
 
-},{"../core/env":171,"../settings/primary_nav_items":175}],161:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/primary_nav_items":188}],173:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65865,6 +66634,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -65875,6 +66652,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope.header = "Password Reset";
   $scope.issue = false;
   $scope.validToken = false;
@@ -65956,7 +66735,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":171,"../settings/primary_nav_items":175}],162:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/primary_nav_items":188}],174:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65975,6 +66754,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -65986,11 +66773,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$scope', '$http', '$location', '$window', function ($scope, $http, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.message = 'Under Construction';
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],163:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],175:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66005,6 +66794,14 @@ var _primary_nav_items = require('../../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -66015,8 +66812,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
+  $scope.showAccountInfo.show = false;
   for (var i in $scope.primaryNavItems) {
     $scope.primaryNavItems[i].show = false;
+  }
+  for (var i in $scope.accountNavItems) {
+    $scope.accountNavItems[i].show = false;
   }
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -66142,7 +66945,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../../core/env":171,"../../settings/primary_nav_items":175}],164:[function(require,module,exports){
+},{"../../core/env":183,"../../settings/account_info":185,"../../settings/account_nav_items":186,"../../settings/primary_nav_items":188}],176:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66157,6 +66960,18 @@ var _primary_nav_items = require('../../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
+var _states = require('../../settings/states');
+
+var _states2 = _interopRequireDefault(_states);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -66167,9 +66982,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
-  $scope.employeeID = $routeParams.id;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
+  $scope.showAccountInfo.show = false;
+  $scope.states = _states2.default;
   for (var i in $scope.primaryNavItems) {
     $scope.primaryNavItems[i].show = false;
+  }
+  for (var i in $scope.accountNavItems) {
+    $scope.accountNavItems[i].show = false;
   }
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -66285,7 +67106,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../../core/env":171,"../../settings/primary_nav_items":175}],165:[function(require,module,exports){
+},{"../../core/env":183,"../../settings/account_info":185,"../../settings/account_nav_items":186,"../../settings/primary_nav_items":188,"../../settings/states":189}],177:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66300,6 +67121,14 @@ var _primary_nav_items = require('../../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -66310,8 +67139,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
+  $scope.showAccountInfo.show = false;
   for (var i in $scope.primaryNavItems) {
     $scope.primaryNavItems[i].show = false;
+  }
+  for (var i in $scope.accountNavItems) {
+    $scope.accountNavItems[i].show = false;
   }
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -66362,15 +67197,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.header = "Add a Temperature Range";
   $scope.temperatureRange = {
     lower: 0,
-    upper: 1
+    upper: 2
   };
   $scope.submit = function () {
-    var temp;
-    if ($scope.temperatureRange.lower > $scope.temperatureRange.upper) {
-      temp = $scope.temperatureRange.lower;
-      $scope.temperatureRange.lower = $scope.temperatureRange.upper;
-      $scope.temperatureRange.upper = temp;
-    }
+    $scope.temperatureRange.upper = $scope.temperatureRange.lower + 2;
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddTemperatureRange',
@@ -66383,7 +67213,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../../core/env":171,"../../settings/primary_nav_items":175}],166:[function(require,module,exports){
+},{"../../core/env":183,"../../settings/account_info":185,"../../settings/account_nav_items":186,"../../settings/primary_nav_items":188}],178:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66398,18 +67228,32 @@ var _primary_nav_items = require('../../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Add Initial Temperature Range Controller
+// Add Super Admin to Office Controller
 //
-// Call Query to add initial temperature range to the database
+// Call Query to add Super Admin to Office
 //
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
+  $scope.showAccountInfo.show = false;
   for (var i in $scope.primaryNavItems) {
     $scope.primaryNavItems[i].show = false;
+  }
+  for (var i in $scope.accountNavItems) {
+    $scope.accountNavItems[i].show = false;
   }
   if (!$window.sessionStorage.token) {
     $location.path('/login');
@@ -66488,7 +67332,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../../core/env":171,"../../settings/primary_nav_items":175}],167:[function(require,module,exports){
+},{"../../core/env":183,"../../settings/account_info":185,"../../settings/account_nav_items":186,"../../settings/primary_nav_items":188}],179:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66507,6 +67351,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -66517,11 +67369,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope.adminAccess = false;
   $scope.canEdit = false;
   $scope.canReassign = false;
   $scope.employeeID = $routeParams.id;
   $scope.companyID;
+  $scope.hasEmployees = true;
+  $scope.isEmpty = function (obj) {
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) return false;
+    }
+    return true;
+  };
   $scope.employees = [{
     employeeID: 0,
     firstName: " ",
@@ -66539,12 +67400,6 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     department: " "
   }];
   $scope = _permissions2.default.userPermissionCheck($http, $scope, $location, $window);
-  $scope.isEmpty = function (obj) {
-    for (var prop in obj) {
-      if (obj.hasOwnProperty(prop)) return false;
-    }
-    return true;
-  };
   $scope.editEmployee = function (employeeID) {
     $location.path('/edit-employee/' + employeeID);
   };
@@ -66571,7 +67426,11 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     url: _env2.default.api.root + '/Api/EmployeeTeammates/' + $scope.employeeID
   }).then(function (response) {
     //console.log(response.data);
-    $scope.teammates = response.data;
+    if (!$scope.isEmpty(response.data)) {
+      $scope.teammates = response.data;
+    } else {
+      $scope.hasEmployees = false;
+    }
   }, function (err) {
     //console.log(err);
   });
@@ -66621,7 +67480,11 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
           url: _env2.default.api.root + '/Api/EmployeesNotInTeammates/' + $scope.employeeID + '/' + $scope.officeID
         }).then(function (response) {
           //console.log(response.data);
-          $scope.employees = response.data;
+          if (!$scope.isEmpty(response.data)) {
+            $scope.employees = response.data;
+          } else {
+            $scope.hasEmployees = false;
+          }
         }, function (err) {
           //console.log(err);
         });
@@ -66645,7 +67508,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],168:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],180:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66664,6 +67527,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -66674,6 +67545,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.header = 'All Temperature Ranges';
   $scope.add = function () {
@@ -66712,7 +67585,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],169:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],181:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66731,6 +67604,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -66741,6 +67622,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope.adminAccess = false;
   $scope.isEmpty = function (obj) {
     for (var prop in obj) {
@@ -66804,7 +67687,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],170:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],182:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66823,6 +67706,14 @@ var _primary_nav_items = require('../settings/primary_nav_items');
 
 var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
 
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -66833,7 +67724,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {
   $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
   $scope.officeID;
+  $scope.errorMessage = "";
   $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
   $http({
     method: 'GET',
@@ -66858,74 +67752,78 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     $location.path('/add-employee');
   };
   $scope.upload = function () {
-    var f = document.getElementById('csv-upload').files[0],
-        r = new FileReader();
-    r.onloadend = function (e) {
-      var data = e.target.result;
-      var employees = [];
-      data = data.trim();
-      data = data.replace(/(?:\r\n|\r|\n)/g, ",");
-      var splitted = data.split(",");
-      var i = 0;
-      var max = 0;
+    try {
+      var f = document.getElementById('csv-upload').files[0],
+          r = new FileReader();
+      r.onloadend = function (e) {
+        var data = e.target.result;
+        var employees = [];
+        data = data.trim();
+        data = data.replace(/(?:\r\n|\r|\n)/g, ",");
+        var splitted = data.split(",");
+        var i = 0;
+        var max = 0;
 
-      if (splitted.length % 3 == 0) {
-        max = splitted.length;
-        while (i < max) {
-          var employee = {};
-          employee.firstName = splitted[i++];
-          employee.lastName = splitted[i++];
-          employee.email = splitted[i++];
-          employee.password = "randompassword";
-          employee.department = "no department";
-          employee.title = "no title";
-          employee.restroomUsage = 1;
-          employee.noisePreference = 1;
-          employee.outOfDesk = 1;
-          employee.pictureAddress = "no picture address";
-          employee.permissionLevel = "user";
-          employees.push(employee);
-        }
-        /*if (splitted.length % 11 == 0) {
+        if (splitted.length % 3 == 0) {
           max = splitted.length;
           while (i < max) {
             var employee = {};
             employee.firstName = splitted[i++];
             employee.lastName = splitted[i++];
             employee.email = splitted[i++];
-            employee.password = splitted[i++];
-            employee.department = splitted[i++];
-            employee.title = splitted[i++];
-            employee.restroomUsage = splitted[i++];
-            employee.noisePreference = splitted[i++];
-            employee.outOfDesk = splitted[i++];
-            employee.pictureAddress = splitted[i++];
-            employee.permissionLevel = splitted[i++];
+            employee.password = "randompassword";
+            employee.department = "no department";
+            employee.title = "no title";
+            employee.restroomUsage = 1;
+            employee.noisePreference = 1;
+            employee.outOfDesk = 1;
+            employee.pictureAddress = "no picture address";
+            employee.permissionLevel = "user";
             employees.push(employee);
-          }*/
-        $scope.officeID = parseInt($scope.officeID);
-        $http({
-          method: 'POST',
-          url: _env2.default.api.root + '/Api/AddEmployees',
-          data: { employees: employees, officeID: $scope.officeID }
-        }).then(function (response) {
-          alert("CSV successfully uploaded.");
+          }
+          /*if (splitted.length % 11 == 0) {
+            max = splitted.length;
+            while (i < max) {
+              var employee = {};
+              employee.firstName = splitted[i++];
+              employee.lastName = splitted[i++];
+              employee.email = splitted[i++];
+              employee.password = splitted[i++];
+              employee.department = splitted[i++];
+              employee.title = splitted[i++];
+              employee.restroomUsage = splitted[i++];
+              employee.noisePreference = splitted[i++];
+              employee.outOfDesk = splitted[i++];
+              employee.pictureAddress = splitted[i++];
+              employee.permissionLevel = splitted[i++];
+              employees.push(employee);
+            }*/
+          $scope.officeID = parseInt($scope.officeID);
           $http({
-            method: 'GET',
-            url: _env2.default.api.root + '/Api/AllEmployees'
+            method: 'POST',
+            url: _env2.default.api.root + '/Api/AddEmployees',
+            data: { employees: employees, officeID: $scope.officeID }
           }).then(function (response) {
-            $scope.emps = response.data;
+            alert("CSV successfully uploaded.");
+            $http({
+              method: 'GET',
+              url: _env2.default.api.root + '/Api/AllEmployees'
+            }).then(function (response) {
+              $scope.emps = response.data;
+            }, function (err) {
+              //console.log(err);
+            });
           }, function (err) {
             //console.log(err);
           });
-        }, function (err) {
-          //console.log(err);
-        });
-      } else {
-          alert("Incorrect csv format.\nThe correct format is firstName,lastName,email");
-        }
-    };
-    r.readAsText(f);
+        } else {
+            alert("Incorrect csv format.\nThe correct format is firstName,lastName,email");
+          }
+      };
+      r.readAsText(f);
+    } catch (err) {
+      $scope.errorMessage = "Please choose both a CSV file and office to upload employees";
+    }
   };
   $scope.delete = function (employeeID) {
     $http({
@@ -66954,7 +67852,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":171,"../settings/permissions":174,"../settings/primary_nav_items":175}],171:[function(require,module,exports){
+},{"../core/env":183,"../settings/account_info":185,"../settings/account_nav_items":186,"../settings/permissions":187,"../settings/primary_nav_items":188}],183:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66987,7 +67885,7 @@ var env = _lodash2.default.assign({}, _env2.default, _env4.default);
 
 exports.default = env;
 
-},{"../../env":2,"../../env.default":1,"browserify-fs":16,"lodash":97}],172:[function(require,module,exports){
+},{"../../env":2,"../../env.default":1,"browserify-fs":14,"lodash":118}],184:[function(require,module,exports){
 'use strict';
 
 var _AddAdminController = require('./controllers/AddAdminController');
@@ -67386,7 +68284,21 @@ iscApp.factory('addService', function () {
   };
 });
 
-},{"./controllers/AddAdminController":127,"./controllers/AddAdminToCompanyController":128,"./controllers/AddAdminToOfficeController":129,"./controllers/AddCompanyController":130,"./controllers/AddEmployeeCoworkersController":131,"./controllers/AddEmployeeIndividualInfoController":132,"./controllers/AddEmployeeNewController":133,"./controllers/AddEmployeePreferencesController":134,"./controllers/AddOfficeController":135,"./controllers/AddOfficeEmployeeController":136,"./controllers/AddTemperatureRangeController":137,"./controllers/AdminManagementController":138,"./controllers/AdminReassignToCompanyController":139,"./controllers/CompaniesController":140,"./controllers/CompanyOfficesController":141,"./controllers/EditCompanyController":142,"./controllers/EditEmployeeController":143,"./controllers/EditEmployeePreferencesController":144,"./controllers/EditOfficeController":145,"./controllers/EditTemperatureRangeController":146,"./controllers/EmployeeCoworkersController":147,"./controllers/EmployeeDetailController":148,"./controllers/EmployeePreferencesController":149,"./controllers/EmployeeReassignToOfficeController":150,"./controllers/Errors/InitializationErrorController":151,"./controllers/FloorplanController":152,"./controllers/LoginController":153,"./controllers/MainController":154,"./controllers/MyAccount/MyInfoController":155,"./controllers/MyAccount/SignOutController":156,"./controllers/OfficeDetailController":157,"./controllers/OfficeEmployeesController":158,"./controllers/OfficesController":159,"./controllers/PasswordResetController":160,"./controllers/PasswordResetTokenController":161,"./controllers/SeatingChartsController":162,"./controllers/StartUp/AddInitialCompanyController":163,"./controllers/StartUp/AddInitialOfficeController":164,"./controllers/StartUp/AddInitialTemperatureRangeController":165,"./controllers/StartUp/AddSuperAdminToOfficeController":166,"./controllers/TeamMembersController":167,"./controllers/TemperatureRangesController":168,"./controllers/UpdatePasswordController":169,"./controllers/ViewEmployeesController":170,"angular":12,"angular-dragula":7}],173:[function(require,module,exports){
+},{"./controllers/AddAdminController":139,"./controllers/AddAdminToCompanyController":140,"./controllers/AddAdminToOfficeController":141,"./controllers/AddCompanyController":142,"./controllers/AddEmployeeCoworkersController":143,"./controllers/AddEmployeeIndividualInfoController":144,"./controllers/AddEmployeeNewController":145,"./controllers/AddEmployeePreferencesController":146,"./controllers/AddOfficeController":147,"./controllers/AddOfficeEmployeeController":148,"./controllers/AddTemperatureRangeController":149,"./controllers/AdminManagementController":150,"./controllers/AdminReassignToCompanyController":151,"./controllers/CompaniesController":152,"./controllers/CompanyOfficesController":153,"./controllers/EditCompanyController":154,"./controllers/EditEmployeeController":155,"./controllers/EditEmployeePreferencesController":156,"./controllers/EditOfficeController":157,"./controllers/EditTemperatureRangeController":158,"./controllers/EmployeeCoworkersController":159,"./controllers/EmployeeDetailController":160,"./controllers/EmployeePreferencesController":161,"./controllers/EmployeeReassignToOfficeController":162,"./controllers/Errors/InitializationErrorController":163,"./controllers/FloorplanController":164,"./controllers/LoginController":165,"./controllers/MainController":166,"./controllers/MyAccount/MyInfoController":167,"./controllers/MyAccount/SignOutController":168,"./controllers/OfficeDetailController":169,"./controllers/OfficeEmployeesController":170,"./controllers/OfficesController":171,"./controllers/PasswordResetController":172,"./controllers/PasswordResetTokenController":173,"./controllers/SeatingChartsController":174,"./controllers/StartUp/AddInitialCompanyController":175,"./controllers/StartUp/AddInitialOfficeController":176,"./controllers/StartUp/AddInitialTemperatureRangeController":177,"./controllers/StartUp/AddSuperAdminToOfficeController":178,"./controllers/TeamMembersController":179,"./controllers/TemperatureRangesController":180,"./controllers/UpdatePasswordController":181,"./controllers/ViewEmployeesController":182,"angular":12,"angular-dragula":7}],185:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//
+// My Account Info
+//
+
+exports.default = {
+  show: true
+};
+
+},{}],186:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67398,16 +68310,19 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = [{
   href: '/my-info',
-  text: 'My Info'
+  text: 'My Info',
+  show: true
 }, {
   href: '/update-password',
-  text: 'Update Password'
+  text: 'Update Password',
+  show: true
 }, {
   href: '/sign-out',
-  text: 'Sign Out'
+  text: 'Sign Out',
+  show: true
 }];
 
-},{}],174:[function(require,module,exports){
+},{}],187:[function(require,module,exports){
 'use strict';
 
 var _env = require('../core/env');
@@ -67477,6 +68392,10 @@ exports.superadminPermissionCheck = function ($http, $scope, $location, $window)
       });
 
       // Permission Level
+      $scope.showAccountInfo.show = true;
+      for (var i in $scope.accountNavItems) {
+        $scope.accountNavItems[i].show = true;
+      }
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -67561,6 +68480,10 @@ exports.adminPermissionCheck = function ($http, $scope, $location, $window) {
       });
 
       // Permission Level
+      $scope.showAccountInfo.show = true;
+      for (var i in $scope.accountNavItems) {
+        $scope.accountNavItems[i].show = true;
+      }
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -67648,6 +68571,10 @@ exports.userPermissionCheck = function ($http, $scope, $location, $window) {
       });
 
       // Permission Level
+      $scope.showAccountInfo.show = true;
+      for (var i in $scope.accountNavItems) {
+        $scope.accountNavItems[i].show = true;
+      }
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -67683,7 +68610,7 @@ exports.userPermissionCheck = function ($http, $scope, $location, $window) {
   return $scope;
 };
 
-},{"../core/env":171}],175:[function(require,module,exports){
+},{"../core/env":183}],188:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67723,7 +68650,19 @@ exports.default = [{
   show: false
 }];
 
-},{}]},{},[172])
+},{}],189:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+//
+// Common States in U.S.
+//
+
+exports.default = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
+
+},{}]},{},[184])
 
 
 //# sourceMappingURL=bundle.js.map

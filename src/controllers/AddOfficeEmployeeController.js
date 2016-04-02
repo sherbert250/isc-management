@@ -1,6 +1,9 @@
 import env from '../core/env';
 import permissions from '../settings/permissions';
 import primaryNavItems from '../settings/primary_nav_items';
+import accountNavItems from '../settings/account_nav_items';
+import showAccountInfo from '../settings/account_info';
+
 //
 // Add Office Employee Controller
 //
@@ -9,6 +12,8 @@ import primaryNavItems from '../settings/primary_nav_items';
 
 export default ['$http', '$scope', '$location', '$routeParams', '$window', ($http, $scope, $location, $routeParams, $window) => {
   $scope.primaryNavItems = primaryNavItems;
+  $scope.accountNavItems = accountNavItems;
+  $scope.showAccountInfo = showAccountInfo;
   $scope = permissions.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.employee = {
     firstName: "",
@@ -21,7 +26,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     outOfDesk: 1,
     restroomUsage: 1,
     pictureAddress: "",
-    permissioneLevel: "",
+    permissionLevel: "user",
     officeID: $routeParams.id
   };
   $http({

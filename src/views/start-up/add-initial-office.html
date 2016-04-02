@@ -25,7 +25,13 @@
      </tr>
      <tr>
        <th>State</th>
-       <td><input class="form-control" type="text" name="officeState" ng-model="office.officeState" required /></td>
+       <td>
+         <div class="form-group">
+           <select class="form-control" id="state" name="state" ng-model="office.officeState" required>
+             <option ng-repeat="item in states" value="{{item}}">{{item}}</option>
+           </select>
+         </div>
+      </td>
      </tr>
      <tr>
        <th>Zipcode</th>

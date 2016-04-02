@@ -5,9 +5,9 @@
     </div>
   </div>
   <hr />
-  <ul class="nav nav-tabs">
+  <ul class="nav nav-tabs" ng-show="adminAccess">
     <li ng-show="adminAccess"><a data-toggle="tab" href="office-detail/{{companyID}}/{{officeID}}">Details</a></li>
-    <li class="active"><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
+    <li ng-show="adminAccess" class="active"><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
     <li ng-show="adminAccess"><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplan</a></li>
   </ul>
   <div class="row">
@@ -60,7 +60,7 @@
       <div class="col-md-6">
         <h5 class="team-members-subheader">Team Members</h5>
       </div>
-      <div class='parent1'>
+      <div class='parent1' ng-show="hasEmployees">
         <div class='wrapper1'>
           <div class='container1' dragula='"bag1"' dragula-model='employees'  style="width:500px">
             <div ng-repeat='employee in employees | filter: query1'>

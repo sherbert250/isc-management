@@ -61,6 +61,10 @@ exports.superadminPermissionCheck = function($http, $scope, $location, $window) 
       });
 
       // Permission Level
+      $scope.showAccountInfo.show = true;
+      for (var i in $scope.accountNavItems) {
+        $scope.accountNavItems[i].show = true;
+      }
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -145,6 +149,10 @@ exports.adminPermissionCheck = function($http, $scope, $location, $window) {
       });
 
       // Permission Level
+      $scope.showAccountInfo.show = true;
+      for (var i in $scope.accountNavItems) {
+        $scope.accountNavItems[i].show = true;
+      }
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
@@ -233,6 +241,10 @@ exports.userPermissionCheck = function($http, $scope, $location, $window) {
       });
 
       // Permission Level
+      $scope.showAccountInfo.show = true;
+      for (var i in $scope.accountNavItems) {
+        $scope.accountNavItems[i].show = true;
+      }
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page

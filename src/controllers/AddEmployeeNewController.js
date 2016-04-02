@@ -1,6 +1,8 @@
 import env from '../core/env';
 import permissions from '../settings/permissions';
 import primaryNavItems from '../settings/primary_nav_items';
+import accountNavItems from '../settings/account_nav_items';
+import showAccountInfo from '../settings/account_info';
 
 //
 // Add Employee New Controller
@@ -10,6 +12,8 @@ import primaryNavItems from '../settings/primary_nav_items';
 
 export default ['$http', '$scope', '$location','$window', 'addService', ($http, $scope, $location, $window, addService) => {
   $scope.primaryNavItems = primaryNavItems;
+  $scope.accountNavItems = accountNavItems;
+  $scope.showAccountInfo = showAccountInfo;
   $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Add an Employee";
   $scope.employee = {
@@ -48,7 +52,7 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
     })
     .then(response => {
       addService.set({});
-      $location.path('/view-employees');
+      $window.location.href = '/view-employees';
     }, err => {
       console.log(err);
     });

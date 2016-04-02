@@ -1,5 +1,9 @@
 import env from '../../core/env';
 import primaryNavItems from '../../settings/primary_nav_items';
+import accountNavItems from '../../settings/account_nav_items';
+import showAccountInfo from '../../settings/account_info';
+import states from '../../settings/states';
+
 //
 // Add Initial Office Controller
 //
@@ -8,9 +12,15 @@ import primaryNavItems from '../../settings/primary_nav_items';
 
 export default ['$http', '$scope', '$location', '$routeParams', '$window', ($http, $scope, $location, $routeParams, $window) => {
   $scope.primaryNavItems = primaryNavItems;
-  $scope.employeeID = $routeParams.id;
+  $scope.accountNavItems = accountNavItems;
+  $scope.showAccountInfo = showAccountInfo;
+  $scope.showAccountInfo.show = false;
+  $scope.states = states;
   for (var i in $scope.primaryNavItems) {
       $scope.primaryNavItems[i].show = false;
+  }
+  for (var i in $scope.accountNavItems) {
+    $scope.accountNavItems[i].show = false;
   }
   if(!$window.sessionStorage.token){
       $location.path('/login');

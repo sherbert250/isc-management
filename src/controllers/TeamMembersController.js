@@ -1,6 +1,8 @@
 import env from '../core/env';
 import permissions from '../settings/permissions';
 import primaryNavItems from '../settings/primary_nav_items';
+import accountNavItems from '../settings/account_nav_items';
+import showAccountInfo from '../settings/account_info';
 
 //
 // Team Members Controller
@@ -10,11 +12,21 @@ import primaryNavItems from '../settings/primary_nav_items';
 
 export default ['$http', '$scope', '$location', '$routeParams', '$window', ($http, $scope, $location, $routeParams, $window) => {
   $scope.primaryNavItems = primaryNavItems;
+  $scope.accountNavItems = accountNavItems;
+  $scope.showAccountInfo = showAccountInfo;
   $scope.adminAccess = false;
   $scope.canEdit = false;
   $scope.canReassign = false;
   $scope.employeeID = $routeParams.id;
   $scope.companyID;
+  $scope.hasEmployees = true;
+  $scope.isEmpty = function (obj) {
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+            return false;
+    }
+    return true;
+  };
   $scope.employees = [
     {
       employeeID: 0,
@@ -36,13 +48,6 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     }
   ];
   $scope = permissions.userPermissionCheck($http, $scope, $location, $window);
-  $scope.isEmpty = function (obj) {
-    for(var prop in obj) {
-        if(obj.hasOwnProperty(prop))
-            return false;
-    }
-    return true;
-  };
   $scope.editEmployee = function(employeeID) {
     $location.path('/edit-employee/' + employeeID);
   };
@@ -71,7 +76,11 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     url: `${env.api.root}/Api/EmployeeTeammates/` + $scope.employeeID
   }).then(response => {
     //console.log(response.data);
-    $scope.teammates = response.data;
+    if (!$scope.isEmpty(response.data)) {
+      $scope.teammates = response.data;
+    } else {
+      $scope.hasEmployees = false;
+    }
   }, err => {
     //console.log(err);
   });
@@ -121,7 +130,11 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         url: `${env.api.root}/Api/EmployeesNotInTeammates/` + $scope.employeeID + '/' + $scope.officeID
       }).then(response => {
         //console.log(response.data);
-        $scope.employees = response.data;
+        if (!$scope.isEmpty(response.data)) {
+          $scope.employees = response.data;
+        } else {
+          $scope.hasEmployees = false;
+        }
       }, err => {
         //console.log(err);
       });

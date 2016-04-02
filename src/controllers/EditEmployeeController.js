@@ -1,6 +1,8 @@
 import env from '../core/env';
 import permissions from '../settings/permissions';
 import primaryNavItems from '../settings/primary_nav_items';
+import accountNavItems from '../settings/account_nav_items';
+import showAccountInfo from '../settings/account_info';
 
 //
 // Edit Employee Controller
@@ -10,8 +12,11 @@ import primaryNavItems from '../settings/primary_nav_items';
 
 export default ['$http', '$scope', '$location', '$routeParams', '$window', 'Upload', ($http, $scope, $location, $routeParams, $window, Upload) => {
   $scope.primaryNavItems = primaryNavItems;
+  $scope.accountNavItems = accountNavItems;
+  $scope.showAccountInfo = showAccountInfo;
   $scope = permissions.userPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Edit an Employee";
+  $scope.office = {};
   $scope.employeeID = $routeParams.id;
   $http({
     method: 'GET',
@@ -31,7 +36,9 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', 'Uplo
   }, err => {
     //console.log(err);
   });
-
+  $scope.isInt = function(value) {
+    return !isNaN(value) &&  parseInt(Number(value)) == value && !isNaN(parseInt(value, 10));
+  };
   // Upload on file select or drop
   $scope.upload = function (file) {
       Upload.upload({
@@ -53,26 +60,30 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', 'Uplo
       data: $scope.employee
     })
     .then(response => {
-      $http({
-        method: 'POST',
-        url: `${env.api.root}/Api/EditEmployeeUpdatedForOffice/`+ $scope.office.officeID,
-        data: {employeeUpdated: 1}
-      })
-      .then(response => {
-        if ($scope.editEmployeeForm.file.$valid && $scope.file) {
-          $scope.upload($scope.file);
-        }
+      if ($scope.office != undefined && $scope.isInt($scope.office.officeID)) {
         $http({
           method: 'POST',
-          url: `${env.api.root}/Api/SendEmail`,
-          data: {reason: 'employeeUpdate'}
+          url: `${env.api.root}/Api/EditEmployeeUpdatedForOffice/`+ $scope.office.officeID,
+          data: {employeeUpdated: 1}
         })
         .then(response => {
-          $location.path('/view-employees');
-        }, err => {
+          if ($scope.editEmployeeForm.file.$valid && $scope.file) {
+            $scope.upload($scope.file);
+          }
+          $http({
+            method: 'POST',
+            url: `${env.api.root}/Api/SendEmail`,
+            data: {reason: 'employeeUpdate'}
+          })
+          .then(response => {
+            $location.path('/view-employees');
+          }, err => {
+          });
+        },err => {
         });
-      },err => {
-      });
+      } else {
+        $location.path('/view-employees');
+      }
     },err => {
       //console.log(err);
     });

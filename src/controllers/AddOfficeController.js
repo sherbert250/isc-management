@@ -1,6 +1,10 @@
 import env from '../core/env';
 import permissions from '../settings/permissions';
 import primaryNavItems from '../settings/primary_nav_items';
+import accountNavItems from '../settings/account_nav_items';
+import showAccountInfo from '../settings/account_info';
+import states from '../settings/states';
+
 //
 // Add Office Controller
 //
@@ -9,6 +13,9 @@ import primaryNavItems from '../settings/primary_nav_items';
 
 export default ['$http', '$scope', '$location', '$window', ($http, $scope, $location, $window) => {
   $scope.primaryNavItems = primaryNavItems;
+  $scope.accountNavItems = accountNavItems;
+  $scope.showAccountInfo = showAccountInfo;
+  $scope.states = states;
   $scope = permissions.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Add an Office";
   $scope.office = {

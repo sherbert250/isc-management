@@ -27,7 +27,7 @@
           <th>Name</th>
           <th>Email</th>
           <th>Admin Type</th>
-          <th colspan="8" class="action-header">Action</th>
+          <th colspan="6" class="action-header">Action</th>
         </tr>
       </thead>
       <tbody ng-repeat="admin in admins | filter: query">
@@ -35,9 +35,9 @@
           <td>{{admin.firstName}} {{admin.lastName}}</td>
           <td>{{admin.email}}</td>
           <td>{{admin.permissionLevel}}</td>
-          <td class="action-header"><button class="btn btn-success btn-sm" ng-click="addToCompany(admin.employeeID)">Add to Company</button></td>
+          <!-- <td class="action-header"><button class="btn btn-success btn-sm" ng-click="addToCompany(admin.employeeID)">Add to Company</button></td> -->
           <td class="action-header"><button class="btn btn-primary btn-sm" ng-click="reassignEmployeeToCompany(admin.employeeID, admin.permissionLevel)">Change Company</buttron></td>
-          <td class="action-header"><button class="btn btn-danger btn-sm" ng-click="removeFromCompany(admin.employeeID, admin.permissionLevel)">Remove from Company</buttron></td>
+          <!-- <td class="action-header"><button class="btn btn-danger btn-sm" ng-click="removeFromCompany(admin.employeeID, admin.permissionLevel)">Remove from Company</buttron></td> -->
           <td class="action-header"><button class="btn btn-success btn-sm" ng-click="addToOffice(admin.employeeID)">Add to Office</buttron></td>
           <td class="action-header"><button class="btn btn-primary btn-sm" ng-click="reassignEmployeeToOffice(admin.employeeID)">Change Office</buttron></td>
           <td class="action-header"><button class="btn btn-danger btn-sm" ng-click="removeFromOffice(admin.employeeID)">Remove from Office</buttron></td>
