@@ -64794,11 +64794,13 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
   $scope.submit = function () {
     $scope.employee.temperatureRangeID = parseInt($scope.employee.temperatureRangeID);
+    //console.log($scope.employee);
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/EditEmployeePreferences/' + $scope.employeeID,
       data: $scope.employee
     }).then(function (response) {
+      //console.log(response);
       $location.path('/employee-preferences/' + $scope.employeeID);
     }, function (err) {});
   };
@@ -65056,11 +65058,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     url: _env2.default.api.root + '/Api/EmployeeWhitelist/' + $scope.employeeID
   }).then(function (response) {
     //console.log(response.data);
-    if (!$scope.isEmpty(response.data)) {
-      $scope.whitelist = response.data;
-    } else {
-      $scope.hasEmployees = false;
-    }
+    $scope.whitelist = response.data;
   }, function (err) {
     //console.log(err);
   });
@@ -65069,11 +65067,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     url: _env2.default.api.root + '/Api/EmployeeBlacklist/' + $scope.employeeID
   }).then(function (response) {
     //console.log(response.data)
-    if (!$scope.isEmpty(response.data)) {
-      $scope.blacklist = response.data;
-    } else {
-      $scope.hasEmployees = false;
-    }
+    $scope.blacklist = response.data;
   }, function (err) {
     //console.log(err);
   });
@@ -67426,11 +67420,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     url: _env2.default.api.root + '/Api/EmployeeTeammates/' + $scope.employeeID
   }).then(function (response) {
     //console.log(response.data);
-    if (!$scope.isEmpty(response.data)) {
-      $scope.teammates = response.data;
-    } else {
-      $scope.hasEmployees = false;
-    }
+    $scope.teammates = response.data;
   }, function (err) {
     //console.log(err);
   });

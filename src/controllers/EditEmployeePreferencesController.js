@@ -45,12 +45,14 @@ export default ['$http', '$scope', '$location','$routeParams', '$window', ($http
   });
   $scope.submit = function() {
     $scope.employee.temperatureRangeID = parseInt($scope.employee.temperatureRangeID);
+    //console.log($scope.employee);
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/EditEmployeePreferences/` + $scope.employeeID,
       data: $scope.employee
     })
     .then(response => {
+      //console.log(response);
       $location.path('/employee-preferences/' + $scope.employeeID );
     }, err => {
     });

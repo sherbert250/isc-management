@@ -76,11 +76,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     url: `${env.api.root}/Api/EmployeeTeammates/` + $scope.employeeID
   }).then(response => {
     //console.log(response.data);
-    if (!$scope.isEmpty(response.data)) {
-      $scope.teammates = response.data;
-    } else {
-      $scope.hasEmployees = false;
-    }
+    $scope.teammates = response.data;
   }, err => {
     //console.log(err);
   });
