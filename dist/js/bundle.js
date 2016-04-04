@@ -67419,7 +67419,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     method: 'GET',
     url: _env2.default.api.root + '/Api/EmployeeTeammates/' + $scope.employeeID
   }).then(function (response) {
-    //console.log(response.data);
+    //console.log(response);
     $scope.teammates = response.data;
   }, function (err) {
     //console.log(err);
@@ -67447,6 +67447,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     method: 'GET',
     url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
   }).then(function (response) {
+    //console.log(response);
     if ($scope.isEmpty(response.data)) {
       $http({
         method: 'GET',

@@ -75,7 +75,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     method: 'GET',
     url: `${env.api.root}/Api/EmployeeTeammates/` + $scope.employeeID
   }).then(response => {
-    //console.log(response.data);
+    //console.log(response);
     $scope.teammates = response.data;
   }, err => {
     //console.log(err);
@@ -103,6 +103,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     method: 'GET',
     url: `${env.api.root}/Api/OfficeOfEmployee/` + $scope.employeeID
   }).then(response => {
+    //console.log(response);
     if ($scope.isEmpty(response.data)) {
       $http({
         method: 'GET',
