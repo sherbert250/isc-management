@@ -63425,7 +63425,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         if ($scope.employee.permissionLevel === "superadmin") {
           $http({
             method: 'GET',
-            url: _env2.default.api.root + '/Api/AllOffices' + $scope.employeeID
+            url: _env2.default.api.root + '/Api/AllOffices'
           }).then(function (response) {
             //console.log(response);
             $scope.offices = response.data;
@@ -65044,30 +65044,29 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     url: _env2.default.api.root + '/Api/EmployeesNotInWhiteListOrBlackList/' + $scope.employeeID + '/' + $scope.officeID
   }).then(function (response) {
     //console.log(response.data);
-    if (!$scope.isEmpty(response.data)) {
-      $scope.employees = response.data;
-      $scope.employeesCopy = response.data;
-    } else {
-      $scope.hasEmployees = false;
-    }
-  }, function (err) {
-    //console.log(err);
-  });
-  $http({
-    method: 'GET',
-    url: _env2.default.api.root + '/Api/EmployeeWhitelist/' + $scope.employeeID
-  }).then(function (response) {
-    //console.log(response.data);
-    $scope.whitelist = response.data;
-  }, function (err) {
-    //console.log(err);
-  });
-  $http({
-    method: 'GET',
-    url: _env2.default.api.root + '/Api/EmployeeBlacklist/' + $scope.employeeID
-  }).then(function (response) {
-    //console.log(response.data)
-    $scope.blacklist = response.data;
+    $scope.employees = response.data;
+    $scope.employeesCopy = response.data;
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/EmployeeWhitelist/' + $scope.employeeID
+    }).then(function (response) {
+      //console.log(response.data);
+      $scope.whitelist = response.data;
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/EmployeeBlacklist/' + $scope.employeeID
+      }).then(function (response) {
+        //console.log(response.data)
+        $scope.blacklist = response.data;
+        if ($scope.isEmpty($scope.employees) && $scope.isEmpty($scope.whitelist) && $scope.isEmpty($scope.blacklist)) {
+          $scope.hasEmployees = false;
+        }
+      }, function (err) {
+        //console.log(err);
+      });
+    }, function (err) {
+      //console.log(err);
+    });
   }, function (err) {
     //console.log(err);
   });
@@ -67417,15 +67416,6 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/EmployeeTeammates/' + $scope.employeeID
-  }).then(function (response) {
-    //console.log(response);
-    $scope.teammates = response.data;
-  }, function (err) {
-    //console.log(err);
-  });
-  $http({
-    method: 'GET',
     url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID
   }).then(function (response) {
     //console.log(response.data);
@@ -67460,6 +67450,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
           $scope.companyName = response.data[0].companyName;
           $scope.companyID = response.data[0].companyID;
         }
+        $scope.hasEmployees = false;
       }, function (err) {
         //console.log(err);
       });
@@ -67471,11 +67462,19 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
           url: _env2.default.api.root + '/Api/EmployeesNotInTeammates/' + $scope.employeeID + '/' + $scope.officeID
         }).then(function (response) {
           //console.log(response.data);
-          if (!$scope.isEmpty(response.data)) {
-            $scope.employees = response.data;
-          } else {
-            $scope.hasEmployees = false;
-          }
+          $scope.employees = response.data;
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/EmployeeTeammates/' + $scope.employeeID
+          }).then(function (response) {
+            //console.log(response);
+            $scope.teammates = response.data;
+            if ($scope.isEmpty($scope.employees) && $scope.isEmpty($scope.teammates)) {
+              $scope.hasEmployees = false;
+            }
+          }, function (err) {
+            //console.log(err);
+          });
         }, function (err) {
           //console.log(err);
         });

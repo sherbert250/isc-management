@@ -73,15 +73,6 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   }
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/EmployeeTeammates/` + $scope.employeeID
-  }).then(response => {
-    //console.log(response);
-    $scope.teammates = response.data;
-  }, err => {
-    //console.log(err);
-  });
-  $http({
-    method: 'GET',
     url: `${env.api.root}/Api/Employee/` + $scope.employeeID
   }).then(response => {
     //console.log(response.data);
@@ -116,6 +107,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
           $scope.companyName = response.data[0].companyName;
           $scope.companyID = response.data[0].companyID;
         }
+        $scope.hasEmployees = false;
       }, err => {
         //console.log(err);
       });
@@ -127,11 +119,19 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         url: `${env.api.root}/Api/EmployeesNotInTeammates/` + $scope.employeeID + '/' + $scope.officeID
       }).then(response => {
         //console.log(response.data);
-        if (!$scope.isEmpty(response.data)) {
-          $scope.employees = response.data;
-        } else {
-          $scope.hasEmployees = false;
-        }
+        $scope.employees = response.data;
+        $http({
+          method: 'GET',
+          url: `${env.api.root}/Api/EmployeeTeammates/` + $scope.employeeID
+        }).then(response => {
+          //console.log(response);
+          $scope.teammates = response.data;
+          if ($scope.isEmpty($scope.employees) && $scope.isEmpty($scope.teammates)) {
+            $scope.hasEmployees = false;
+          }
+        }, err => {
+          //console.log(err);
+        });
       }, err => {
         //console.log(err);
       });

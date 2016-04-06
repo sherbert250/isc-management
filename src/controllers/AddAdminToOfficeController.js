@@ -85,7 +85,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         if ($scope.employee.permissionLevel === "superadmin") {
           $http({
             method: 'GET',
-            url: `${env.api.root}/Api/AllOffices` + $scope.employeeID
+            url: `${env.api.root}/Api/AllOffices`
           }).then(response => {
             //console.log(response);
             $scope.offices = response.data;

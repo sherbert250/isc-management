@@ -92,32 +92,31 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     url: `${env.api.root}/Api/EmployeesNotInWhiteListOrBlackList/` + $scope.employeeID + '/' + $scope.officeID
   }).then(response => {
     //console.log(response.data);
-    if (!$scope.isEmpty(response.data)) {
-      $scope.employees = response.data;
-      $scope.employeesCopy = response.data;
-    } else {
-      $scope.hasEmployees = false;
-    }
+    $scope.employees = response.data;
+    $scope.employeesCopy = response.data;
+    $http({
+      method: 'GET',
+      url: `${env.api.root}/Api/EmployeeWhitelist/` + $scope.employeeID
+    }).then(response => {
+      //console.log(response.data);
+      $scope.whitelist = response.data;
+      $http({
+       method: 'GET',
+       url: `${env.api.root}/Api/EmployeeBlacklist/` + $scope.employeeID
+      }).then(response => {
+       //console.log(response.data)
+       $scope.blacklist = response.data;
+       if ($scope.isEmpty($scope.employees) && $scope.isEmpty($scope.whitelist) && $scope.isEmpty($scope.blacklist) ) {
+         $scope.hasEmployees = false;
+       }
+      }, err => {
+       //console.log(err);
+      });
+    }, err => {
+      //console.log(err);
+    });
   }, err => {
     //console.log(err);
-  });
-  $http({
-    method: 'GET',
-    url: `${env.api.root}/Api/EmployeeWhitelist/` + $scope.employeeID
-  }).then(response => {
-    //console.log(response.data);
-    $scope.whitelist = response.data;
-  }, err => {
-    //console.log(err);
-  });
-  $http({
-   method: 'GET',
-   url: `${env.api.root}/Api/EmployeeBlacklist/` + $scope.employeeID
-  }).then(response => {
-   //console.log(response.data)
-   $scope.blacklist = response.data;
-  }, err => {
-   //console.log(err);
   });
   $http({
     method: 'GET',
