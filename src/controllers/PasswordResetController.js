@@ -27,37 +27,40 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
     $scope.invalid = false;
     $scope.success = false;
 
-
     //verify email
-
     var payload = JSON.stringify(employee)
     $http({
       method : "POST",
       url : `${env.api.root}/Api/PasswordResetEmailCheck`,
-      data: payload
+      data: payload,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       if(response.data.message === "No such user."){
         $scope.invalid=true;
-      }
-      else{
+      } else {
+
         //check to see if there is a token for the employee.
         $scope.employeeID=response.data.data[0].employeeID;
 
         //generate Token
         var temp= Math.round((Math.pow(36, 21) - Math.random() * Math.pow(36, 20))).toString(36).slice(1);
-
         $scope.tokenInfo={
           token: temp,
           employeeID: $scope.employeeID
         }
         var tokenPayload=JSON.stringify($scope.tokenInfo);
-        console.log("Got to create token");
+        //console.log("Got to create token");
         //add entry to passwordReset table
         $http({
           method : "POST",
           url : `${env.api.root}/Api/AddPasswordReset`,
-          data: tokenPayload
+          data: tokenPayload,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         })
         .then(response => {
           //send Email
@@ -65,27 +68,26 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
           $http({
             method : "POST",
             url : `${env.api.root}/Api/SendEmail`,
-            data: {reason: "passwordReset", email: employee.email, token: temp}
+            data: {reason: "passwordReset", email: employee.email, token: temp},
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           })
           .then(response => {
             $scope.success=true;
           }, err => {
-            console.log(err.data.message);
+            //console.log(err.data.message);
           });
 
         }, err => {
-          console.log(err.data.message);
+          //console.log(err.data.message);
         });
       }
     }, err => {
-      console.log(err.data.message);
+      //console.log(err.data.message);
     });
 
-
-
     //send email with URL
-
-
     /*
     var payload = JSON.stringify(employee)
     $http({

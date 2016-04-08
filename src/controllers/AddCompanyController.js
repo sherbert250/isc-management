@@ -23,7 +23,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/AddCompany`,
-      data: $scope.company
+      data: $scope.company,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       $window.location.href = '/companies';

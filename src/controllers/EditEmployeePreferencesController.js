@@ -27,7 +27,10 @@ export default ['$http', '$scope', '$location','$routeParams', '$window', ($http
   $scope.header = "Edit Employee Preferences";
   $http({
     method: 'GET',
-    url : `${env.api.root}/Api/AllTempRanges`
+    url : `${env.api.root}/Api/AllTempRanges`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log('Response: ', response.data[0]);
     $scope.temperatureRanges = response.data;
@@ -36,7 +39,10 @@ export default ['$http', '$scope', '$location','$routeParams', '$window', ($http
   });
   $http({
     method: 'GET',
-    url : `${env.api.root}/Api/Employee/` + $scope.employeeID
+    url : `${env.api.root}/Api/Employee/` + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log('Response: ', response.data[0]);
     $scope.employee = response.data[0];
@@ -49,7 +55,10 @@ export default ['$http', '$scope', '$location','$routeParams', '$window', ($http
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/EditEmployeePreferences/` + $scope.employeeID,
-      data: $scope.employee
+      data: $scope.employee,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       //console.log(response);

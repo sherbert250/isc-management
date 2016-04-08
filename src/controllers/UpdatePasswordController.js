@@ -71,10 +71,12 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         $http({
           method : "POST",
           url : `${env.api.root}/Api/SendEmail`,
-          data: {reason: "passwordUpdate", email: $scope.employee.email}
+          data: {reason: "passwordUpdate", email: $scope.employee.email},
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         })
         .then(response => {
-
         }, err => {
           console.log(err.data.message);
         });

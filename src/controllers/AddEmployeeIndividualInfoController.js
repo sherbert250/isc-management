@@ -27,7 +27,10 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
   $scope = permissions.superadminPermissionCheck($http, $scope, $location, $window);
   $http({
     method: 'GET',
-    url : `${env.api.root}/Api/AllOffices`
+    url : `${env.api.root}/Api/AllOffices`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log('Response: ', response.data[0]);
     $scope.offices = response.data;
@@ -50,11 +53,11 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
   };
   $scope.next = function(employee) {
     employee.officeID = parseInt(employee.officeID);
-    console.log(employee);
+    //console.log(employee);
     addService.set(employee);
-    console.log("Added to service" + addService.get());
+    //console.log("Added to service" + addService.get());
     var test = addService.get();
-    console.log(test.firstName);
+    //console.log(test.firstName);
     $location.path('/add-employee-preferences');
   };
 }];

@@ -71,7 +71,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/UpdateCoworkers/` + employeeID,
-      data : coworkers
+      data : coworkers,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       $location.path('/employee-coworkers/' + employeeID + '/' + officeID);
@@ -89,20 +92,29 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   }
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/EmployeesNotInWhiteListOrBlackList/` + $scope.employeeID + '/' + $scope.officeID
+    url: `${env.api.root}/Api/EmployeesNotInWhiteListOrBlackList/` + $scope.employeeID + '/' + $scope.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log(response.data);
     $scope.employees = response.data;
     $scope.employeesCopy = response.data;
     $http({
       method: 'GET',
-      url: `${env.api.root}/Api/EmployeeWhitelist/` + $scope.employeeID
+      url: `${env.api.root}/Api/EmployeeWhitelist/` + $scope.employeeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(response => {
       //console.log(response.data);
       $scope.whitelist = response.data;
       $http({
        method: 'GET',
-       url: `${env.api.root}/Api/EmployeeBlacklist/` + $scope.employeeID
+       url: `${env.api.root}/Api/EmployeeBlacklist/` + $scope.employeeID,
+       headers: {
+         'x-access-token': $window.sessionStorage.token
+       }
       }).then(response => {
        //console.log(response.data)
        $scope.blacklist = response.data;
@@ -120,7 +132,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   });
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/Employee/` + $scope.employeeID
+    url: `${env.api.root}/Api/Employee/` + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log(response.data);
     $scope.employee = response.data[0];
@@ -139,12 +154,18 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   });
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID
+    url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     if ($scope.isEmpty(response.data)) {
       $http({
         method: 'GET',
-        url: `${env.api.root}/Api/CompaniesForAdmin/` + $scope.employeeID
+        url: `${env.api.root}/Api/CompaniesForAdmin/` + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(response => {
         //console.log(response);
         if ($scope.isEmpty(response.data)) {

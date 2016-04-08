@@ -24,7 +24,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope.delete = function(employeeID) {
     $http({
       method: 'GET',
-      url: `${env.api.root}/Api/DeleteEmployee/` + employeeID
+      url: `${env.api.root}/Api/DeleteEmployee/` + employeeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(response => {
       //console.log(response);
     }, err => {
@@ -32,7 +35,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     });
     $http({
       method: 'GET',
-      url: `${env.api.root}/Api/EmployeesOfOffice/` + $scope.officeID
+      url: `${env.api.root}/Api/EmployeesOfOffice/` + $scope.officeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(response => {
       //console.log(response);
       $scope.emps = response.data;
@@ -90,13 +96,19 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
           $http({
             method: 'POST',
             url: `${env.api.root}/Api/AddEmployees`,
-            data: {employees: employees, officeID: $scope.officeID}
+            data: {employees: employees, officeID: $scope.officeID},
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           })
           .then(response => {
             alert("CSV successfully uploaded.");
             $http({
               method: 'GET',
               url: `${env.api.root}/Api/AllEmployees`,
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
             })
             .then(response => {
               $scope.emps = response.data;
@@ -126,7 +138,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   } else {
     $http({
       method: 'GET',
-      url: `${env.api.root}/Api/EmployeesOfOffice/` + $scope.officeID
+      url: `${env.api.root}/Api/EmployeesOfOffice/` + $scope.officeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(response => {
       //console.log(response);
       $scope.emps = response.data;
@@ -135,7 +150,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     });
     $http({
       method: 'GET',
-      url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID
+      url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(response => {
       //console.log(response);
       $scope.header = response.data[0].companyName;

@@ -51,7 +51,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
       } else {
         $http({
           method: 'GET',
-          url : `${env.api.root}/Api/ExistsSuperadminWithOffice`
+          url : `${env.api.root}/Api/ExistsSuperadminWithOffice`,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         }).then(response => {
           //console.log('Response: ', response.data);
           if (response.data[0].result == 1) {
@@ -63,7 +66,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
       }
       $http({
         method: 'GET',
-        url : `${env.api.root}/Api/Employee/` + $scope.employeeID
+        url : `${env.api.root}/Api/Employee/` + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(response => {
         //console.log('Response: ', response.data);
         $scope.employee = response.data[0];
@@ -77,7 +83,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   }
   $http({
     method: 'GET',
-    url : `${env.api.root}/Api/AllOffices`
+    url : `${env.api.root}/Api/AllOffices`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log('Response: ', response.data);
     $scope.offices = response.data;
@@ -88,7 +97,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/AddEmployeeToOffice`,
-      data: {employeeID: $scope.employeeID, officeID : $scope.officeID}
+      data: {employeeID: $scope.employeeID, officeID : $scope.officeID},
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       $window.location.href = '/my-info';

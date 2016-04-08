@@ -53,13 +53,19 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
         // Perform sanity checks for set-up
         $http({
           method: 'GET',
-          url : `${env.api.root}/Api/ExistsCompany`
+          url : `${env.api.root}/Api/ExistsCompany`,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         }).then(response => {
           //console.log('Response: ', response.data[0]);
           if (response.data[0].result == 1) {
             $http({
               method: 'GET',
-              url : `${env.api.root}/Api/ExistsOffice`
+              url : `${env.api.root}/Api/ExistsOffice`,
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
             }).then(response => {
               //console.log('Response: ', response.data);
               if (response.data[0].result == 0) {
@@ -67,7 +73,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
               } else {
                 $http({
                   method: 'GET',
-                  url : `${env.api.root}/Api/ExistsTemperatureRange`
+                  url : `${env.api.root}/Api/ExistsTemperatureRange`,
+                  headers: {
+                    'x-access-token': $window.sessionStorage.token
+                  }
                 }).then(response => {
                   //console.log('Response: ', response.data);
                   if (response.data[0].result == 0) {
@@ -99,12 +108,18 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/AddCompany`,
-      data: $scope.company
+      data: $scope.company,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       $http({
         method: 'GET',
-        url : `${env.api.root}/Api/ExistsOffice`
+        url : `${env.api.root}/Api/ExistsOffice`,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(response => {
         //console.log('Response: ', response.data);
         if (response.data[0].result == 0) {
@@ -112,7 +127,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
         } else {
           $http({
             method: 'GET',
-            url : `${env.api.root}/Api/ExistsTemperatureRange`
+            url : `${env.api.root}/Api/ExistsTemperatureRange`,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(response => {
             //console.log('Response: ', response.data);
             if (response.data[0].result == 0) {
@@ -123,7 +141,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
           });
           $http({
             method: 'GET',
-            url : `${env.api.root}/Api/ExistsSuperadminWithOffice`
+            url : `${env.api.root}/Api/ExistsSuperadminWithOffice`,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(response => {
             //console.log('Response: ', response.data);
             if (response.data[0].result == 0) {

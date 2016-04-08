@@ -31,7 +31,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   };
   $http({
     method: 'GET',
-    url : `${env.api.root}/Api/Office/` + $scope.employee.officeID
+    url : `${env.api.root}/Api/Office/` + $scope.employee.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log('Response: ', response.data);
     $scope.employee.officeID = response.data[0].officeID;
@@ -43,7 +46,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/AddOfficeEmployee`,
-      data: $scope.employee
+      data: $scope.employee,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       $window.location.href = '/office-employees/' + $scope.employee.officeID;

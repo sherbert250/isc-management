@@ -35,7 +35,10 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/AddEmployee`,
-      data: $scope.employee
+      data: $scope.employee,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       addService.set({});
@@ -48,18 +51,24 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/SendEmail`,
-      data: {to:$scope.employee.email, reason: 'employeeAdd', password: $scope.employee.password}
+      data: {to:$scope.employee.email, reason: 'employeeAdd', password: $scope.employee.password},
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       addService.set({});
       $window.location.href = '/view-employees';
     }, err => {
-      console.log(err);
+      //console.log(err);
     });
   };
   $http({
     method: 'GET',
-    url : `${env.api.root}/Api/AllOffices`
+    url : `${env.api.root}/Api/AllOffices`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log('Response: ', response.data[0]);
     $scope.offices = response.data;

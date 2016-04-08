@@ -55,7 +55,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/EditEmployeeTeammates/` + employeeID,
-      data : {teammates: $scope.teammates}
+      data : {teammates: $scope.teammates},
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       $window.location.href ='/team-members/' + employeeID;
@@ -73,7 +76,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   }
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/Employee/` + $scope.employeeID
+    url: `${env.api.root}/Api/Employee/` + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log(response.data);
     $scope.employee = response.data[0];
@@ -92,13 +98,19 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   });
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/OfficeOfEmployee/` + $scope.employeeID
+    url: `${env.api.root}/Api/OfficeOfEmployee/` + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log(response);
     if ($scope.isEmpty(response.data)) {
       $http({
         method: 'GET',
-        url: `${env.api.root}/Api/CompaniesForAdmin/` + $scope.employeeID
+        url: `${env.api.root}/Api/CompaniesForAdmin/` + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(response => {
         //console.log(response);
         if ($scope.isEmpty(response.data)) {
@@ -116,13 +128,19 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
       $scope.officeID = response.data[0].officeID;
       $http({
         method: 'GET',
-        url: `${env.api.root}/Api/EmployeesNotInTeammates/` + $scope.employeeID + '/' + $scope.officeID
+        url: `${env.api.root}/Api/EmployeesNotInTeammates/` + $scope.employeeID + '/' + $scope.officeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(response => {
         //console.log(response.data);
         $scope.employees = response.data;
         $http({
           method: 'GET',
-          url: `${env.api.root}/Api/EmployeeTeammates/` + $scope.employeeID
+          url: `${env.api.root}/Api/EmployeeTeammates/` + $scope.employeeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         }).then(response => {
           //console.log(response);
           $scope.teammates = response.data;
@@ -137,7 +155,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
       });
       $http({
         method: 'GET',
-        url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID
+        url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(response => {
         if ($scope.isEmpty(response.data)) {
           $scope.companyName = "No Company Assigned";
@@ -145,7 +166,6 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
           //console.log(response.data);
           $scope.companyName = response.data[0].companyName;
           $scope.companyID = response.data[0].companyID;
-
         }
       }, err => {
         //console.log(err);

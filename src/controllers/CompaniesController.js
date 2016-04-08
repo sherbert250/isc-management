@@ -22,12 +22,18 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   $scope.delete = function(companyID) {
     $http({
       method: 'GET',
-      url: `${env.api.root}/Api/DeleteCompany/` + companyID
+      url: `${env.api.root}/Api/DeleteCompany/` + companyID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(response => {
       //console.log(response);
       $http({
         method: 'GET',
-        url: `${env.api.root}/Api/AllCompanies`
+        url: `${env.api.root}/Api/AllCompanies`,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(response => {
         //console.log(response);
         $scope.companies = response.data;
@@ -46,7 +52,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   };
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/AllCompanies`
+    url: `${env.api.root}/Api/AllCompanies`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log(response);
     $scope.companies = response.data;

@@ -19,7 +19,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope.officeID = $routeParams.id;
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/Office/` + $scope.officeID
+    url: `${env.api.root}/Api/Office/` + $scope.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     ////console.log(response);
     $scope.office = response.data[0];
@@ -30,7 +33,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/EditOffice/`+$scope.officeID,
-      data: $scope.office
+      data: $scope.office,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       $window.location.href = '/offices';

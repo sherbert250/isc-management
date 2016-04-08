@@ -23,7 +23,10 @@ export default ['$http', '$scope', '$location','$routeParams', '$window', ($http
   $scope.delete = function(officeID) {
     $http({
       method: 'GET',
-      url: `${env.api.root}/Api/DeleteOffice/` + officeID
+      url: `${env.api.root}/Api/DeleteOffice/` + officeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(response => {
       //console.log(response);
     }, err => {
@@ -31,7 +34,10 @@ export default ['$http', '$scope', '$location','$routeParams', '$window', ($http
     });
     $http({
       method: 'GET',
-      url: `${env.api.root}/Api/AllCompaniesForAllOffices`
+      url: `${env.api.root}/Api/AllCompaniesForAllOffices`,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(response => {
       //console.log(response);
       $scope.offices= response.data;
@@ -47,7 +53,10 @@ export default ['$http', '$scope', '$location','$routeParams', '$window', ($http
   };
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/Company/` + $scope.companyID
+    url: `${env.api.root}/Api/Company/` + $scope.companyID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log(response);
     $scope.company = response.data[0];
@@ -56,7 +65,10 @@ export default ['$http', '$scope', '$location','$routeParams', '$window', ($http
   });
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/CompanyOffices/` + $scope.companyID
+    url: `${env.api.root}/Api/CompanyOffices/` + $scope.companyID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log(response);
     $scope.offices = response.data;
@@ -64,7 +76,10 @@ export default ['$http', '$scope', '$location','$routeParams', '$window', ($http
   });
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/AllCompanies`
+    url: `${env.api.root}/Api/AllCompanies`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log(response);
     $scope.companies = response.data;

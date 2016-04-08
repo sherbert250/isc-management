@@ -25,7 +25,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/EditAdminToCompany/` + $scope.companyID,
-      data: adder
+      data: adder,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       //console.log(response);
@@ -36,14 +39,20 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   };
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/ExistsCompanyForAdmin/` + $scope.employeeID
+    url: `${env.api.root}/Api/ExistsCompanyForAdmin/` + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log(response);
     $scope.existsCompanyForAdmin = response.data[0];
     if ($scope.existsCompanyForAdmin.result === 1) {
       $http({
         method: 'GET',
-        url: `${env.api.root}/Api/EmployeeConfidential/` + $scope.employeeID
+        url: `${env.api.root}/Api/EmployeeConfidential/` + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(response => {
         //console.log(response);
         $scope.employee = response.data[0];
@@ -61,7 +70,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
       });
       $http({
         method: 'GET',
-        url: `${env.api.root}/Api/AllCompanies`
+        url: `${env.api.root}/Api/AllCompanies`,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       })
       .then(response => {
         //console.log(response);

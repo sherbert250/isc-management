@@ -54,13 +54,19 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
       } else {
         $http({
           method: 'GET',
-          url : `${env.api.root}/Api/ExistsOffice`
+          url : `${env.api.root}/Api/ExistsOffice`,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         }).then(response => {
           //console.log('Response: ', response.data);
           if (response.data[0].result == 1) {
             $http({
               method: 'GET',
-              url : `${env.api.root}/Api/ExistsTemperatureRange`
+              url : `${env.api.root}/Api/ExistsTemperatureRange`,
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
             }).then(response => {
               //console.log('Response: ', response.data);
               if (response.data[0].result == 0) {
@@ -71,7 +77,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
             });
             $http({
               method: 'GET',
-              url : `${env.api.root}/Api/ExistsSuperadminWithOffice`
+              url : `${env.api.root}/Api/ExistsSuperadminWithOffice`,
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
             }).then(response => {
               //console.log('Response: ', response.data);
               if (response.data[0].result == 0) {
@@ -104,7 +113,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   };
   $http({
     method: 'GET',
-    url : `${env.api.root}/Api/AllCompanies`
+    url : `${env.api.root}/Api/AllCompanies`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log('Response: ', response.data);
     $scope.companies = response.data;
@@ -115,12 +127,18 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/AddInitialOfficeWithEmployee`,
-      data: $scope.office
+      data: $scope.office,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       $http({
         method: 'GET',
-        url : `${env.api.root}/Api/ExistsTemperatureRange`
+        url : `${env.api.root}/Api/ExistsTemperatureRange`,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(response => {
         //console.log('Response: ', response.data);
         if (response.data[0].result == 0) {

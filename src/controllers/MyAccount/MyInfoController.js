@@ -62,7 +62,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
       // Perform sanity checks for set-up
       $http({
         method: 'GET',
-        url : `${env.api.root}/Api/ExistsCompany`
+        url : `${env.api.root}/Api/ExistsCompany`,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(response => {
         //console.log('Response: ', response.data[0]);
         if (response.data[0].result == 0) {
@@ -70,7 +73,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
         } else {
           $http({
             method: 'GET',
-            url : `${env.api.root}/Api/ExistsOffice`
+            url : `${env.api.root}/Api/ExistsOffice`,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(response => {
             //console.log('Response: ', response.data);
             if (response.data[0].result == 0) {
@@ -78,7 +84,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
             } else {
               $http({
                 method: 'GET',
-                url : `${env.api.root}/Api/ExistsTemperatureRange`
+                url : `${env.api.root}/Api/ExistsTemperatureRange`,
+                headers: {
+                  'x-access-token': $window.sessionStorage.token
+                }
               }).then(response => {
                 //console.log('Response: ', response.data);
                 if (response.data[0].result == 0) {
@@ -139,7 +148,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
       $scope.header = $scope.employee.firstName + " " + $scope.employee.lastName;
       $http({
         method: 'GET',
-        url: `${env.api.root}/Api/EmployeeTemperatureRange/` + $scope.employeeID
+        url: `${env.api.root}/Api/EmployeeTemperatureRange/` + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(response => {
         //console.log(response.data);
         $scope.temperatureRange = response.data[0];
@@ -148,12 +160,18 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
       });
       $http({
         method: 'GET',
-        url: `${env.api.root}/Api/OfficeOfEmployee/` + $scope.employeeID
+        url: `${env.api.root}/Api/OfficeOfEmployee/` + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(response => {
         if ($scope.isEmpty(response.data)) {
           $http({
             method: 'GET',
-            url: `${env.api.root}/Api/CompaniesForAdmin/` + $scope.employeeID
+            url: `${env.api.root}/Api/CompaniesForAdmin/` + $scope.employeeID,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(response => {
             //console.log(response);
             if ($scope.isEmpty(response.data)) {
@@ -170,7 +188,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
           $scope.officeID = response.data[0].officeID;
           $http({
             method: 'GET',
-            url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID
+            url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(response => {
             if ($scope.isEmpty(response.data)) {
               $scope.companyName = "No Company Assigned";

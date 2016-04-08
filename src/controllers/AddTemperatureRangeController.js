@@ -25,7 +25,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/AddTemperatureRange`,
-      data: $scope.temperatureRange
+      data: $scope.temperatureRange,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       $window.location.href = '/temperature-ranges';

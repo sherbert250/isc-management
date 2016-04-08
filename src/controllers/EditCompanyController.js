@@ -19,7 +19,10 @@ export default ['$http', '$scope', '$location', '$routeParams','$window', ($http
   $scope.companyID = $routeParams.id;
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/Company/` + $scope.companyID
+    url: `${env.api.root}/Api/Company/` + $scope.companyID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     ////console.log(response);
     $scope.company = response.data[0];
@@ -30,7 +33,10 @@ export default ['$http', '$scope', '$location', '$routeParams','$window', ($http
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/EditCompany/` + $scope.companyID,
-      data: $scope.company
+      data: $scope.company,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       $window.location.href = '/companies';

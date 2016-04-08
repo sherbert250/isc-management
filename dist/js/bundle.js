@@ -63143,9 +63143,9 @@ var _account_info2 = _interopRequireDefault(_account_info);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Add Employee New Controller
+// Add Admin Controller
 //
-// Call Query to add employee to the database
+// Call Query to add Admin to the database
 //
 
 exports.default = ['$http', '$scope', '$location', '$window', 'addService', function ($http, $scope, $location, $window, addService) {
@@ -63175,7 +63175,10 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddEmployee',
-      data: $scope.employee
+      data: $scope.employee,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       addService.set({});
       //$location.path('/view-employees');
@@ -63187,7 +63190,10 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/SendEmail',
-      data: { to: $scope.employee.email, reason: 'employeeAdd', password: $scope.employee.password }
+      data: { to: $scope.employee.email, reason: 'employeeAdd', password: $scope.employee.password },
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       addService.set({});
       $window.location.href = '/admin-management';
@@ -63197,7 +63203,10 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   };
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/AllCompanies'
+    url: _env2.default.api.root + '/Api/AllCompanies',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log('Response: ', response.data[0]);
     $scope.companies = response.data;
@@ -63256,7 +63265,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddAdminToCompany/',
-      data: adder
+      data: adder,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $window.location.href = "/admin-management";
@@ -63266,7 +63278,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/ExistsEmployee/' + $scope.employeeID
+    url: _env2.default.api.root + '/Api/ExistsEmployee/' + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.existsEmployee = response.data[0];
@@ -63278,37 +63293,62 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/ExistsCompanyForAdmin/' + $scope.employeeID
+    url: _env2.default.api.root + '/Api/IsEmployeeAdmin/' + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
-    $scope.existsCompanyForAdmin = response.data[0];
-    if ($scope.existsCompanyForAdmin.result === 1) {
-      window.location.href = '/admin-management';
+    $scope.isEmployeeAdmin = response.data[0];
+    if ($scope.isEmployeeAdmin.result === 0) {
+      $location.path('/my-info');
     } else {
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
-      }).then(function (response) {
-        //console.log(response);
-        $scope.employee = response.data[0];
-        if ($scope.employee.pictureAddress !== "") {
-          $scope.imageURL = _env2.default.api.root + '/Api/Media/ProfileImage/' + $scope.employeeID;
-          $scope.noURL = false;
-        } else if ($scope.employee.pictureAddress === "") {
-          $scope.imageURL = _env2.default.api.root + '/Api/Media/DefaultImage/';
-          $scope.noURL = false;
-        } else {
-          $scope.noURL = true;
+        url: _env2.default.api.root + '/Api/ExistsCompanyForAdmin/' + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
         }
-      }, function (err) {
-        //console.log(err);
-      });
-      $http({
-        method: 'GET',
-        url: _env2.default.api.root + '/Api/AllCompanies'
       }).then(function (response) {
         //console.log(response);
-        $scope.companies = response.data;
+        $scope.existsCompanyForAdmin = response.data[0];
+        if ($scope.existsCompanyForAdmin.result === 1) {
+          window.location.href = '/admin-management';
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
+          }).then(function (response) {
+            //console.log(response);
+            $scope.employee = response.data[0];
+            if ($scope.employee.pictureAddress !== "") {
+              $scope.imageURL = _env2.default.api.root + '/Api/Media/ProfileImage/' + $scope.employeeID;
+              $scope.noURL = false;
+            } else if ($scope.employee.pictureAddress === "") {
+              $scope.imageURL = _env2.default.api.root + '/Api/Media/DefaultImage/';
+              $scope.noURL = false;
+            } else {
+              $scope.noURL = true;
+            }
+          }, function (err) {
+            //console.log(err);
+          });
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/AllCompanies',
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
+          }).then(function (response) {
+            //console.log(response);
+            $scope.companies = response.data;
+          }, function (err) {
+            //console.log(err);
+          });
+        }
       }, function (err) {
         //console.log(err);
       });
@@ -63368,7 +63408,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddEmployeeToOffice/',
-      data: adder
+      data: adder,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $window.location.href = "/admin-management";
@@ -63378,7 +63421,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/ExistsEmployee/' + $scope.employeeID
+    url: _env2.default.api.root + '/Api/ExistsEmployee/' + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.existsEmployee = response.data[0];
@@ -63390,7 +63436,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/ExistsCompanyForAdmin/' + $scope.employeeID
+    url: _env2.default.api.root + '/Api/ExistsCompanyForAdmin/' + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.existsCompanyForAdmin = response.data[0];
@@ -63400,7 +63449,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }).then(function (err) {});
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/ExistsEmployeeInOffice/' + $scope.employeeID
+    url: _env2.default.api.root + '/Api/ExistsEmployeeInOffice/' + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.existsCompanyForAdmin = response.data[0];
@@ -63409,7 +63461,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     } else {
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
+        url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log(response);
         $scope.employee = response.data[0];
@@ -63425,7 +63480,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         if ($scope.employee.permissionLevel === "superadmin") {
           $http({
             method: 'GET',
-            url: _env2.default.api.root + '/Api/AllOffices'
+            url: _env2.default.api.root + '/Api/AllOffices',
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(function (response) {
             //console.log(response);
             $scope.offices = response.data;
@@ -63435,13 +63493,19 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         } else if ($scope.employee.permissionLevel === "admin") {
             $http({
               method: 'GET',
-              url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + $scope.employeeID
+              url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + $scope.employeeID,
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
             }).then(function (response) {
               //console.log(response);
               $scope.company = response.data[0];
               $http({
                 method: 'GET',
-                url: _env2.default.api.root + '/Api/CompanyOffices/' + $scope.company.companyID
+                url: _env2.default.api.root + '/Api/CompanyOffices/' + $scope.company.companyID,
+                headers: {
+                  'x-access-token': $window.sessionStorage.token
+                }
               }).then(function (response) {
                 //console.log(response);
                 $scope.offices = response.data;
@@ -63509,7 +63573,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddCompany',
-      data: $scope.company
+      data: $scope.company,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       $window.location.href = '/companies';
     }, function (err) {
@@ -63585,10 +63652,13 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   $scope.whitelist = [];
   $scope.header = "Add an Employee- Coworkers";
   $scope.employee = addService.get();
-  console.log($scope.employee);
+  //console.log($scope.employee);
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/EmployeesNotInWhiteListOrBlackList/' + 0 + '/' + $scope.employee.officeID
+    url: _env2.default.api.root + '/Api/EmployeesNotInWhiteListOrBlackList/' + 0 + '/' + $scope.employee.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log('Response: ', response.data[0]);
     $scope.employees = response.data;
@@ -63597,7 +63667,10 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   });
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.employee.officeID
+    url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.employee.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log('Response: ', response.data[0]);
     $scope.possibleTeammates = response.data;
@@ -63608,13 +63681,16 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
     $scope.employee.teammates = $scope.teammates;
     $scope.employee.whitelist = $scope.whitelist;
     $scope.employee.blacklist = $scope.blacklist;
-    console.log($scope.employee);
+    //console.log($scope.employee);
 
     // Add employee query
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddEmployee',
-      data: $scope.employee
+      data: $scope.employee,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       addService.set({});
       $window.location.href = '/view-employees';
@@ -63678,7 +63754,10 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/AllOffices'
+    url: _env2.default.api.root + '/Api/AllOffices',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log('Response: ', response.data[0]);
     $scope.offices = response.data;
@@ -63701,11 +63780,11 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   };
   $scope.next = function (employee) {
     employee.officeID = parseInt(employee.officeID);
-    console.log(employee);
+    //console.log(employee);
     addService.set(employee);
-    console.log("Added to service" + addService.get());
+    //console.log("Added to service" + addService.get());
     var test = addService.get();
-    console.log(test.firstName);
+    //console.log(test.firstName);
     $location.path('/add-employee-preferences');
   };
 }];
@@ -63770,7 +63849,10 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddEmployee',
-      data: $scope.employee
+      data: $scope.employee,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       addService.set({});
       //$location.path('/view-employees');
@@ -63782,17 +63864,23 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/SendEmail',
-      data: { to: $scope.employee.email, reason: 'employeeAdd', password: $scope.employee.password }
+      data: { to: $scope.employee.email, reason: 'employeeAdd', password: $scope.employee.password },
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       addService.set({});
       $window.location.href = '/view-employees';
     }, function (err) {
-      console.log(err);
+      //console.log(err);
     });
   };
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/AllOffices'
+    url: _env2.default.api.root + '/Api/AllOffices',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log('Response: ', response.data[0]);
     $scope.offices = response.data;
@@ -63850,10 +63938,13 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Add an Employee- Preferences";
   $scope.employee = addService.get();
-  console.log($scope.employee);
+  //console.log($scope.employee);
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/AllTempRanges'
+    url: _env2.default.api.root + '/Api/AllTempRanges',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log('Response: ', response.data[0]);
     $scope.temperatureRanges = response.data;
@@ -63863,11 +63954,11 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   });
   $scope.next = function (employee) {
     $scope.employee.temperatureRangeID = parseInt($scope.employee.temperatureRangeID);
-    console.log(employee);
+    //console.log(employee);
     addService.set(employee);
-    console.log("Added to service" + addService.get());
+    //console.log("Added to service" + addService.get());
     var test = addService.get();
-    console.log(test.firstName);;
+    //console.log(test.firstName);;
     $location.path('/add-employee-coworkers');
   };
   if ($scope.isEmpty($scope.employee)) {
@@ -63932,7 +64023,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/AllCompanies'
+    url: _env2.default.api.root + '/Api/AllCompanies',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log('Response: ', response.data);
     $scope.companies = response.data;
@@ -63943,7 +64037,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddOffice',
-      data: $scope.office
+      data: $scope.office,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       $window.location.href = '/offices';
     }, function (err) {
@@ -64008,7 +64105,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/Office/' + $scope.employee.officeID
+    url: _env2.default.api.root + '/Api/Office/' + $scope.employee.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log('Response: ', response.data);
     $scope.employee.officeID = response.data[0].officeID;
@@ -64020,7 +64120,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddOfficeEmployee',
-      data: $scope.employee
+      data: $scope.employee,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       $window.location.href = '/office-employees/' + $scope.employee.officeID;
     }, function (err) {
@@ -64079,7 +64182,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddTemperatureRange',
-      data: $scope.temperatureRange
+      data: $scope.temperatureRange,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       $window.location.href = '/temperature-ranges';
     }, function (err) {
@@ -64136,7 +64242,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.addToCompany = function (employeeID) {
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/ExistsCompanyForAdmin/' + employeeID
+      url: _env2.default.api.root + '/Api/ExistsCompanyForAdmin/' + employeeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $scope.existsCompanyForAdmin = response.data[0];
@@ -64153,7 +64262,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     } else {
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/ExistsCompanyForAdmin/' + employeeID
+        url: _env2.default.api.root + '/Api/ExistsCompanyForAdmin/' + employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log(response);
         $scope.existsCompanyForAdmin = response.data[0];
@@ -64173,18 +64285,27 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     } else {
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/existsCompanyForAdmin/' + employeeID
+        url: _env2.default.api.root + '/Api/existsCompanyForAdmin/' + employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         existsCompanyForAdmin = response.data[0];
         if (existsCompanyForAdmin.result === 1) {
           $http({
             method: 'GET',
-            url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + employeeID
+            url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + employeeID,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(function (response) {
             companyID = response.data[0].companyID;
             $http({
               method: 'GET',
-              url: _env2.default.api.root + '/Api/DeleteAdminFromCompany/' + employeeID + "/" + companyID
+              url: _env2.default.api.root + '/Api/DeleteAdminFromCompany/' + employeeID + "/" + companyID,
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
             }).then(function (response) {
               $location.path('/add-admin-to-company/' + employeeID);
             });
@@ -64198,7 +64319,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.addToOffice = function (employeeID) {
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/ExistsOfficeForAdmin/' + employeeID
+      url: _env2.default.api.root + '/Api/ExistsOfficeForAdmin/' + employeeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $scope.existsOfficeForAdmin = response.data[0];
@@ -64212,7 +64336,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.reassignEmployeeToOffice = function (employeeID) {
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/ExistsEmployeeInOffice/' + employeeID
+      url: _env2.default.api.root + '/Api/ExistsEmployeeInOffice/' + employeeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $scope.existsEmployeeInOffice = response.data[0];
@@ -64229,13 +64356,19 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
 
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/existsEmployeeInOffice/' + employeeID
+      url: _env2.default.api.root + '/Api/existsEmployeeInOffice/' + employeeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       existsEmployeeInOffice = response.data[0];
       if (existsEmployeeInOffice.result === 1) {
         $http({
           method: 'GET',
-          url: _env2.default.api.root + '/Api/DeleteEmployeeFromOffice/' + employeeID
+          url: _env2.default.api.root + '/Api/DeleteEmployeeFromOffice/' + employeeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         }).then(function (response) {
           $scope.message = "Deleted office for admin #" + employeeID;
         });
@@ -64250,12 +64383,18 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.deleteAdmin = function (employeeID) {
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID
+      url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/AllAdminEmployees'
+        url: _env2.default.api.root + '/Api/AllAdminEmployees',
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log(response);
         $scope.admins = response.data;
@@ -64268,7 +64407,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/AllAdminEmployees'
+    url: _env2.default.api.root + '/Api/AllAdminEmployees',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.admins = response.data;
@@ -64327,7 +64469,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/EditAdminToCompany/' + $scope.companyID,
-      data: adder
+      data: adder,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $window.location.href = "/admin-management";
@@ -64337,14 +64482,20 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/ExistsCompanyForAdmin/' + $scope.employeeID
+    url: _env2.default.api.root + '/Api/ExistsCompanyForAdmin/' + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.existsCompanyForAdmin = response.data[0];
     if ($scope.existsCompanyForAdmin.result === 1) {
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
+        url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log(response);
         $scope.employee = response.data[0];
@@ -64362,7 +64513,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
       });
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/AllCompanies'
+        url: _env2.default.api.root + '/Api/AllCompanies',
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log(response);
         $scope.companies = response.data;
@@ -64422,12 +64576,18 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.delete = function (companyID) {
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/DeleteCompany/' + companyID
+      url: _env2.default.api.root + '/Api/DeleteCompany/' + companyID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/AllCompanies'
+        url: _env2.default.api.root + '/Api/AllCompanies',
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log(response);
         $scope.companies = response.data;
@@ -64446,7 +64606,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/AllCompanies'
+    url: _env2.default.api.root + '/Api/AllCompanies',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.companies = response.data;
@@ -64503,7 +64666,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.delete = function (officeID) {
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/DeleteOffice/' + officeID
+      url: _env2.default.api.root + '/Api/DeleteOffice/' + officeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
     }, function (err) {
@@ -64511,7 +64677,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     });
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/AllCompaniesForAllOffices'
+      url: _env2.default.api.root + '/Api/AllCompaniesForAllOffices',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $scope.offices = response.data;
@@ -64527,7 +64696,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/Company/' + $scope.companyID
+    url: _env2.default.api.root + '/Api/Company/' + $scope.companyID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.company = response.data[0];
@@ -64535,14 +64707,20 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }, function (err) {});
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/CompanyOffices/' + $scope.companyID
+    url: _env2.default.api.root + '/Api/CompanyOffices/' + $scope.companyID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.offices = response.data;
   }, function (err) {});
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/AllCompanies'
+    url: _env2.default.api.root + '/Api/AllCompanies',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.companies = response.data;
@@ -64595,7 +64773,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.companyID = $routeParams.id;
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/Company/' + $scope.companyID
+    url: _env2.default.api.root + '/Api/Company/' + $scope.companyID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     ////console.log(response);
     $scope.company = response.data[0];
@@ -64606,7 +64787,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/EditCompany/' + $scope.companyID,
-      data: $scope.company
+      data: $scope.company,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       $window.location.href = '/companies';
     }, function (err) {
@@ -64660,13 +64844,19 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'U
   $scope.employeeID = $routeParams.id;
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID
+    url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.employee = response.data[0];
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
+      url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $scope.office = response.data[0];
@@ -64683,27 +64873,36 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'U
   $scope.upload = function (file) {
     Upload.upload({
       url: _env2.default.api.root + '/Api/Upload/Image',
-      data: { file: file, employeeID: $scope.employeeID }
+      data: { file: file, employeeID: $scope.employeeID },
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
-      console.log('Success ' + response.config.data.file.name + ' uploaded. Response status: ' + response.status);
+      //console.log('Success ' + response.config.data.file.name + ' uploaded. Response status: ' + response.status);
     }, function (response) {
-      console.log('Error status: ' + response.status);
+      //console.log('Error status: ' + response.status);
     }, function (event) {
-      var progressPercentage = parseInt(100.0 * event.loaded / event.total);
-      console.log('progress: ' + progressPercentage + '% ' + event.config.data.file.name);
+      //var progressPercentage = parseInt(100.0 * event.loaded / event.total);
+      //console.log('progress: ' + progressPercentage + '% ' + event.config.data.file.name);
     });
   };
   $scope.submit = function () {
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/EditEmployee/' + $scope.employeeID,
-      data: $scope.employee
+      data: $scope.employee,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       if ($scope.office != undefined && $scope.isInt($scope.office.officeID)) {
         $http({
           method: 'POST',
           url: _env2.default.api.root + '/Api/EditEmployeeUpdatedForOffice/' + $scope.office.officeID,
-          data: { employeeUpdated: 1 }
+          data: { employeeUpdated: 1 },
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         }).then(function (response) {
           if ($scope.editEmployeeForm.file.$valid && $scope.file) {
             $scope.upload($scope.file);
@@ -64711,7 +64910,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'U
           $http({
             method: 'POST',
             url: _env2.default.api.root + '/Api/SendEmail',
-            data: { reason: 'employeeUpdate' }
+            data: { reason: 'employeeUpdate' },
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(function (response) {
             $location.path('/view-employees');
           }, function (err) {});
@@ -64776,7 +64978,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.header = "Edit Employee Preferences";
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/AllTempRanges'
+    url: _env2.default.api.root + '/Api/AllTempRanges',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log('Response: ', response.data[0]);
     $scope.temperatureRanges = response.data;
@@ -64785,7 +64990,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID
+    url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log('Response: ', response.data[0]);
     $scope.employee = response.data[0];
@@ -64798,7 +65006,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/EditEmployeePreferences/' + $scope.employeeID,
-      data: $scope.employee
+      data: $scope.employee,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $location.path('/employee-preferences/' + $scope.employeeID);
@@ -64850,7 +65061,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.officeID = $routeParams.id;
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/Office/' + $scope.officeID
+    url: _env2.default.api.root + '/Api/Office/' + $scope.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     ////console.log(response);
     $scope.office = response.data[0];
@@ -64861,7 +65075,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/EditOffice/' + $scope.officeID,
-      data: $scope.office
+      data: $scope.office,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       $window.location.href = '/offices';
     }, function (err) {
@@ -64914,7 +65131,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.temperatureRangeID = $routeParams.id;
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/TemperatureRange/' + $scope.temperatureRangeID
+    url: _env2.default.api.root + '/Api/TemperatureRange/' + $scope.temperatureRangeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     ////console.log(response);
     $scope.temperatureRange = response.data[0];
@@ -64926,7 +65146,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/EditTemperatureRange/' + $scope.temperatureRangeID,
-      data: $scope.temperatureRange
+      data: $scope.temperatureRange,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       $window.location.href = '/temperature-ranges';
     }, function (err) {
@@ -65025,7 +65248,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/UpdateCoworkers/' + employeeID,
-      data: coworkers
+      data: coworkers,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       $location.path('/employee-coworkers/' + employeeID + '/' + officeID);
     }, function (err) {});
@@ -65041,20 +65267,29 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/EmployeesNotInWhiteListOrBlackList/' + $scope.employeeID + '/' + $scope.officeID
+    url: _env2.default.api.root + '/Api/EmployeesNotInWhiteListOrBlackList/' + $scope.employeeID + '/' + $scope.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response.data);
     $scope.employees = response.data;
     $scope.employeesCopy = response.data;
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/EmployeeWhitelist/' + $scope.employeeID
+      url: _env2.default.api.root + '/Api/EmployeeWhitelist/' + $scope.employeeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response.data);
       $scope.whitelist = response.data;
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/EmployeeBlacklist/' + $scope.employeeID
+        url: _env2.default.api.root + '/Api/EmployeeBlacklist/' + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log(response.data)
         $scope.blacklist = response.data;
@@ -65072,7 +65307,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID
+    url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response.data);
     $scope.employee = response.data[0];
@@ -65091,12 +65329,18 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+    url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     if ($scope.isEmpty(response.data)) {
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + $scope.employeeID
+        url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log(response);
         if ($scope.isEmpty(response.data)) {
@@ -65189,7 +65433,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
+    url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response.data);
     $scope.collection = response.data;
@@ -65208,12 +65455,18 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
+    url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     if ($scope.isEmpty(response.data)) {
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + $scope.employeeID
+        url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log(response);
         if ($scope.isEmpty(response.data)) {
@@ -65230,7 +65483,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         $scope.officeID = response.data[0].officeID;
         $http({
           method: 'GET',
-          url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+          url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         }).then(function (response) {
           if ($scope.isEmpty(response.data)) {
             $scope.companyName = "No Company Assigned";
@@ -65310,7 +65566,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
+    url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response.data);
     $scope.collection = response.data;
@@ -65329,7 +65588,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/EmployeeTemperatureRange/' + $scope.employeeID
+    url: _env2.default.api.root + '/Api/EmployeeTemperatureRange/' + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response.data);
     $scope.temperatureRange = response.data[0];
@@ -65338,12 +65600,18 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
+    url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     if ($scope.isEmpty(response.data)) {
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + $scope.employeeID
+        url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log(response);
         if ($scope.isEmpty(response.data)) {
@@ -65360,7 +65628,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         $scope.officeID = response.data[0].officeID;
         $http({
           method: 'GET',
-          url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+          url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         }).then(function (response) {
           if ($scope.isEmpty(response.data)) {
             $scope.companyName = "No Company Assigned";
@@ -65432,7 +65703,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/EditEmployeeWorksAtOffice/' + $scope.officeID,
-      data: adder
+      data: adder,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $window.location.href = "/employee-detail/" + $scope.employeeID;
@@ -65442,92 +65716,203 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/ExistsEmployeeInOffice/' + $scope.employeeID
+    url: _env2.default.api.root + '/Api/ExistsEmployeeInOffice/' + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.existsEmployeeInOffice = response.data[0];
     if ($scope.existsEmployeeInOffice.result === 0) {
       $location.path('/add-admin-to-office/' + $scope.employeeID);
-    }
-  });
-  $http({
-    method: 'GET',
-    url: _env2.default.api.root + '/Api/ExistsCompanyForAdmin/' + $scope.employeeID
-  }).then(function (response) {
-    //console.log(response);
-    $scope.existsCompanyForAdmin = response.data[0];
-    if ($scope.existsCompanyForAdmin.result === 0) {
-      window.location.href = '/add-admin-to-company/' + $scope.employeeID;
     } else {
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
-      }).then(function (response) {
-        //console.log(response);
-        $scope.employee = response.data[0];
-        if ($scope.employee.pictureAddress !== "") {
-          $scope.imageURL = _env2.default.api.root + '/Api/Media/ProfileImage/' + $scope.employeeID;
-          $scope.noURL = false;
-        } else if ($scope.employee.pictureAddress === "") {
-          $scope.imageURL = _env2.default.api.root + '/Api/Media/DefaultImage/';
-          $scope.noURL = false;
-        } else {
-          $scope.noURL = true;
+        url: _env2.default.api.root + '/Api/IsEmployeeAdmin/' + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
         }
-      }, function (err) {
-        //console.log(err);
-      });
-      $http({
-        method: 'GET',
-        url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
       }).then(function (response) {
         //console.log(response);
-        $scope.officeID = response.data[0].officeID;
-        var permissionLevel;
-        $http({
-          method: 'GET',
-          url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID
-        }).then(function (response) {
-          //console.log(response);
-          permissionLevel = response.data[0].permissionLevel;
-          if (permissionLevel === "superadmin") {
+        $scope.isEmployeeAdmin = response.data[0];
+        if ($scope.isEmployeeAdmin.result === 0) {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
+          }).then(function (response) {
+            //console.log(response);
+            $scope.employee = response.data[0];
+            if ($scope.employee.pictureAddress !== "") {
+              $scope.imageURL = _env2.default.api.root + '/Api/Media/ProfileImage/' + $scope.employeeID;
+              $scope.noURL = false;
+            } else if ($scope.employee.pictureAddress === "") {
+              $scope.imageURL = _env2.default.api.root + '/Api/Media/DefaultImage/';
+              $scope.noURL = false;
+            } else {
+              $scope.noURL = true;
+            }
+          }, function (err) {
+            //console.log(err);
+          });
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
+          }).then(function (response) {
+            //console.log(response);
+            $scope.officeID = response.data[0].officeID;
             $http({
               method: 'GET',
-              url: _env2.default.api.root + '/Api/AllOffices'
+              url: _env2.default.api.root + '/Api/Office/' + $scope.officeID,
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
             }).then(function (response) {
               //console.log(response);
               $scope.offices = response.data;
             }, function (err) {
               //console.log(err);
             });
-          } else if (permissionLevel === "admin") {
-              //console.log($scope.officeID);
-              $http({
-                method: 'GET',
-                url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
-              }).then(function (response) {
-                //console.log(response);
-                $scope.company = response.data[0];
+          }, function (err) {
+            //console.log(err);
+          });
+        } else {
+            $http({
+              method: 'GET',
+              url: _env2.default.api.root + '/Api/ExistsCompanyForAdmin/' + $scope.employeeID,
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
+            }).then(function (response) {
+              //console.log(response);
+              $scope.existsCompanyForAdmin = response.data[0];
+              if ($scope.existsCompanyForAdmin.result === 0) {
+                window.location.href = '/add-admin-to-company/' + $scope.employeeID;
+              } else {
                 $http({
                   method: 'GET',
-                  url: _env2.default.api.root + '/Api/CompanyOffices/' + $scope.company.companyID
+                  url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID,
+                  headers: {
+                    'x-access-token': $window.sessionStorage.token
+                  }
                 }).then(function (response) {
                   //console.log(response);
-                  $scope.offices = response.data;
+                  $scope.employee = response.data[0];
+                  if ($scope.employee.pictureAddress !== "") {
+                    $scope.imageURL = _env2.default.api.root + '/Api/Media/ProfileImage/' + $scope.employeeID;
+                    $scope.noURL = false;
+                  } else if ($scope.employee.pictureAddress === "") {
+                    $scope.imageURL = _env2.default.api.root + '/Api/Media/DefaultImage/';
+                    $scope.noURL = false;
+                  } else {
+                    $scope.noURL = true;
+                  }
                 }, function (err) {
                   //console.log(err);
                 });
-              }, function (err) {
-                //console.log(err);
-              });
-            }
-        });
-      }, function (err) {
-        //console.log(err);
+                // Add a check here to see if there is an admin in office
+                if ($scope.existsEmployeeInOffice === 0) {
+                  $http({
+                    method: 'GET',
+                    url: _env2.default.api.root + '/CompaniesForAdmin/' + $scope.employeeID,
+                    headers: {
+                      'x-access-token': $window.sessionStorage.token
+                    }
+                  }).then(function (response) {
+                    //console.log(response);
+                    $scope.company = response.data[0];
+                    $http({
+                      method: 'GET',
+                      url: _env2.default.api.root + '/Api/CompanyOffices/' + $scope.company.companyID,
+                      headers: {
+                        'x-access-token': $window.sessionStorage.token
+                      }
+                    }).then(function (response) {
+                      //console.log(response);
+                      $scope.offices = response.data;
+                    }, function (err) {
+                      //console.log(err);
+                    });
+                  }, function (err) {
+                    //console.log(err);
+                  });
+                } else {
+                    $http({
+                      method: 'GET',
+                      url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID,
+                      headers: {
+                        'x-access-token': $window.sessionStorage.token
+                      }
+                    }).then(function (response) {
+                      //console.log(response);
+                      $scope.officeID = response.data[0].officeID;
+                      var permissionLevel;
+                      $http({
+                        method: 'GET',
+                        url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID,
+                        headers: {
+                          'x-access-token': $window.sessionStorage.token
+                        }
+                      }).then(function (response) {
+                        //console.log(response);
+                        permissionLevel = response.data[0].permissionLevel;
+                        if (permissionLevel === "superadmin") {
+                          $http({
+                            method: 'GET',
+                            url: _env2.default.api.root + '/Api/AllOffices',
+                            headers: {
+                              'x-access-token': $window.sessionStorage.token
+                            }
+                          }).then(function (response) {
+                            //console.log(response);
+                            $scope.offices = response.data;
+                          }, function (err) {
+                            //console.log(err);
+                          });
+                        } else if (permissionLevel === "admin") {
+                            //console.log($scope.officeID);
+                            $http({
+                              method: 'GET',
+                              url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID,
+                              headers: {
+                                'x-access-token': $window.sessionStorage.token
+                              }
+                            }).then(function (response) {
+                              //console.log(response);
+                              $scope.company = response.data[0];
+                              $http({
+                                method: 'GET',
+                                url: _env2.default.api.root + '/Api/CompanyOffices/' + $scope.company.companyID,
+                                headers: {
+                                  'x-access-token': $window.sessionStorage.token
+                                }
+                              }).then(function (response) {
+                                //console.log(response);
+                                $scope.offices = response.data;
+                              }, function (err) {
+                                //console.log(err);
+                              });
+                            }, function (err) {
+                              //console.log(err);
+                            });
+                          }
+                      });
+                    }, function (err) {
+                      //console.log(err);
+                    });
+                  }
+              }
+            }, function (err) {
+              //console.log(err);
+            });
+          }
       });
     }
-  }, function (err) {
-    //console.log(err);
   });
 }];
 
@@ -65605,7 +65990,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/Algorithm/Execute',
-      data: adder
+      data: adder,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       console.log(response);
     }, function (err) {
@@ -65617,7 +66005,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+    url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.office = response.data[0];
@@ -65628,7 +66019,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/FloorPlanOfOffice/' + $scope.officeID
+    url: _env2.default.api.root + '/Api/FloorPlanOfOffice/' + $scope.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.floor_plan = response.data[0];
@@ -65710,7 +66104,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
         // Perform sanity checks for set-up
         $http({
           method: 'GET',
-          url: _env2.default.api.root + '/Api/ExistsCompany'
+          url: _env2.default.api.root + '/Api/ExistsCompany',
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         }).then(function (response) {
           //console.log('Response: ', response.data[0]);
           if (response.data[0].result == 0) {
@@ -65718,7 +66115,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
           } else {
             $http({
               method: 'GET',
-              url: _env2.default.api.root + '/Api/ExistsOffice'
+              url: _env2.default.api.root + '/Api/ExistsOffice',
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
             }).then(function (response) {
               //console.log('Response: ', response.data);
               if (response.data[0].result == 0) {
@@ -65726,22 +66126,14 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
               } else {
                 $http({
                   method: 'GET',
-                  url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+                  url: _env2.default.api.root + '/Api/ExistsTemperatureRange',
+                  headers: {
+                    'x-access-token': $window.sessionStorage.token
+                  }
                 }).then(function (response) {
                   //console.log('Response: ', response.data);
                   if (response.data[0].result == 0) {
                     $window.location.href = '/add-initial-temperature-range';
-                  }
-                }).then(function (err) {
-                  //console.log('Error: ', err);
-                });
-                $http({
-                  method: 'GET',
-                  url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
-                }).then(function (response) {
-                  //console.log('Response: ', response.data);
-                  if (response.data[0].result == 0) {
-                    $window.location.href = '/add-superadmin-to-office';
                   }
                 }).then(function (err) {
                   //console.log('Error: ', err);
@@ -65796,7 +66188,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
           // Perform sanity checks for set-up
           $http({
             method: 'GET',
-            url: _env2.default.api.root + '/Api/ExistsCompany'
+            url: _env2.default.api.root + '/Api/ExistsCompany',
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(function (response) {
             //console.log('Response: ', response.data[0]);
             if (response.data[0].result == 0) {
@@ -65804,7 +66199,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
             } else {
               $http({
                 method: 'GET',
-                url: _env2.default.api.root + '/Api/ExistsOffice'
+                url: _env2.default.api.root + '/Api/ExistsOffice',
+                headers: {
+                  'x-access-token': $window.sessionStorage.token
+                }
               }).then(function (response) {
                 //console.log('Response: ', response.data);
                 if (response.data[0].result == 0) {
@@ -65812,22 +66210,14 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
                 } else {
                   $http({
                     method: 'GET',
-                    url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+                    url: _env2.default.api.root + '/Api/ExistsTemperatureRange',
+                    headers: {
+                      'x-access-token': $window.sessionStorage.token
+                    }
                   }).then(function (response) {
                     //console.log('Response: ', response.data);
                     if (response.data[0].result == 0) {
                       $window.location.href = '/add-initial-temperature-range';
-                    }
-                  }).then(function (err) {
-                    //console.log('Error: ', err);
-                  });
-                  $http({
-                    method: 'GET',
-                    url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
-                  }).then(function (response) {
-                    //console.log('Response: ', response.data);
-                    if (response.data[0].result == 0) {
-                      $window.location.href = '/add-superadmin-to-office';
                     }
                   }).then(function (err) {
                     //console.log('Error: ', err);
@@ -65972,7 +66362,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       // Perform sanity checks for set-up
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/ExistsCompany'
+        url: _env2.default.api.root + '/Api/ExistsCompany',
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log('Response: ', response.data[0]);
         if (response.data[0].result == 0) {
@@ -65980,7 +66373,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
         } else {
           $http({
             method: 'GET',
-            url: _env2.default.api.root + '/Api/ExistsOffice'
+            url: _env2.default.api.root + '/Api/ExistsOffice',
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(function (response) {
             //console.log('Response: ', response.data);
             if (response.data[0].result == 0) {
@@ -65988,7 +66384,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
             } else {
               $http({
                 method: 'GET',
-                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange',
+                headers: {
+                  'x-access-token': $window.sessionStorage.token
+                }
               }).then(function (response) {
                 //console.log('Response: ', response.data);
                 if (response.data[0].result == 0) {
@@ -66048,7 +66447,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       $scope.header = $scope.employee.firstName + " " + $scope.employee.lastName;
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/EmployeeTemperatureRange/' + $scope.employeeID
+        url: _env2.default.api.root + '/Api/EmployeeTemperatureRange/' + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log(response.data);
         $scope.temperatureRange = response.data[0];
@@ -66057,12 +66459,18 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       });
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
+        url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         if ($scope.isEmpty(response.data)) {
           $http({
             method: 'GET',
-            url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + $scope.employeeID
+            url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + $scope.employeeID,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(function (response) {
             //console.log(response);
             if ($scope.isEmpty(response.data)) {
@@ -66079,7 +66487,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
             $scope.officeID = response.data[0].officeID;
             $http({
               method: 'GET',
-              url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+              url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID,
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
             }).then(function (response) {
               if ($scope.isEmpty(response.data)) {
                 $scope.companyName = "No Company Assigned";
@@ -66177,7 +66588,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   } else {
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+      url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $scope.office = response.data[0];
@@ -66187,7 +66601,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     });
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/FloorPlanOfOffice/' + $scope.officeID
+      url: _env2.default.api.root + '/Api/FloorPlanOfOffice/' + $scope.officeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $scope.floor_plan = response.data[0];
@@ -66248,7 +66665,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.delete = function (employeeID) {
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID
+      url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
     }, function (err) {
@@ -66256,7 +66676,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     });
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.officeID
+      url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.officeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $scope.emps = response.data;
@@ -66314,12 +66737,18 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
           $http({
             method: 'POST',
             url: _env2.default.api.root + '/Api/AddEmployees',
-            data: { employees: employees, officeID: $scope.officeID }
+            data: { employees: employees, officeID: $scope.officeID },
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(function (response) {
             alert("CSV successfully uploaded.");
             $http({
               method: 'GET',
-              url: _env2.default.api.root + '/Api/AllEmployees'
+              url: _env2.default.api.root + '/Api/AllEmployees',
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
             }).then(function (response) {
               $scope.emps = response.data;
             }, function (err) {
@@ -66348,7 +66777,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   } else {
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.officeID
+      url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.officeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $scope.emps = response.data;
@@ -66357,7 +66789,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     });
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+      url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $scope.header = response.data[0].companyName;
@@ -66415,12 +66850,18 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.delete = function (officeID) {
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/DeleteOffice/' + officeID
+      url: _env2.default.api.root + '/Api/DeleteOffice/' + officeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/AllCompaniesForAllOffices'
+        url: _env2.default.api.root + '/Api/AllCompaniesForAllOffices',
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log(response);
         $scope.offices = response.data;
@@ -66450,7 +66891,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     if (permissionLevel == "admin") {
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + employeeID
+        url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log(response);
         $scope.companyID = response.data[0].companyID;
@@ -66464,7 +66908,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/AllCompaniesForAllOffices'
+    url: _env2.default.api.root + '/Api/AllCompaniesForAllOffices',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.offices = response.data;
@@ -66473,7 +66920,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/AllCompanies'
+    url: _env2.default.api.root + '/Api/AllCompanies',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.companies = response.data;
@@ -66531,55 +66981,62 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     $scope.success = false;
 
     //verify email
-
     var payload = JSON.stringify(employee);
     $http({
       method: "POST",
       url: _env2.default.api.root + '/Api/PasswordResetEmailCheck',
-      data: payload
+      data: payload,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       if (response.data.message === "No such user.") {
         $scope.invalid = true;
       } else {
+
         //check to see if there is a token for the employee.
         $scope.employeeID = response.data.data[0].employeeID;
 
         //generate Token
         var temp = Math.round(Math.pow(36, 21) - Math.random() * Math.pow(36, 20)).toString(36).slice(1);
-
         $scope.tokenInfo = {
           token: temp,
           employeeID: $scope.employeeID
         };
         var tokenPayload = JSON.stringify($scope.tokenInfo);
-        console.log("Got to create token");
+        //console.log("Got to create token");
         //add entry to passwordReset table
         $http({
           method: "POST",
           url: _env2.default.api.root + '/Api/AddPasswordReset',
-          data: tokenPayload
+          data: tokenPayload,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         }).then(function (response) {
           //send Email
 
           $http({
             method: "POST",
             url: _env2.default.api.root + '/Api/SendEmail',
-            data: { reason: "passwordReset", email: employee.email, token: temp }
+            data: { reason: "passwordReset", email: employee.email, token: temp },
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(function (response) {
             $scope.success = true;
           }, function (err) {
-            console.log(err.data.message);
+            //console.log(err.data.message);
           });
         }, function (err) {
-          console.log(err.data.message);
+          //console.log(err.data.message);
         });
       }
     }, function (err) {
-      console.log(err.data.message);
+      //console.log(err.data.message);
     });
 
     //send email with URL
-
     /*
     var payload = JSON.stringify(employee)
     $http({
@@ -66655,7 +67112,6 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.success = false;
   $scope.resetID = 0;
   $scope.employeeID = 0;
-
   $scope.changeMessage = function () {
     if ($scope.validToken === false) {
       $scope.message = "Invalid URL or Password Reset Timed Out.";
@@ -66665,7 +67121,6 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
       $scope.message = "Password updated.";
     }
   };
-
   $scope.employee = {
     email: "",
     password: ""
@@ -66673,12 +67128,14 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.token = $routeParams.resetToken;
 
   //check if token exists.
-
   $http({
     method: "GET",
-    url: _env2.default.api.root + '/Api/PasswordReset/' + $scope.token
+    url: _env2.default.api.root + '/Api/PasswordReset/' + $scope.token,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
-    console.log(response);
+    //console.log(response);
     if (response.data[0] != null) {
       $scope.issue = false;
       $scope.validToken = true;
@@ -66690,39 +67147,43 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
       $scope.changeMessage();
     }
   }, function (err) {
-    console.log(err.data.message);
+    //console.log(err.data.message);
   });
-
   $scope.submit = function (employee) {
     $scope.issue = false;
     $scope.invalid = false;
     $scope.success = false;
-
     if (employee.password !== employee.confirmPassword) {
       $scope.issue = true;
       $scope.invalid = true;
       $scope.changeMessage();
     } else {
-      //update the employee info
 
+      //update the employee info
       $http({
         method: "POST",
         url: _env2.default.api.root + '/Api/PasswordResetUpdate',
-        data: { password: employee.password, employeeID: $scope.employeeID }
+        data: { password: employee.password, employeeID: $scope.employeeID },
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //delete token
         $http({
           method: "GET",
-          url: _env2.default.api.root + '/Api/DeletePasswordReset/' + $scope.resetID
+          url: _env2.default.api.root + '/Api/DeletePasswordReset/' + $scope.resetID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         }).then(function (response) {
           $scope.success = true;
           $scope.issue = true;
           $scope.changeMessage();
         }, function (err) {
-          console.log(err.data.message);
+          //console.log(err.data.message);
         });
       }, function (err) {
-        console.log(err.data.message);
+        //console.log(err.data.message);
       });
     }
   };
@@ -66848,13 +67309,19 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
         // Perform sanity checks for set-up
         $http({
           method: 'GET',
-          url: _env2.default.api.root + '/Api/ExistsCompany'
+          url: _env2.default.api.root + '/Api/ExistsCompany',
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         }).then(function (response) {
           //console.log('Response: ', response.data[0]);
           if (response.data[0].result == 1) {
             $http({
               method: 'GET',
-              url: _env2.default.api.root + '/Api/ExistsOffice'
+              url: _env2.default.api.root + '/Api/ExistsOffice',
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
             }).then(function (response) {
               //console.log('Response: ', response.data);
               if (response.data[0].result == 0) {
@@ -66862,7 +67329,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
               } else {
                 $http({
                   method: 'GET',
-                  url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+                  url: _env2.default.api.root + '/Api/ExistsTemperatureRange',
+                  headers: {
+                    'x-access-token': $window.sessionStorage.token
+                  }
                 }).then(function (response) {
                   //console.log('Response: ', response.data);
                   if (response.data[0].result == 0) {
@@ -66894,11 +67364,17 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddCompany',
-      data: $scope.company
+      data: $scope.company,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/ExistsOffice'
+        url: _env2.default.api.root + '/Api/ExistsOffice',
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log('Response: ', response.data);
         if (response.data[0].result == 0) {
@@ -66906,7 +67382,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
         } else {
           $http({
             method: 'GET',
-            url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+            url: _env2.default.api.root + '/Api/ExistsTemperatureRange',
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(function (response) {
             //console.log('Response: ', response.data);
             if (response.data[0].result == 0) {
@@ -66917,7 +67396,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
           });
           $http({
             method: 'GET',
-            url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+            url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice',
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(function (response) {
             //console.log('Response: ', response.data);
             if (response.data[0].result == 0) {
@@ -67017,13 +67499,19 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
       } else {
         $http({
           method: 'GET',
-          url: _env2.default.api.root + '/Api/ExistsOffice'
+          url: _env2.default.api.root + '/Api/ExistsOffice',
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         }).then(function (response) {
           //console.log('Response: ', response.data);
           if (response.data[0].result == 1) {
             $http({
               method: 'GET',
-              url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+              url: _env2.default.api.root + '/Api/ExistsTemperatureRange',
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
             }).then(function (response) {
               //console.log('Response: ', response.data);
               if (response.data[0].result == 0) {
@@ -67034,7 +67522,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
             });
             $http({
               method: 'GET',
-              url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+              url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice',
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
             }).then(function (response) {
               //console.log('Response: ', response.data);
               if (response.data[0].result == 0) {
@@ -67067,7 +67558,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/AllCompanies'
+    url: _env2.default.api.root + '/Api/AllCompanies',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log('Response: ', response.data);
     $scope.companies = response.data;
@@ -67078,11 +67572,17 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddInitialOfficeWithEmployee',
-      data: $scope.office
+      data: $scope.office,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+        url: _env2.default.api.root + '/Api/ExistsTemperatureRange',
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log('Response: ', response.data);
         if (response.data[0].result == 0) {
@@ -67173,7 +67673,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       } else {
         $http({
           method: 'GET',
-          url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+          url: _env2.default.api.root + '/Api/ExistsTemperatureRange',
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         }).then(function (response) {
           //console.log('Response: ', response.data);
           if (response.data[0].result == 1) {
@@ -67197,7 +67700,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddTemperatureRange',
-      data: $scope.temperatureRange
+      data: $scope.temperatureRange,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       $window.location.href = '/temperature-ranges';
     }, function (err) {
@@ -67279,7 +67785,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       } else {
         $http({
           method: 'GET',
-          url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice'
+          url: _env2.default.api.root + '/Api/ExistsSuperadminWithOffice',
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         }).then(function (response) {
           //console.log('Response: ', response.data);
           if (response.data[0].result == 1) {
@@ -67291,7 +67800,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
       }
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID
+        url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log('Response: ', response.data);
         $scope.employee = response.data[0];
@@ -67305,7 +67817,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   }
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/AllOffices'
+    url: _env2.default.api.root + '/Api/AllOffices',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log('Response: ', response.data);
     $scope.offices = response.data;
@@ -67316,7 +67831,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/AddEmployeeToOffice',
-      data: { employeeID: $scope.employeeID, officeID: $scope.officeID }
+      data: { employeeID: $scope.employeeID, officeID: $scope.officeID },
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       $window.location.href = '/my-info';
     }, function (err) {
@@ -67400,7 +67918,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/EditEmployeeTeammates/' + employeeID,
-      data: { teammates: $scope.teammates }
+      data: { teammates: $scope.teammates },
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       $window.location.href = '/team-members/' + employeeID;
     }, function (err) {});
@@ -67416,7 +67937,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID
+    url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response.data);
     $scope.employee = response.data[0];
@@ -67435,13 +67959,19 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID
+    url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     if ($scope.isEmpty(response.data)) {
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + $scope.employeeID
+        url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log(response);
         if ($scope.isEmpty(response.data)) {
@@ -67459,13 +67989,19 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         $scope.officeID = response.data[0].officeID;
         $http({
           method: 'GET',
-          url: _env2.default.api.root + '/Api/EmployeesNotInTeammates/' + $scope.employeeID + '/' + $scope.officeID
+          url: _env2.default.api.root + '/Api/EmployeesNotInTeammates/' + $scope.employeeID + '/' + $scope.officeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         }).then(function (response) {
           //console.log(response.data);
           $scope.employees = response.data;
           $http({
             method: 'GET',
-            url: _env2.default.api.root + '/Api/EmployeeTeammates/' + $scope.employeeID
+            url: _env2.default.api.root + '/Api/EmployeeTeammates/' + $scope.employeeID,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(function (response) {
             //console.log(response);
             $scope.teammates = response.data;
@@ -67480,7 +68016,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         });
         $http({
           method: 'GET',
-          url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID
+          url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         }).then(function (response) {
           if ($scope.isEmpty(response.data)) {
             $scope.companyName = "No Company Assigned";
@@ -67545,12 +68084,18 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.delete = function (rangeID) {
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/DeleteTemperatureRange/' + rangeID
+      url: _env2.default.api.root + '/Api/DeleteTemperatureRange/' + rangeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/AllTempRanges'
+        url: _env2.default.api.root + '/Api/AllTempRanges',
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log(response);
         $scope.temperatureRanges = response.data;
@@ -67566,7 +68111,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/AllTempRanges'
+    url: _env2.default.api.root + '/Api/AllTempRanges',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.temperatureRanges = response.data;
@@ -67667,7 +68215,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         $http({
           method: "POST",
           url: _env2.default.api.root + '/Api/SendEmail',
-          data: { reason: "passwordUpdate", email: $scope.employee.email }
+          data: { reason: "passwordUpdate", email: $scope.employee.email },
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
         }).then(function (response) {}, function (err) {
           console.log(err.data.message);
         });
@@ -67721,7 +68272,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/AllEmployees'
+    url: _env2.default.api.root + '/Api/AllEmployees',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.emps = response.data;
@@ -67730,7 +68284,10 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/AllOffices'
+    url: _env2.default.api.root + '/Api/AllOffices',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(function (response) {
     //console.log(response);
     $scope.offices = response.data;
@@ -67792,12 +68349,18 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
           $http({
             method: 'POST',
             url: _env2.default.api.root + '/Api/AddEmployees',
-            data: { employees: employees, officeID: $scope.officeID }
+            data: { employees: employees, officeID: $scope.officeID },
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(function (response) {
             alert("CSV successfully uploaded.");
             $http({
               method: 'GET',
-              url: _env2.default.api.root + '/Api/AllEmployees'
+              url: _env2.default.api.root + '/Api/AllEmployees',
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
             }).then(function (response) {
               $scope.emps = response.data;
             }, function (err) {
@@ -67818,12 +68381,18 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.delete = function (employeeID) {
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID
+      url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(function (response) {
       //console.log(response);
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/AllEmployees'
+        url: _env2.default.api.root + '/Api/AllEmployees',
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log(response);
         $scope.emps = response.data;
@@ -68347,7 +68916,10 @@ exports.superadminPermissionCheck = function ($http, $scope, $location, $window)
       // Perform sanity checks for set-up
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/ExistsCompany'
+        url: _env2.default.api.root + '/Api/ExistsCompany',
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log('Response: ', response.data[0]);
         if (response.data[0].result == 0) {
@@ -68355,7 +68927,10 @@ exports.superadminPermissionCheck = function ($http, $scope, $location, $window)
         } else {
           $http({
             method: 'GET',
-            url: _env2.default.api.root + '/Api/ExistsOffice'
+            url: _env2.default.api.root + '/Api/ExistsOffice',
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(function (response) {
             //console.log('Response: ', response.data);
             if (response.data[0].result == 0) {
@@ -68363,7 +68938,10 @@ exports.superadminPermissionCheck = function ($http, $scope, $location, $window)
             } else {
               $http({
                 method: 'GET',
-                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange',
+                headers: {
+                  'x-access-token': $window.sessionStorage.token
+                }
               }).then(function (response) {
                 //console.log('Response: ', response.data);
                 if (response.data[0].result == 0) {
@@ -68435,7 +69013,10 @@ exports.adminPermissionCheck = function ($http, $scope, $location, $window) {
       // Perform sanity checks for set-up
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/ExistsCompany'
+        url: _env2.default.api.root + '/Api/ExistsCompany',
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log('Response: ', response.data[0]);
         if (response.data[0].result == 0) {
@@ -68443,7 +69024,10 @@ exports.adminPermissionCheck = function ($http, $scope, $location, $window) {
         } else {
           $http({
             method: 'GET',
-            url: _env2.default.api.root + '/Api/ExistsOffice'
+            url: _env2.default.api.root + '/Api/ExistsOffice',
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(function (response) {
             //console.log('Response: ', response.data);
             if (response.data[0].result == 0) {
@@ -68451,7 +69035,10 @@ exports.adminPermissionCheck = function ($http, $scope, $location, $window) {
             } else {
               $http({
                 method: 'GET',
-                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange',
+                headers: {
+                  'x-access-token': $window.sessionStorage.token
+                }
               }).then(function (response) {
                 //console.log('Response: ', response.data);
                 if (response.data[0].result == 0) {
@@ -68526,7 +69113,10 @@ exports.userPermissionCheck = function ($http, $scope, $location, $window) {
       // Perform sanity checks for set-up
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/ExistsCompany'
+        url: _env2.default.api.root + '/Api/ExistsCompany',
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(function (response) {
         //console.log('Response: ', response.data[0]);
         if (response.data[0].result == 0) {
@@ -68534,7 +69124,10 @@ exports.userPermissionCheck = function ($http, $scope, $location, $window) {
         } else {
           $http({
             method: 'GET',
-            url: _env2.default.api.root + '/Api/ExistsOffice'
+            url: _env2.default.api.root + '/Api/ExistsOffice',
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(function (response) {
             //console.log('Response: ', response.data);
             if (response.data[0].result == 0) {
@@ -68542,7 +69135,10 @@ exports.userPermissionCheck = function ($http, $scope, $location, $window) {
             } else {
               $http({
                 method: 'GET',
-                url: _env2.default.api.root + '/Api/ExistsTemperatureRange'
+                url: _env2.default.api.root + '/Api/ExistsTemperatureRange',
+                headers: {
+                  'x-access-token': $window.sessionStorage.token
+                }
               }).then(function (response) {
                 //console.log('Response: ', response.data);
                 if (response.data[0].result == 0) {

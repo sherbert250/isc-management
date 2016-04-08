@@ -29,7 +29,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   };
   $http({
     method: 'GET',
-    url : `${env.api.root}/Api/AllCompanies`
+    url : `${env.api.root}/Api/AllCompanies`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log('Response: ', response.data);
     $scope.companies = response.data;
@@ -40,7 +43,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/AddOffice`,
-      data: $scope.office
+      data: $scope.office,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       $window.location.href = '/offices';

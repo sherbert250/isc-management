@@ -25,10 +25,13 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
   $scope = permissions.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Add an Employee- Preferences";
   $scope.employee = addService.get();
-  console.log($scope.employee);
+  //console.log($scope.employee);
   $http({
     method: 'GET',
-    url : `${env.api.root}/Api/AllTempRanges`
+    url : `${env.api.root}/Api/AllTempRanges`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log('Response: ', response.data[0]);
     $scope.temperatureRanges = response.data;
@@ -38,11 +41,11 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
   });
   $scope.next = function(employee) {
     $scope.employee.temperatureRangeID = parseInt($scope.employee.temperatureRangeID);
-    console.log(employee);
+    //console.log(employee);
     addService.set(employee);
-    console.log("Added to service" + addService.get());
+    //console.log("Added to service" + addService.get());
     var test = addService.get();
-    console.log(test.firstName);;
+    //console.log(test.firstName);;
     $location.path('/add-employee-coworkers');
   };
   if ($scope.isEmpty($scope.employee)) {

@@ -28,7 +28,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/Algorithm/Execute`,
-      data: adder
+      data: adder,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     }).then(response => {
       console.log(response);
     }, err => {
@@ -40,7 +43,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   }
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID
+    url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log(response);
     $scope.office = response.data[0];
@@ -51,7 +57,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   });
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/FloorPlanOfOffice/` + $scope.officeID
+    url: `${env.api.root}/Api/FloorPlanOfOffice/` + $scope.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log(response);
     $scope.floor_plan = response.data[0];

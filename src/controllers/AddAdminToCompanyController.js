@@ -26,7 +26,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/AddAdminToCompany/`,
-      data: adder
+      data: adder,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       //console.log(response);
@@ -37,7 +40,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   };
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/ExistsEmployee/` + $scope.employeeID
+    url: `${env.api.root}/Api/ExistsEmployee/` + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log(response);
     $scope.existsEmployee = response.data[0];
@@ -49,37 +55,62 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   });
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/ExistsCompanyForAdmin/` + $scope.employeeID
+    url: `${env.api.root}/Api/IsEmployeeAdmin/` + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log(response);
-    $scope.existsCompanyForAdmin = response.data[0];
-    if ($scope.existsCompanyForAdmin.result === 1) {
-      window.location.href = '/admin-management';
+    $scope.isEmployeeAdmin = response.data[0];
+    if ($scope.isEmployeeAdmin.result === 0) {
+      $location.path('/my-info');
     } else {
       $http({
         method: 'GET',
-        url: `${env.api.root}/Api/EmployeeConfidential/` + $scope.employeeID
-      }).then(response => {
-        //console.log(response);
-        $scope.employee = response.data[0];
-        if ($scope.employee.pictureAddress !== "") {
-          $scope.imageURL = `${env.api.root}/Api/Media/ProfileImage/` + $scope.employeeID;
-          $scope.noURL = false;
-        } else if ($scope.employee.pictureAddress === "") {
-          $scope.imageURL = `${env.api.root}/Api/Media/DefaultImage/` ;
-          $scope.noURL = false;
-        } else {
-          $scope.noURL = true;
+        url: `${env.api.root}/Api/ExistsCompanyForAdmin/` + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
         }
-      }, err => {
-        //console.log(err);
-      });
-      $http({
-        method: 'GET',
-        url: `${env.api.root}/Api/AllCompanies`
       }).then(response => {
         //console.log(response);
-        $scope.companies = response.data;
+        $scope.existsCompanyForAdmin = response.data[0];
+        if ($scope.existsCompanyForAdmin.result === 1) {
+          window.location.href = '/admin-management';
+        } else {
+          $http({
+            method: 'GET',
+            url: `${env.api.root}/Api/EmployeeConfidential/` + $scope.employeeID,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
+          }).then(response => {
+            //console.log(response);
+            $scope.employee = response.data[0];
+            if ($scope.employee.pictureAddress !== "") {
+              $scope.imageURL = `${env.api.root}/Api/Media/ProfileImage/` + $scope.employeeID;
+              $scope.noURL = false;
+            } else if ($scope.employee.pictureAddress === "") {
+              $scope.imageURL = `${env.api.root}/Api/Media/DefaultImage/` ;
+              $scope.noURL = false;
+            } else {
+              $scope.noURL = true;
+            }
+          }, err => {
+            //console.log(err);
+          });
+          $http({
+            method: 'GET',
+            url: `${env.api.root}/Api/AllCompanies`,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
+          }).then(response => {
+            //console.log(response);
+            $scope.companies = response.data;
+          }, err => {
+            //console.log(err);
+          });
+        }
       }, err => {
         //console.log(err);
       });

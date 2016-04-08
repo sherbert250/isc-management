@@ -26,7 +26,10 @@ exports.superadminPermissionCheck = function($http, $scope, $location, $window) 
       // Perform sanity checks for set-up
       $http({
         method: 'GET',
-        url : `${env.api.root}/Api/ExistsCompany`
+        url : `${env.api.root}/Api/ExistsCompany`,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(response => {
         //console.log('Response: ', response.data[0]);
         if (response.data[0].result == 0) {
@@ -34,7 +37,10 @@ exports.superadminPermissionCheck = function($http, $scope, $location, $window) 
         } else {
           $http({
             method: 'GET',
-            url : `${env.api.root}/Api/ExistsOffice`
+            url : `${env.api.root}/Api/ExistsOffice`,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(response => {
             //console.log('Response: ', response.data);
             if (response.data[0].result == 0) {
@@ -42,7 +48,10 @@ exports.superadminPermissionCheck = function($http, $scope, $location, $window) 
             } else {
               $http({
                 method: 'GET',
-                url : `${env.api.root}/Api/ExistsTemperatureRange`
+                url : `${env.api.root}/Api/ExistsTemperatureRange`,
+                headers: {
+                  'x-access-token': $window.sessionStorage.token
+                }
               }).then(response => {
                 //console.log('Response: ', response.data);
                 if (response.data[0].result == 0) {
@@ -114,7 +123,10 @@ exports.adminPermissionCheck = function($http, $scope, $location, $window) {
       // Perform sanity checks for set-up
       $http({
         method: 'GET',
-        url : `${env.api.root}/Api/ExistsCompany`
+        url : `${env.api.root}/Api/ExistsCompany`,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(response => {
         //console.log('Response: ', response.data[0]);
         if (response.data[0].result == 0) {
@@ -122,7 +134,10 @@ exports.adminPermissionCheck = function($http, $scope, $location, $window) {
         } else {
           $http({
             method: 'GET',
-            url : `${env.api.root}/Api/ExistsOffice`
+            url : `${env.api.root}/Api/ExistsOffice`,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(response => {
             //console.log('Response: ', response.data);
             if (response.data[0].result == 0) {
@@ -130,7 +145,10 @@ exports.adminPermissionCheck = function($http, $scope, $location, $window) {
             } else {
               $http({
                 method: 'GET',
-                url : `${env.api.root}/Api/ExistsTemperatureRange`
+                url : `${env.api.root}/Api/ExistsTemperatureRange`,
+                headers: {
+                  'x-access-token': $window.sessionStorage.token
+                }
               }).then(response => {
                 //console.log('Response: ', response.data);
                 if (response.data[0].result == 0) {
@@ -206,7 +224,10 @@ exports.userPermissionCheck = function($http, $scope, $location, $window) {
       // Perform sanity checks for set-up
       $http({
         method: 'GET',
-        url : `${env.api.root}/Api/ExistsCompany`
+        url : `${env.api.root}/Api/ExistsCompany`,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(response => {
         //console.log('Response: ', response.data[0]);
         if (response.data[0].result == 0) {
@@ -214,7 +235,10 @@ exports.userPermissionCheck = function($http, $scope, $location, $window) {
         } else {
           $http({
             method: 'GET',
-            url : `${env.api.root}/Api/ExistsOffice`
+            url : `${env.api.root}/Api/ExistsOffice`,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(response => {
             //console.log('Response: ', response.data);
             if (response.data[0].result == 0) {
@@ -222,7 +246,10 @@ exports.userPermissionCheck = function($http, $scope, $location, $window) {
             } else {
               $http({
                 method: 'GET',
-                url : `${env.api.root}/Api/ExistsTemperatureRange`
+                url : `${env.api.root}/Api/ExistsTemperatureRange`,
+                headers: {
+                  'x-access-token': $window.sessionStorage.token
+                }
               }).then(response => {
                 //console.log('Response: ', response.data);
                 if (response.data[0].result == 0) {

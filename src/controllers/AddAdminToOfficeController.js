@@ -25,7 +25,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/AddEmployeeToOffice/`,
-      data: adder
+      data: adder,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       //console.log(response);
@@ -36,7 +39,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   };
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/ExistsEmployee/` + $scope.employeeID
+    url: `${env.api.root}/Api/ExistsEmployee/` + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log(response);
     $scope.existsEmployee = response.data[0];
@@ -48,7 +54,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   });
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/ExistsCompanyForAdmin/` + $scope.employeeID
+    url: `${env.api.root}/Api/ExistsCompanyForAdmin/` + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log(response);
     $scope.existsCompanyForAdmin = response.data[0];
@@ -60,7 +69,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   });
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/ExistsEmployeeInOffice/` + $scope.employeeID
+    url: `${env.api.root}/Api/ExistsEmployeeInOffice/` + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log(response);
     $scope.existsCompanyForAdmin = response.data[0];
@@ -69,7 +81,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     } else {
       $http({
         method: 'GET',
-        url: `${env.api.root}/Api/EmployeeConfidential/` + $scope.employeeID
+        url: `${env.api.root}/Api/EmployeeConfidential/` + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(response => {
         //console.log(response);
         $scope.employee = response.data[0];
@@ -85,7 +100,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         if ($scope.employee.permissionLevel === "superadmin") {
           $http({
             method: 'GET',
-            url: `${env.api.root}/Api/AllOffices`
+            url: `${env.api.root}/Api/AllOffices`,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(response => {
             //console.log(response);
             $scope.offices = response.data;
@@ -95,13 +113,19 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         } else if ($scope.employee.permissionLevel === "admin") {
           $http({
             method: 'GET',
-            url: `${env.api.root}/Api/CompaniesForAdmin/` + $scope.employeeID
+            url: `${env.api.root}/Api/CompaniesForAdmin/` + $scope.employeeID,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
           }).then(response => {
             //console.log(response);
             $scope.company = response.data[0];
             $http({
               method: 'GET',
-              url: `${env.api.root}/Api/CompanyOffices/` + $scope.company.companyID
+              url: `${env.api.root}/Api/CompanyOffices/` + $scope.company.companyID,
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
             }).then(response => {
               //console.log(response);
               $scope.offices = response.data;

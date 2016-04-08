@@ -5,9 +5,9 @@ import accountNavItems from '../settings/account_nav_items';
 import showAccountInfo from '../settings/account_info';
 
 //
-// Add Employee New Controller
+// Add Admin Controller
 //
-// Call Query to add employee to the database
+// Call Query to add Admin to the database
 //
 
 export default ['$http', '$scope', '$location','$window', 'addService', ($http, $scope, $location, $window, addService) => {
@@ -37,7 +37,10 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/AddEmployee`,
-      data: $scope.employee
+      data: $scope.employee,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       addService.set({});
@@ -50,7 +53,10 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/SendEmail`,
-      data: {to:$scope.employee.email, reason: 'employeeAdd', password: $scope.employee.password}
+      data: {to:$scope.employee.email, reason: 'employeeAdd', password: $scope.employee.password},
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       addService.set({});
@@ -61,7 +67,10 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
   };
   $http({
     method: 'GET',
-    url : `${env.api.root}/Api/AllCompanies`
+    url : `${env.api.root}/Api/AllCompanies`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log('Response: ', response.data[0]);
     $scope.companies = response.data;

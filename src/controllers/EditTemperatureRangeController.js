@@ -19,7 +19,10 @@ export default ['$http', '$scope', '$location', '$routeParams','$window', ($http
   $scope.temperatureRangeID = $routeParams.id;
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/TemperatureRange/` + $scope.temperatureRangeID
+    url: `${env.api.root}/Api/TemperatureRange/` + $scope.temperatureRangeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     ////console.log(response);
     $scope.temperatureRange = response.data[0];
@@ -31,7 +34,10 @@ export default ['$http', '$scope', '$location', '$routeParams','$window', ($http
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/EditTemperatureRange/` + $scope.temperatureRangeID,
-      data: $scope.temperatureRange
+      data: $scope.temperatureRange,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       $window.location.href = '/temperature-ranges';

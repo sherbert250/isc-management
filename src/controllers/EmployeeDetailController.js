@@ -47,7 +47,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   }
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/EmployeeConfidential/` + $scope.employeeID
+    url: `${env.api.root}/Api/EmployeeConfidential/` + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log(response.data);
     $scope.collection = response.data;
@@ -66,12 +69,18 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   });
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/OfficeOfEmployee/` + $scope.employeeID
+    url: `${env.api.root}/Api/OfficeOfEmployee/` + $scope.employeeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     if ($scope.isEmpty(response.data)) {
       $http({
         method: 'GET',
-        url: `${env.api.root}/Api/CompaniesForAdmin/` + $scope.employeeID
+        url: `${env.api.root}/Api/CompaniesForAdmin/` + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(response => {
         //console.log(response);
         if ($scope.isEmpty(response.data)) {
@@ -88,7 +97,10 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
       $scope.officeID = response.data[0].officeID;
       $http({
         method: 'GET',
-        url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID
+        url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
       }).then(response => {
         if ($scope.isEmpty(response.data)) {
           $scope.companyName = "No Company Assigned";

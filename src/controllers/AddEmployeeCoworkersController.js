@@ -48,10 +48,13 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
   $scope.whitelist = [];
   $scope.header = "Add an Employee- Coworkers";
   $scope.employee = addService.get();
-  console.log($scope.employee);
+  //console.log($scope.employee);
   $http({
     method: 'GET',
-    url : `${env.api.root}/Api/EmployeesNotInWhiteListOrBlackList/` + 0 + '/'+ $scope.employee.officeID
+    url : `${env.api.root}/Api/EmployeesNotInWhiteListOrBlackList/` + 0 + '/'+ $scope.employee.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log('Response: ', response.data[0]);
     $scope.employees = response.data;
@@ -60,7 +63,10 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
   });
   $http({
     method: 'GET',
-    url : `${env.api.root}/Api/EmployeesOfOffice/` + $scope.employee.officeID
+    url : `${env.api.root}/Api/EmployeesOfOffice/` + $scope.employee.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
   }).then(response => {
     //console.log('Response: ', response.data[0]);
     $scope.possibleTeammates = response.data;
@@ -71,13 +77,16 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
     $scope.employee.teammates = $scope.teammates;
     $scope.employee.whitelist = $scope.whitelist;
     $scope.employee.blacklist = $scope.blacklist;
-    console.log($scope.employee);
+    //console.log($scope.employee);
 
     // Add employee query
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/AddEmployee`,
-      data: $scope.employee
+      data: $scope.employee,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
     })
     .then(response => {
       addService.set({});
