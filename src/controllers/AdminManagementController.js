@@ -164,24 +164,40 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   $scope.deleteAdmin = function(employeeID) {
     $http({
       method: 'GET',
-      url: `${env.api.root}/Api/DeleteEmployee/` + employeeID,
+      url: `${env.api.root}/Api/IsEmployeeLastSuperadmin/` + employeeID,
       headers: {
         'x-access-token': $window.sessionStorage.token
       }
     }).then(response => {
       //console.log(response);
-      $http({
-        method: 'GET',
-        url: `${env.api.root}/Api/AllAdminEmployees`,
-        headers: {
-          'x-access-token': $window.sessionStorage.token
-        }
-      }).then(response => {
-        //console.log(response);
-        $scope.admins = response.data;
-      }, err => {
-        //console.log(err);
-      });
+      $scope.isEmployeeLastSuperadmin = response.data[0];
+      if ($scope.isEmployeeLastSuperadmin.result === 0) {
+        alert('Error: Cannot delete only superadmin');
+      } else {
+        $http({
+          method: 'GET',
+          url: `${env.api.root}/Api/DeleteEmployee/` + employeeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(response => {
+          //console.log(response);
+          $http({
+            method: 'GET',
+            url: `${env.api.root}/Api/AllAdminEmployees`,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
+          }).then(response => {
+            //console.log(response);
+            $scope.admins = response.data;
+          }, err => {
+            //console.log(err);
+          });
+        }, err => {
+          //console.log(err);
+        });
+      }
     }, err => {
       //console.log(err);
     });

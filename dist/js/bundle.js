@@ -64383,24 +64383,40 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.deleteAdmin = function (employeeID) {
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID,
+      url: _env2.default.api.root + '/Api/IsEmployeeLastSuperadmin/' + employeeID,
       headers: {
         'x-access-token': $window.sessionStorage.token
       }
     }).then(function (response) {
       //console.log(response);
-      $http({
-        method: 'GET',
-        url: _env2.default.api.root + '/Api/AllAdminEmployees',
-        headers: {
-          'x-access-token': $window.sessionStorage.token
-        }
-      }).then(function (response) {
-        //console.log(response);
-        $scope.admins = response.data;
-      }, function (err) {
-        //console.log(err);
-      });
+      $scope.isEmployeeLastSuperadmin = response.data[0];
+      if ($scope.isEmployeeLastSuperadmin.result === 0) {
+        alert('Error: Cannot delete only superadmin');
+      } else {
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(function (response) {
+          //console.log(response);
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/AllAdminEmployees',
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
+          }).then(function (response) {
+            //console.log(response);
+            $scope.admins = response.data;
+          }, function (err) {
+            //console.log(err);
+          });
+        }, function (err) {
+          //console.log(err);
+        });
+      }
     }, function (err) {
       //console.log(err);
     });
@@ -66665,24 +66681,94 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.delete = function (employeeID) {
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID,
+      url: _env2.default.api.root + '/Api/IsEmployeeLastSuperadmin/' + employeeID,
       headers: {
         'x-access-token': $window.sessionStorage.token
       }
     }).then(function (response) {
       //console.log(response);
-    }, function (err) {
-      //console.log(err);
-    });
-    $http({
-      method: 'GET',
-      url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.officeID,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
+      $scope.isEmployeeLastSuperadmin = response.data[0];
+      if ($scope.isEmployeeLastSuperadmin.result === 0) {
+        alert('Error: Cannot delete only superadmin');
+      } else {
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/IsEmployeeSuperAdmin/' + employeeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(function (response) {
+          //console.log(response);
+          $scope.isCurrentEmployeeSuperAdmin = response.data[0];
+          if ($scope.isCurrentEmployeeSuperAdmin.result === 1) {
+            $http({
+              method: 'GET',
+              url: _env2.default.api.root + '/Api/IsEmployeeSuperAdmin/' + $scope.masterID,
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
+            }).then(function (response) {
+              //console.log(response);
+              $scope.isDeleterSuperAdmin = response.data[0];
+              if ($scope.isDeleterSuperAdmin.result === 1) {
+                $http({
+                  method: 'GET',
+                  url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID,
+                  headers: {
+                    'x-access-token': $window.sessionStorage.token
+                  }
+                }).then(function (response) {
+                  //console.log(response);
+                  $http({
+                    method: 'GET',
+                    url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.officeID,
+                    headers: {
+                      'x-access-token': $window.sessionStorage.token
+                    }
+                  }).then(function (response) {
+                    //console.log(response);
+                    $scope.emps = response.data;
+                  }, function (err) {
+                    //console.log(err);
+                  });
+                }, function (err) {
+                  //console.log(err);
+                });
+              } else {
+                  alert('Error: Only a superadmin can delete a superadmin');
+                }
+            }, function (err) {
+              //console.log(err);
+            });
+          } else {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID,
+                headers: {
+                  'x-access-token': $window.sessionStorage.token
+                }
+              }).then(function (response) {
+                //console.log(response);
+                $http({
+                  method: 'GET',
+                  url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.officeID,
+                  headers: {
+                    'x-access-token': $window.sessionStorage.token
+                  }
+                }).then(function (response) {
+                  //console.log(response);
+                  $scope.emps = response.data;
+                }, function (err) {
+                  //console.log(err);
+                });
+              }, function (err) {
+                //console.log(err);
+              });
+            }
+        }, function (err) {
+          //console.log(err);
+        });
       }
-    }).then(function (response) {
-      //console.log(response);
-      $scope.emps = response.data;
     }, function (err) {
       //console.log(err);
     });
@@ -68381,24 +68467,40 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.delete = function (employeeID) {
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID,
+      url: _env2.default.api.root + '/Api/IsEmployeeLastSuperadmin/' + employeeID,
       headers: {
         'x-access-token': $window.sessionStorage.token
       }
     }).then(function (response) {
       //console.log(response);
-      $http({
-        method: 'GET',
-        url: _env2.default.api.root + '/Api/AllEmployees',
-        headers: {
-          'x-access-token': $window.sessionStorage.token
-        }
-      }).then(function (response) {
-        //console.log(response);
-        $scope.emps = response.data;
-      }, function (err) {
-        //console.log(err);
-      });
+      $scope.isEmployeeLastSuperadmin = response.data[0];
+      if ($scope.isEmployeeLastSuperadmin.result === 0) {
+        alert('Error: Cannot delete only superadmin');
+      } else {
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(function (response) {
+          //console.log(response);
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/AllEmployees',
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
+          }).then(function (response) {
+            //console.log(response);
+            $scope.emps = response.data;
+          }, function (err) {
+            //console.log(err);
+          });
+        }, function (err) {
+          //console.log(err);
+        });
+      }
     }, function (err) {
       //console.log(err);
     });

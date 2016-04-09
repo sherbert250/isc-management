@@ -22,12 +22,17 @@ h1.rounded-banner {
 
 .rounded-header {
   border-radius: 15px 50px;
-  background: #b99813;
+  background: #505e5e;
   color: #FFF;
   padding: 20px;
 }
 
 .coworker-header {
+  border-radius: 30px 30px 30px 30px;
+  background: #75a758;
+  color: #FFF;
+  font-weight: bold;
+  padding: 5px;
   text-align: center;
 }
 
@@ -42,7 +47,7 @@ h1.rounded-banner {
 
 .team-members-subheader {
   border-radius: 30px 30px 30px 30px;
-  background: #f2a20d;
+  background: #75a758;
   color: #FFF;
   font-weight: bold;
   padding: 5px;
