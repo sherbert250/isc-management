@@ -66,7 +66,6 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         $scope.passwordMisMatch=true;
       }
       else{
-        delete $window.sessionStorage.token;
         console.log("got here")
         $http({
           method : "POST",
@@ -77,10 +76,11 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
           }
         })
         .then(response => {
+          delete $window.sessionStorage.token;
+          $location.path('/login');
         }, err => {
           console.log(err.data.message);
         });
-        $location.path('/login');
       }
     }, err => {
     });

@@ -32,12 +32,10 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
     $http({
       method : "POST",
       url : `${env.api.root}/Api/PasswordResetEmailCheck`,
-      data: payload,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
+      data: payload
     })
     .then(response => {
+      console.log(response);
       if(response.data.message === "No such user."){
         $scope.invalid=true;
       } else {
@@ -57,27 +55,12 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
         $http({
           method : "POST",
           url : `${env.api.root}/Api/AddPasswordReset`,
-          data: tokenPayload,
-          headers: {
-            'x-access-token': $window.sessionStorage.token
-          }
+          data: tokenPayload
         })
         .then(response => {
           //send Email
 
-          $http({
-            method : "POST",
-            url : `${env.api.root}/Api/SendEmail`,
-            data: {reason: "passwordReset", email: employee.email, token: temp},
-            headers: {
-              'x-access-token': $window.sessionStorage.token
-            }
-          })
-          .then(response => {
-            $scope.success=true;
-          }, err => {
-            //console.log(err.data.message);
-          });
+          $scope.success=true;
 
         }, err => {
           //console.log(err.data.message);

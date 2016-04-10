@@ -1,0 +1,38 @@
+
+<div class="container">
+  <div class="row">
+    <div class="utility-section">
+      <h1 class="rounded-header">{{header}}</h1>
+    </div>
+  </div>
+  <div ng-if="message !==''"class="row">
+    <div class="utility-section">
+      <h2>{{message}}</h2>
+    </div>
+  </div>
+  <div class="row">
+    <table class="table table-hover view-items-table">
+      <tbody>
+        <tr>
+          <td>Employee:
+            <select class="form-control" ng-model="selectedEmployee" required>
+              <option ng-repeat="emp in emps" value="{{emp.employeeID}}">{{emp.firstName}} {{emp.lastName}}</option>
+            </select>
+          </td>
+          <td>
+            Permission Level: 
+            <select class="form-control" ng-model="level" required>
+              <option value="superadmin">superAdmin</option>
+              <option value="admin">admin</option>
+              <option value="user">user</option>
+            </select>
+          </td>
+          <td>
+            <button class="btn btn-success btn-md" ng-click="submit()" value="submit">Submit</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    ..{{level}}..
+  </div>
+</div>

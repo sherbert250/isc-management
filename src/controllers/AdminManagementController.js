@@ -17,6 +17,9 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   $scope = permissions.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Admin Management";
   $scope.message = "";
+  $scope.editEmployeePermissions = function(){
+    $location.path('/edit-employee-permissions');
+  }
   $scope.addAdmin = function() {
     $location.path('/add-admin');
   };
