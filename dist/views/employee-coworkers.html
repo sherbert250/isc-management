@@ -6,7 +6,7 @@
   </div>
   <hr />
   <ul class="nav nav-tabs" ng-show="adminAccess">
-    <li ng-show="adminAccess"><a data-toggle="tab" href="office-detail/{{companyID}}/{{officeID}}">Details</a></li>
+    <li ng-show="adminAccess"><a data-toggle="tab" ng-click="officeDetail(companyID, officeID)">Details</a></li>
     <li ng-show="adminAccess" class="active"><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
     <li ng-show="adminAccess"><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplan</a></li>
   </ul>

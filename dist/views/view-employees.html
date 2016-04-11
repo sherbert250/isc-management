@@ -5,15 +5,13 @@
     <form name="uploadCSVForm" ng-submit="upload()">
       <div class="row">
         <div class="col-md-2">
-          <form class="form-inline">
-            <input ng-model="query" type="text" class="form-control" placeholder="Search for" autofocus>
-          </form>
+          <label style="text-align:right;margin-top:15px;">Select CSV to Upload</label>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <input id="csv-upload" type="file" class="file form-control">
         </div>
         <div class="col-md-2">
-          <input type="submit" class="btn btn-success btn-md" name="submit" value="Upload CSV" />
+          <label style="text-align:right;margin-top:15px;">Select Office for Upload</label>
         </div>
         <div class="col-md-2">
           <div class="form-group">
@@ -22,7 +20,17 @@
             </select>
           </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
+          <input type="submit" class="btn btn-success btn-md" name="submit" value="Upload CSV" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <form class="form-inline">
+            <input ng-model="query" type="text" class="form-control" placeholder="Search for" autofocus>
+          </form>
+        </div>
+        <div class="col-md-6">
           <button class="btn btn-success btn-md" ng-click="add()">+Add Employee</button>
         </div>
       </div>

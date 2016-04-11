@@ -19,16 +19,22 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   $scope.selectedEmployee="";
   $scope.message = "";
   $scope.level="";
-  
-  $scope.submit=function(){
+  $scope.submit = function(){
     $scope.message="";
-    if($scope.selectedEmployee ==='' || $scope.level == ''){
+    if($scope.selectedEmployee ==='' || $scope.level === ''){
       $scope.message="Please select from both drop downs."
-    }
-    else{
+    //} else if ($scope.level === 'superadmin') {
+      // Scrub teammates, works_at, manages, blacklist, whitelist
+      // add employee to all companies
+    //} else if ($scope.level === 'admin') {
+        // Scrub teammates, works_at, manages, blacklist, whitelist
+        // add employee to one company
+    } else {
+      // Remove from all companies
+      // Add to an office
       $http({
         method: 'POST',
-        url: `${env.api.root}/Api/EditEmployeePermission/`+$scope.selectedEmployee,
+        url: `${env.api.root}/Api/EditEmployeePermission/` + $scope.selectedEmployee,
         data: {permissionLevel: $scope.level},
         headers: {
           'x-access-token': $window.sessionStorage.token
@@ -37,10 +43,8 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
         $scope.message="Employee Updated."
       }, err => {
       });
-    }    
+    }
   };
-
-
   $http({
     method: 'GET',
     url: `${env.api.root}/Api/AllEmployees`,
@@ -65,7 +69,6 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
         //Take out the user from the emps
         var temp = $scope.emps.findIndex(x => x.employeeID==$scope.user.employeeID);
         $scope.emps.splice(temp, 1);
-
       }, err => {
         //console.log(err);
       });

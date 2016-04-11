@@ -26,6 +26,22 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
     }
     return true;
   };
+  $scope.officeDetail = function(companyID, officeID) {
+    $http({
+      method: 'GET',
+      url : `${env.api.root}/Api/Verify`,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(response => {
+      if (response.data[0].permissionLevel == 'superadmin') {
+        $window.location.href = '/offices';
+      } else {
+        $window.location.href = '/office-detail/' + companyID + '/'+ officeID;
+      }
+    }, err => {
+    });
+  };
   $scope.reassignEmployee = function (employeeID) {
     $location.path('/employee-reassign-to-office/' + employeeID);
   };

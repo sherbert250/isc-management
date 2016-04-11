@@ -18,6 +18,22 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
   $scope.officeID = $routeParams.id;
   $scope.header = 'View Current FloorPLan';
+  $scope.officeDetail = function(companyID, officeID) {
+    $http({
+      method: 'GET',
+      url : `${env.api.root}/Api/Verify`,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(response => {
+      if (response.data[0].permissionLevel == 'superadmin') {
+        $window.location.href = '/offices';
+      } else {
+        $window.location.href = '/office-detail/' + companyID + '/'+ officeID;
+      }
+    }, err => {
+    });
+  };
   $scope.submit = function() {
     var adder = {
       chartFile : 'c32.json',

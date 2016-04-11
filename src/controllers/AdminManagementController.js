@@ -100,66 +100,77 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
       });
     }
   };
-  $scope.addToOffice = function(employeeID) {
-    $http({
-      method: 'GET',
-      url: `${env.api.root}/Api/ExistsOfficeForAdmin/` + employeeID,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(response => {
-      //console.log(response);
-      $scope.existsOfficeForAdmin = response.data[0];
-      if ($scope.existsOfficeForAdmin.result === 1) {
-        $scope.message = "Office already added for Employee #" + employeeID
-      } else {
-        $location.path('/add-admin-to-office/' + employeeID);
-      }
-    });
+  $scope.addToOffice = function(employeeID, permissionLevel) {
+    if (permissionLevel === "superadmin") {
+      $scope.message = "Superadmins do not need to be assigned to an office";
+    } else {
+      $http({
+        method: 'GET',
+        url: `${env.api.root}/Api/ExistsOfficeForAdmin/` + employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(response => {
+        //console.log(response);
+        $scope.existsOfficeForAdmin = response.data[0];
+        if ($scope.existsOfficeForAdmin.result === 1) {
+          $scope.message = "Office already added for Employee #" + employeeID
+        } else {
+          $location.path('/add-admin-to-office/' + employeeID);
+        }
+      });
+    }
   };
-  $scope.reassignEmployeeToOffice = function(employeeID) {
-    $http({
-      method: 'GET',
-      url: `${env.api.root}/Api/ExistsEmployeeInOffice/` + employeeID,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(response => {
-      //console.log(response);
-      $scope.existsEmployeeInOffice = response.data[0];
-      if ($scope.existsEmployeeInOffice.result === 1) {
-        $location.path('/employee-reassign-to-office/' + employeeID);
-      } else {
-        $location.path('/add-admin-to-office/' + employeeID);
-      }
-    });
+  $scope.reassignEmployeeToOffice = function(employeeID, permissionLevel) {
+    if (permissionLevel === "superadmin") {
+      $scope.message = "Superadmins do not need to be reassigned to an office";
+    } else {
+      $http({
+        method: 'GET',
+        url: `${env.api.root}/Api/ExistsEmployeeInOffice/` + employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(response => {
+        //console.log(response);
+        $scope.existsEmployeeInOffice = response.data[0];
+        if ($scope.existsEmployeeInOffice.result === 1) {
+          $location.path('/employee-reassign-to-office/' + employeeID);
+        } else {
+          $location.path('/add-admin-to-office/' + employeeID);
+        }
+      });
+    }
   };
-  $scope.removeFromOffice = function(employeeID) {
+  $scope.removeFromOffice = function(employeeID, permissionLevel) {
     var companyID;
     var existsEmployeeInOffice;
-
-    $http({
-      method: 'GET',
-      url: `${env.api.root}/Api/existsEmployeeInOffice/` + employeeID,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(response => {
-      existsEmployeeInOffice = response.data[0];
-      if (existsEmployeeInOffice.result === 1) {
-        $http({
-          method: 'GET',
-          url: `${env.api.root}/Api/DeleteEmployeeFromOffice/` + employeeID,
-          headers: {
-            'x-access-token': $window.sessionStorage.token
-          }
-        }).then(response => {
-          $scope.message = "Deleted office for admin #" + employeeID;
-        });
-      } else {
-        $scope.message = "No office to delete for admin #" + employeeID;
-      }
-    });
+    if (permissionLevel === "superadmin") {
+      $scope.message = "Superadmins cannot be removed from offices since they are not associated with offices";
+    } else {
+      $http({
+        method: 'GET',
+        url: `${env.api.root}/Api/existsEmployeeInOffice/` + employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(response => {
+        existsEmployeeInOffice = response.data[0];
+        if (existsEmployeeInOffice.result === 1) {
+          $http({
+            method: 'GET',
+            url: `${env.api.root}/Api/DeleteEmployeeFromOffice/` + employeeID,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
+          }).then(response => {
+            $scope.message = "Deleted office for admin #" + employeeID;
+          });
+        } else {
+          $scope.message = "No office to delete for admin #" + employeeID;
+        }
+      });
+    }
   };
   $scope.viewAdmin = function(employeeID) {
     $location.path('/employee-detail/' + employeeID);

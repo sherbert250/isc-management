@@ -32,7 +32,7 @@
         <tr>
           <td colspan="2">
             <div class="form-group">
-              <select class="form-control" id="permissionLevel" name="permissionLevel" ng-model="employee.permissionLevel" required>
+              <select ng-init="employee.permissionLevel = 'admin'"class="form-control" id="permissionLevel" name="permissionLevel" ng-model="employee.permissionLevel" required>
                 <option  value="superadmin">superadmin</option>
                 <option  value="admin">admin</option>
               </select>
@@ -45,7 +45,8 @@
         <tr>
           <td colspan="2">
             <div class="form-group">
-              <select class="form-control" id="company" name="company" ng-model="employee.companyID" required>
+              <select ng-disabled="employee.permissionLevel == 'superadmin'" class="form-control" id="company" name="company" ng-model="employee.companyID" required>
+                <option value="">Select a company</option>
                 <option ng-repeat="item in companies" value="{{item.companyID}}">{{item.companyID}} {{item.companyName}}</option>
               </select>
             </div>

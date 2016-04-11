@@ -20,6 +20,9 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   };
   $scope.companyID = $routeParams.companyID;
   $scope.officeID = $routeParams.officeID;
+  $scope.officeDetail = function(companyID, officeID) {
+    $window.location.href = '/office-detail/' + companyID + '/' + officeID;
+  };
   if ($scope.officeID == 0) {
     $location.path('/company-offices/' + $scope.companyID);
   } else {

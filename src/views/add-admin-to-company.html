@@ -21,7 +21,7 @@
   </div>
   <h3>Assign {{employee.firstName}} {{employee.lastName}} to a company</h3>
   <div class="form-group">
-    <select class="form-control" id="company" name="company" ng-model="companyID" required>
+    <select ng-init="companyID = companies[0].companyID" class="form-control" id="company" name="company" ng-model="companyID" required>
       <option ng-repeat="item in companies" value="{{item.companyID}}">{{item.companyID}} {{item.companyName}}</option>
     </select>
   </div>

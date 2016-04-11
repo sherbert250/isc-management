@@ -65,13 +65,13 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
             employee.firstName = splitted[i++];
             employee.lastName = splitted[i++];
             employee.email = splitted[i++];
-            employee.password = "randompassword";
+            employee.password = Math.round((Math.pow(36, 8) - Math.random() * Math.pow(36, 7))).toString(36).slice(1);
             employee.department = "no department";
             employee.title = "no title";
             employee.restroomUsage = 1;
             employee.noisePreference = 1;
             employee.outOfDesk = 1;
-            employee.pictureAddress = "no picture address";
+            employee.pictureAddress = "";
             employee.permissionLevel = "user";
             employees.push(employee);
           }

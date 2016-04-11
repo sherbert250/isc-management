@@ -159,10 +159,10 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     templateUrl: 'views/add-office-employee.html',
     controller: 'AddOfficeEmployeeController'
   })
-  .when('/add-superadmin-to-office', {
-    templateUrl: 'views/start-up/add-superadmin-to-office.html',
-    controller: 'AddSuperAdminToOfficeController'
-  })
+  // .when('/add-superadmin-to-office', {
+  //   templateUrl: 'views/start-up/add-superadmin-to-office.html',
+  //   controller: 'AddSuperAdminToOfficeController'
+  // })
   .when('/add-temperature-range', {
     templateUrl: 'views/add-temperature-range.html',
     controller: 'AddTemperatureRangeController'

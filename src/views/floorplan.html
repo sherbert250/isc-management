@@ -7,9 +7,9 @@
   </div>
   <hr />
   <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="office-detail/{{companyID}}/{{officeID}}">Details</a></li>
+    <li><a data-toggle="tab" ng-click="officeDetail(companyID, officeID)">Details</a></li>
     <li><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
-    <li><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplan</a></li>
+    <li  class="active"><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplan</a></li>
   </ul>
   <div class="row">
     <div class="col-md-12">

@@ -1,6 +1,6 @@
 <div class="container">
   <h1 class="rounded-header">{{header}}</h1>
-  <form name="addIndividualInfoForm" ng-submit="next(employee)">
+  <form name="addEmployeeForm" ng-submit="submit()">
   <div class="row">
     <div class="col-md-12">
       <table class="table">
@@ -33,6 +33,7 @@
           <td colspan="2">
             <div class="form-group">
               <select class="form-control" id="office" name="office" ng-model="employee.officeID" required>
+                <option value="">Select an office</option>
                 <option ng-repeat="item in offices" value="{{item.officeID}}">{{item.officeName}}</option>
               </select>
             </div>
@@ -42,7 +43,7 @@
     </div>
   </div>
   <div>
-    <input class="btn btn-success btn-md add-next" ng-Click="submit()" name="submit" value="Submit" />
+    <input class="btn btn-success" type="submit" name="submit" value="Submit" />
   </div>
 </form>
 </div>

@@ -72,6 +72,9 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', 'Uplo
       }
     })
     .then(response => {
+      if ($scope.editEmployeeForm.file.$valid && $scope.file) {
+        $scope.upload($scope.file);
+      }
       if ($scope.office != undefined && $scope.isInt($scope.office.officeID)) {
         $http({
           method: 'POST',
@@ -82,9 +85,6 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', 'Uplo
           }
         })
         .then(response => {
-          if ($scope.editEmployeeForm.file.$valid && $scope.file) {
-            $scope.upload($scope.file);
-          }
           $http({
             method: 'POST',
             url: `${env.api.root}/Api/SendEmail`,
@@ -94,13 +94,13 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', 'Uplo
             }
           })
           .then(response => {
-            $location.path('/view-employees');
+            $window.location.href = '/view-employees';
           }, err => {
           });
         },err => {
         });
       } else {
-        $location.path('/view-employees');
+        $window.location.href = '/view-employees';
       }
     },err => {
       //console.log(err);

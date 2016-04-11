@@ -8,7 +8,7 @@
   <hr />
   <div class-"row">
     <ul class="nav nav-tabs">
-      <li><a data-toggle="tab" href="office-detail/{{companyID}}/{{officeID}}">Details</a></li>
+      <li><a data-toggle="tab" ng-click="officeDetail(companyID, officeID)">Details</a></li>
       <li class="active"><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
       <li><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplan</a></li>
     </ul>
@@ -19,14 +19,14 @@
        <input ng-model="query" type="text" class="form-control" placeholder="Search for" autofocus>
      </form>
    </div>
-   <div class="add-employee-options add-employee-options-right add-employee-options-button">
-     <button class="btn btn-success btn-md" ng-click="add()">+Add Employee</button>
+   <div class="add-employee-options add-employee-options-right">
+     <button class="btn btn-success btn-md" ng-click="upload()">Upload CSV</button>
    </div>
    <div class="add-employee-options add-employee-options-right">
      <input id="csv-upload" type="file" class="file form-control">
    </div>
-   <div class="add-employee-options add-employee-options-right">
-     <button class="btn btn-success btn-md" ng-click="upload()">Upload CSV</button>
+   <div class="add-employee-options add-employee-options-right add-employee-options-button">
+     <button class="btn btn-success btn-md" ng-click="add()">+Add Employee</button>
    </div>
  </div>
  <h3 style="text-align: center;">{{errorMessage}}</h3>

@@ -63,6 +63,22 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope.editEmployee = function(employeeID) {
     $location.path('/edit-employee/' + employeeID);
   };
+  $scope.officeDetail = function(companyID, officeID) {
+    $http({
+      method: 'GET',
+      url : `${env.api.root}/Api/EmployeeConfidential/` + $scope.employeeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(response => {
+      if (response.data[0].permissionLevel == 'superadmin') {
+        $window.location.href = '/offices';
+      } else {
+        $window.location.href = '/office-detail/' + companyID + '/'+ officeID;
+      }
+    }, err => {
+    });
+  };
   $scope.updateCoworkers = function(employeeID, officeID) {
     var coworkers = {
       blacklist : $scope.blacklist,

@@ -28,6 +28,7 @@
        <td>
          <div class="form-group">
            <select class="form-control" id="state" name="state" ng-model="office.officeState" required>
+             <option value="">Select a state</option>
              <option ng-repeat="item in states" value="{{item}}">{{item}}</option>
            </select>
          </div>
@@ -42,6 +43,7 @@
        <td>
          <div class="form-group">
            <select class="form-control" id="company" name="company" ng-model="office.companyID" required>
+             <option value="">Select a company</option>
              <option ng-repeat="item in companies" value="{{item.companyID}}">{{item.companyName}}</option>
            </select>
          </div>

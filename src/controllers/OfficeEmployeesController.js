@@ -116,6 +116,22 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
       //console.log(err);
     });
   };
+  $scope.officeDetail = function(companyID, officeID) {
+    $http({
+      method: 'GET',
+      url : `${env.api.root}/Api/Verify`,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(response => {
+      if (response.data[0].permissionLevel == 'superadmin') {
+        $window.location.href = '/offices';
+      } else {
+        $window.location.href = '/office-detail/' + companyID + '/'+ officeID;
+      }
+    }, err => {
+    });
+  };
   $scope.upload = function() {
     try {
       var f = document.getElementById('csv-upload').files[0],
@@ -136,13 +152,13 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
             employee.firstName = splitted[i++];
             employee.lastName = splitted[i++];
             employee.email = splitted[i++];
-            employee.password = "randompassword";
+            employee.password = Math.round((Math.pow(36, 8) - Math.random() * Math.pow(36, 7))).toString(36).slice(1);
             employee.department = "no department";
             employee.title = "no title";
             employee.restroomUsage = 1;
             employee.noisePreference = 1;
             employee.outOfDesk = 1;
-            employee.pictureAddress = "no picture address";
+            employee.pictureAddress = "";
             employee.permissionLevel = "user";
             employees.push(employee);
           }
@@ -189,7 +205,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
             //console.log(err);
           });
         } else {
-          alert("Incorrect csv format.\nThe correct format is firstName,lastName,email,password,department,title,restroomUsage,noisePreference,outOfDesk,pictureAddress,permissionLevel");
+          alert("Incorrect csv format.\nThe correct format is firstName,lastName,email");
         }
       }
       r.readAsText(f);
