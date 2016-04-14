@@ -51,7 +51,7 @@ export default ['$scope','$http', '$location','$window', ($scope, $http, $locati
   const fetchSeatingCharts = offices => {
     $http({
       method: 'GET',
-      url: `${env.api.root}/Api/AllSeatingCharts`,
+      url: `${env.api.root}/Api/SeatingCharts`,
       headers
     }).then(response => {
       // console.log(response);

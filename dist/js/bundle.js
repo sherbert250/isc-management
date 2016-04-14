@@ -70408,7 +70408,7 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   var fetchSeatingCharts = function fetchSeatingCharts(offices) {
     $http({
       method: 'GET',
-      url: _env2.default.api.root + '/Api/AllSeatingCharts',
+      url: _env2.default.api.root + '/Api/SeatingCharts',
       headers: headers
     }).then(function (response) {
       // console.log(response);
