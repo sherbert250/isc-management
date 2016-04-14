@@ -191,10 +191,10 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     templateUrl: 'views/edit-employee.html',
     controller: 'EditEmployeeController'
   })
-  .when('/edit-employee-permissions', {
-    templateUrl: 'views/edit-employee-permissions.html',
-    controller: 'EditEmployeePermissionsController'
-  })
+  // .when('/edit-employee-permissions', {
+  //   templateUrl: 'views/edit-employee-permissions.html',
+  //   controller: 'EditEmployeePermissionsController'
+  // })
   .when('/edit-employee-preferences/:id', {
     templateUrl: 'views/edit-employee-preferences.html',
     controller: 'EditEmployeePreferencesController'

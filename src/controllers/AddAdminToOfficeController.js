@@ -17,6 +17,13 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope = permissions.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.header = 'Add Admin to Office';
   $scope.employeeID = $routeParams.id;
+  $scope.isEmpty = function (obj) {
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+            return false;
+    }
+    return true;
+  };
   $scope.submit = function() {
     var adder = {
       employeeID: $scope.employeeID,
@@ -100,13 +107,18 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         if ($scope.employee.permissionLevel === "superadmin") {
           $http({
             method: 'GET',
-            url: `${env.api.root}/Api/AllOffices`,
+            url: `${env.api.root}/Api/AllOfficesWithoutAnAdmin`,
             headers: {
               'x-access-token': $window.sessionStorage.token
             }
           }).then(response => {
             //console.log(response);
-            $scope.offices = response.data;
+            if ($scope.isEmpty(response.data)) {
+              alert('All offices already have an admin');
+              $window.location.href = '/admin-management';
+            } else {
+              $scope.offices = response.data;
+            }
           }, err => {
             //console.log(err);
           });
@@ -122,13 +134,18 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
             $scope.company = response.data[0];
             $http({
               method: 'GET',
-              url: `${env.api.root}/Api/CompanyOffices/` + $scope.company.companyID,
+              url: `${env.api.root}/Api/CompanyOfficesWithoutAnAdmin/` + $scope.company.companyID,
               headers: {
                 'x-access-token': $window.sessionStorage.token
               }
             }).then(response => {
               //console.log(response);
-              $scope.offices = response.data;
+              if ($scope.isEmpty(response.data)) {
+                alert('All offices already have an admin');
+                $window.location.href = '/admin-management';
+              } else {
+                $scope.offices = response.data;
+              }
             }, err => {
               //console.log(err);
             });

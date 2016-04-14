@@ -22,12 +22,58 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     }
     return true;
   };
-  $scope.passwords={
+  $scope.passwords = {
     oldPassword:"",
     password:"",
     password2:""
   };
   $scope = permissions.userPermissionCheck($http, $scope, $location, $window);
+  $scope.passwordMisMatch = false;
+  $scope.invalidOldPassword = false;
+  $scope.submit = function(employeeID) {
+    if ($scope.passwords.password.length < 8) {
+      alert('Error: Passwords must be at least 8 characters.');
+    } else {
+      $scope.passwordMisMatch = false;
+      $scope.invalidOldPassword = false;
+      //Call API
+      $http({
+        method : "POST",
+        url : `${env.api.root}/Api/UpdatePassword`,
+        data: {oldPassword: $scope.passwords.oldPassword, password: $scope.passwords.password, password2: $scope.passwords.password2, employeeID: employeeID.employeeID},
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token': $window.sessionStorage.token
+        }
+      })
+      .then(response => {
+        if(response.data.message==="Invalid Old Password."){
+          $scope.invalidOldPassword=true;
+        }
+        else if(response.data.message === "New passwords do not match."){
+          $scope.passwordMisMatch=true;
+        }
+        else {
+          //console.log("got here")
+          $http({
+            method : "POST",
+            url : `${env.api.root}/Api/SendEmail`,
+            data: {reason: "passwordUpdate", email: $scope.employee.email},
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
+          })
+          .then(response => {
+            delete $window.sessionStorage.token;
+            $location.path('/login');
+          }, err => {
+            //console.log(err.data.message);
+          });
+        }
+      }, err => {
+      });
+    }
+  };
   $http({
     method: 'GET',
     url : `${env.api.root}/Api/Verify`,
@@ -43,46 +89,4 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   }, err => {
     //console.log(err);
   });
-  $scope.passwordMisMatch=false;
-  $scope.invalidOldPassword=false;
-  $scope.submit = function(employeeID) {
-    $scope.passwordMisMatch=false;
-    $scope.invalidOldPassword=false;
-    //Call API
-    $http({
-      method : "POST",
-      url : `${env.api.root}/Api/UpdatePassword`,
-      data: {oldPassword: $scope.passwords.oldPassword, password: $scope.passwords.password, password2: $scope.passwords.password2, employeeID: employeeID.employeeID},
-      headers: {
-        'Content-Type': 'application/json',
-        'x-access-token': $window.sessionStorage.token
-      }
-    })
-    .then(response => {
-      if(response.data.message==="Invalid Old Password."){
-        $scope.invalidOldPassword=true;
-      }
-      else if(response.data.message === "New passwords do not match."){
-        $scope.passwordMisMatch=true;
-      }
-      else{
-        console.log("got here")
-        $http({
-          method : "POST",
-          url : `${env.api.root}/Api/SendEmail`,
-          data: {reason: "passwordUpdate", email: $scope.employee.email},
-          headers: {
-            'x-access-token': $window.sessionStorage.token
-          }
-        })
-        .then(response => {
-          delete $window.sessionStorage.token;
-          $location.path('/login');
-        }, err => {
-          console.log(err.data.message);
-        });
-      }
-    }, err => {
-    });
-  };
 }];

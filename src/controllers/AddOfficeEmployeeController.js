@@ -29,6 +29,36 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     permissionLevel: "user",
     officeID: $routeParams.id
   };
+  $scope.employees = [];
+  $scope.isEmailValid = function(email) {
+    var item;
+    for (item in $scope.employees) {
+      if ($scope.employees[item].email.toLowerCase() == email.toLowerCase()) {
+        return false;
+      }
+    }
+    return true;
+  };
+  $scope.submit = function() {
+    if ($scope.isEmailValid($scope.employee.email)) {
+      $scope.employee.password = Math.round((Math.pow(36, 8) - Math.random() * Math.pow(36, 7))).toString(36).slice(1);
+      $http({
+        method: 'POST',
+        url: `${env.api.root}/Api/AddOfficeEmployee`,
+        data: $scope.employee,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      })
+      .then(response => {
+        $window.location.href = '/office-employees/' + $scope.employee.officeID;
+      }, err => {
+        //console.log(err);
+      });
+    } else {
+      alert('Invalid Email: please enter a different email');
+    }
+  };
   $http({
     method: 'GET',
     url : `${env.api.root}/Api/Office/` + $scope.employee.officeID,
@@ -42,19 +72,16 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   }).then(err => {
     //console.log('Error: ', err);
   });
-  $scope.submit = function() {
-    $http({
-      method: 'POST',
-      url: `${env.api.root}/Api/AddOfficeEmployee`,
-      data: $scope.employee,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    })
-    .then(response => {
-      $window.location.href = '/office-employees/' + $scope.employee.officeID;
-    }, err => {
-      //console.log(err);
-    });
-  };
+  $http({
+    method: 'GET',
+    url : `${env.api.root}/Api/AllEmployees`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(response => {
+    //console.log('Response: ', response.data);
+    $scope.employees = response.data;
+  }).then(err => {
+    //console.log('Error: ', err);
+  });
 }];

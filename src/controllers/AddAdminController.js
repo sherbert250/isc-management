@@ -29,41 +29,54 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
     pictureAddress: "",
     permissionLevel: "user"
   };
-
+  $scope.employees = [];
+  $scope.isEmailValid = function(email) {
+    var item;
+    for (item in $scope.employees) {
+      if ($scope.employees[item].email.toLowerCase() == email.toLowerCase()) {
+        return false;
+      }
+    }
+    return true;
+  };
   $scope.submit = function() {
-    $scope.employee.password = Math.round((Math.pow(36, 8) - Math.random() * Math.pow(36, 7))).toString(36).slice(1);
-    // Add employee query
-    //$scope.employee.companyID = parseInt($scope.employee.companyID, 10);
-    $http({
-      method: 'POST',
-      url: `${env.api.root}/Api/AddEmployee`,
-      data: $scope.employee,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    })
-    .then(response => {
+    if ($scope.isEmailValid($scope.employee.email)) {
+      $scope.employee.password = Math.round((Math.pow(36, 8) - Math.random() * Math.pow(36, 7))).toString(36).slice(1);
+      // Add employee query
+      //$scope.employee.companyID = parseInt($scope.employee.companyID, 10);
+      $http({
+        method: 'POST',
+        url: `${env.api.root}/Api/AddEmployee`,
+        data: $scope.employee,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      })
+      .then(response => {
+        addService.set({});
+        //$location.path('/view-employees');
+      }, err => {
+        //console.log(err);
+      });
       addService.set({});
-      //$location.path('/view-employees');
-    }, err => {
-      //console.log(err);
-    });
-    addService.set({});
-    //send Email to new employee
-    $http({
-      method: 'POST',
-      url: `${env.api.root}/Api/SendEmail`,
-      data: {to:$scope.employee.email, reason: 'employeeAdd', password: $scope.employee.password},
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    })
-    .then(response => {
-      addService.set({});
-      $window.location.href = '/admin-management';
-    }, err => {
-      //console.log(err);
-    });
+      //send Email to new employee
+      $http({
+        method: 'POST',
+        url: `${env.api.root}/Api/SendEmail`,
+        data: {to:$scope.employee.email, reason: 'employeeAdd', password: $scope.employee.password},
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      })
+      .then(response => {
+        addService.set({});
+        $window.location.href = '/admin-management';
+      }, err => {
+        //console.log(err);
+      });
+    } else {
+      alert('Invalid Email: please enter a different email');
+    }
   };
   $http({
     method: 'GET',
@@ -74,6 +87,18 @@ export default ['$http', '$scope', '$location','$window', 'addService', ($http, 
   }).then(response => {
     //console.log('Response: ', response.data[0]);
     $scope.companies = response.data;
+  }).then(err => {
+    //console.log('Error: ', err);
+  });
+  $http({
+    method: 'GET',
+    url : `${env.api.root}/Api/AllEmployees`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(response => {
+    //console.log('Response: ', response.data);
+    $scope.employees = response.data;
   }).then(err => {
     //console.log('Error: ', err);
   });

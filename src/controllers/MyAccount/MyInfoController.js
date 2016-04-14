@@ -144,7 +144,7 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
         }
       } else {
         $scope.adminAccess = true;
-        $scope.canReassign = true;
+        $scope.canReassign = false;
         for (var i in $scope.primaryNavItems) {
           $scope.primaryNavItems[i].show = true;
         }

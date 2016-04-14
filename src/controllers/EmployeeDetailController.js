@@ -63,6 +63,18 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   }
   $http({
     method: 'GET',
+    url : `${env.api.root}/Api/Verify`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(response => {
+    if ((response.data[0].employeeID == $scope.employeeID) && (response.data[0].permissionLevel == 'superadmin')) {
+      $scope.canReassign = false;
+    }
+  }, err => {
+  });
+  $http({
+    method: 'GET',
     url: `${env.api.root}/Api/EmployeeConfidential/` + $scope.employeeID,
     headers: {
       'x-access-token': $window.sessionStorage.token
