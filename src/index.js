@@ -260,7 +260,7 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     controller: 'PasswordResetController'
   })
   .when('/seating-charts', {
-    templateUrl: 'views/seating-charts.html',
+    templateUrl: 'views/seating-charts/list.html',
     controller: 'SeatingChartsController'
   })
   .when('/sign-out', {

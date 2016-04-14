@@ -1,0 +1,66 @@
+
+<div class="container">
+  <!-- title section -->
+  <div class="utilitySection">
+    <h1 class="rounded-header">{{header}}</h1>
+    <hr />
+  </div>
+  <!-- "Offices" dropdown -->
+  <div class="utilitySection">
+    <div class="dropdown">
+      <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">
+        Offices <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li ng-repeat="office in offices">
+          <a data-office="{{office.officeID}}">
+            {{office.officeName}}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <hr />
+  <div class="utilitySection">
+    <div class="searchbox-section">
+      <form class="form-inline">
+        <input ng-model="query" type="text" class="form-control" placeholder="Search for" autofocus>
+      </form>
+    </div>
+    <div class="add-button-section">
+      <button class="btn btn-success btn-md" ng-click="add()">+Add Office</button>
+    </div>
+  </div>
+  <table class="table table-striped view-items-table">
+    <thead>
+      <th>Office Name</th>
+      <th>Design Name</th>
+      <th>Rows</th>
+      <th>Columns</th>
+      <th colspan="3" class="action-header">Actions</th>
+    </thead>
+    <tbody ng-repeat="model in seating_charts | filter: query">
+      <tr>
+        <td>{{model.office_id}}</td>
+        <td>{{model.name}}</td>
+        <td>{{model.rows}}</td>
+        <td>{{model.cols}}</td>
+        <td class="action-header">
+          <button class="btn btn-info btn-sm" ng-click="view(model.officeID, model.companyID)">
+            View
+          </button>
+        </td>
+        <td class="action-header">
+          <button class="btn btn-primary btn-sm" ng-click="edit(model.officeID)">
+            Edit
+          </button>
+        </td>
+        <td class="action-header">
+          <button class="btn btn-danger btn-sm" ng-click="delete(model.officeID)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
