@@ -16,7 +16,7 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   $scope.accountNavItems = accountNavItems;
   $scope.showAccountInfo = showAccountInfo;
   $scope.states = states;
-  $scope = permissions.superadminPermissionCheck($http, $scope, $location, $window);
+  $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Add an Office";
   $scope.office = {
     officeName: "",
@@ -29,29 +29,60 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   };
   $http({
     method: 'GET',
-    url : `${env.api.root}/Api/AllCompanies`,
+    url : `${env.api.root}/Api/Verify`,
     headers: {
       'x-access-token': $window.sessionStorage.token
     }
   }).then(response => {
     //console.log('Response: ', response.data);
-    $scope.companies = response.data;
+    $scope.employee = response.data[0];
+    if ($scope.employee.permissionLevel == 'superadmin') {
+      $http({
+        method: 'GET',
+        url : `${env.api.root}/Api/AllCompanies`,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(response => {
+        //console.log('Response: ', response.data);
+        $scope.companies = response.data;
+      }).then(err => {
+        //console.log('Error: ', err);
+      });
+    } else {
+      $http({
+        method: 'GET',
+        url : `${env.api.root}/Api/CompaniesForAdmin/` + $scope.employee.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(response => {
+        //console.log('Response: ', response.data);
+        $scope.companies = response.data;
+      }).then(err => {
+        //console.log('Error: ', err);
+      });
+    }
   }).then(err => {
     //console.log('Error: ', err);
   });
   $scope.submit = function() {
-    $http({
-      method: 'POST',
-      url: `${env.api.root}/Api/AddOffice`,
-      data: $scope.office,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    })
-    .then(response => {
-      $window.location.href = '/offices';
-    }, err => {
-      //console.log(err);
-    });
+    if ($scope.office.officeState == "") {
+      alert('Select a state');
+    } else {
+      $http({
+        method: 'POST',
+        url: `${env.api.root}/Api/AddOffice`,
+        data: $scope.office,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      })
+      .then(response => {
+        $window.location.href = '/offices';
+      }, err => {
+        //console.log(err);
+      });
+    }
   };
 }];

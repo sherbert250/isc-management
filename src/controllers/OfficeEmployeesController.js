@@ -124,11 +124,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         'x-access-token': $window.sessionStorage.token
       }
     }).then(response => {
-      if (response.data[0].permissionLevel == 'superadmin') {
-        $window.location.href = '/offices';
-      } else {
-        $window.location.href = '/office-detail/' + companyID + '/'+ officeID;
-      }
+      $window.location.href = '/office-detail/' + companyID + '/'+ officeID;
     }, err => {
     });
   };

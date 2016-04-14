@@ -176,8 +176,9 @@ exports.adminPermissionCheck = function($http, $scope, $location, $window) {
           // Redirect them to their info page
           //$location.path('/my-info');
           for (var i in $scope.primaryNavItems) {
-            if ($scope.primaryNavItems[i].text == "Offices")
-            $scope.primaryNavItems[i].show = true;
+            if ($scope.primaryNavItems[i].text == "Offices" || $scope.primaryNavItems[i].text == "Temperature Ranges") {
+              $scope.primaryNavItems[i].show = true;
+            }
           }
         } else if (permissionLevel === 'user') {
           // Redirect them to their info page

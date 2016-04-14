@@ -3,6 +3,7 @@ import permissions from '../settings/permissions';
 import primaryNavItems from '../settings/primary_nav_items';
 import accountNavItems from '../settings/account_nav_items';
 import showAccountInfo from '../settings/account_info';
+import states from '../settings/states';
 
 //
 // Edit Office Controller
@@ -17,6 +18,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Edit an Office";
   $scope.officeID = $routeParams.id;
+  $scope.states = states;
   $http({
     method: 'GET',
     url: `${env.api.root}/Api/Office/` + $scope.officeID,
@@ -30,18 +32,22 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     ////console.log(err);
   });
   $scope.submit = function() {
-    $http({
-      method: 'POST',
-      url: `${env.api.root}/Api/EditOffice/`+$scope.officeID,
-      data: $scope.office,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    })
-    .then(response => {
-      $window.location.href = '/offices';
-    }, err => {
-      //console.log(err);
-    });
+    if ($scope.office.state == "") {
+      alert('Select a state');
+    } else {
+      $http({
+        method: 'POST',
+        url: `${env.api.root}/Api/EditOffice/`+$scope.officeID,
+        data: $scope.office,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      })
+      .then(response => {
+        $window.location.href = '/offices';
+      }, err => {
+        //console.log(err);
+      });
+    }
   };
 }];
