@@ -46,8 +46,14 @@ import OfficesController from './controllers/OfficesController';
 import OfficeDetailController from './controllers/OfficeDetailController';
 import OfficeEmployeesController from './controllers/OfficeEmployeesController';
 import PasswordResetController from './controllers/PasswordResetController';
-import PasswordResetTokenController from './controllers/PasswordResetTokenController'
-import SeatingChartsController from './controllers/SeatingChartsController';
+import PasswordResetTokenController from './controllers/PasswordResetTokenController';
+
+// Seating Charts
+import SeatingCharts_AddController from './controllers/SeatingCharts/AddController';
+import SeatingCharts_DesignController from './controllers/SeatingCharts/DesignController';
+import SeatingCharts_EditController from './controllers/SeatingCharts/EditController';
+import SeatingCharts_ListController from './controllers/SeatingCharts/ListController';
+
 import SignOutController from './controllers/MyAccount/SignOutController';
 import TeamMembersController from './controllers/TeamMembersController';
 import TemperatureRangesController from './controllers/TemperatureRangesController';
@@ -93,7 +99,13 @@ iscApp.controller('OfficeDetailController', OfficeDetailController);
 iscApp.controller('OfficeEmployeesController', OfficeEmployeesController);
 iscApp.controller('PasswordResetController', PasswordResetController);
 iscApp.controller('PasswordResetTokenController', PasswordResetTokenController);
-iscApp.controller('SeatingChartsController', SeatingChartsController);
+
+// Seating Charts
+iscApp.controller('SeatingCharts_AddController', SeatingCharts_AddController);
+iscApp.controller('SeatingCharts_DesignController', SeatingCharts_DesignController);
+iscApp.controller('SeatingCharts_EditController', SeatingCharts_EditController);
+iscApp.controller('SeatingCharts_ListController', SeatingCharts_ListController);
+
 iscApp.controller('SignOutController', SignOutController);
 iscApp.controller('TeamMembersController', TeamMembersController);
 iscApp.controller('TemperatureRangesController', TemperatureRangesController);
@@ -259,9 +271,24 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     templateUrl: 'views/password-reset.html',
     controller: 'PasswordResetController'
   })
+  //
+  // Section: /seating-charts
+  //
   .when('/seating-charts', {
     templateUrl: 'views/seating-charts/list.html',
-    controller: 'SeatingChartsController'
+    controller: 'SeatingCharts_ListController'
+  })
+  .when('/seating-charts/add', {
+    templateUrl: 'views/seating-charts/add.html',
+    controller: 'SeatingCharts_AddController'
+  })
+  .when('/seating-charts/:id/design', {
+    templateUrl: 'views/seating-charts/design.html',
+    controller: 'SeatingCharts_DesignController'
+  })
+  .when('/seating-charts/:id/edit', {
+    templateUrl: 'views/seating-charts/edit.html',
+    controller: 'SeatingCharts_EditController'
   })
   .when('/sign-out', {
     templateUrl: 'views/my-account/sign-out.html',
