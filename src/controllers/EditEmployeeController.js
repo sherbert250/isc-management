@@ -63,6 +63,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', 'Uplo
       });
   };
   $scope.submit = function() {
+    console.log($scope.employeeID);
     $http({
       method: 'POST',
       url: `${env.api.root}/Api/EditEmployee/`+$scope.employeeID,
@@ -94,13 +95,15 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', 'Uplo
             }
           })
           .then(response => {
-            $window.location.href = '/view-employees';
+            $window.history.back();
+            //$window.location.href = '/employee-detail'+$scope.employeeID;
           }, err => {
           });
         },err => {
         });
       } else {
-        $window.location.href = '/view-employees';
+        $window.history.back();
+        //$window.location.href = '/employee-detail'+$scope.employeeID;
       }
     },err => {
       //console.log(err);
