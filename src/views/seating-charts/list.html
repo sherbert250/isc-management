@@ -60,9 +60,17 @@
           </button>
         </td>
         <td class="action-header">
-          <button class="btn btn-primary btn-sm">
-            Run Seating Algorithm
-          </button>
+          <div ng-hide="isFetching == true">
+            <button class="btn btn-primary btn-sm" ng-click="populateChart(seatingChart.id)">
+              Populate Seating Chart
+            </button>
+          </div>
+          <div ng-show="isFetching == true">
+            <button class="btn btn-primary btn-sm">
+              <i class="fa fa-spinner fa-spin"></i>
+              Populating Seating Chart
+            </button>
+          </div>
         </td>
         <td class="action-header">
           <button class="btn btn-danger btn-sm" ng-click="openDelete(seatingChart.id)">

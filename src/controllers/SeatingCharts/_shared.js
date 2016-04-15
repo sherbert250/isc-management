@@ -3,7 +3,7 @@ import permissions from '../../settings/permissions';
 import primaryNavItems from '../../settings/primary_nav_items';
 import accountNavItems from '../../settings/account_nav_items';
 import showAccountInfo from '../../settings/account_info';
-import {createHeaders, _initScope} from '../_common';
+import {createHeaders, _initScope, log} from '../_common';
 import _ from 'lodash';
 
 //
@@ -99,6 +99,19 @@ export const createApi = ($http, apiRoot, token) => {
       );
     },
     //
+    // GET seating-chart/:id/populate
+    //
+    populateSeatingChart(id, callback) {
+      $http({
+        method: 'GET',
+        url: `${apiRoot}/Api/SeatingCharts/${id}/Populate`,
+        headers
+      }).then(
+        response => callback(null, response),
+        err => callback(err)
+      );
+    },
+    //
     // PUT seating-chart
     //
     updateSeatingChart(id, newSeatingChart, callback) {
@@ -174,6 +187,30 @@ export const initScope = ($scope, $http, $location, $window) => {
           seatingCharts: _.filter($scope.seatingCharts, seatingChart => {
             return seatingChart.id !== id;
           })
+        });
+      });
+    }
+  }
+  // add populate method
+  $scope.populateChart = function(id) {
+    if (confirm('Are you sure you want to populate this seating chart? Any previous results will be overriden.')) {
+      $scope.isFetching = true;
+      $scope.api.populateSeatingChart(id, function(err, response) {
+        $scope.isFetching = false;
+        if (err) {
+          log(err);
+          return $scope.message = {
+            text: 'Something went wrong, and we weren\'t able to populate the seating chart.',
+            type: 'danger'
+          };
+        }
+        // remove seating chart from view collection
+        //  and show success message
+        return _.assign($scope, {
+          message: {
+            text: `Seating chart #${id} was populated successfully.`,
+            type: 'success'
+          }
         });
       });
     }

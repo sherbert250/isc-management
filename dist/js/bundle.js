@@ -71400,6 +71400,21 @@ var createApi = exports.createApi = function createApi($http, apiRoot, token) {
     },
 
     //
+    // GET seating-chart/:id/populate
+    //
+    populateSeatingChart: function populateSeatingChart(id, callback) {
+      $http({
+        method: 'GET',
+        url: apiRoot + '/Api/SeatingCharts/' + id + '/Populate',
+        headers: headers
+      }).then(function (response) {
+        return callback(null, response);
+      }, function (err) {
+        return callback(err);
+      });
+    },
+
+    //
     // PUT seating-chart
     //
     updateSeatingChart: function updateSeatingChart(id, newSeatingChart, callback) {
@@ -71462,7 +71477,7 @@ var initScope = exports.initScope = function initScope($scope, $http, $location,
     if (confirm('Are you sure you want to delete this seating chart? This cannot be undone.')) {
       $scope.api.removeSeatingChart(id, function (err, response) {
         if (err) {
-          log(err);
+          (0, _common.log)(err);
           return $scope.message = {
             text: 'Something went wrong, and we weren\'t able to delete the seating chart.',
             type: 'danger'
@@ -71478,6 +71493,30 @@ var initScope = exports.initScope = function initScope($scope, $http, $location,
           seatingCharts: _lodash2.default.filter($scope.seatingCharts, function (seatingChart) {
             return seatingChart.id !== id;
           })
+        });
+      });
+    }
+  };
+  // add populate method
+  $scope.populateChart = function (id) {
+    if (confirm('Are you sure you want to populate this seating chart? Any previous results will be overriden.')) {
+      $scope.isFetching = true;
+      $scope.api.populateSeatingChart(id, function (err, response) {
+        $scope.isFetching = false;
+        if (err) {
+          (0, _common.log)(err);
+          return $scope.message = {
+            text: 'Something went wrong, and we weren\'t able to populate the seating chart.',
+            type: 'danger'
+          };
+        }
+        // remove seating chart from view collection
+        //  and show success message
+        return _lodash2.default.assign($scope, {
+          message: {
+            text: 'Seating chart #' + id + ' was populated successfully.',
+            type: 'success'
+          }
         });
       });
     }
