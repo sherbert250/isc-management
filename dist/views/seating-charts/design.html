@@ -1,11 +1,26 @@
+<style>
+.navbar {
+  z-index: 100;
+}
+.designer-container {
+  bottom: 0;
+  height: 100%;
+  padding-top: 62px; /* nav height: 62px */
+  position: fixed;
+  width: 100%;
+  z-index: 0;
+}
+.designer {
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+.design-left,
+.design-right {
+  position: absolute;
+}
+</style>
 
-<div class="container">
-  <!-- title section -->
-  <div class="utilitySection">
-    <h1 class="rounded-header">
-      Seating Charts - Design
-    </h1>
-    <hr />
-  </div>
-  <p>Design</p>
+<div class="designer-container">
+  <div class="designer" id="react-dom"></div>
 </div>

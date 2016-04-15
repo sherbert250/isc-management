@@ -3,6 +3,7 @@ import permissions from '../../settings/permissions';
 import primaryNavItems from '../../settings/primary_nav_items';
 import accountNavItems from '../../settings/account_nav_items';
 import showAccountInfo from '../../settings/account_info';
+import _ from 'lodash';
 
 //
 // Shared utilities for Seating Chart section
@@ -53,8 +54,8 @@ export const createApi = ($http, apiRoot, token) => {
         data: newSeatingChart,
         headers
       }).then(
-        response => {callback(null, response)},
-        err => {callback(err)}
+        response => callback(null, response),
+        err => callback(err)
       );
     },
     //
@@ -66,8 +67,8 @@ export const createApi = ($http, apiRoot, token) => {
         url: `${apiRoot}/Api/AllCompaniesForAllOffices`,
         headers
       }).then(
-        response => {callback(null, response)},
-        err => {callback(err)}
+        response => callback(null, response),
+        err => callback(err)
       );
     },
     //
@@ -79,8 +80,48 @@ export const createApi = ($http, apiRoot, token) => {
         url: `${apiRoot}/Api/SeatingCharts`,
         headers
       }).then(
-        response => {callback(null, response)},
-        err => {callback(err)}
+        response => callback(null, response),
+        err => callback(err)
+      );
+    },
+    //
+    // GET seating-chart
+    //
+    fetchSeatingChart(id, callback) {
+      $http({
+        method: 'GET',
+        url: `${apiRoot}/Api/SeatingCharts/${id}`,
+        headers
+      }).then(
+        response => callback(null, response),
+        err => callback(err)
+      );
+    },
+    //
+    // PUT seating-chart
+    //
+    updateSeatingChart(id, newSeatingChart, callback) {
+      $http({
+        method: 'PUT',
+        url: `${apiRoot}/Api/SeatingCharts/${id}`,
+        data: newSeatingChart,
+        headers
+      }).then(
+        response => callback(null, response),
+        err => callback(err)
+      );
+    },
+    //
+    // DELETE seating-charts/:id
+    //
+    removeSeatingChart(id, callback) {
+      $http({
+        method: 'DELETE',
+        url: `${apiRoot}/Api/SeatingCharts/${id}`,
+        headers
+      }).then(
+        response => callback(null, response),
+        err => callback(err)
       );
     }
   };
@@ -118,6 +159,54 @@ export const initScope = ($scope, $http, $location, $window) => {
   };
   // add api methods
   $scope.api = createApi($http, env.api.root, $window.sessionStorage.token);
+  // add delete method
+  $scope.openDelete = function(id) {
+    if (confirm('Are you sure you want to delete this seating chart? This cannot be undone.')) {
+      $scope.api.removeSeatingChart(id, function(err, response) {
+        if (err) {
+          log(err);
+          return $scope.message = {
+            text: 'Something went wrong, and we weren\'t able to delete the seating chart.',
+            type: 'danger'
+          };
+        }
+        // remove seating chart from view collection
+        //  and show success message
+        return _.assign($scope, {
+          message: {
+            text: `Seating chart #${id} was deleted successfully.`,
+            type: 'success'
+          },
+          seatingCharts: _.filter($scope.seatingCharts, seatingChart => {
+            return seatingChart.id !== id;
+          })
+        });
+      });
+    }
+  }
+  // add extra utility methods
+  $scope.addCssToHead = href => {
+    if (typeof href !== 'string' && href.length > 0) {
+      return href.forEach(singleHref => {
+        $scope.addCssToHead(singleHref);
+      });
+    }
+    const linkTag = document.createElement('link');
+    linkTag.rel = 'stylesheet';
+    linkTag.href = href;
+    document.getElementsByTagName('head')[0].appendChild(linkTag);
+  };
+  // add extra utility methods
+  $scope.addJsToHead = src => {
+    if (typeof src !== 'string' && src.length > 0) {
+      return src.forEach(singleSrc => {
+        $scope.addJsToHead(singleSrc);
+      });
+    }
+    const scriptTag = document.createElement('script');
+    scriptTag.src = src;
+    document.getElementsByTagName('head')[0].appendChild(scriptTag);
+  };
 };
 
 /**

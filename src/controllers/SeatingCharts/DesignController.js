@@ -1,40 +1,73 @@
 import env from '../../core/env';
 import _ from 'lodash';
-import {createApi, initScope, log} from './_shared';
+import {createApi, createMessage, initScope, log} from './_shared';
 
 //
-// Seating Charts (Design) Controller
+// Seating Charts (Add) Controller
 //
 // Display a list of created seating charts
 // Provide actions to create/modify charts
 //
 
-export default ['$scope', '$http', '$location', '$window', ($scope, $http, $location, $window) => {
+export default ['$scope', '$http', '$location', '$routeParams', '$window', ($scope, $http, $location, $routeParams, $window) => {
   // set up the $scope object with nav settings,
-  //  routes, and check permissions
+  //  routes, api endpoints, and check permissions
   initScope($scope, $http, $location, $window);
 
-  // set up the api endpoints object
-  const api = createApi($http, env.api.root, $window.sessionStorage.token);
+  // get the seating chart id from url params
+  const id = $routeParams.id;
 
-  // fetch offices and seating charts from the API
-  api.fetchOffices(function(err, response) {
+  // fetch the seating chart
+  $scope.api.fetchSeatingChart(id, function(err, response) {
     if (err) {
       return log(err);
     }
-    // add offices to scope
-    $scope.offices = response.data;
-    // now that we have offices, get seating charts
-    api.fetchSeatingCharts(function(err, response) {
-      if (err) {
-        return log(err);
+    // add seating charts to scope
+    const matchingRecords = response.data;
+    if (matchingRecords.length === 0) {
+      return $scope.goToList();
+    }
+    $scope.seatingChart = response.data[0];
+
+    //
+    // Now, load everything we need for React app
+    //
+
+    // add global data
+    $window.ISC = {
+      initialState: {
+        design: {
+          cols: $scope.seatingChart.cols,
+          name: $scope.seatingChart.name,
+          rows: $scope.seatingChart.rows,
+          spots: $scope.seatingChart.spots ? JSON.parse($scope.seatingChart.spots) : undefined
+        }
+      },
+      onDone() {
+        window.location.replace(window.location.origin + '/seating-charts');
+        // $window.history.back();
+      },
+      onSave(newDesign) {
+        console.log(newDesign);
+        newDesign.spots = JSON.stringify(newDesign.spots);
+        $scope.api.updateSeatingChart(id, newDesign, function(err, response) {
+          if (err) {
+            log(err);
+            return alert('Something went wrong while updating the seating chart.');
+          }
+          // restore default form data
+          alert('Seating chart data was saved.');
+        });
       }
-      // add seating charts to scope
-      $scope.seatingCharts = response.data.map(seatingChart => {
-        const office = _.find($scope.offices, {officeID: seatingChart.office_id});
-        seatingChart.officeName = _.get(office, 'officeName');
-        return seatingChart;
-      });
-    });
+    };
+
+    $scope.addCssToHead([
+      'https://fonts.googleapis.com/icon?family=Material+Icons',
+      'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css'
+    ]);
+    $scope.addJsToHead([
+      'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js',
+      '/js/designer.js'
+    ]);
   });
 }];

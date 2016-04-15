@@ -67738,6 +67738,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'U
     });
   };
   $scope.submit = function () {
+    console.log($scope.employeeID);
     $http({
       method: 'POST',
       url: _env2.default.api.root + '/Api/EditEmployee/' + $scope.employeeID,
@@ -67766,11 +67767,13 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'U
               'x-access-token': $window.sessionStorage.token
             }
           }).then(function (response) {
-            $window.location.href = '/view-employees';
+            $window.history.back();
+            //$window.location.href = '/employee-detail'+$scope.employeeID;
           }, function (err) {});
         }, function (err) {});
       } else {
-        $window.location.href = '/view-employees';
+        $window.history.back();
+        //$window.location.href = '/employee-detail'+$scope.employeeID;
       }
     }, function (err) {
       //console.log(err);
@@ -67929,7 +67932,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     return true;
   };
   $scope.temperatureRanges = [];
-  $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
+  $scope = _permissions2.default.userPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Edit Employee Preferences";
   $http({
     method: 'GET',
@@ -70436,39 +70439,66 @@ var _shared = require('./_shared');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Seating Charts (Design) Controller
+// Seating Charts (Add) Controller
 //
 // Display a list of created seating charts
 // Provide actions to create/modify charts
 //
 
-exports.default = ['$scope', '$http', '$location', '$window', function ($scope, $http, $location, $window) {
+exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', function ($scope, $http, $location, $routeParams, $window) {
   // set up the $scope object with nav settings,
-  //  routes, and check permissions
+  //  routes, api endpoints, and check permissions
   (0, _shared.initScope)($scope, $http, $location, $window);
 
-  // set up the api endpoints object
-  var api = (0, _shared.createApi)($http, _env2.default.api.root, $window.sessionStorage.token);
+  // get the seating chart id from url params
+  var id = $routeParams.id;
 
-  // fetch offices and seating charts from the API
-  api.fetchOffices(function (err, response) {
+  // fetch the seating chart
+  $scope.api.fetchSeatingChart(id, function (err, response) {
     if (err) {
       return (0, _shared.log)(err);
     }
-    // add offices to scope
-    $scope.offices = response.data;
-    // now that we have offices, get seating charts
-    api.fetchSeatingCharts(function (err, response) {
-      if (err) {
-        return (0, _shared.log)(err);
+    // add seating charts to scope
+    var matchingRecords = response.data;
+    if (matchingRecords.length === 0) {
+      return $scope.goToList();
+    }
+    $scope.seatingChart = response.data[0];
+
+    //
+    // Now, load everything we need for React app
+    //
+
+    // add global data
+    $window.ISC = {
+      initialState: {
+        design: {
+          cols: $scope.seatingChart.cols,
+          name: $scope.seatingChart.name,
+          rows: $scope.seatingChart.rows,
+          spots: $scope.seatingChart.spots ? JSON.parse($scope.seatingChart.spots) : undefined
+        }
+      },
+      onDone: function onDone() {
+        window.location.replace(window.location.origin + '/seating-charts');
+        // $window.history.back();
+      },
+      onSave: function onSave(newDesign) {
+        console.log(newDesign);
+        newDesign.spots = JSON.stringify(newDesign.spots);
+        $scope.api.updateSeatingChart(id, newDesign, function (err, response) {
+          if (err) {
+            (0, _shared.log)(err);
+            return alert('Something went wrong while updating the seating chart.');
+          }
+          // restore default form data
+          alert('Seating chart data was saved.');
+        });
       }
-      // add seating charts to scope
-      $scope.seatingCharts = response.data.map(function (seatingChart) {
-        var office = _lodash2.default.find($scope.offices, { officeID: seatingChart.office_id });
-        seatingChart.officeName = _lodash2.default.get(office, 'officeName');
-        return seatingChart;
-      });
-    });
+    };
+
+    $scope.addCssToHead(['https://fonts.googleapis.com/icon?family=Material+Icons', 'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css']);
+    $scope.addJsToHead(['https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js', '/js/designer.js']);
   });
 }];
 
@@ -70492,40 +70522,78 @@ var _shared = require('./_shared');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Seating Charts (Edit) Controller
+// Seating Charts (Add) Controller
 //
 // Display a list of created seating charts
 // Provide actions to create/modify charts
 //
 
-exports.default = ['$scope', '$http', '$location', '$window', function ($scope, $http, $location, $window) {
+exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', function ($scope, $http, $location, $routeParams, $window) {
   // set up the $scope object with nav settings,
-  //  routes, and check permissions
+  //  routes, api endpoints, and check permissions
   (0, _shared.initScope)($scope, $http, $location, $window);
 
-  // set up the api endpoints object
-  var api = (0, _shared.createApi)($http, _env2.default.api.root, $window.sessionStorage.token);
+  // get the seating chart id from url params
+  var id = $routeParams.id;
 
-  // fetch offices and seating charts from the API
-  api.fetchOffices(function (err, response) {
+  // fetch offices
+  $scope.api.fetchOffices(function (err, response) {
     if (err) {
       return (0, _shared.log)(err);
     }
     // add offices to scope
     $scope.offices = response.data;
-    // now that we have offices, get seating charts
-    api.fetchSeatingCharts(function (err, response) {
+    // next, fetch the seating chart
+    $scope.api.fetchSeatingChart(id, function (err, response) {
       if (err) {
         return (0, _shared.log)(err);
       }
       // add seating charts to scope
-      $scope.seatingCharts = response.data.map(function (seatingChart) {
-        var office = _lodash2.default.find($scope.offices, { officeID: seatingChart.office_id });
-        seatingChart.officeName = _lodash2.default.get(office, 'officeName');
-        return seatingChart;
-      });
+      var matchingRecords = response.data;
+      if (matchingRecords.length === 0) {
+        return $scope.goToList();
+      }
+      var seatingChart = response.data[0];
+      seatingChart.office_id = seatingChart.office_id.toString();
+      $scope.formData = seatingChart;
     });
   });
+
+  //
+  // Handle form submission
+  //
+  $scope.handleSubmit = function () {
+    var _$scope$formData = $scope.formData;
+    var name = _$scope$formData.name;
+    var office_id = _$scope$formData.office_id;
+    var rows = _$scope$formData.rows;
+    var cols = _$scope$formData.cols;
+    // perform validation
+
+    if (!name) {
+      return alert('Please enter a name for the design.');
+    }
+    if (!office_id) {
+      return alert('Please select an office for the design.');
+    }
+    if (!rows) {
+      return alert('Please specify the number of rows to use in the design (this can be changed later).');
+    }
+    if (!cols) {
+      return alert('Please specify the number of columns to use in the design (this can be changed later).');
+    }
+    // if all checks pass, create the seating chart and send the user to the design page
+    $scope.api.updateSeatingChart(id, $scope.formData, function (err, response) {
+      if (err) {
+        return (0, _shared.log)(err);
+      }
+      // restore default form data
+      $scope.message = {
+        text: 'Success! The seating chart was updated.',
+        type: 'success'
+      };
+    });
+  };
 }];
 
 },{"../../core/env":190,"./_shared":181,"lodash":112}],180:[function(require,module,exports){
@@ -70556,28 +70624,25 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$scope', '$http', '$location', '$window', function ($scope, $http, $location, $window) {
   // set up the $scope object with nav settings,
-  //  routes, and check permissions
+  //  routes, api endpoints, and check permissions
   (0, _shared.initScope)($scope, $http, $location, $window);
 
-  // set up the api endpoints object
-  var api = (0, _shared.createApi)($http, _env2.default.api.root, $window.sessionStorage.token);
-
   // fetch offices and seating charts from the API
-  api.fetchOffices(function (err, response) {
+  $scope.api.fetchOffices(function (err, response) {
     if (err) {
       return (0, _shared.log)(err);
     }
     // add offices to scope
     $scope.offices = response.data;
     // now that we have offices, get seating charts
-    api.fetchSeatingCharts(function (err, response) {
+    $scope.api.fetchSeatingCharts(function (err, response) {
       if (err) {
         return (0, _shared.log)(err);
       }
       // add seating charts to scope
       $scope.seatingCharts = response.data.map(function (seatingChart) {
         var office = _lodash2.default.find($scope.offices, { officeID: seatingChart.office_id });
-        seatingChart.officeName = _lodash2.default.get(office, 'officeName');
+        seatingChart.office_name = _lodash2.default.get(office, 'officeName');
         return seatingChart;
       });
     });
@@ -70612,6 +70677,10 @@ var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
 var _account_info = require('../../settings/account_info');
 
 var _account_info2 = _interopRequireDefault(_account_info);
+
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -70665,9 +70734,9 @@ var createApi = exports.createApi = function createApi($http, apiRoot, token) {
         data: newSeatingChart,
         headers: headers
       }).then(function (response) {
-        callback(null, response);
+        return callback(null, response);
       }, function (err) {
-        callback(err);
+        return callback(err);
       });
     },
 
@@ -70680,9 +70749,9 @@ var createApi = exports.createApi = function createApi($http, apiRoot, token) {
         url: apiRoot + '/Api/AllCompaniesForAllOffices',
         headers: headers
       }).then(function (response) {
-        callback(null, response);
+        return callback(null, response);
       }, function (err) {
-        callback(err);
+        return callback(err);
       });
     },
 
@@ -70695,9 +70764,55 @@ var createApi = exports.createApi = function createApi($http, apiRoot, token) {
         url: apiRoot + '/Api/SeatingCharts',
         headers: headers
       }).then(function (response) {
-        callback(null, response);
+        return callback(null, response);
       }, function (err) {
-        callback(err);
+        return callback(err);
+      });
+    },
+
+    //
+    // GET seating-chart
+    //
+    fetchSeatingChart: function fetchSeatingChart(id, callback) {
+      $http({
+        method: 'GET',
+        url: apiRoot + '/Api/SeatingCharts/' + id,
+        headers: headers
+      }).then(function (response) {
+        return callback(null, response);
+      }, function (err) {
+        return callback(err);
+      });
+    },
+
+    //
+    // PUT seating-chart
+    //
+    updateSeatingChart: function updateSeatingChart(id, newSeatingChart, callback) {
+      $http({
+        method: 'PUT',
+        url: apiRoot + '/Api/SeatingCharts/' + id,
+        data: newSeatingChart,
+        headers: headers
+      }).then(function (response) {
+        return callback(null, response);
+      }, function (err) {
+        return callback(err);
+      });
+    },
+
+    //
+    // DELETE seating-charts/:id
+    //
+    removeSeatingChart: function removeSeatingChart(id, callback) {
+      $http({
+        method: 'DELETE',
+        url: apiRoot + '/Api/SeatingCharts/' + id,
+        headers: headers
+      }).then(function (response) {
+        return callback(null, response);
+      }, function (err) {
+        return callback(err);
       });
     }
   };
@@ -70735,6 +70850,54 @@ var initScope = exports.initScope = function initScope($scope, $http, $location,
   };
   // add api methods
   $scope.api = createApi($http, _env2.default.api.root, $window.sessionStorage.token);
+  // add delete method
+  $scope.openDelete = function (id) {
+    if (confirm('Are you sure you want to delete this seating chart? This cannot be undone.')) {
+      $scope.api.removeSeatingChart(id, function (err, response) {
+        if (err) {
+          log(err);
+          return $scope.message = {
+            text: 'Something went wrong, and we weren\'t able to delete the seating chart.',
+            type: 'danger'
+          };
+        }
+        // remove seating chart from view collection
+        //  and show success message
+        return _lodash2.default.assign($scope, {
+          message: {
+            text: 'Seating chart #' + id + ' was deleted successfully.',
+            type: 'success'
+          },
+          seatingCharts: _lodash2.default.filter($scope.seatingCharts, function (seatingChart) {
+            return seatingChart.id !== id;
+          })
+        });
+      });
+    }
+  };
+  // add extra utility methods
+  $scope.addCssToHead = function (href) {
+    if (typeof href !== 'string' && href.length > 0) {
+      return href.forEach(function (singleHref) {
+        $scope.addCssToHead(singleHref);
+      });
+    }
+    var linkTag = document.createElement('link');
+    linkTag.rel = 'stylesheet';
+    linkTag.href = href;
+    document.getElementsByTagName('head')[0].appendChild(linkTag);
+  };
+  // add extra utility methods
+  $scope.addJsToHead = function (src) {
+    if (typeof src !== 'string' && src.length > 0) {
+      return src.forEach(function (singleSrc) {
+        $scope.addJsToHead(singleSrc);
+      });
+    }
+    var scriptTag = document.createElement('script');
+    scriptTag.src = src;
+    document.getElementsByTagName('head')[0].appendChild(scriptTag);
+  };
 };
 
 /**
@@ -70753,7 +70916,7 @@ var createMessage = exports.createMessage = function createMessage(message) {
   return '<div class="alert alert-' + type + '">' + message + '</div>';
 };
 
-},{"../../core/env":190,"../../settings/account_info":192,"../../settings/account_nav_items":193,"../../settings/permissions":194,"../../settings/primary_nav_items":195}],182:[function(require,module,exports){
+},{"../../core/env":190,"../../settings/account_info":192,"../../settings/account_nav_items":193,"../../settings/permissions":194,"../../settings/primary_nav_items":195,"lodash":112}],182:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
