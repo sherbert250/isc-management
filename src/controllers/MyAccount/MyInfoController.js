@@ -132,7 +132,7 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
           $scope.adminAccess = true;
           $scope.canReassign = true;
           for (var i in $scope.primaryNavItems) {
-            if ($scope.primaryNavItems[i].text == "Offices")
+            if ($scope.primaryNavItems[i].text == "Offices" || $scope.primaryNavItems[i].text == "Temperature Ranges")
             $scope.primaryNavItems[i].show = true;
           }
         } else if (permissionLevel === 'user') {

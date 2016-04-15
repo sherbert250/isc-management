@@ -77,7 +77,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
       }
     })
     .then(response => {
-      $window.location.href ='/team-members/' + employeeID;
+      $window.location.reload();
     }, err => {
     });
   };

@@ -15,6 +15,7 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   $scope.accountNavItems = accountNavItems;
   $scope.showAccountInfo = showAccountInfo;
   $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
+  $scope.canEditDelete = false;
   $scope.header = 'All Temperature Ranges';
   $scope.add = function () {
     $location.path('/add-temperature-range');
@@ -47,6 +48,23 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   $scope.edit = function(rangeID) {
     $location.path('/edit-temperature-range/' + rangeID);
   };
+  $http({
+    method: 'GET',
+    url: `${env.api.root}/Api/Verify`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(response => {
+    //console.log(response);
+    $scope.check = response.data[0];
+    if ($scope.check.permissionLevel == 'superadmin') {
+      $scope.canEditDelete = true;
+    } else {
+      $scope.canEditDelete = false;
+    }
+  }, err => {
+    //console.log(err);
+  });
   $http({
     method: 'GET',
     url: `${env.api.root}/Api/AllTempRanges`,

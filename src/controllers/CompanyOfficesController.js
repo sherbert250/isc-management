@@ -14,9 +14,10 @@ export default ['$http', '$scope', '$location','$routeParams', '$window', ($http
   $scope.primaryNavItems = primaryNavItems;
   $scope.accountNavItems = accountNavItems;
   $scope.showAccountInfo = showAccountInfo;
+  $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
   $scope.companyID = $routeParams.id;
   $scope.controlCompanies = false;
-  $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
+  $scope.canAddEditDelete = false;
   $scope.add = function() {
     $location.path('/add-office');
   };
@@ -51,6 +52,23 @@ export default ['$http', '$scope', '$location','$routeParams', '$window', ($http
   $scope.view = function(officeID) {
     $location.path('/office-detail/' + $scope.companyID + '/' + officeID);
   };
+  $http({
+    method: 'GET',
+    url: `${env.api.root}/Api/Verify`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(response => {
+    //console.log(response);
+    $scope.check = response.data[0];
+    if ($scope.check.permissionLevel == 'superadmin') {
+      $scope.canAddEditDelete = true;
+    } else {
+      $scope.canAddEditDelete = false;
+    }
+  }, err => {
+    //console.log(err);
+  });
   $http({
     method: 'GET',
     url: `${env.api.root}/Api/Company/` + $scope.companyID,
