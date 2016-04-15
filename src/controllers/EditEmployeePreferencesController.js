@@ -23,7 +23,7 @@ export default ['$http', '$scope', '$location','$routeParams', '$window', ($http
     return true;
   };
   $scope.temperatureRanges = [];
-  $scope = permissions.superadminPermissionCheck($http, $scope, $location, $window);
+  $scope = permissions.userPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Edit Employee Preferences";
   $http({
     method: 'GET',
