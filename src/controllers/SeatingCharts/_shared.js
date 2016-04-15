@@ -145,14 +145,11 @@ export const initScope = ($scope, $http, $location, $window) => {
   $scope.goToAdd = function() {
     $location.path('/seating-charts/add');
   };
-  $scope.goToDesign = function(id) {
-    $location.path(`/seating-charts/${id}/design`);
-  };
-  $scope.goToEdit = function(id) {
-    $location.path(`/seating-charts/${id}/edit`);
-  };
   $scope.goToList = function() {
     $location.path('/seating-charts');
+  };
+  $scope.goToView = function(id) {
+    $location.path(`/seating-charts/${id}/view`);
   };
   // add api methods
   $scope.api = createApi($http, env.api.root, $window.sessionStorage.token);

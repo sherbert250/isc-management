@@ -53,12 +53,12 @@
     <tbody ng-repeat="seatingChart in seatingCharts | filter: query">
       <tr>
         <td>{{seatingChart.base_floor_plan_name}}</td>
-        <td>{{seatingChart.name}}</td>
-        <!-- <td class="action-header">
-          <button class="btn btn-info btn-sm" ng-click="goToEdit(seatingChart.id)">
-            View Results
+        <td><a ng-click="goToView(seatingChart.id)">{{seatingChart.name}}</a></td>
+        <td class="action-header">
+          <button class="btn btn-info btn-sm" ng-click="goToView(seatingChart.id)">
+            View
           </button>
-        </td> -->
+        </td>
         <td class="action-header">
           <button class="btn btn-primary btn-sm">
             Run Seating Algorithm

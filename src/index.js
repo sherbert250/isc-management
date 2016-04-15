@@ -58,6 +58,7 @@ import PasswordResetTokenController from './controllers/PasswordResetTokenContro
 // Seating Charts
 import SeatingCharts_AddController from './controllers/SeatingCharts/AddController';
 import SeatingCharts_ListController from './controllers/SeatingCharts/ListController';
+import SeatingCharts_ViewController from './controllers/SeatingCharts/ViewController';
 
 import SignOutController from './controllers/MyAccount/SignOutController';
 import TeamMembersController from './controllers/TeamMembersController';
@@ -115,6 +116,7 @@ iscApp.controller('PasswordResetTokenController', PasswordResetTokenController);
 // Seating Charts
 iscApp.controller('SeatingCharts_AddController', SeatingCharts_AddController);
 iscApp.controller('SeatingCharts_ListController', SeatingCharts_ListController);
+iscApp.controller('SeatingCharts_ViewController', SeatingCharts_ViewController);
 
 iscApp.controller('SignOutController', SignOutController);
 iscApp.controller('TeamMembersController', TeamMembersController);
@@ -310,6 +312,10 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   .when('/seating-charts/add', {
     templateUrl: 'views/seating-charts/add.html',
     controller: 'SeatingCharts_AddController'
+  })
+  .when('/seating-charts/:id/view', {
+    templateUrl: 'views/seating-charts/view.html',
+    controller: 'SeatingCharts_ViewController'
   })
   .when('/sign-out', {
     templateUrl: 'views/my-account/sign-out.html',
