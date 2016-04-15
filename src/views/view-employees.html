@@ -39,14 +39,14 @@
   <h3 style="text-align: center">{{errorMessage}}</h3>
   <table class="table table-striped view-items-table">
     <thead>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Job Title</th>
-      <th>Email</th>
-      <th>Department</th>
+      <th ng-click="setOrderProperty('firstName')">First Name</th>
+      <th ng-click="setOrderProperty('lastName')">Last Name</th>
+      <th ng-click="setOrderProperty('title')">Job Title</th>
+      <th ng-click="setOrderProperty('email')">Email</th>
+      <th ng-click="setOrderProperty('department')">Department</th>
       <th colspan="3" class="action-header">Action</th>
     </thead>
-    <tbody ng-repeat="model in emps | filter: query">
+    <tbody ng-repeat="model in emps | filter: query | orderBy:orderProperty">
       <tr>
         <td>{{model.firstName}}</td>
         <td>{{model.lastName}}</td>

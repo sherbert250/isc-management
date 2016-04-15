@@ -175,4 +175,16 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   $scope.view = function(employeeID) {
     $location.path('/employee-detail/' + employeeID);
   };
+
+  $scope.orderProperty='firstName';
+  $scope.setOrderProperty = function(propertyName) {
+    if ($scope.orderProperty === propertyName) {
+      $scope.orderProperty = '-' + propertyName;
+    } else if ($scope.orderProperty === '-' + propertyName) {
+      $scope.orderProperty = propertyName;
+    } else {
+      $scope.orderProperty = propertyName;
+    }
+    return $scope.orderProperty;
+  };
 }];
