@@ -66773,7 +66773,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.accountNavItems = _account_nav_items2.default;
   $scope.showAccountInfo = _account_info2.default;
   $scope.states = _states2.default;
-  $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
+  $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Add an Office";
   $scope.office = {
     officeName: "",
@@ -67268,6 +67268,18 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   }, function (err) {
     //console.log(err);
   });
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/Verify',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(function (response) {
+    //console.log(response);
+    $scope.masterEmployee = response.data[0];
+  }, function (err) {
+    //console.log(err);
+  });
 }];
 
 },{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],153:[function(require,module,exports){
@@ -67508,9 +67520,10 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.primaryNavItems = _primary_nav_items2.default;
   $scope.accountNavItems = _account_nav_items2.default;
   $scope.showAccountInfo = _account_info2.default;
+  $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.companyID = $routeParams.id;
   $scope.controlCompanies = false;
-  $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
+  $scope.canAddEditDelete = false;
   $scope.add = function () {
     $location.path('/add-office');
   };
@@ -67545,6 +67558,23 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.view = function (officeID) {
     $location.path('/office-detail/' + $scope.companyID + '/' + officeID);
   };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/Verify',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(function (response) {
+    //console.log(response);
+    $scope.check = response.data[0];
+    if ($scope.check.permissionLevel == 'superadmin') {
+      $scope.canAddEditDelete = true;
+    } else {
+      $scope.canAddEditDelete = false;
+    }
+  }, function (err) {
+    //console.log(err);
+  });
   $http({
     method: 'GET',
     url: _env2.default.api.root + '/Api/Company/' + $scope.companyID,
@@ -67693,30 +67723,6 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'U
   $scope.header = "Edit an Employee";
   $scope.office = {};
   $scope.employeeID = $routeParams.id;
-  $http({
-    method: 'GET',
-    url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID,
-    headers: {
-      'x-access-token': $window.sessionStorage.token
-    }
-  }).then(function (response) {
-    //console.log(response);
-    $scope.employee = response.data[0];
-    $http({
-      method: 'GET',
-      url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(function (response) {
-      //console.log(response);
-      $scope.office = response.data[0];
-    }, function (err) {
-      //console.log(err);
-    });
-  }, function (err) {
-    //console.log(err);
-  });
   $scope.isInt = function (value) {
     return !isNaN(value) && parseInt(Number(value)) == value && !isNaN(parseInt(value, 10));
   };
@@ -67779,6 +67785,50 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'U
       //console.log(err);
     });
   };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/Verify',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(function (response) {
+    $scope.check = response.data[0];
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log(response);
+      $scope.employee = response.data[0];
+      if ($scope.check.permissionLevel == 'user' && $scope.employee.permissionLevel == 'user' && $scope.check.employeeID != $scope.employee.employeeID) {
+        $window.history.back();
+      } else if ($scope.check.permissionLevel == 'user' && ($scope.employee.permissionLevel == 'admin' || $scope.employee.permissionLevel == 'superadmin')) {
+        $window.history.back();
+      } else if ($scope.check.permissionLevel == 'admin' && $scope.employee.permissionLevel == 'admin' && $scope.check.employeeID != $scope.employee.employeeID) {
+        $window.history.back();
+      } else if ($scope.check.permissionLevel == 'admin' && $scope.employee.permissionLevel == 'superadmin') {
+        $window.history.back();
+      } else if ($scope.check.permissionLevel == 'superadmin' && $scope.employee.permissionLevel == 'superadmin' && $scope.check.employeeID != $scope.employee.employeeID) {
+        $window.history.back();
+      }
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(function (response) {
+        //console.log(response);
+        $scope.office = response.data[0];
+      }, function (err) {
+        //console.log(err);
+      });
+    }, function (err) {
+      //console.log(err);
+    });
+  }, function (err) {});
 }];
 
 },{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],158:[function(require,module,exports){
@@ -67948,13 +67998,36 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/Employee/' + $scope.employeeID,
+    url: _env2.default.api.root + '/Api/Verify',
     headers: {
       'x-access-token': $window.sessionStorage.token
     }
   }).then(function (response) {
     //console.log('Response: ', response.data[0]);
-    $scope.employee = response.data[0];
+    $scope.check = response.data[0];
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/EmployeeConfidential/' + $scope.employeeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log('Response: ', response.data[0]);
+      $scope.employee = response.data[0];
+      if ($scope.check.permissionLevel == 'user' && $scope.employee.permissionLevel == 'user' && $scope.check.employeeID != $scope.employee.employeeID) {
+        $window.history.back();
+      } else if ($scope.check.permissionLevel == 'user' && ($scope.employee.permissionLevel == 'admin' || $scope.employee.permissionLevel == 'superadmin')) {
+        $window.history.back();
+      } else if ($scope.check.permissionLevel == 'admin' && $scope.employee.permissionLevel == 'admin' && $scope.check.employeeID != $scope.employee.employeeID) {
+        $window.history.back();
+      } else if ($scope.check.permissionLevel == 'admin' && $scope.employee.permissionLevel == 'superadmin') {
+        $window.history.back();
+      } else if ($scope.check.permissionLevel == 'superadmin' && $scope.employee.permissionLevel == 'superadmin' && $scope.check.employeeID != $scope.employee.employeeID) {
+        $window.history.back();
+      }
+    }).then(function (err) {
+      //console.log('Error: ', err);
+    });
   }).then(function (err) {
     //console.log('Error: ', err);
   });
@@ -68235,7 +68308,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         'x-access-token': $window.sessionStorage.token
       }
     }).then(function (response) {
-      $location.path('/employee-coworkers/' + employeeID + '/' + officeID);
+      $window.location.reload();
     }, function (err) {});
   };
   $scope.reassignEmployee = function (employeeID) {
@@ -69491,7 +69564,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
           $scope.adminAccess = true;
           $scope.canReassign = true;
           for (var i in $scope.primaryNavItems) {
-            if ($scope.primaryNavItems[i].text == "Offices") $scope.primaryNavItems[i].show = true;
+            if ($scope.primaryNavItems[i].text == "Offices" || $scope.primaryNavItems[i].text == "Temperature Ranges") $scope.primaryNavItems[i].show = true;
           }
         } else if (permissionLevel === 'user') {
           // Redirect them to their info page
@@ -69653,6 +69726,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.accountNavItems = _account_nav_items2.default;
   $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
+  $scope.canAddEditDelete = false;
   $scope.edit = function (officeID) {
     $location.path('/edit-office/' + officeID);
   };
@@ -69664,6 +69738,39 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   if ($scope.officeID == 0) {
     $location.path('/company-offices/' + $scope.companyID);
   } else {
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log(response);
+      $scope.check = response.data[0];
+      if ($scope.check.permissionLevel == 'superadmin') {
+        $scope.canAddEditDelete = true;
+      } else {
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.check.employeeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(function (response) {
+          //console.log(response);
+          $scope.checkOffice = response.data[0];
+          if ($scope.check.permissionLevel == 'admin' && $scope.officeID != $scope.checkOffice.officeID) {
+            $scope.canAddEditDelete = false;
+          } else if ($scope.check.permissionLevel == 'admin' && $scope.officeID == $scope.checkOffice.officeID) {
+            $scope.canAddEditDelete = true;
+          }
+        }, function (err) {
+          //console.log(err);
+        });
+      }
+    }, function (err) {
+      //console.log(err);
+    });
     $http({
       method: 'GET',
       url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID,
@@ -69735,6 +69842,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.emps = [];
+  $scope.canAddEditDelete = false;
   $scope.officeID = $routeParams.id;
   $scope.errorMessage = "";
   $scope.add = function () {
@@ -69775,7 +69883,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
               if ($scope.isDeleterSuperAdmin.result === 1) {
                 $http({
                   method: 'GET',
-                  url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID,
+                  url: _env2.default.api.root + '/Api/DeleteOfficeEmployee/' + employeeID,
                   headers: {
                     'x-access-token': $window.sessionStorage.token
                   }
@@ -69805,7 +69913,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
           } else {
               $http({
                 method: 'GET',
-                url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID,
+                url: _env2.default.api.root + '/Api/DeleteOfficeEmployee/' + employeeID,
                 headers: {
                   'x-access-token': $window.sessionStorage.token
                 }
@@ -69848,6 +69956,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
   $scope.upload = function () {
     try {
+      var repeatEmail = false;
       var f = document.getElementById('csv-upload').files[0],
           r = new FileReader();
       r.onloadend = function (e) {
@@ -69859,7 +69968,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         var i = 0;
         var max = 0;
 
-        if (splitted.length % 3 == 0) {
+        if (splitted.length % 5 == 0) {
           max = splitted.length;
           while (i < max) {
             var employee = {};
@@ -69867,8 +69976,8 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
             employee.lastName = splitted[i++];
             employee.email = splitted[i++];
             employee.password = Math.round(Math.pow(36, 8) - Math.random() * Math.pow(36, 7)).toString(36).slice(1);
-            employee.department = "no department";
-            employee.title = "no title";
+            employee.department = splitted[i++];
+            employee.title = splitted[i++];
             employee.restroomUsage = 1;
             employee.noisePreference = 1;
             employee.outOfDesk = 1;
@@ -69893,31 +70002,44 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
               employee.permissionLevel = splitted[i++];
               employees.push(employee);
             }*/
-          $http({
-            method: 'POST',
-            url: _env2.default.api.root + '/Api/AddEmployees',
-            data: { employees: employees, officeID: $scope.officeID },
-            headers: {
-              'x-access-token': $window.sessionStorage.token
+          for (var i in employees) {
+            for (var j in $scope.checkEmployees) {
+              if (employees[i].email == $scope.checkEmployees[j].email) {
+                repeatEmail = true;
+              }
             }
-          }).then(function (response) {
-            alert("CSV successfully uploaded.");
+          }
+          if (repeatEmail == true) {
+            alert("Error: CSV contains an email already in database!");
+            $window.location.reload();
+          } else {
             $http({
-              method: 'GET',
-              url: _env2.default.api.root + '/Api/AllEmployees',
+              method: 'POST',
+              url: _env2.default.api.root + '/Api/AddEmployees',
+              data: { employees: employees, officeID: $scope.officeID },
               headers: {
                 'x-access-token': $window.sessionStorage.token
               }
             }).then(function (response) {
-              $scope.emps = response.data;
+              alert("CSV successfully uploaded.");
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/AllEmployees',
+                headers: {
+                  'x-access-token': $window.sessionStorage.token
+                }
+              }).then(function (response) {
+                $scope.emps = response.data;
+                $window.location.reload();
+              }, function (err) {
+                //console.log(err);
+              });
             }, function (err) {
               //console.log(err);
             });
-          }, function (err) {
-            //console.log(err);
-          });
+          }
         } else {
-            alert("Incorrect csv format.\nThe correct format is firstName,lastName,email");
+            alert("Incorrect csv format.\nThe correct format is firstName,lastName,email,department,email");
           }
       };
       r.readAsText(f);
@@ -69928,12 +70050,56 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.edit = function (employeeID) {
     $location.path('/edit-employee/' + employeeID);
   };
+  $scope.orderProperty = 'firstName';
+  $scope.setOrderProperty = function (propertyName) {
+    if ($scope.orderProperty === propertyName) {
+      $scope.orderProperty = '-' + propertyName;
+    } else if ($scope.orderProperty === '-' + propertyName) {
+      $scope.orderProperty = propertyName;
+    } else {
+      $scope.orderProperty = propertyName;
+    }
+    return $scope.orderProperty;
+  };
   $scope.view = function (employeeID) {
     $location.path('/employee-detail/' + employeeID);
   };
   if ($scope.officeID == 0) {
     $location.path('/offices');
   } else {
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log(response);
+      $scope.check = response.data[0];
+      if ($scope.check.permissionLevel == 'superadmin') {
+        $scope.canAddEditDelete = true;
+      } else {
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + $scope.check.employeeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(function (response) {
+          //console.log(response);
+          $scope.checkOffice = response.data[0];
+          if ($scope.check.permissionLevel == 'admin' && $scope.officeID != $scope.checkOffice.officeID) {
+            $scope.canAddEditDelete = false;
+          } else if ($scope.check.permissionLevel == 'admin' && $scope.officeID == $scope.checkOffice.officeID) {
+            $scope.canAddEditDelete = true;
+          }
+        }, function (err) {
+          //console.log(err);
+        });
+      }
+    }, function (err) {
+      //console.log(err);
+    });
     $http({
       method: 'GET',
       url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.officeID,
@@ -69956,6 +70122,18 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
       //console.log(response);
       $scope.header = response.data[0].companyName;
       $scope.companyID = response.data[0].companyID;
+    }, function (err) {
+      //console.log(err);
+    });
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/AllEmployees',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      //console.log(response);
+      $scope.checkEmployees = response.data;
     }, function (err) {
       //console.log(err);
     });
@@ -71621,7 +71799,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         'x-access-token': $window.sessionStorage.token
       }
     }).then(function (response) {
-      $window.location.href = '/team-members/' + employeeID;
+      $window.location.reload();
     }, function (err) {});
   };
   $scope.reassignEmployee = function (employeeID) {
@@ -71786,6 +71964,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.accountNavItems = _account_nav_items2.default;
   $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
+  $scope.canEditDelete = false;
   $scope.header = 'All Temperature Ranges';
   $scope.add = function () {
     $location.path('/add-temperature-range');
@@ -71818,6 +71997,23 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.edit = function (rangeID) {
     $location.path('/edit-temperature-range/' + rangeID);
   };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/Verify',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(function (response) {
+    //console.log(response);
+    $scope.check = response.data[0];
+    if ($scope.check.permissionLevel == 'superadmin') {
+      $scope.canEditDelete = true;
+    } else {
+      $scope.canEditDelete = false;
+    }
+  }, function (err) {
+    //console.log(err);
+  });
   $http({
     method: 'GET',
     url: _env2.default.api.root + '/Api/AllTempRanges',
@@ -71984,36 +72180,13 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.officeID;
   $scope.errorMessage = "";
   $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
-  $http({
-    method: 'GET',
-    url: _env2.default.api.root + '/Api/AllEmployees',
-    headers: {
-      'x-access-token': $window.sessionStorage.token
-    }
-  }).then(function (response) {
-    //console.log(response);
-    $scope.emps = response.data;
-  }, function (err) {
-    //console.log(err);
-  });
-  $http({
-    method: 'GET',
-    url: _env2.default.api.root + '/Api/AllOffices',
-    headers: {
-      'x-access-token': $window.sessionStorage.token
-    }
-  }).then(function (response) {
-    //console.log(response);
-    $scope.offices = response.data;
-  }, function (err) {
-    //console.log(err);
-  });
   $scope.header = "All Employees";
   $scope.add = function () {
     $location.path('/add-employee');
   };
   $scope.upload = function () {
     try {
+      var repeatEmail = false;
       var f = document.getElementById('csv-upload').files[0],
           r = new FileReader();
       r.onloadend = function (e) {
@@ -72025,7 +72198,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
         var i = 0;
         var max = 0;
 
-        if (splitted.length % 3 == 0) {
+        if (splitted.length % 5 == 0) {
           max = splitted.length;
           while (i < max) {
             var employee = {};
@@ -72033,8 +72206,8 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
             employee.lastName = splitted[i++];
             employee.email = splitted[i++];
             employee.password = Math.round(Math.pow(36, 8) - Math.random() * Math.pow(36, 7)).toString(36).slice(1);
-            employee.department = "no department";
-            employee.title = "no title";
+            employee.department = splitted[i++];
+            employee.title = splitted[i++];
             employee.restroomUsage = 1;
             employee.noisePreference = 1;
             employee.outOfDesk = 1;
@@ -72060,31 +72233,44 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
               employees.push(employee);
             }*/
           $scope.officeID = parseInt($scope.officeID);
-          $http({
-            method: 'POST',
-            url: _env2.default.api.root + '/Api/AddEmployees',
-            data: { employees: employees, officeID: $scope.officeID },
-            headers: {
-              'x-access-token': $window.sessionStorage.token
+          for (var i in employees) {
+            for (var j in $scope.checkEmployees) {
+              if (employees[i].email == $scope.checkEmployees[j].email) {
+                repeatEmail = true;
+              }
             }
-          }).then(function (response) {
-            alert("CSV successfully uploaded.");
+          }
+          if (repeatEmail == true) {
+            alert("Error: CSV contains an email already in database!");
+            $window.location.reload();
+          } else {
             $http({
-              method: 'GET',
-              url: _env2.default.api.root + '/Api/AllEmployees',
+              method: 'POST',
+              url: _env2.default.api.root + '/Api/AddEmployees',
+              data: { employees: employees, officeID: $scope.officeID },
               headers: {
                 'x-access-token': $window.sessionStorage.token
               }
             }).then(function (response) {
-              $scope.emps = response.data;
+              alert("CSV successfully uploaded.");
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/AllEmployeesNotSuperadmin',
+                headers: {
+                  'x-access-token': $window.sessionStorage.token
+                }
+              }).then(function (response) {
+                $scope.emps = response.data;
+                $window.location.reload();
+              }, function (err) {
+                //console.log(err);
+              });
             }, function (err) {
               //console.log(err);
             });
-          }, function (err) {
-            //console.log(err);
-          });
+          }
         } else {
-            alert("Incorrect csv format.\nThe correct format is firstName,lastName,email");
+            alert("Incorrect csv format.\nThe correct format is firstName,lastName,email,department,email");
           }
       };
       r.readAsText(f);
@@ -72115,7 +72301,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
           //console.log(response);
           $http({
             method: 'GET',
-            url: _env2.default.api.root + '/Api/AllEmployees',
+            url: _env2.default.api.root + '/Api/AllEmployeesNotSuperadmin',
             headers: {
               'x-access-token': $window.sessionStorage.token
             }
@@ -72139,7 +72325,6 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $scope.view = function (employeeID) {
     $location.path('/employee-detail/' + employeeID);
   };
-
   $scope.orderProperty = 'firstName';
   $scope.setOrderProperty = function (propertyName) {
     if ($scope.orderProperty === propertyName) {
@@ -72151,6 +72336,42 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     }
     return $scope.orderProperty;
   };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllEmployeesNotSuperadmin',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(function (response) {
+    //console.log(response);
+    $scope.emps = response.data;
+  }, function (err) {
+    //console.log(err);
+  });
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllEmployees',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(function (response) {
+    //console.log(response);
+    $scope.checkEmployees = response.data;
+  }, function (err) {
+    //console.log(err);
+  });
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/AllOffices',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(function (response) {
+    //console.log(response);
+    $scope.offices = response.data;
+  }, function (err) {
+    //console.log(err);
+  });
 }];
 
 },{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],190:[function(require,module,exports){
@@ -72960,7 +73181,9 @@ exports.userPermissionCheck = function ($http, $scope, $location, $window) {
           $scope.adminAccess = true;
           $scope.canReassign = false;
           for (var i in $scope.primaryNavItems) {
-            if ($scope.primaryNavItems[i].text == "Offices") $scope.primaryNavItems[i].show = true;
+            if ($scope.primaryNavItems[i].text == "Offices" || $scope.primaryNavItems[i].text == "Temperature Ranges") {
+              $scope.primaryNavItems[i].show = true;
+            }
           }
         } else if (permissionLevel === 'user') {
           // Redirect them to their info page

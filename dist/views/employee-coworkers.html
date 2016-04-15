@@ -37,7 +37,7 @@
           <button class="btn btn-success btn-md" ng-show="canEdit" ng-click="editEmployee(employeeID)">Edit Employee</button>
         </div>
       </div>
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-md-3">
           <form class="form-inline">
           <input ng-model="query1" type="text" class="form-control" placeholder="Search for" autofocus>
@@ -58,7 +58,7 @@
           <input ng-model="query4" type="text" class="form-control" placeholder="Search for" autofocus>
           </form>
         </div>
-      </div>
+      </div> -->
       <div class="row">
         <div class="col-md-3">
           <h4 class="coworker-header">Available Employees</h4>
@@ -73,7 +73,7 @@
           <h4 class="coworker-header">Whitelist</h4>
         </div>
       </div>
-      <div class="row" ng-show="hasEmployees">
+      <div class="row" ng-show="hasEmployees && canEdit">
         <div class='parent1'>
           <div class="col-md-6">
             <div class='wrapper1'>
@@ -105,6 +105,7 @@
           </div>
         </div>
       </div>
+      <h3 ng-if="!canEdit">No authorization to view</h3>
     </div>
   </div>
 </div>

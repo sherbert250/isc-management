@@ -1,4 +1,3 @@
-
 <div class="container">
   <div class="row">
     <div class="col-md-12">
@@ -19,36 +18,36 @@
        <input ng-model="query" type="text" class="form-control" placeholder="Search for" autofocus>
      </form>
    </div>
-   <div class="add-employee-options add-employee-options-right">
+   <div class="add-employee-options add-employee-options-right" ng-show="canAddEditDelete">
      <button class="btn btn-success btn-md" ng-click="upload()">Upload CSV</button>
    </div>
-   <div class="add-employee-options add-employee-options-right">
+   <div class="add-employee-options add-employee-options-right" ng-show="canAddEditDelete">
      <input id="csv-upload" type="file" class="file form-control">
    </div>
-   <div class="add-employee-options add-employee-options-right add-employee-options-button">
+   <div class="add-employee-options add-employee-options-right add-employee-options-button" ng-show="canAddEditDelete">
      <button class="btn btn-success btn-md" ng-click="add()">+Add Employee</button>
    </div>
  </div>
  <h3 style="text-align: center;">{{errorMessage}}</h3>
   <table class="table table-striped view-items-table">
     <thead>
-      <th>First name</th>
-      <th>Last name</th>
-      <th>Job Title</th>
-      <th>Email</th>
-      <th>Department</th>
-      <th colspan="3" class="action-header">Action</th>
+      <th ng-click="setOrderProperty('firstName')">First Name</th>
+      <th ng-click="setOrderProperty('lastName')">Last Name</th>
+      <th ng-click="setOrderProperty('title')">Job Title</th>
+      <th ng-click="setOrderProperty('email')">Email</th>
+      <th ng-click="setOrderProperty('department')">Department</th>
+      <th colspan="3" class="action-header" ng-show="canAddEditDelete">Action</th>
     </thead>
-    <tbody ng-repeat="model in emps | filter: query">
+    <tbody ng-repeat="model in emps | filter: query | orderBy:orderProperty">
       <tr>
         <td>{{model.firstName}}</td>
         <td>{{model.lastName}}</td>
         <td>{{model.title}}</td>
         <td>{{model.email}}</td>
         <td>{{model.department}}</td>
-        <td class="action-header"><button class="btn btn-info btn-sm" ng-click="view(model.employeeID)">View</button></td>
-        <td class="action-header"><button class="btn btn-primary btn-sm" ng-click="edit(model.employeeID)">Edit</button></td>
-        <td class="action-header"><button class="btn btn-danger btn-sm" ng-click="delete(model.employeeID)">Delete</button></td>
+        <td class="action-header" ng-show="canAddEditDelete"><button class="btn btn-info btn-sm" ng-click="view(model.employeeID)">View</button></td>
+        <td class="action-header" ng-show="canAddEditDelete"><button class="btn btn-primary btn-sm" ng-click="edit(model.employeeID)">Edit</button></td>
+        <td class="action-header" ng-show="canAddEditDelete"><button class="btn btn-danger btn-sm" ng-click="delete(model.employeeID)">Delete</button></td>
       </tr>
     </tbody>
   </table>

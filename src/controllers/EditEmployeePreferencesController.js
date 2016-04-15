@@ -39,13 +39,36 @@ export default ['$http', '$scope', '$location','$routeParams', '$window', ($http
   });
   $http({
     method: 'GET',
-    url : `${env.api.root}/Api/Employee/` + $scope.employeeID,
+    url : `${env.api.root}/Api/Verify`,
     headers: {
       'x-access-token': $window.sessionStorage.token
     }
   }).then(response => {
     //console.log('Response: ', response.data[0]);
-    $scope.employee = response.data[0];
+    $scope.check = response.data[0];
+    $http({
+      method: 'GET',
+      url : `${env.api.root}/Api/EmployeeConfidential/` + $scope.employeeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(response => {
+      //console.log('Response: ', response.data[0]);
+      $scope.employee = response.data[0];
+      if ($scope.check.permissionLevel == 'user' && $scope.employee.permissionLevel == 'user' && $scope.check.employeeID != $scope.employee.employeeID) {
+        $window.history.back();
+      } else if ($scope.check.permissionLevel == 'user' && ($scope.employee.permissionLevel == 'admin' || $scope.employee.permissionLevel == 'superadmin')) {
+        $window.history.back();
+      } else if ($scope.check.permissionLevel == 'admin' && $scope.employee.permissionLevel == 'admin' && $scope.check.employeeID != $scope.employee.employeeID) {
+        $window.history.back();
+      } else if ($scope.check.permissionLevel == 'admin' && $scope.employee.permissionLevel == 'superadmin') {
+        $window.history.back();
+      } else if ($scope.check.permissionLevel == 'superadmin' && $scope.employee.permissionLevel == 'superadmin' && $scope.check.employeeID != $scope.employee.employeeID) {
+        $window.history.back();
+      }
+    }).then(err => {
+      //console.log('Error: ', err);
+    });
   }).then(err => {
     //console.log('Error: ', err);
   });

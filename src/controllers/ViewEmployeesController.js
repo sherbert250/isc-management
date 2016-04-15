@@ -17,36 +17,13 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   $scope.officeID;
   $scope.errorMessage = "";
   $scope = permissions.superadminPermissionCheck($http, $scope, $location, $window);
-  $http({
-    method: 'GET',
-    url: `${env.api.root}/Api/AllEmployees`,
-    headers: {
-      'x-access-token': $window.sessionStorage.token
-    }
-  }).then(response => {
-    //console.log(response);
-    $scope.emps = response.data;
-  }, err => {
-    //console.log(err);
-  });
-  $http({
-    method: 'GET',
-    url: `${env.api.root}/Api/AllOffices`,
-    headers: {
-      'x-access-token': $window.sessionStorage.token
-    }
-  }).then(response => {
-    //console.log(response);
-    $scope.offices = response.data;
-  }, err => {
-    //console.log(err);
-  });
   $scope.header = "All Employees";
   $scope.add = function() {
     $location.path('/add-employee');
   };
   $scope.upload = function() {
     try {
+      var repeatEmail = false;
       var f = document.getElementById('csv-upload').files[0],
       r = new FileReader();
       r.onloadend = function(e){
@@ -58,7 +35,7 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
         var i = 0;
         var max = 0;
 
-        if (splitted.length % 3 == 0) {
+        if (splitted.length % 5 == 0) {
           max = splitted.length;
           while (i < max) {
             var employee = {};
@@ -66,8 +43,8 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
             employee.lastName = splitted[i++];
             employee.email = splitted[i++];
             employee.password = Math.round((Math.pow(36, 8) - Math.random() * Math.pow(36, 7))).toString(36).slice(1);
-            employee.department = "no department";
-            employee.title = "no title";
+            employee.department = splitted[i++];
+            employee.title = splitted[i++];
             employee.restroomUsage = 1;
             employee.noisePreference = 1;
             employee.outOfDesk = 1;
@@ -93,34 +70,46 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
             employees.push(employee);
           }*/
           $scope.officeID = parseInt($scope.officeID);
-          $http({
-            method: 'POST',
-            url: `${env.api.root}/Api/AddEmployees`,
-            data: {employees: employees, officeID: $scope.officeID },
-            headers: {
-              'x-access-token': $window.sessionStorage.token
+          for (var i in employees) {
+            for (var j in $scope.checkEmployees) {
+              if (employees[i].email == $scope.checkEmployees[j].email) {
+                repeatEmail = true;
+              }
             }
-          })
-          .then(response => {
-            alert("CSV successfully uploaded.");
+          }
+          if (repeatEmail == true) {
+            alert("Error: CSV contains an email already in database!");
+            $window.location.reload();
+          } else {
             $http({
-              method: 'GET',
-              url: `${env.api.root}/Api/AllEmployees`,
+              method: 'POST',
+              url: `${env.api.root}/Api/AddEmployees`,
+              data: {employees: employees, officeID: $scope.officeID },
               headers: {
                 'x-access-token': $window.sessionStorage.token
               }
             })
             .then(response => {
-              $scope.emps = response.data;
+              alert("CSV successfully uploaded.");
+              $http({
+                method: 'GET',
+                url: `${env.api.root}/Api/AllEmployeesNotSuperadmin`,
+                headers: {
+                  'x-access-token': $window.sessionStorage.token
+                }
+              })
+              .then(response => {
+                $scope.emps = response.data;
+                $window.location.reload();
+              }, err => {
+                //console.log(err);
+              });
             }, err => {
               //console.log(err);
             });
-          }, err => {
-            //console.log(err);
-          });
-
+          }
         } else {
-          alert("Incorrect csv format.\nThe correct format is firstName,lastName,email");
+          alert("Incorrect csv format.\nThe correct format is firstName,lastName,email,department,email");
         }
       }
       r.readAsText(f);
@@ -151,7 +140,7 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
           //console.log(response);
           $http({
             method: 'GET',
-            url: `${env.api.root}/Api/AllEmployees`,
+            url: `${env.api.root}/Api/AllEmployeesNotSuperadmin`,
             headers: {
               'x-access-token': $window.sessionStorage.token
             }
@@ -175,7 +164,6 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   $scope.view = function(employeeID) {
     $location.path('/employee-detail/' + employeeID);
   };
-
   $scope.orderProperty='firstName';
   $scope.setOrderProperty = function(propertyName) {
     if ($scope.orderProperty === propertyName) {
@@ -187,4 +175,40 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
     }
     return $scope.orderProperty;
   };
+  $http({
+    method: 'GET',
+    url: `${env.api.root}/Api/AllEmployeesNotSuperadmin`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(response => {
+    //console.log(response);
+    $scope.emps = response.data;
+  }, err => {
+    //console.log(err);
+  });
+  $http({
+    method: 'GET',
+    url: `${env.api.root}/Api/AllEmployees`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(response => {
+    //console.log(response);
+    $scope.checkEmployees = response.data;
+  }, err => {
+    //console.log(err);
+  });
+  $http({
+    method: 'GET',
+    url: `${env.api.root}/Api/AllOffices`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(response => {
+    //console.log(response);
+    $scope.offices = response.data;
+  }, err => {
+    //console.log(err);
+  });
 }];

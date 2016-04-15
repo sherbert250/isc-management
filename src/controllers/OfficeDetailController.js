@@ -15,6 +15,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope.accountNavItems = accountNavItems;
   $scope.showAccountInfo = showAccountInfo;
   $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
+  $scope.canAddEditDelete = false;
   $scope.edit = function(officeID) {
     $location.path('/edit-office/' + officeID);
   };
@@ -26,6 +27,39 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   if ($scope.officeID == 0) {
     $location.path('/company-offices/' + $scope.companyID);
   } else {
+    $http({
+      method: 'GET',
+      url: `${env.api.root}/Api/Verify`,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(response => {
+      //console.log(response);
+      $scope.check = response.data[0];
+      if ($scope.check.permissionLevel == 'superadmin') {
+        $scope.canAddEditDelete = true;
+      } else {
+        $http({
+          method: 'GET',
+          url: `${env.api.root}/Api/OfficeOfEmployee/` + $scope.check.employeeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(response => {
+          //console.log(response);
+          $scope.checkOffice = response.data[0];
+          if ($scope.check.permissionLevel == 'admin' && $scope.officeID != $scope.checkOffice.officeID) {
+            $scope.canAddEditDelete = false;
+          } else if ($scope.check.permissionLevel == 'admin' && $scope.officeID == $scope.checkOffice.officeID) {
+            $scope.canAddEditDelete = true;
+          }
+        }, err => {
+          //console.log(err);
+        });
+      }
+    }, err => {
+      //console.log(err);
+    });
     $http({
       method: 'GET',
       url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID,

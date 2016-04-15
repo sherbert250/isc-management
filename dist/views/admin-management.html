@@ -43,7 +43,7 @@
           <td class="action-header"><button class="btn btn-primary btn-sm" ng-click="reassignEmployeeToOffice(admin.employeeID, admin.permissionLevel)">Change Office</buttron></td>
           <td class="action-header"><button class="btn btn-danger btn-sm" ng-click="removeFromOffice(admin.employeeID, admin.permissionLevel)">Remove from Office</buttron></td>
           <td class="action-header"><button class="btn btn-info btn-sm" ng-click="viewAdmin(admin.employeeID)">View Admin</buttron></td>
-          <td class="action-header"><button class="btn btn-danger btn-sm" ng-click="deleteAdmin(admin.employeeID)">Delete Admin</buttron></td>
+          <td class="action-header" ><button class="btn btn-danger btn-sm" ng-click="deleteAdmin(admin.employeeID)" ng-if='(masterEmployee.employeeID == admin.employeeID) || (admin.permissionLevel == "admin")'>Delete Admin</buttron></td>
         </tr>
       </tbody>
     </table>

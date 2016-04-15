@@ -228,4 +228,16 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   }, err => {
     //console.log(err);
   });
+  $http({
+    method: 'GET',
+    url: `${env.api.root}/Api/Verify`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(response => {
+    //console.log(response);
+    $scope.masterEmployee = response.data[0];
+  }, err => {
+    //console.log(err);
+  });
 }];

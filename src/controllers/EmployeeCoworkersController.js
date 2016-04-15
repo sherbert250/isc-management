@@ -93,7 +93,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
       }
     })
     .then(response => {
-      $location.path('/employee-coworkers/' + employeeID + '/' + officeID);
+      $window.location.reload();
     }, err => {
     });
   };

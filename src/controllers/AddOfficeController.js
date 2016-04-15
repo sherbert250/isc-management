@@ -16,7 +16,7 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
   $scope.accountNavItems = accountNavItems;
   $scope.showAccountInfo = showAccountInfo;
   $scope.states = states;
-  $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
+  $scope = permissions.superadminPermissionCheck($http, $scope, $location, $window);
   $scope.header = "Add an Office";
   $scope.office = {
     officeName: "",

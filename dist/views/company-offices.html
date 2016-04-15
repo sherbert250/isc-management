@@ -20,7 +20,7 @@
       </form>
     </div>
     <div class="add-button-section">
-      <button class="btn btn-success btn-md" ng-click="add()">+Add Office</button>
+      <button class="btn btn-success btn-md" ng-show="canAddEditDelete" ng-click="add()">+Add Office</button>
     </div>
   </div>
   <table class="table table-striped view-items-table">
@@ -29,7 +29,8 @@
       <th>Office Address</th>
       <th>Office Phone</th>
       <th>Office Email</th>
-      <th colspan="3" class="action-header">Action</th>
+      <th colspan="3" class="action-header" ng-if="canAddEditDelete">Action</th>
+      <th colspan="1" class="action-header" ng-if="!canAddEditDelete">Action</th>
     </thead>
     <tbody ng-repeat="model in offices | filter: query">
       <tr>
@@ -38,8 +39,8 @@
         <td>{{model.officePhoneNumber}}</td>
         <td>{{model.officeEmail}}</td>
         <td class="action-header"><button class="btn btn-info btn-sm" ng-click="view(model.officeID)">View</button></td>
-        <td class="action-header"><button class="btn btn-primary btn-sm" ng-click="edit(model.officeID)">Edit</button></td>
-        <td class="action-header"><button class="btn btn-danger btn-sm" ng-click="delete(model.officeID)">Delete</button></td>
+        <td class="action-header" ng-show="canAddEditDelete"><button class="btn btn-primary btn-sm" ng-click="edit(model.officeID)">Edit</button></td>
+        <td class="action-header" ng-show="canAddEditDelete"><button class="btn btn-danger btn-sm" ng-click="delete(model.officeID)">Delete</button></td>
       </tr>
     </tbody>
   </table>

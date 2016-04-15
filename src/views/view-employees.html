@@ -16,6 +16,7 @@
         <div class="col-md-2">
           <div class="form-group">
             <select class="form-control" id="office" name="office" ng-model="officeID" required>
+              <option value="">Select an Office</option>
               <option ng-repeat="item in offices" value="{{item.officeID}}">{{item.officeName}}</option>
             </select>
           </div>
