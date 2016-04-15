@@ -3,7 +3,7 @@
   <!-- title section -->
   <div class="utilitySection">
     <h1 class="rounded-header">
-      All Seating Charts
+      All Floor Plans
     </h1>
     <hr />
   </div>
@@ -16,22 +16,6 @@
       {{ message.text }}
     </div>
   </div>
-  <!-- "Offices" dropdown
-  <div class="utilitySection">
-    <div class="dropdown">
-      <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">
-        Offices <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu">
-        <li ng-repeat="office in offices">
-          <a data-office="{{office.officeID}}">
-            {{office.officeName}}
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <hr /> -->
   <div class="utilitySection">
     <div class="searchbox-section">
       <form class="form-inline">
@@ -40,32 +24,36 @@
     </div>
     <div class="add-button-section">
       <button class="btn btn-success btn-md"  ng-click="goToAdd()">
-        + Add Seating Chart
+        + Add Floor Plan
       </button>
     </div>
   </div>
   <table class="table table-striped view-items-table">
     <thead>
-      <th>Base Floor Plan</th>
-      <th>Name</th>
+      <th>Office Name</th>
+      <th>Design Name</th>
+      <th>Rows</th>
+      <th>Columns</th>
       <th colspan="3" class="action-header">Actions</th>
     </thead>
-    <tbody ng-repeat="seatingChart in seatingCharts | filter: query">
+    <tbody ng-repeat="floorPlan in floorPlans | filter: query">
       <tr>
-        <td>{{seatingChart.base_floor_plan_name}}</td>
-        <td>{{seatingChart.name}}</td>
-        <!-- <td class="action-header">
-          <button class="btn btn-info btn-sm" ng-click="goToEdit(seatingChart.id)">
-            View Results
-          </button>
-        </td> -->
+        <td>{{floorPlan.office_name}}</td>
+        <td><a ng-click="goToDesign(floorPlan.id)">{{floorPlan.name}}</a></td>
+        <td>{{floorPlan.rows}}</td>
+        <td>{{floorPlan.cols}}</td>
         <td class="action-header">
-          <button class="btn btn-primary btn-sm">
-            Run Seating Algorithm
+          <button class="btn btn-info btn-sm" ng-click="goToEdit(floorPlan.id)">
+            View
           </button>
         </td>
         <td class="action-header">
-          <button class="btn btn-danger btn-sm" ng-click="openDelete(seatingChart.id)">
+          <button class="btn btn-primary btn-sm" ng-click="goToDesign(floorPlan.id)">
+            Design
+          </button>
+        </td>
+        <td class="action-header">
+          <button class="btn btn-danger btn-sm" ng-click="openDelete(floorPlan.id)">
             Delete
           </button>
         </td>

@@ -1,6 +1,7 @@
 import env from '../../core/env';
 import _ from 'lodash';
-import {createApi, createMessage, initScope, log} from './_shared';
+import {createMessage, log} from '../_common';
+import {initScope} from './_shared';
 
 //
 // Seating Charts (Add) Controller
@@ -19,16 +20,27 @@ export default ['$scope', '$http', '$location', '$window', ($scope, $http, $loca
     if (err) {
       return log(err);
     }
-    // add offices to scope
-    $scope.offices = response.data;
+    const offices = response.data;
+    // next, fetch floor plans
+    $scope.api.fetchFloorPlans(function(err, response) {
+      if (err) {
+        return log(err);
+      }
+      // add floor plans to scope
+      $scope.floorPlans = response.data.map(floorPlan => {
+        const office = _.find(offices, {officeID: floorPlan.office_id});
+        if (office) {
+          floorPlan.officeName = office.officeName;
+        }
+        return floorPlan;
+      });
+    });
   });
 
   // set default form data
   const defaultFormData = {
     name: null,
-    office_id: null,
-    rows: 8,
-    cols: 14
+    base_floor_plan_id: null
   };
   $scope.formData = defaultFormData;
 
@@ -36,31 +48,33 @@ export default ['$scope', '$http', '$location', '$window', ($scope, $http, $loca
   // Handle form submission
   //
   $scope.handleSubmit = function() {
-    const {name, office_id, rows, cols} = $scope.formData;
+    const {name, base_floor_plan_id} = $scope.formData;
     // perform validation
     if (!name) {
-      return alert('Please enter a name for the design.');
+      return alert('Please enter a name for the seating chart.');
     }
-    if (!office_id) {
-      return alert('Please select an office for the design.');
+    if (!base_floor_plan_id) {
+      return alert('Please select a base floor plan for the seating chart.');
     }
-    if (!rows) {
-      return alert('Please specify the number of rows to use in the design (this can be changed later).');
-    }
-    if (!cols) {
-      return alert('Please specify the number of columns to use in the design (this can be changed later).');
-    }
-    // if all checks pass, create the seating chart and send the user to the design page
-    $scope.api.addSeatingChart($scope.formData, function(err, response) {
+    // if all checks pass, create the seating chart
+    $scope.api.fetchFloorPlan(base_floor_plan_id, function(err, response) {
       if (err) {
+        alert('Something went wrong while creating your seating chart.');
         return log(err);
       }
-      // restore default form data
-      $scope.formData = defaultFormData;
-      $scope.message = {
-        text: 'Success! The seating chart was created.',
-        type: 'success'
-      };
-    })
+      const base_floor_plan = response.data[0].spots;
+      const base_floor_plan_name = response.data[0].name;
+      $scope.api.addSeatingChart({name, base_floor_plan, base_floor_plan_name}, function(err, response) {
+        if (err) {
+          return log(err);
+        }
+        // restore default form data
+        $scope.formData = defaultFormData;
+        $scope.message = {
+          text: 'Success! The seating chart was created.',
+          type: 'success'
+        };
+      });
+    });
   };
 }];

@@ -38,6 +38,13 @@ import EmployeeDetailController from './controllers/EmployeeDetailController';
 import EmployeePreferencesController from './controllers/EmployeePreferencesController';
 import EmployeeReassignToOfficeController from './controllers/EmployeeReassignToOfficeController';
 import FloorplanController from './controllers/FloorplanController';
+
+// Floorplans
+import Floorplans_AddController from './controllers/Floorplans/AddController';
+import Floorplans_DesignController from './controllers/Floorplans/DesignController';
+import Floorplans_EditController from './controllers/Floorplans/EditController';
+import Floorplans_ListController from './controllers/Floorplans/ListController';
+
 import InitializationErrorController from './controllers/Errors/InitializationErrorController';
 import LoginController from './controllers/LoginController';
 import MainController from './controllers/MainController';
@@ -50,8 +57,6 @@ import PasswordResetTokenController from './controllers/PasswordResetTokenContro
 
 // Seating Charts
 import SeatingCharts_AddController from './controllers/SeatingCharts/AddController';
-import SeatingCharts_DesignController from './controllers/SeatingCharts/DesignController';
-import SeatingCharts_EditController from './controllers/SeatingCharts/EditController';
 import SeatingCharts_ListController from './controllers/SeatingCharts/ListController';
 
 import SignOutController from './controllers/MyAccount/SignOutController';
@@ -90,6 +95,13 @@ iscApp.controller('EmployeeDetailController', EmployeeDetailController);
 iscApp.controller('EmployeePreferencesController', EmployeePreferencesController);
 iscApp.controller('EmployeeReassignToOfficeController', EmployeeReassignToOfficeController);
 iscApp.controller('FloorplanController', FloorplanController);
+
+// Floorplans
+iscApp.controller('Floorplans_AddController', Floorplans_AddController);
+iscApp.controller('Floorplans_DesignController', Floorplans_DesignController);
+iscApp.controller('Floorplans_EditController', Floorplans_EditController);
+iscApp.controller('Floorplans_ListController', Floorplans_ListController);
+
 iscApp.controller('InitializationErrorController', InitializationErrorController);
 iscApp.controller('LoginController', LoginController);
 iscApp.controller('MainController', MainController);
@@ -102,8 +114,6 @@ iscApp.controller('PasswordResetTokenController', PasswordResetTokenController);
 
 // Seating Charts
 iscApp.controller('SeatingCharts_AddController', SeatingCharts_AddController);
-iscApp.controller('SeatingCharts_DesignController', SeatingCharts_DesignController);
-iscApp.controller('SeatingCharts_EditController', SeatingCharts_EditController);
 iscApp.controller('SeatingCharts_ListController', SeatingCharts_ListController);
 
 iscApp.controller('SignOutController', SignOutController);
@@ -239,6 +249,25 @@ iscApp.config(function ($routeProvider, $locationProvider) {
     templateUrl: 'views/floorplan.html',
     controller: 'FloorplanController'
   })
+  //
+  // Section: /floor-plans
+  //
+  .when('/floor-plans', {
+    templateUrl: 'views/floor-plans/list.html',
+    controller: 'Floorplans_ListController'
+  })
+  .when('/floor-plans/add', {
+    templateUrl: 'views/floor-plans/add.html',
+    controller: 'Floorplans_AddController'
+  })
+  .when('/floor-plans/:id/design', {
+    templateUrl: 'views/floor-plans/design.html',
+    controller: 'Floorplans_DesignController'
+  })
+  .when('/floor-plans/:id/edit', {
+    templateUrl: 'views/floor-plans/edit.html',
+    controller: 'Floorplans_EditController'
+  })
   .when('/initialization-error', {
     templateUrl: 'views/errors/initialization-error.html',
     controller: 'InitializationErrorController'
@@ -281,14 +310,6 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   .when('/seating-charts/add', {
     templateUrl: 'views/seating-charts/add.html',
     controller: 'SeatingCharts_AddController'
-  })
-  .when('/seating-charts/:id/design', {
-    templateUrl: 'views/seating-charts/design.html',
-    controller: 'SeatingCharts_DesignController'
-  })
-  .when('/seating-charts/:id/edit', {
-    templateUrl: 'views/seating-charts/edit.html',
-    controller: 'SeatingCharts_EditController'
   })
   .when('/sign-out', {
     templateUrl: 'views/my-account/sign-out.html',

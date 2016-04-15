@@ -1,44 +1,36 @@
 import env from '../../core/env';
 import _ from 'lodash';
-import {createApi, createMessage, initScope, log} from './_shared';
+import {createMessage, log} from '../_common';
+import {initScope} from './_shared';
 
 //
-// Seating Charts (Add) Controller
+// Floor Plans (Add) Controller
 //
-// Display a list of created seating charts
-// Provide actions to create/modify charts
+// Display a form to add a floor plan
 //
 
-export default ['$scope', '$http', '$location', '$routeParams', '$window', ($scope, $http, $location, $routeParams, $window) => {
+export default ['$scope', '$http', '$location', '$window', ($scope, $http, $location, $window) => {
   // set up the $scope object with nav settings,
   //  routes, api endpoints, and check permissions
   initScope($scope, $http, $location, $window);
 
-  // get the seating chart id from url params
-  const id = $routeParams.id;
-
-  // fetch offices
+  // fetch offices and floorplans from the API
   $scope.api.fetchOffices(function(err, response) {
     if (err) {
       return log(err);
     }
     // add offices to scope
     $scope.offices = response.data;
-    // next, fetch the seating chart
-    $scope.api.fetchSeatingChart(id, function(err, response) {
-      if (err) {
-        return log(err);
-      }
-      // add seating charts to scope
-      const matchingRecords = response.data;
-      if (matchingRecords.length === 0) {
-        return $scope.goToList();
-      }
-      const seatingChart = response.data[0];
-      seatingChart.office_id = seatingChart.office_id.toString();
-      $scope.formData = seatingChart;
-    });
   });
+
+  // set default form data
+  const defaultFormData = {
+    name: null,
+    office_id: null,
+    rows: 8,
+    cols: 14
+  };
+  $scope.formData = defaultFormData;
 
   //
   // Handle form submission
@@ -58,16 +50,17 @@ export default ['$scope', '$http', '$location', '$routeParams', '$window', ($sco
     if (!cols) {
       return alert('Please specify the number of columns to use in the design (this can be changed later).');
     }
-    // if all checks pass, create the seating chart and send the user to the design page
-    $scope.api.updateSeatingChart(id, $scope.formData, function(err, response) {
+    // if all checks pass, create the floorplan and send the user to the design page
+    $scope.api.addFloorPlan($scope.formData, function(err, response) {
       if (err) {
         return log(err);
       }
       // restore default form data
+      $scope.formData = defaultFormData;
       $scope.message = {
-        text: 'Success! The seating chart was updated.',
+        text: 'Success! The floor plan was created.',
         type: 'success'
       };
-    });
+    })
   };
 }];

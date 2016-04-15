@@ -1,0 +1,70 @@
+
+<div class="container">
+  <!-- title section -->
+  <div class="utilitySection">
+    <h1 class="rounded-header">
+      Floor Plan: {{ formData.name }}
+    </h1>
+    <hr />
+  </div>
+  <!-- alert message -->
+  <div ng-if="message.text">
+    <div class="alert alert-{{ message.type }}">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{ message.text }}
+    </div>
+  </div>
+  <!-- add seating chart form -->
+  <form ng-submit="handleSubmit()">
+    <div class="row">
+      <div class="col-sm-6">
+        <!-- design name -->
+        <div class="form-group">
+          <label for="xname">Design Name</label>
+          <input autofocus class="form-control" id="xname" ng-model="formData.name" type="text" placeholder="New Design" />
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <!-- office -->
+        <div class="form-group">
+          <label for="xoffice_id">Office</label>
+          <select class="form-control" id="xoffice_id" ng-model="formData.office_id">
+            <option ng-repeat="office in offices" value="{{ office.officeID }}">
+              {{ office.officeName }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <!-- design rows -->
+          <div class="form-group">
+            <label for="xrows">Rows</label>
+            <input class="form-control js-numeric" id="xrows" ng-model="formData.rows" type="text" placeholder="e.g. 8" />
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <!-- design cols -->
+          <div class="form-group">
+            <label for="xcols">Columns</label>
+            <input class="form-control js-numeric" id="xcols" ng-model="formData.cols" type="text" placeholder="e.g. 14" />
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <!-- create seating chart -->
+          <div class="form-group">
+            <label class="invisible">I'm invisible!</label>
+            <button class="btn btn-success btn-stretch" type="submit">
+              Create Floor Plan
+            </button>
+          </div>
+        </div>
+      </div>
+  </form>
+  <button class="btn btn-default" ng-click="goToList()" type="button">
+    < Back to All Floor Plans
+  </button>
+</div>

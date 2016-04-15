@@ -1,12 +1,12 @@
 import env from '../../core/env';
 import _ from 'lodash';
-import {createApi, createMessage, initScope, log} from './_shared';
+import {createMessage, log} from '../_common';
+import {initScope} from './_shared';
 
 //
-// Seating Charts (Add) Controller
+// Floor Plans (Design) Controller
 //
-// Display a list of created seating charts
-// Provide actions to create/modify charts
+// Display the floorplan designer
 //
 
 export default ['$scope', '$http', '$location', '$routeParams', '$window', ($scope, $http, $location, $routeParams, $window) => {
@@ -14,20 +14,20 @@ export default ['$scope', '$http', '$location', '$routeParams', '$window', ($sco
   //  routes, api endpoints, and check permissions
   initScope($scope, $http, $location, $window);
 
-  // get the seating chart id from url params
+  // get the floorplan id from url params
   const id = $routeParams.id;
 
-  // fetch the seating chart
-  $scope.api.fetchSeatingChart(id, function(err, response) {
+  // fetch the floor plan
+  $scope.api.fetchFloorPlan(id, function(err, response) {
     if (err) {
       return log(err);
     }
-    // add seating charts to scope
+    // add floorplans to scope
     const matchingRecords = response.data;
     if (matchingRecords.length === 0) {
       return $scope.goToList();
     }
-    $scope.seatingChart = response.data[0];
+    $scope.floorPlan = response.data[0];
 
     //
     // Now, load everything we need for React app
@@ -37,26 +37,26 @@ export default ['$scope', '$http', '$location', '$routeParams', '$window', ($sco
     $window.ISC = {
       initialState: {
         design: {
-          cols: $scope.seatingChart.cols,
-          name: $scope.seatingChart.name,
-          rows: $scope.seatingChart.rows,
-          spots: $scope.seatingChart.spots ? JSON.parse($scope.seatingChart.spots) : undefined
+          cols: $scope.floorPlan.cols,
+          name: $scope.floorPlan.name,
+          rows: $scope.floorPlan.rows,
+          spots: $scope.floorPlan.spots ? JSON.parse($scope.floorPlan.spots) : undefined
         }
       },
       onDone() {
-        window.location.replace(window.location.origin + '/seating-charts');
+        window.location.replace(window.location.origin + '/floor-plans');
         // $window.history.back();
       },
       onSave(newDesign) {
         console.log(newDesign);
         newDesign.spots = JSON.stringify(newDesign.spots);
-        $scope.api.updateSeatingChart(id, newDesign, function(err, response) {
+        $scope.api.updateFloorPlan(id, newDesign, function(err, response) {
           if (err) {
             log(err);
-            return alert('Something went wrong while updating the seating chart.');
+            return alert('Something went wrong while updating the floor plan.');
           }
           // restore default form data
-          alert('Seating chart data was saved.');
+          alert('Floor plan data was saved.');
         });
       }
     };

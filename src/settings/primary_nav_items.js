@@ -29,6 +29,11 @@ export default [
     show: false
   },
   {
+    href: '/floor-plans',
+    text: 'Floor Plans',
+    show: false
+  },
+  {
     href: '/seating-charts',
     text: 'Seating Charts',
     show: false

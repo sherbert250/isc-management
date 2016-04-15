@@ -65936,7 +65936,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],142:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],142:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66079,7 +66079,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],143:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],143:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66262,7 +66262,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],144:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],144:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66322,7 +66322,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],145:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],145:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66441,7 +66441,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   }
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],146:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],146:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66526,7 +66526,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   };
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],147:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],147:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66652,7 +66652,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],148:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],148:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66729,7 +66729,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   }
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],149:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],149:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66843,7 +66843,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195,"../settings/states":196}],150:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199,"../settings/states":200}],150:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66953,7 +66953,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],151:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],151:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67015,7 +67015,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],152:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],152:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67282,7 +67282,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],153:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],153:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67392,7 +67392,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],154:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],154:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67481,7 +67481,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],155:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],155:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67610,7 +67610,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],156:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],156:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67680,7 +67680,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],157:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],157:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67831,7 +67831,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'U
   }, function (err) {});
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],158:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],158:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67935,7 +67935,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],159:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],159:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68048,7 +68048,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],160:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],160:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68127,7 +68127,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195,"../settings/states":196}],161:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199,"../settings/states":200}],161:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68198,7 +68198,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],162:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],162:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68428,7 +68428,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],163:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],163:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68596,7 +68596,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],164:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],164:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68767,7 +68767,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],165:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],165:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69034,7 +69034,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],166:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],166:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69055,7 +69055,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {}];
 
-},{"../../core/env":190}],167:[function(require,module,exports){
+},{"../../core/env":194}],167:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69164,7 +69164,527 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],168:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],168:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _common = require('../_common');
+
+var _shared = require('./_shared');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Floor Plans (Add) Controller
+//
+// Display a form to add a floor plan
+//
+
+exports.default = ['$scope', '$http', '$location', '$window', function ($scope, $http, $location, $window) {
+  // set up the $scope object with nav settings,
+  //  routes, api endpoints, and check permissions
+  (0, _shared.initScope)($scope, $http, $location, $window);
+
+  // fetch offices and floorplans from the API
+  $scope.api.fetchOffices(function (err, response) {
+    if (err) {
+      return (0, _common.log)(err);
+    }
+    // add offices to scope
+    $scope.offices = response.data;
+  });
+
+  // set default form data
+  var defaultFormData = {
+    name: null,
+    office_id: null,
+    rows: 8,
+    cols: 14
+  };
+  $scope.formData = defaultFormData;
+
+  //
+  // Handle form submission
+  //
+  $scope.handleSubmit = function () {
+    var _$scope$formData = $scope.formData;
+    var name = _$scope$formData.name;
+    var office_id = _$scope$formData.office_id;
+    var rows = _$scope$formData.rows;
+    var cols = _$scope$formData.cols;
+    // perform validation
+
+    if (!name) {
+      return alert('Please enter a name for the design.');
+    }
+    if (!office_id) {
+      return alert('Please select an office for the design.');
+    }
+    if (!rows) {
+      return alert('Please specify the number of rows to use in the design (this can be changed later).');
+    }
+    if (!cols) {
+      return alert('Please specify the number of columns to use in the design (this can be changed later).');
+    }
+    // if all checks pass, create the floorplan and send the user to the design page
+    $scope.api.addFloorPlan($scope.formData, function (err, response) {
+      if (err) {
+        return (0, _common.log)(err);
+      }
+      // restore default form data
+      $scope.formData = defaultFormData;
+      $scope.message = {
+        text: 'Success! The floor plan was created.',
+        type: 'success'
+      };
+    });
+  };
+}];
+
+},{"../../core/env":194,"../_common":193,"./_shared":172,"lodash":112}],169:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _common = require('../_common');
+
+var _shared = require('./_shared');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Floor Plans (Design) Controller
+//
+// Display the floorplan designer
+//
+
+exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', function ($scope, $http, $location, $routeParams, $window) {
+  // set up the $scope object with nav settings,
+  //  routes, api endpoints, and check permissions
+  (0, _shared.initScope)($scope, $http, $location, $window);
+
+  // get the floorplan id from url params
+  var id = $routeParams.id;
+
+  // fetch the floor plan
+  $scope.api.fetchFloorPlan(id, function (err, response) {
+    if (err) {
+      return (0, _common.log)(err);
+    }
+    // add floorplans to scope
+    var matchingRecords = response.data;
+    if (matchingRecords.length === 0) {
+      return $scope.goToList();
+    }
+    $scope.floorPlan = response.data[0];
+
+    //
+    // Now, load everything we need for React app
+    //
+
+    // add global data
+    $window.ISC = {
+      initialState: {
+        design: {
+          cols: $scope.floorPlan.cols,
+          name: $scope.floorPlan.name,
+          rows: $scope.floorPlan.rows,
+          spots: $scope.floorPlan.spots ? JSON.parse($scope.floorPlan.spots) : undefined
+        }
+      },
+      onDone: function onDone() {
+        window.location.replace(window.location.origin + '/floor-plans');
+        // $window.history.back();
+      },
+      onSave: function onSave(newDesign) {
+        console.log(newDesign);
+        newDesign.spots = JSON.stringify(newDesign.spots);
+        $scope.api.updateFloorPlan(id, newDesign, function (err, response) {
+          if (err) {
+            (0, _common.log)(err);
+            return alert('Something went wrong while updating the floor plan.');
+          }
+          // restore default form data
+          alert('Floor plan data was saved.');
+        });
+      }
+    };
+
+    $scope.addCssToHead(['https://fonts.googleapis.com/icon?family=Material+Icons', 'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css']);
+    $scope.addJsToHead(['https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js', '/js/designer.js']);
+  });
+}];
+
+},{"../../core/env":194,"../_common":193,"./_shared":172,"lodash":112}],170:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _common = require('../_common');
+
+var _shared = require('./_shared');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Floor Plan (Edit) Controller
+//
+// Display a form to edit the floor plan properties
+//
+
+exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', function ($scope, $http, $location, $routeParams, $window) {
+  // set up the $scope object with nav settings,
+  //  routes, api endpoints, and check permissions
+  (0, _shared.initScope)($scope, $http, $location, $window);
+
+  // get the floor plan id from url params
+  var id = $routeParams.id;
+
+  // fetch offices
+  $scope.api.fetchOffices(function (err, response) {
+    if (err) {
+      return (0, _common.log)(err);
+    }
+    // add offices to scope
+    $scope.offices = response.data;
+    // next, fetch the floor plan
+    $scope.api.fetchFloorPlan(id, function (err, response) {
+      if (err) {
+        return (0, _common.log)(err);
+      }
+      // add floor plans to scope
+      var matchingRecords = response.data;
+      if (matchingRecords.length === 0) {
+        return $scope.goToList();
+      }
+      var floorPlan = response.data[0];
+      floorPlan.office_id = floorPlan.office_id.toString();
+      $scope.formData = floorPlan;
+    });
+  });
+
+  //
+  // Handle form submission
+  //
+  $scope.handleSubmit = function () {
+    var _$scope$formData = $scope.formData;
+    var name = _$scope$formData.name;
+    var office_id = _$scope$formData.office_id;
+    var rows = _$scope$formData.rows;
+    var cols = _$scope$formData.cols;
+    // perform validation
+
+    if (!name) {
+      return alert('Please enter a name for the design.');
+    }
+    if (!office_id) {
+      return alert('Please select an office for the design.');
+    }
+    if (!rows) {
+      return alert('Please specify the number of rows to use in the design (this can be changed later).');
+    }
+    if (!cols) {
+      return alert('Please specify the number of columns to use in the design (this can be changed later).');
+    }
+    // if all checks pass, create the floorplan and send the user to the design page
+    $scope.api.updateFloorPlan(id, $scope.formData, function (err, response) {
+      if (err) {
+        return (0, _common.log)(err);
+      }
+      // restore default form data
+      $scope.message = {
+        text: 'Success! The floor plan was updated.',
+        type: 'success'
+      };
+    });
+  };
+}];
+
+},{"../../core/env":194,"../_common":193,"./_shared":172,"lodash":112}],171:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _common = require('../_common');
+
+var _shared = require('./_shared');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Floor Plans (List) Controller
+//
+// Display a list of all floor plans
+//
+
+exports.default = ['$scope', '$http', '$location', '$window', function ($scope, $http, $location, $window) {
+  // set up the $scope object with nav settings,
+  //  routes, api endpoints, and check permissions
+  (0, _shared.initScope)($scope, $http, $location, $window);
+
+  // fetch offices and floor plans from the API
+  $scope.api.fetchOffices(function (err, response) {
+    if (err) {
+      return (0, _common.log)(err);
+    }
+    // add offices to scope
+    $scope.offices = response.data;
+    // now that we have offices, get floor plans
+    $scope.api.fetchFloorPlans(function (err, response) {
+      if (err) {
+        return (0, _common.log)(err);
+      }
+      // add floor plans to scope
+      $scope.floorPlans = response.data.map(function (floorPlan) {
+        var office = _lodash2.default.find($scope.offices, { officeID: floorPlan.office_id });
+        floorPlan.office_name = _lodash2.default.get(office, 'officeName');
+        return floorPlan;
+      });
+    });
+  });
+}];
+
+},{"../../core/env":194,"../_common":193,"./_shared":172,"lodash":112}],172:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.initScope = exports.createApi = undefined;
+
+var _env = require('../../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _permissions = require('../../settings/permissions');
+
+var _permissions2 = _interopRequireDefault(_permissions);
+
+var _primary_nav_items = require('../../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+var _account_nav_items = require('../../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
+var _common = require('../_common');
+
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Shared utilities for FloorPlans section
+//
+
+/**
+ * Create an api utility object
+ *
+ * @param {string} token - The auth token to use in requests
+ * @return {object} - Object with api endpoints and wrapped for convenience
+ */
+var createApi = exports.createApi = function createApi($http, apiRoot, token) {
+  var headers = (0, _common.createHeaders)(token);
+  return {
+    //
+    // POST floorplans
+    //
+
+    addFloorPlan: function addFloorPlan(newFloorPlan, callback) {
+      $http({
+        method: 'POST',
+        url: apiRoot + '/Api/FloorPlans',
+        data: newFloorPlan,
+        headers: headers
+      }).then(function (response) {
+        return callback(null, response);
+      }, function (err) {
+        return callback(err);
+      });
+    },
+
+    //
+    // GET offices
+    //
+    fetchOffices: function fetchOffices(callback) {
+      $http({
+        method: 'GET',
+        url: apiRoot + '/Api/AllCompaniesForAllOffices',
+        headers: headers
+      }).then(function (response) {
+        return callback(null, response);
+      }, function (err) {
+        return callback(err);
+      });
+    },
+
+    //
+    // GET floor plans
+    //
+    fetchFloorPlans: function fetchFloorPlans(callback) {
+      $http({
+        method: 'GET',
+        url: apiRoot + '/Api/FloorPlans',
+        headers: headers
+      }).then(function (response) {
+        return callback(null, response);
+      }, function (err) {
+        return callback(err);
+      });
+    },
+
+    //
+    // GET floor plan
+    //
+    fetchFloorPlan: function fetchFloorPlan(id, callback) {
+      $http({
+        method: 'GET',
+        url: apiRoot + '/Api/FloorPlans/' + id,
+        headers: headers
+      }).then(function (response) {
+        return callback(null, response);
+      }, function (err) {
+        return callback(err);
+      });
+    },
+
+    //
+    // PUT floor plan
+    //
+    updateFloorPlan: function updateFloorPlan(id, newFloorPlan, callback) {
+      $http({
+        method: 'PUT',
+        url: apiRoot + '/Api/FloorPlans/' + id,
+        data: newFloorPlan,
+        headers: headers
+      }).then(function (response) {
+        return callback(null, response);
+      }, function (err) {
+        return callback(err);
+      });
+    },
+
+    //
+    // DELETE floorplans/:id
+    //
+    removeFloorPlan: function removeFloorPlan(id, callback) {
+      $http({
+        method: 'DELETE',
+        url: apiRoot + '/Api/FloorPlans/' + id,
+        headers: headers
+      }).then(function (response) {
+        return callback(null, response);
+      }, function (err) {
+        return callback(err);
+      });
+    }
+  };
+};
+
+/**
+ * Initialize the $scope object
+ *
+ * NOTE: no need to return, since it's an object (passed by reference)
+ *
+ * @param {object} $scope - The scope object
+ * @param {object} $http - The http object
+ * @param {object} $location - The location object
+ * @param {object} $window - The window object
+ */
+var initScope = exports.initScope = function initScope($scope, $http, $location, $window) {
+  // add utils from ../common
+  (0, _common._initScope)($scope, $http, $location, $window);
+  // add routes
+  $scope.goToAdd = function () {
+    $location.path('/floor-plans/add');
+  };
+  $scope.goToDesign = function (id) {
+    $location.path('/floor-plans/' + id + '/design');
+  };
+  $scope.goToEdit = function (id) {
+    $location.path('/floor-plans/' + id + '/edit');
+  };
+  $scope.goToList = function () {
+    $location.path('/floor-plans');
+  };
+  // add api methods
+  $scope.api = createApi($http, _env2.default.api.root, $window.sessionStorage.token);
+  // add delete method
+  $scope.openDelete = function (id) {
+    if (confirm('Are you sure you want to delete this floor plan? This cannot be undone.')) {
+      $scope.api.removeFloorPlan(id, function (err, response) {
+        if (err) {
+          log(err);
+          return $scope.message = {
+            text: 'Something went wrong, and we weren\'t able to delete the floor plan.',
+            type: 'danger'
+          };
+        }
+        // remove floor plan from view collection
+        //  and show success message
+        return _lodash2.default.assign($scope, {
+          message: {
+            text: 'Seating chart #' + id + ' was deleted successfully.',
+            type: 'success'
+          },
+          floorPlans: _lodash2.default.filter($scope.FloorPlans, function (floorPlan) {
+            return floorPlan.id !== id;
+          })
+        });
+      });
+    }
+  };
+};
+
+},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/permissions":198,"../../settings/primary_nav_items":199,"../_common":193,"lodash":112}],173:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69373,7 +69893,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/primary_nav_items":195}],169:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/primary_nav_items":199}],174:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69412,7 +69932,7 @@ exports.default = ['$scope', '$route', '$routeParams', '$location', function ($s
   $scope.showAccountInfo = _account_info2.default;
 }];
 
-},{"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/primary_nav_items":195}],170:[function(require,module,exports){
+},{"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/primary_nav_items":199}],175:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69660,7 +70180,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   }
 }];
 
-},{"../../core/env":190,"../../settings/account_info":192,"../../settings/account_nav_items":193,"../../settings/primary_nav_items":195}],171:[function(require,module,exports){
+},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/primary_nav_items":199}],176:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69686,7 +70206,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $location.path('/login');
 }];
 
-},{"../../core/env":190}],172:[function(require,module,exports){
+},{"../../core/env":194}],177:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69799,7 +70319,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],173:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],178:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -70140,7 +70660,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],174:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],179:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -70269,7 +70789,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],175:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],180:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -70390,7 +70910,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
 }];
 //import permissions from '../settings/permissions';
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/primary_nav_items":195}],176:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/primary_nav_items":199}],181:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -70510,7 +71030,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/primary_nav_items":195}],177:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/primary_nav_items":199}],182:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -70524,6 +71044,8 @@ var _env2 = _interopRequireDefault(_env);
 var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
+
+var _common = require('../_common');
 
 var _shared = require('./_shared');
 
@@ -70544,18 +71066,29 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   // fetch offices and seating charts from the API
   $scope.api.fetchOffices(function (err, response) {
     if (err) {
-      return (0, _shared.log)(err);
+      return (0, _common.log)(err);
     }
-    // add offices to scope
-    $scope.offices = response.data;
+    var offices = response.data;
+    // next, fetch floor plans
+    $scope.api.fetchFloorPlans(function (err, response) {
+      if (err) {
+        return (0, _common.log)(err);
+      }
+      // add floor plans to scope
+      $scope.floorPlans = response.data.map(function (floorPlan) {
+        var office = _lodash2.default.find(offices, { officeID: floorPlan.office_id });
+        if (office) {
+          floorPlan.officeName = office.officeName;
+        }
+        return floorPlan;
+      });
+    });
   });
 
   // set default form data
   var defaultFormData = {
     name: null,
-    office_id: null,
-    rows: 8,
-    cols: 14
+    base_floor_plan_id: null
   };
   $scope.formData = defaultFormData;
 
@@ -70565,216 +71098,39 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   $scope.handleSubmit = function () {
     var _$scope$formData = $scope.formData;
     var name = _$scope$formData.name;
-    var office_id = _$scope$formData.office_id;
-    var rows = _$scope$formData.rows;
-    var cols = _$scope$formData.cols;
+    var base_floor_plan_id = _$scope$formData.base_floor_plan_id;
     // perform validation
 
     if (!name) {
-      return alert('Please enter a name for the design.');
+      return alert('Please enter a name for the seating chart.');
     }
-    if (!office_id) {
-      return alert('Please select an office for the design.');
+    if (!base_floor_plan_id) {
+      return alert('Please select a base floor plan for the seating chart.');
     }
-    if (!rows) {
-      return alert('Please specify the number of rows to use in the design (this can be changed later).');
-    }
-    if (!cols) {
-      return alert('Please specify the number of columns to use in the design (this can be changed later).');
-    }
-    // if all checks pass, create the seating chart and send the user to the design page
-    $scope.api.addSeatingChart($scope.formData, function (err, response) {
+    // if all checks pass, create the seating chart
+    $scope.api.fetchFloorPlan(base_floor_plan_id, function (err, response) {
       if (err) {
-        return (0, _shared.log)(err);
+        alert('Something went wrong while creating your seating chart.');
+        return (0, _common.log)(err);
       }
-      // restore default form data
-      $scope.formData = defaultFormData;
-      $scope.message = {
-        text: 'Success! The seating chart was created.',
-        type: 'success'
-      };
-    });
-  };
-}];
-
-},{"../../core/env":190,"./_shared":181,"lodash":112}],178:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _env = require('../../core/env');
-
-var _env2 = _interopRequireDefault(_env);
-
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _shared = require('./_shared');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//
-// Seating Charts (Add) Controller
-//
-// Display a list of created seating charts
-// Provide actions to create/modify charts
-//
-
-exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', function ($scope, $http, $location, $routeParams, $window) {
-  // set up the $scope object with nav settings,
-  //  routes, api endpoints, and check permissions
-  (0, _shared.initScope)($scope, $http, $location, $window);
-
-  // get the seating chart id from url params
-  var id = $routeParams.id;
-
-  // fetch the seating chart
-  $scope.api.fetchSeatingChart(id, function (err, response) {
-    if (err) {
-      return (0, _shared.log)(err);
-    }
-    // add seating charts to scope
-    var matchingRecords = response.data;
-    if (matchingRecords.length === 0) {
-      return $scope.goToList();
-    }
-    $scope.seatingChart = response.data[0];
-
-    //
-    // Now, load everything we need for React app
-    //
-
-    // add global data
-    $window.ISC = {
-      initialState: {
-        design: {
-          cols: $scope.seatingChart.cols,
-          name: $scope.seatingChart.name,
-          rows: $scope.seatingChart.rows,
-          spots: $scope.seatingChart.spots ? JSON.parse($scope.seatingChart.spots) : undefined
+      var base_floor_plan = response.data[0].spots;
+      var base_floor_plan_name = response.data[0].name;
+      $scope.api.addSeatingChart({ name: name, base_floor_plan: base_floor_plan, base_floor_plan_name: base_floor_plan_name }, function (err, response) {
+        if (err) {
+          return (0, _common.log)(err);
         }
-      },
-      onDone: function onDone() {
-        window.location.replace(window.location.origin + '/seating-charts');
-        // $window.history.back();
-      },
-      onSave: function onSave(newDesign) {
-        console.log(newDesign);
-        newDesign.spots = JSON.stringify(newDesign.spots);
-        $scope.api.updateSeatingChart(id, newDesign, function (err, response) {
-          if (err) {
-            (0, _shared.log)(err);
-            return alert('Something went wrong while updating the seating chart.');
-          }
-          // restore default form data
-          alert('Seating chart data was saved.');
-        });
-      }
-    };
-
-    $scope.addCssToHead(['https://fonts.googleapis.com/icon?family=Material+Icons', 'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css']);
-    $scope.addJsToHead(['https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js', '/js/designer.js']);
-  });
-}];
-
-},{"../../core/env":190,"./_shared":181,"lodash":112}],179:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _env = require('../../core/env');
-
-var _env2 = _interopRequireDefault(_env);
-
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-var _shared = require('./_shared');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//
-// Seating Charts (Add) Controller
-//
-// Display a list of created seating charts
-// Provide actions to create/modify charts
-//
-
-exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', function ($scope, $http, $location, $routeParams, $window) {
-  // set up the $scope object with nav settings,
-  //  routes, api endpoints, and check permissions
-  (0, _shared.initScope)($scope, $http, $location, $window);
-
-  // get the seating chart id from url params
-  var id = $routeParams.id;
-
-  // fetch offices
-  $scope.api.fetchOffices(function (err, response) {
-    if (err) {
-      return (0, _shared.log)(err);
-    }
-    // add offices to scope
-    $scope.offices = response.data;
-    // next, fetch the seating chart
-    $scope.api.fetchSeatingChart(id, function (err, response) {
-      if (err) {
-        return (0, _shared.log)(err);
-      }
-      // add seating charts to scope
-      var matchingRecords = response.data;
-      if (matchingRecords.length === 0) {
-        return $scope.goToList();
-      }
-      var seatingChart = response.data[0];
-      seatingChart.office_id = seatingChart.office_id.toString();
-      $scope.formData = seatingChart;
-    });
-  });
-
-  //
-  // Handle form submission
-  //
-  $scope.handleSubmit = function () {
-    var _$scope$formData = $scope.formData;
-    var name = _$scope$formData.name;
-    var office_id = _$scope$formData.office_id;
-    var rows = _$scope$formData.rows;
-    var cols = _$scope$formData.cols;
-    // perform validation
-
-    if (!name) {
-      return alert('Please enter a name for the design.');
-    }
-    if (!office_id) {
-      return alert('Please select an office for the design.');
-    }
-    if (!rows) {
-      return alert('Please specify the number of rows to use in the design (this can be changed later).');
-    }
-    if (!cols) {
-      return alert('Please specify the number of columns to use in the design (this can be changed later).');
-    }
-    // if all checks pass, create the seating chart and send the user to the design page
-    $scope.api.updateSeatingChart(id, $scope.formData, function (err, response) {
-      if (err) {
-        return (0, _shared.log)(err);
-      }
-      // restore default form data
-      $scope.message = {
-        text: 'Success! The seating chart was updated.',
-        type: 'success'
-      };
+        // restore default form data
+        $scope.formData = defaultFormData;
+        $scope.message = {
+          text: 'Success! The seating chart was created.',
+          type: 'success'
+        };
+      });
     });
   };
 }];
 
-},{"../../core/env":190,"./_shared":181,"lodash":112}],180:[function(require,module,exports){
+},{"../../core/env":194,"../_common":193,"./_shared":184,"lodash":112}],183:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -70788,6 +71144,8 @@ var _env2 = _interopRequireDefault(_env);
 var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
+
+var _common = require('../_common');
 
 var _shared = require('./_shared');
 
@@ -70808,14 +71166,14 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   // fetch offices and seating charts from the API
   $scope.api.fetchOffices(function (err, response) {
     if (err) {
-      return (0, _shared.log)(err);
+      return (0, _common.log)(err);
     }
     // add offices to scope
     $scope.offices = response.data;
     // now that we have offices, get seating charts
     $scope.api.fetchSeatingCharts(function (err, response) {
       if (err) {
-        return (0, _shared.log)(err);
+        return (0, _common.log)(err);
       }
       // add seating charts to scope
       $scope.seatingCharts = response.data.map(function (seatingChart) {
@@ -70827,14 +71185,13 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   });
 }];
 
-},{"../../core/env":190,"./_shared":181,"lodash":112}],181:[function(require,module,exports){
+},{"../../core/env":194,"../_common":193,"./_shared":184,"lodash":112}],184:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createMessage = exports.initScope = exports.createApi = exports.log = exports.debug = exports.createHeaders = undefined;
-var _arguments = arguments;
+exports.initScope = exports.createApi = undefined;
 
 var _env = require('../../core/env');
 
@@ -70856,6 +71213,8 @@ var _account_info = require('../../settings/account_info');
 
 var _account_info2 = _interopRequireDefault(_account_info);
 
+var _common = require('../_common');
+
 var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
@@ -70863,34 +71222,8 @@ var _lodash2 = _interopRequireDefault(_lodash);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
-// Shared utilities for Seating Chart section
+// Shared utilities for Floorplans section
 //
-
-/**
- * Create the API headers
- *
- * @param {string} token - The auth token to use in requests
- * @return {object} - Object with api headers
- */
-var createHeaders = exports.createHeaders = function createHeaders(token) {
-  return {
-    'x-access-token': token
-  };
-};
-
-/**
- * @var {boolean} - Is app in debug mode?
- */
-var debug = exports.debug = true;
-
-/**
- * @var {function} - Wrapper around console.log, behavior dependant on 'debug' var
- */
-var log = exports.log = function log() {
-  if (debug) {
-    console.log.apply(console, _arguments);
-  }
-};
 
 /**
  * Create an api utility object
@@ -70899,7 +71232,7 @@ var log = exports.log = function log() {
  * @return {object} - Object with api endpoints and wrapped for convenience
  */
 var createApi = exports.createApi = function createApi($http, apiRoot, token) {
-  var headers = createHeaders(token);
+  var headers = (0, _common.createHeaders)(token);
   return {
     //
     // POST seating-charts
@@ -70925,6 +71258,36 @@ var createApi = exports.createApi = function createApi($http, apiRoot, token) {
       $http({
         method: 'GET',
         url: apiRoot + '/Api/AllCompaniesForAllOffices',
+        headers: headers
+      }).then(function (response) {
+        return callback(null, response);
+      }, function (err) {
+        return callback(err);
+      });
+    },
+
+    //
+    // GET floor plans
+    //
+    fetchFloorPlans: function fetchFloorPlans(callback) {
+      $http({
+        method: 'GET',
+        url: apiRoot + '/Api/FloorPlans',
+        headers: headers
+      }).then(function (response) {
+        return callback(null, response);
+      }, function (err) {
+        return callback(err);
+      });
+    },
+
+    //
+    // GET floor plan
+    //
+    fetchFloorPlan: function fetchFloorPlan(id, callback) {
+      $http({
+        method: 'GET',
+        url: apiRoot + '/Api/FloorPlans/' + id,
         headers: headers
       }).then(function (response) {
         return callback(null, response);
@@ -71007,12 +71370,8 @@ var createApi = exports.createApi = function createApi($http, apiRoot, token) {
  * @param {object} $window - The window object
  */
 var initScope = exports.initScope = function initScope($scope, $http, $location, $window) {
-  // add info from settings
-  $scope.primaryNavItems = _primary_nav_items2.default;
-  $scope.accountNavItems = _account_nav_items2.default;
-  $scope.showAccountInfo = _account_info2.default;
-  // check permissions
-  $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
+  // add utils from ../common
+  (0, _common._initScope)($scope, $http, $location, $window);
   // add routes
   $scope.goToAdd = function () {
     $location.path('/seating-charts/add');
@@ -71053,48 +71412,9 @@ var initScope = exports.initScope = function initScope($scope, $http, $location,
       });
     }
   };
-  // add extra utility methods
-  $scope.addCssToHead = function (href) {
-    if (typeof href !== 'string' && href.length > 0) {
-      return href.forEach(function (singleHref) {
-        $scope.addCssToHead(singleHref);
-      });
-    }
-    var linkTag = document.createElement('link');
-    linkTag.rel = 'stylesheet';
-    linkTag.href = href;
-    document.getElementsByTagName('head')[0].appendChild(linkTag);
-  };
-  // add extra utility methods
-  $scope.addJsToHead = function (src) {
-    if (typeof src !== 'string' && src.length > 0) {
-      return src.forEach(function (singleSrc) {
-        $scope.addJsToHead(singleSrc);
-      });
-    }
-    var scriptTag = document.createElement('script');
-    scriptTag.src = src;
-    document.getElementsByTagName('head')[0].appendChild(scriptTag);
-  };
 };
 
-/**
- * Create alert markup
- *
- * @param {string} message - The message to show
- * @param {string} type - The type of alert ('success', 'info', 'warning', or 'danger')
- * @return {string} - The HTML markup for the alert
- */
-var createMessage = exports.createMessage = function createMessage(message) {
-  var type = arguments.length <= 1 || arguments[1] === undefined ? 'success' : arguments[1];
-
-  if (['success', 'info', 'warning', 'danger'].indexOf(type) === -1) {
-    type = 'success';
-  }
-  return '<div class="alert alert-' + type + '">' + message + '</div>';
-};
-
-},{"../../core/env":190,"../../settings/account_info":192,"../../settings/account_nav_items":193,"../../settings/permissions":194,"../../settings/primary_nav_items":195,"lodash":112}],182:[function(require,module,exports){
+},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/permissions":198,"../../settings/primary_nav_items":199,"../_common":193,"lodash":112}],185:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -71281,7 +71601,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../../core/env":190,"../../settings/account_info":192,"../../settings/account_nav_items":193,"../../settings/primary_nav_items":195}],183:[function(require,module,exports){
+},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/primary_nav_items":199}],186:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -71460,7 +71780,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../../core/env":190,"../../settings/account_info":192,"../../settings/account_nav_items":193,"../../settings/primary_nav_items":195,"../../settings/states":196}],184:[function(require,module,exports){
+},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/primary_nav_items":199,"../../settings/states":200}],187:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -71573,7 +71893,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../../core/env":190,"../../settings/account_info":192,"../../settings/account_nav_items":193,"../../settings/primary_nav_items":195}],185:[function(require,module,exports){
+},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/primary_nav_items":199}],188:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -71704,7 +72024,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../../core/env":190,"../../settings/account_info":192,"../../settings/account_nav_items":193,"../../settings/primary_nav_items":195}],186:[function(require,module,exports){
+},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/primary_nav_items":199}],189:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -71924,7 +72244,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],187:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],190:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -72028,7 +72348,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],188:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],191:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -72138,7 +72458,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],189:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],192:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -72374,7 +72694,130 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":190,"../settings/account_info":192,"../settings/account_nav_items":193,"../settings/permissions":194,"../settings/primary_nav_items":195}],190:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],193:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createMessage = exports._initScope = exports.log = exports.debug = exports.createHeaders = undefined;
+var _arguments = arguments;
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _permissions = require('../settings/permissions');
+
+var _permissions2 = _interopRequireDefault(_permissions);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Shared utilities for controllors
+//
+
+/**
+ * Create the API headers
+ *
+ * @param {string} token - The auth token to use in requests
+ * @return {object} - Object with api headers
+ */
+var createHeaders = exports.createHeaders = function createHeaders(token) {
+  return {
+    'x-access-token': token
+  };
+};
+
+/**
+ * @var {boolean} - Is app in debug mode?
+ */
+var debug = exports.debug = true;
+
+/**
+ * @var {function} - Wrapper around console.log, behavior dependant on 'debug' var
+ */
+var log = exports.log = function log() {
+  if (debug) {
+    console.log.apply(console, _arguments);
+  }
+};
+
+/**
+ * Initialize the $scope object
+ *
+ * NOTE: no need to return, since it's an object (passed by reference)
+ *
+ * @param {object} $scope - The scope object
+ * @param {object} $http - The http object
+ * @param {object} $location - The location object
+ * @param {object} $window - The window object
+ */
+var _initScope = exports._initScope = function _initScope($scope, $http, $location, $window) {
+  // add info from settings
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
+  // check permissions
+  $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
+  // add extra utility methods
+  $scope.addCssToHead = function (href) {
+    if (typeof href !== 'string' && href.length > 0) {
+      return href.forEach(function (singleHref) {
+        $scope.addCssToHead(singleHref);
+      });
+    }
+    var linkTag = document.createElement('link');
+    linkTag.rel = 'stylesheet';
+    linkTag.href = href;
+    document.getElementsByTagName('head')[0].appendChild(linkTag);
+  };
+  // add extra utility methods
+  $scope.addJsToHead = function (src) {
+    if (typeof src !== 'string' && src.length > 0) {
+      return src.forEach(function (singleSrc) {
+        $scope.addJsToHead(singleSrc);
+      });
+    }
+    var scriptTag = document.createElement('script');
+    scriptTag.src = src;
+    document.getElementsByTagName('head')[0].appendChild(scriptTag);
+  };
+};
+
+/**
+ * Create alert markup
+ *
+ * @param {string} message - The message to show
+ * @param {string} type - The type of alert ('success', 'info', 'warning', or 'danger')
+ * @return {string} - The HTML markup for the alert
+ */
+var createMessage = exports.createMessage = function createMessage(message) {
+  var type = arguments.length <= 1 || arguments[1] === undefined ? 'success' : arguments[1];
+
+  if (['success', 'info', 'warning', 'danger'].indexOf(type) === -1) {
+    type = 'success';
+  }
+  return '<div class="alert alert-' + type + '">' + message + '</div>';
+};
+
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199,"lodash":112}],194:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -72407,7 +72850,7 @@ var env = _lodash2.default.assign({}, _env2.default, _env4.default);
 
 exports.default = env;
 
-},{"../../env":2,"../../env.default":1,"browserify-fs":23,"lodash":112}],191:[function(require,module,exports){
+},{"../../env":2,"../../env.default":1,"browserify-fs":23,"lodash":112}],195:[function(require,module,exports){
 'use strict';
 
 var _AddAdminController = require('./controllers/AddAdminController');
@@ -72530,6 +72973,22 @@ var _FloorplanController = require('./controllers/FloorplanController');
 
 var _FloorplanController2 = _interopRequireDefault(_FloorplanController);
 
+var _AddController = require('./controllers/Floorplans/AddController');
+
+var _AddController2 = _interopRequireDefault(_AddController);
+
+var _DesignController = require('./controllers/Floorplans/DesignController');
+
+var _DesignController2 = _interopRequireDefault(_DesignController);
+
+var _EditController = require('./controllers/Floorplans/EditController');
+
+var _EditController2 = _interopRequireDefault(_EditController);
+
+var _ListController = require('./controllers/Floorplans/ListController');
+
+var _ListController2 = _interopRequireDefault(_ListController);
+
 var _InitializationErrorController = require('./controllers/Errors/InitializationErrorController');
 
 var _InitializationErrorController2 = _interopRequireDefault(_InitializationErrorController);
@@ -72566,21 +73025,13 @@ var _PasswordResetTokenController = require('./controllers/PasswordResetTokenCon
 
 var _PasswordResetTokenController2 = _interopRequireDefault(_PasswordResetTokenController);
 
-var _AddController = require('./controllers/SeatingCharts/AddController');
+var _AddController3 = require('./controllers/SeatingCharts/AddController');
 
-var _AddController2 = _interopRequireDefault(_AddController);
+var _AddController4 = _interopRequireDefault(_AddController3);
 
-var _DesignController = require('./controllers/SeatingCharts/DesignController');
+var _ListController3 = require('./controllers/SeatingCharts/ListController');
 
-var _DesignController2 = _interopRequireDefault(_DesignController);
-
-var _EditController = require('./controllers/SeatingCharts/EditController');
-
-var _EditController2 = _interopRequireDefault(_EditController);
-
-var _ListController = require('./controllers/SeatingCharts/ListController');
-
-var _ListController2 = _interopRequireDefault(_ListController);
+var _ListController4 = _interopRequireDefault(_ListController3);
 
 var _SignOutController = require('./controllers/MyAccount/SignOutController');
 
@@ -72616,6 +73067,9 @@ var iscApp = angular.module('iscApp', ['ngRoute', angularDragula(angular), 'ngFi
 //
 
 
+// Floorplans
+
+
 // Seating Charts
 
 
@@ -72649,6 +73103,13 @@ iscApp.controller('EmployeeDetailController', _EmployeeDetailController2.default
 iscApp.controller('EmployeePreferencesController', _EmployeePreferencesController2.default);
 iscApp.controller('EmployeeReassignToOfficeController', _EmployeeReassignToOfficeController2.default);
 iscApp.controller('FloorplanController', _FloorplanController2.default);
+
+// Floorplans
+iscApp.controller('Floorplans_AddController', _AddController2.default);
+iscApp.controller('Floorplans_DesignController', _DesignController2.default);
+iscApp.controller('Floorplans_EditController', _EditController2.default);
+iscApp.controller('Floorplans_ListController', _ListController2.default);
+
 iscApp.controller('InitializationErrorController', _InitializationErrorController2.default);
 iscApp.controller('LoginController', _LoginController2.default);
 iscApp.controller('MainController', _MainController2.default);
@@ -72660,10 +73121,8 @@ iscApp.controller('PasswordResetController', _PasswordResetController2.default);
 iscApp.controller('PasswordResetTokenController', _PasswordResetTokenController2.default);
 
 // Seating Charts
-iscApp.controller('SeatingCharts_AddController', _AddController2.default);
-iscApp.controller('SeatingCharts_DesignController', _DesignController2.default);
-iscApp.controller('SeatingCharts_EditController', _EditController2.default);
-iscApp.controller('SeatingCharts_ListController', _ListController2.default);
+iscApp.controller('SeatingCharts_AddController', _AddController4.default);
+iscApp.controller('SeatingCharts_ListController', _ListController4.default);
 
 iscApp.controller('SignOutController', _SignOutController2.default);
 iscApp.controller('TeamMembersController', _TeamMembersController2.default);
@@ -72773,6 +73232,22 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   }).when('/floorplan/:id', {
     templateUrl: 'views/floorplan.html',
     controller: 'FloorplanController'
+  })
+  //
+  // Section: /floor-plans
+  //
+  .when('/floor-plans', {
+    templateUrl: 'views/floor-plans/list.html',
+    controller: 'Floorplans_ListController'
+  }).when('/floor-plans/add', {
+    templateUrl: 'views/floor-plans/add.html',
+    controller: 'Floorplans_AddController'
+  }).when('/floor-plans/:id/design', {
+    templateUrl: 'views/floor-plans/design.html',
+    controller: 'Floorplans_DesignController'
+  }).when('/floor-plans/:id/edit', {
+    templateUrl: 'views/floor-plans/edit.html',
+    controller: 'Floorplans_EditController'
   }).when('/initialization-error', {
     templateUrl: 'views/errors/initialization-error.html',
     controller: 'InitializationErrorController'
@@ -72807,12 +73282,6 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   }).when('/seating-charts/add', {
     templateUrl: 'views/seating-charts/add.html',
     controller: 'SeatingCharts_AddController'
-  }).when('/seating-charts/:id/design', {
-    templateUrl: 'views/seating-charts/design.html',
-    controller: 'SeatingCharts_DesignController'
-  }).when('/seating-charts/:id/edit', {
-    templateUrl: 'views/seating-charts/edit.html',
-    controller: 'SeatingCharts_EditController'
   }).when('/sign-out', {
     templateUrl: 'views/my-account/sign-out.html',
     controller: 'SignOutController'
@@ -72853,7 +73322,7 @@ iscApp.factory('addService', function () {
   };
 });
 
-},{"./controllers/AddAdminController":141,"./controllers/AddAdminToCompanyController":142,"./controllers/AddAdminToOfficeController":143,"./controllers/AddCompanyController":144,"./controllers/AddEmployeeCoworkersController":145,"./controllers/AddEmployeeIndividualInfoController":146,"./controllers/AddEmployeeNewController":147,"./controllers/AddEmployeePreferencesController":148,"./controllers/AddOfficeController":149,"./controllers/AddOfficeEmployeeController":150,"./controllers/AddTemperatureRangeController":151,"./controllers/AdminManagementController":152,"./controllers/AdminReassignToCompanyController":153,"./controllers/CompaniesController":154,"./controllers/CompanyOfficesController":155,"./controllers/EditCompanyController":156,"./controllers/EditEmployeeController":157,"./controllers/EditEmployeePermissionsController":158,"./controllers/EditEmployeePreferencesController":159,"./controllers/EditOfficeController":160,"./controllers/EditTemperatureRangeController":161,"./controllers/EmployeeCoworkersController":162,"./controllers/EmployeeDetailController":163,"./controllers/EmployeePreferencesController":164,"./controllers/EmployeeReassignToOfficeController":165,"./controllers/Errors/InitializationErrorController":166,"./controllers/FloorplanController":167,"./controllers/LoginController":168,"./controllers/MainController":169,"./controllers/MyAccount/MyInfoController":170,"./controllers/MyAccount/SignOutController":171,"./controllers/OfficeDetailController":172,"./controllers/OfficeEmployeesController":173,"./controllers/OfficesController":174,"./controllers/PasswordResetController":175,"./controllers/PasswordResetTokenController":176,"./controllers/SeatingCharts/AddController":177,"./controllers/SeatingCharts/DesignController":178,"./controllers/SeatingCharts/EditController":179,"./controllers/SeatingCharts/ListController":180,"./controllers/StartUp/AddInitialCompanyController":182,"./controllers/StartUp/AddInitialOfficeController":183,"./controllers/StartUp/AddInitialTemperatureRangeController":184,"./controllers/StartUp/AddSuperAdminToOfficeController":185,"./controllers/TeamMembersController":186,"./controllers/TemperatureRangesController":187,"./controllers/UpdatePasswordController":188,"./controllers/ViewEmployeesController":189,"angular":12,"angular-dragula":7}],192:[function(require,module,exports){
+},{"./controllers/AddAdminController":141,"./controllers/AddAdminToCompanyController":142,"./controllers/AddAdminToOfficeController":143,"./controllers/AddCompanyController":144,"./controllers/AddEmployeeCoworkersController":145,"./controllers/AddEmployeeIndividualInfoController":146,"./controllers/AddEmployeeNewController":147,"./controllers/AddEmployeePreferencesController":148,"./controllers/AddOfficeController":149,"./controllers/AddOfficeEmployeeController":150,"./controllers/AddTemperatureRangeController":151,"./controllers/AdminManagementController":152,"./controllers/AdminReassignToCompanyController":153,"./controllers/CompaniesController":154,"./controllers/CompanyOfficesController":155,"./controllers/EditCompanyController":156,"./controllers/EditEmployeeController":157,"./controllers/EditEmployeePermissionsController":158,"./controllers/EditEmployeePreferencesController":159,"./controllers/EditOfficeController":160,"./controllers/EditTemperatureRangeController":161,"./controllers/EmployeeCoworkersController":162,"./controllers/EmployeeDetailController":163,"./controllers/EmployeePreferencesController":164,"./controllers/EmployeeReassignToOfficeController":165,"./controllers/Errors/InitializationErrorController":166,"./controllers/FloorplanController":167,"./controllers/Floorplans/AddController":168,"./controllers/Floorplans/DesignController":169,"./controllers/Floorplans/EditController":170,"./controllers/Floorplans/ListController":171,"./controllers/LoginController":173,"./controllers/MainController":174,"./controllers/MyAccount/MyInfoController":175,"./controllers/MyAccount/SignOutController":176,"./controllers/OfficeDetailController":177,"./controllers/OfficeEmployeesController":178,"./controllers/OfficesController":179,"./controllers/PasswordResetController":180,"./controllers/PasswordResetTokenController":181,"./controllers/SeatingCharts/AddController":182,"./controllers/SeatingCharts/ListController":183,"./controllers/StartUp/AddInitialCompanyController":185,"./controllers/StartUp/AddInitialOfficeController":186,"./controllers/StartUp/AddInitialTemperatureRangeController":187,"./controllers/StartUp/AddSuperAdminToOfficeController":188,"./controllers/TeamMembersController":189,"./controllers/TemperatureRangesController":190,"./controllers/UpdatePasswordController":191,"./controllers/ViewEmployeesController":192,"angular":12,"angular-dragula":7}],196:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -72867,7 +73336,7 @@ exports.default = {
   show: true
 };
 
-},{}],193:[function(require,module,exports){
+},{}],197:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -72891,7 +73360,7 @@ exports.default = [{
   show: true
 }];
 
-},{}],194:[function(require,module,exports){
+},{}],198:[function(require,module,exports){
 'use strict';
 
 var _env = require('../core/env');
@@ -73210,7 +73679,7 @@ exports.userPermissionCheck = function ($http, $scope, $location, $window) {
   return $scope;
 };
 
-},{"../core/env":190}],195:[function(require,module,exports){
+},{"../core/env":194}],199:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -73241,6 +73710,10 @@ exports.default = [{
   text: 'Offices',
   show: false
 }, {
+  href: '/floor-plans',
+  text: 'Floor Plans',
+  show: false
+}, {
   href: '/seating-charts',
   text: 'Seating Charts',
   show: false
@@ -73250,7 +73723,7 @@ exports.default = [{
   show: false
 }];
 
-},{}],196:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -73262,7 +73735,7 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
 
-},{}]},{},[191])
+},{}]},{},[195])
 
 
 //# sourceMappingURL=bundle.js.map

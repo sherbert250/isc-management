@@ -46,26 +46,22 @@
   </div>
   <table class="table table-striped view-items-table">
     <thead>
-      <th>Office Name</th>
-      <th>Design Name</th>
-      <th>Rows</th>
-      <th>Columns</th>
+      <th>Base Floor Plan</th>
+      <th>Name</th>
       <th colspan="3" class="action-header">Actions</th>
     </thead>
     <tbody ng-repeat="seatingChart in seatingCharts | filter: query">
       <tr>
-        <td>{{seatingChart.office_name}}</td>
-        <td><a ng-click="goToDesign(seatingChart.id)">{{seatingChart.name}}</a></td>
-        <td>{{seatingChart.rows}}</td>
-        <td>{{seatingChart.cols}}</td>
-        <td class="action-header">
+        <td>{{seatingChart.base_floor_plan_name}}</td>
+        <td>{{seatingChart.name}}</td>
+        <!-- <td class="action-header">
           <button class="btn btn-info btn-sm" ng-click="goToEdit(seatingChart.id)">
-            View
+            View Results
           </button>
-        </td>
+        </td> -->
         <td class="action-header">
-          <button class="btn btn-primary btn-sm" ng-click="goToDesign(seatingChart.id)">
-            Design
+          <button class="btn btn-primary btn-sm">
+            Run Seating Algorithm
           </button>
         </td>
         <td class="action-header">

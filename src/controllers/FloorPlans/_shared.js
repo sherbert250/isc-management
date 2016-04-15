@@ -7,7 +7,7 @@ import {createHeaders, _initScope} from '../_common';
 import _ from 'lodash';
 
 //
-// Shared utilities for Floorplans section
+// Shared utilities for FloorPlans section
 //
 
 /**
@@ -20,13 +20,13 @@ export const createApi = ($http, apiRoot, token) => {
   const headers = createHeaders(token);
   return {
     //
-    // POST seating-charts
+    // POST floorplans
     //
-    addSeatingChart(newSeatingChart, callback) {
+    addFloorPlan(newFloorPlan, callback) {
       $http({
         method: 'POST',
-        url: `${apiRoot}/Api/SeatingCharts`,
-        data: newSeatingChart,
+        url: `${apiRoot}/Api/FloorPlans`,
+        data: newFloorPlan,
         headers
       }).then(
         response => callback(null, response),
@@ -73,39 +73,13 @@ export const createApi = ($http, apiRoot, token) => {
       );
     },
     //
-    // GET seating-charts
+    // PUT floor plan
     //
-    fetchSeatingCharts(callback) {
-      $http({
-        method: 'GET',
-        url: `${apiRoot}/Api/SeatingCharts`,
-        headers
-      }).then(
-        response => callback(null, response),
-        err => callback(err)
-      );
-    },
-    //
-    // GET seating-chart
-    //
-    fetchSeatingChart(id, callback) {
-      $http({
-        method: 'GET',
-        url: `${apiRoot}/Api/SeatingCharts/${id}`,
-        headers
-      }).then(
-        response => callback(null, response),
-        err => callback(err)
-      );
-    },
-    //
-    // PUT seating-chart
-    //
-    updateSeatingChart(id, newSeatingChart, callback) {
+    updateFloorPlan(id, newFloorPlan, callback) {
       $http({
         method: 'PUT',
-        url: `${apiRoot}/Api/SeatingCharts/${id}`,
-        data: newSeatingChart,
+        url: `${apiRoot}/Api/FloorPlans/${id}`,
+        data: newFloorPlan,
         headers
       }).then(
         response => callback(null, response),
@@ -113,12 +87,12 @@ export const createApi = ($http, apiRoot, token) => {
       );
     },
     //
-    // DELETE seating-charts/:id
+    // DELETE floorplans/:id
     //
-    removeSeatingChart(id, callback) {
+    removeFloorPlan(id, callback) {
       $http({
         method: 'DELETE',
-        url: `${apiRoot}/Api/SeatingCharts/${id}`,
+        url: `${apiRoot}/Api/FloorPlans/${id}`,
         headers
       }).then(
         response => callback(null, response),
@@ -143,39 +117,39 @@ export const initScope = ($scope, $http, $location, $window) => {
   _initScope($scope, $http, $location, $window);
   // add routes
   $scope.goToAdd = function() {
-    $location.path('/seating-charts/add');
+    $location.path('/floor-plans/add');
   };
   $scope.goToDesign = function(id) {
-    $location.path(`/seating-charts/${id}/design`);
+    $location.path(`/floor-plans/${id}/design`);
   };
   $scope.goToEdit = function(id) {
-    $location.path(`/seating-charts/${id}/edit`);
+    $location.path(`/floor-plans/${id}/edit`);
   };
   $scope.goToList = function() {
-    $location.path('/seating-charts');
+    $location.path('/floor-plans');
   };
   // add api methods
   $scope.api = createApi($http, env.api.root, $window.sessionStorage.token);
   // add delete method
   $scope.openDelete = function(id) {
-    if (confirm('Are you sure you want to delete this seating chart? This cannot be undone.')) {
-      $scope.api.removeSeatingChart(id, function(err, response) {
+    if (confirm('Are you sure you want to delete this floor plan? This cannot be undone.')) {
+      $scope.api.removeFloorPlan(id, function(err, response) {
         if (err) {
           log(err);
           return $scope.message = {
-            text: 'Something went wrong, and we weren\'t able to delete the seating chart.',
+            text: 'Something went wrong, and we weren\'t able to delete the floor plan.',
             type: 'danger'
           };
         }
-        // remove seating chart from view collection
+        // remove floor plan from view collection
         //  and show success message
         return _.assign($scope, {
           message: {
             text: `Seating chart #${id} was deleted successfully.`,
             type: 'success'
           },
-          seatingCharts: _.filter($scope.seatingCharts, seatingChart => {
-            return seatingChart.id !== id;
+          floorPlans: _.filter($scope.FloorPlans, floorPlan => {
+            return floorPlan.id !== id;
           })
         });
       });
