@@ -48,7 +48,10 @@ export default ['$scope', '$http', '$location', '$window', ($scope, $http, $loca
   // Handle form submission
   //
   $scope.handleSubmit = function() {
-    const {name, base_floor_plan_id} = $scope.formData;
+    const {name} = $scope.formData;
+    const floorPlanPieces = $scope.formData.base_floor_plan_id.split('-');
+    const office_id = floorPlanPieces[0];
+    const base_floor_plan_id = floorPlanPieces[1];
     // perform validation
     if (!name) {
       return alert('Please enter a name for the seating chart.');
@@ -64,7 +67,7 @@ export default ['$scope', '$http', '$location', '$window', ($scope, $http, $loca
       }
       const base_floor_plan = response.data[0].spots;
       const base_floor_plan_name = response.data[0].name;
-      $scope.api.addSeatingChart({name, base_floor_plan, base_floor_plan_name}, function(err, response) {
+      $scope.api.addSeatingChart({name, base_floor_plan, base_floor_plan_name, office_id}, function(err, response) {
         if (err) {
           return log(err);
         }
