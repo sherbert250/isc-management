@@ -62,7 +62,8 @@
         <td class="action-header">
           <div ng-hide="isFetching == true">
             <button class="btn btn-primary btn-sm" ng-click="populateChart(seatingChart.id)">
-              Populate Seating Chart
+              <span ng-if="seatingChart.seating_chart">Re-populate Seating Chart</span>
+              <span ng-if="!seatingChart.seating_chart">Populate Seating Chart</span>
             </button>
           </div>
           <div ng-show="isFetching == true">
