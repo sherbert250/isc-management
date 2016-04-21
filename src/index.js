@@ -40,10 +40,10 @@ import EmployeeReassignToOfficeController from './controllers/EmployeeReassignTo
 import FloorplanController from './controllers/FloorplanController';
 
 // Floorplans
-import Floorplans_AddController from './controllers/Floorplans/AddController';
-import Floorplans_DesignController from './controllers/Floorplans/DesignController';
-import Floorplans_EditController from './controllers/Floorplans/EditController';
-import Floorplans_ListController from './controllers/Floorplans/ListController';
+import Floorplans_AddController from './controllers/FloorPlans/AddController';
+import Floorplans_DesignController from './controllers/FloorPlans/DesignController';
+import Floorplans_EditController from './controllers/FloorPlans/EditController';
+import Floorplans_ListController from './controllers/FloorPlans/ListController';
 
 import InitializationErrorController from './controllers/Errors/InitializationErrorController';
 import LoginController from './controllers/LoginController';
