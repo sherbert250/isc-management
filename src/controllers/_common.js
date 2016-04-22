@@ -65,15 +65,15 @@ export const _initScope = ($scope, $http, $location, $window) => {
     document.getElementsByTagName('head')[0].appendChild(linkTag);
   };
   // add extra utility methods
-  $scope.addJsToHead = src => {
+  $scope.addJsToBodyClose = src => {
     if (typeof src !== 'string' && src.length > 0) {
       return src.forEach(singleSrc => {
-        $scope.addJsToHead(singleSrc);
+        $scope.addJsToBodyClose(singleSrc);
       });
     }
     const scriptTag = document.createElement('script');
     scriptTag.src = src;
-    document.getElementsByTagName('head')[0].appendChild(scriptTag);
+    document.body.appendChild(scriptTag);
   };
 };
 

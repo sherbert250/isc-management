@@ -47,6 +47,19 @@ export const createApi = ($http, apiRoot, token) => {
       );
     },
     //
+    // GET offices
+    //
+    fetchOfficeEmployees(officeId, callback) {
+      $http({
+        method: 'GET',
+        url: `${apiRoot}/Api//EmployeesOfOffice/${officeId}`,
+        headers
+      }).then(
+        response => callback(null, response),
+        err => callback(err)
+      );
+    },
+    //
     // GET floor plans
     //
     fetchFloorPlans(callback) {

@@ -148,7 +148,7 @@ export const initScope = ($scope, $http, $location, $window) => {
             text: `Seating chart #${id} was deleted successfully.`,
             type: 'success'
           },
-          floorPlans: _.filter($scope.FloorPlans, floorPlan => {
+          floorPlans: _.filter($scope.floorPlans, floorPlan => {
             return floorPlan.id !== id;
           })
         });

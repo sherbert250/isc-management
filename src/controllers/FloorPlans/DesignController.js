@@ -65,7 +65,7 @@ export default ['$scope', '$http', '$location', '$routeParams', '$window', ($sco
       'https://fonts.googleapis.com/icon?family=Material+Icons',
       'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css'
     ]);
-    $scope.addJsToHead([
+    $scope.addJsToBodyClose([
       'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js',
       '/js/designer.js'
     ]);

@@ -37,7 +37,9 @@ export default ['$scope', '$http', '$location', '$routeParams', '$window', ($sco
     $window.ISC = {
       initialState: {
         design: {
+          cols: $scope.seatingChart.base_floor_plan_cols,
           name: $scope.seatingChart.name,
+          rows: $scope.seatingChart.base_floor_plan_rows,
           spots: $scope.seatingChart.seating_chart ? JSON.parse($scope.seatingChart.seating_chart) : $scope.seatingChart.base_floor_plan ? JSON.parse($scope.seatingChart.base_floor_plan) : undefined
         },
         settings: {
@@ -54,9 +56,17 @@ export default ['$scope', '$http', '$location', '$routeParams', '$window', ($sco
       'https://fonts.googleapis.com/icon?family=Material+Icons',
       'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css'
     ]);
-    $scope.addJsToHead([
-      'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js',
-      '/js/designer.js'
-    ]);
+
+    // add materialize js
+    var materializeTag = document.createElement('script');
+    materializeTag.src = 'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js';
+    document.body.appendChild(materializeTag);
+
+    // add bundle after materializeTag
+    materializeTag.onload = function() {
+      var bundleTag = document.createElement('script');
+      bundleTag.src = '/js/designer.js';
+      document.body.appendChild(bundleTag);
+    };
   });
 }];

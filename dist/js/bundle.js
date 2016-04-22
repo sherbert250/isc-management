@@ -69377,7 +69377,7 @@ exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', fu
     };
 
     $scope.addCssToHead(['https://fonts.googleapis.com/icon?family=Material+Icons', 'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css']);
-    $scope.addJsToHead(['https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js', '/js/designer.js']);
+    $scope.addJsToBodyClose(['https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js', '/js/designer.js']);
   });
 }];
 
@@ -69720,7 +69720,7 @@ var initScope = exports.initScope = function initScope($scope, $http, $location,
             text: 'Seating chart #' + id + ' was deleted successfully.',
             type: 'success'
           },
-          floorPlans: _lodash2.default.filter($scope.FloorPlans, function (floorPlan) {
+          floorPlans: _lodash2.default.filter($scope.floorPlans, function (floorPlan) {
             return floorPlan.id !== id;
           })
         });
@@ -71252,9 +71252,13 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   $scope.handleSubmit = function () {
     var name = $scope.formData.name;
 
-    var floorPlanPieces = $scope.formData.base_floor_plan_id.split('-');
-    var office_id = floorPlanPieces[0];
-    var base_floor_plan_id = floorPlanPieces[1];
+    var base_floor_plan_id = parseInt($scope.formData.base_floor_plan_id, 10);
+    console.log({ base_floor_plan_id: base_floor_plan_id, floorPlans: $scope.floorPlans });
+    var base_floor_plan = _lodash2.default.find($scope.floorPlans, { id: base_floor_plan_id });
+    var base_floor_plan_name = base_floor_plan.name;
+    var base_floor_plan_rows = base_floor_plan.rows;
+    var base_floor_plan_cols = base_floor_plan.cols;
+    var office_id = base_floor_plan.office_id;
     // perform validation
     if (!name) {
       return alert('Please enter a name for the seating chart.');
@@ -71263,24 +71267,23 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
       return alert('Please select a base floor plan for the seating chart.');
     }
     // if all checks pass, create the seating chart
-    $scope.api.fetchFloorPlan(base_floor_plan_id, function (err, response) {
+    $scope.api.addSeatingChart({
+      name: name,
+      base_floor_plan: base_floor_plan.spots,
+      base_floor_plan_rows: base_floor_plan_rows,
+      base_floor_plan_cols: base_floor_plan_cols,
+      base_floor_plan_name: base_floor_plan_name,
+      office_id: office_id
+    }, function (err, response) {
       if (err) {
-        alert('Something went wrong while creating your seating chart.');
         return (0, _common.log)(err);
       }
-      var base_floor_plan = response.data[0].spots;
-      var base_floor_plan_name = response.data[0].name;
-      $scope.api.addSeatingChart({ name: name, base_floor_plan: base_floor_plan, base_floor_plan_name: base_floor_plan_name, office_id: office_id }, function (err, response) {
-        if (err) {
-          return (0, _common.log)(err);
-        }
-        // restore default form data
-        $scope.formData = defaultFormData;
-        $scope.message = {
-          text: 'Success! The seating chart was created.',
-          type: 'success'
-        };
-      });
+      // restore default form data
+      $scope.formData = defaultFormData;
+      $scope.message = {
+        text: 'Success! The seating chart was created.',
+        type: 'success'
+      };
     });
   };
 }];
@@ -71395,7 +71398,9 @@ exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', fu
     $window.ISC = {
       initialState: {
         design: {
+          cols: $scope.seatingChart.base_floor_plan_cols,
           name: $scope.seatingChart.name,
+          rows: $scope.seatingChart.base_floor_plan_rows,
           spots: $scope.seatingChart.seating_chart ? JSON.parse($scope.seatingChart.seating_chart) : $scope.seatingChart.base_floor_plan ? JSON.parse($scope.seatingChart.base_floor_plan) : undefined
         },
         settings: {
@@ -71409,7 +71414,18 @@ exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', fu
     };
 
     $scope.addCssToHead(['https://fonts.googleapis.com/icon?family=Material+Icons', 'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css']);
-    $scope.addJsToHead(['https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js', '/js/designer.js']);
+
+    // add materialize js
+    var materializeTag = document.createElement('script');
+    materializeTag.src = 'https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js';
+    document.body.appendChild(materializeTag);
+
+    // add bundle after materializeTag
+    materializeTag.onload = function () {
+      var bundleTag = document.createElement('script');
+      bundleTag.src = '/js/designer.js';
+      document.body.appendChild(bundleTag);
+    };
   });
 }];
 
@@ -71486,6 +71502,21 @@ var createApi = exports.createApi = function createApi($http, apiRoot, token) {
       $http({
         method: 'GET',
         url: apiRoot + '/Api/AllCompaniesForAllOffices',
+        headers: headers
+      }).then(function (response) {
+        return callback(null, response);
+      }, function (err) {
+        return callback(err);
+      });
+    },
+
+    //
+    // GET offices
+    //
+    fetchOfficeEmployees: function fetchOfficeEmployees(officeId, callback) {
+      $http({
+        method: 'GET',
+        url: apiRoot + '/Api//EmployeesOfOffice/' + officeId,
         headers: headers
       }).then(function (response) {
         return callback(null, response);
@@ -73053,15 +73084,15 @@ var _initScope = exports._initScope = function _initScope($scope, $http, $locati
     document.getElementsByTagName('head')[0].appendChild(linkTag);
   };
   // add extra utility methods
-  $scope.addJsToHead = function (src) {
+  $scope.addJsToBodyClose = function (src) {
     if (typeof src !== 'string' && src.length > 0) {
       return src.forEach(function (singleSrc) {
-        $scope.addJsToHead(singleSrc);
+        $scope.addJsToBodyClose(singleSrc);
       });
     }
     var scriptTag = document.createElement('script');
     scriptTag.src = src;
-    document.getElementsByTagName('head')[0].appendChild(scriptTag);
+    document.body.appendChild(scriptTag);
   };
 };
 

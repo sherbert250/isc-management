@@ -40,7 +40,7 @@
         <div class="form-group">
           <label for="xbase_floor_plan_id">Base Floor Plan</label>
           <select class="form-control" id="xbase_floor_plan_id" ng-model="formData.base_floor_plan_id">
-            <option ng-repeat="floorPlan in floorPlans" value="{{ floorPlan.office_id }}-{{ floorPlan.id }}">
+            <option ng-repeat="floorPlan in floorPlans" value="{{ floorPlan.id }}">
               {{ floorPlan.officeName }} - {{ floorPlan.name }}
             </option>
           </select>

@@ -49,9 +49,13 @@ export default ['$scope', '$http', '$location', '$window', ($scope, $http, $loca
   //
   $scope.handleSubmit = function() {
     const {name} = $scope.formData;
-    const floorPlanPieces = $scope.formData.base_floor_plan_id.split('-');
-    const office_id = floorPlanPieces[0];
-    const base_floor_plan_id = floorPlanPieces[1];
+    const base_floor_plan_id = parseInt($scope.formData.base_floor_plan_id, 10);
+    console.log({base_floor_plan_id, floorPlans: $scope.floorPlans});
+    const base_floor_plan = _.find($scope.floorPlans, {id: base_floor_plan_id});
+    const base_floor_plan_name = base_floor_plan.name;
+    const base_floor_plan_rows = base_floor_plan.rows;
+    const base_floor_plan_cols = base_floor_plan.cols;
+    const office_id = base_floor_plan.office_id;
     // perform validation
     if (!name) {
       return alert('Please enter a name for the seating chart.');
@@ -60,24 +64,23 @@ export default ['$scope', '$http', '$location', '$window', ($scope, $http, $loca
       return alert('Please select a base floor plan for the seating chart.');
     }
     // if all checks pass, create the seating chart
-    $scope.api.fetchFloorPlan(base_floor_plan_id, function(err, response) {
+    $scope.api.addSeatingChart({
+      name,
+      base_floor_plan: base_floor_plan.spots,
+      base_floor_plan_rows,
+      base_floor_plan_cols,
+      base_floor_plan_name,
+      office_id
+    }, function(err, response) {
       if (err) {
-        alert('Something went wrong while creating your seating chart.');
         return log(err);
       }
-      const base_floor_plan = response.data[0].spots;
-      const base_floor_plan_name = response.data[0].name;
-      $scope.api.addSeatingChart({name, base_floor_plan, base_floor_plan_name, office_id}, function(err, response) {
-        if (err) {
-          return log(err);
-        }
-        // restore default form data
-        $scope.formData = defaultFormData;
-        $scope.message = {
-          text: 'Success! The seating chart was created.',
-          type: 'success'
-        };
-      });
+      // restore default form data
+      $scope.formData = defaultFormData;
+      $scope.message = {
+        text: 'Success! The seating chart was created.',
+        type: 'success'
+      };
     });
   };
 }];
