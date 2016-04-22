@@ -75,7 +75,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         'x-access-token': $window.sessionStorage.token
       }
     }).then(response => {
-      if (response.data[0].permissionLevel == 'superadmin') {
+      if (response.data[0].permissionLevel == 'superadmin' && $scope.officeID == 0) {
         $window.location.href = '/offices';
       } else {
         $window.location.href = '/office-detail/' + companyID + '/'+ officeID;
@@ -84,7 +84,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     });
   };
   if ($scope.officeID == 0) {
-    $location.path('/my-info');
+    $window.history.back();
   }
   $http({
     method: 'GET',

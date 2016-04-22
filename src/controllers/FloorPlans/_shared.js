@@ -47,6 +47,39 @@ export const createApi = ($http, apiRoot, token) => {
       );
     },
     //
+    // GET offices for company
+    //
+    fetchOfficesForCompany(callback) {
+      $http({
+        method: 'GET',
+        url: `${apiRoot}/Api/Verify`,
+        headers
+      }).then(
+        response => {
+          var employee = response.data[0];
+          $http({
+            method: 'GET',
+            url: `${apiRoot}/Api/CompaniesForAdmin/${employee.employeeID}`,
+            headers
+          }).then(
+            response => {
+              var company = response.data[0];
+              $http({
+                method: 'GET',
+                url: `${apiRoot}/Api/CompanyOffices/${company.companyID}`,
+                headers
+              }).then(
+                response => callback(null, response),
+                err => callback(err)
+              );
+            },
+            err => callback(err)
+          );
+        },
+        err => callback(err)
+      );
+    },
+    //
     // GET floor plans
     //
     fetchFloorPlans(callback) {
@@ -127,6 +160,9 @@ export const initScope = ($scope, $http, $location, $window) => {
   };
   $scope.goToList = function() {
     $location.path('/floor-plans');
+  };
+  $scope.goBack = function() {
+    $window.history.back();
   };
   // add api methods
   $scope.api = createApi($http, env.api.root, $window.sessionStorage.token);

@@ -35,6 +35,34 @@ export const log = () => {
   }
 };
 
+
+/**
+ * @param {object} token - The token containing the permission level of the employee
+ */
+export const isViewerAdmin = ($http, apiRoot, token, callback) => {
+  $http({
+    method: 'GET',
+    url: `${apiRoot}/Api/Verify`,
+    headers: {
+      'x-access-token': token
+    }
+  }).then(
+    response => {
+      var check = response.data[0];
+      if (check.permissionLevel == 'admin') {
+        //console.log(true);
+        callback(true);
+      } else {
+        //console.log(false);
+        callback(false);
+      }
+    },
+    err => {
+      callback(false);
+    }
+  );
+};
+
 /**
  * Initialize the $scope object
  *
@@ -51,7 +79,7 @@ export const _initScope = ($scope, $http, $location, $window) => {
   $scope.accountNavItems = accountNavItems;
   $scope.showAccountInfo = showAccountInfo;
   // check permissions
-  $scope = permissions.superadminPermissionCheck($http, $scope, $location, $window);
+  $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
   // add extra utility methods
   $scope.addCssToHead = href => {
     if (typeof href !== 'string' && href.length > 0) {

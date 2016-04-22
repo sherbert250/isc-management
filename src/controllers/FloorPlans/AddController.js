@@ -1,6 +1,6 @@
 import env from '../../core/env';
 import _ from 'lodash';
-import {createMessage, log} from '../_common';
+import {createMessage, log, isViewerAdmin} from '../_common';
 import {initScope} from './_shared';
 
 //
@@ -13,14 +13,26 @@ export default ['$scope', '$http', '$location', '$window', ($scope, $http, $loca
   // set up the $scope object with nav settings,
   //  routes, api endpoints, and check permissions
   initScope($scope, $http, $location, $window);
-
-  // fetch offices and floorplans from the API
-  $scope.api.fetchOffices(function(err, response) {
-    if (err) {
-      return log(err);
+  isViewerAdmin($http, env.api.root, $window.sessionStorage.token, function(answer) {
+    if (answer) {
+      // fetch offices for a company
+      $scope.api.fetchOfficesForCompany(function(err, response) {
+        if (err) {
+          return log(err);
+        }
+        // add offices to scope
+        $scope.offices = response.data;
+      });
+    } else {
+      // fetch offices and floorplans from the API
+      $scope.api.fetchOffices(function(err, response) {
+        if (err) {
+          return log(err);
+        }
+        // add offices to scope
+        $scope.offices = response.data;
+      });
     }
-    // add offices to scope
-    $scope.offices = response.data;
   });
 
   // set default form data

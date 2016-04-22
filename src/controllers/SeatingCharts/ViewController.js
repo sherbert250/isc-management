@@ -36,12 +36,10 @@ export default ['$scope', '$http', '$location', '$routeParams', '$window', ($sco
         var seating_chart_JSON = $scope.seatingChart.seating_chart ? JSON.parse($scope.seatingChart.seating_chart) : [];
         $scope.officeEmployees = result.data;
         for (var i in seating_chart_JSON) {
-          //console.log(seating_chart_JSON[i]);
           for (var j in seating_chart_JSON[i]) {
             for (var k = 0; k < $scope.officeEmployees.length; k++) {
               if ($scope.officeEmployees[k].employeeID == seating_chart_JSON[i][j].userId) {
-                seating_chart_JSON[i][j].name = $scope.officeEmployees[k].firstName + ' ' + $scope.officeEmployees[k].lastName;
-                console.log(seating_chart_JSON[i][j]);
+                seating_chart_JSON[i][j].userName = $scope.officeEmployees[k].firstName + ' ' + $scope.officeEmployees[k].lastName;
               }
             }
           }
@@ -63,7 +61,7 @@ export default ['$scope', '$http', '$location', '$routeParams', '$window', ($sco
             cols: $scope.seatingChart.base_floor_plan_cols,
             name: $scope.seatingChart.name,
             rows: $scope.seatingChart.base_floor_plan_rows,
-            spots: $scope.seatingChart.seating_chart ? JSON.parse($scope.seatingChart.seating_chart) : $scope.seatingChart.base_floor_plan ? JSON.parse($scope.seatingChart.base_floor_plan) : undefined
+            spots: $scope.seatingChart.seating_chart ? seating_chart_JSON: $scope.seatingChart.base_floor_plan ? JSON.parse($scope.seatingChart.base_floor_plan) : undefined
           },
           settings: {
             readOnly: true

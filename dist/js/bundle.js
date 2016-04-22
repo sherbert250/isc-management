@@ -66390,14 +66390,26 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   // set up the $scope object with nav settings,
   //  routes, api endpoints, and check permissions
   (0, _shared.initScope)($scope, $http, $location, $window);
-
-  // fetch offices and floorplans from the API
-  $scope.api.fetchOffices(function (err, response) {
-    if (err) {
-      return (0, _common.log)(err);
+  (0, _common.isViewerAdmin)($http, _env2.default.api.root, $window.sessionStorage.token, function (answer) {
+    if (answer) {
+      // fetch offices for a company
+      $scope.api.fetchOfficesForCompany(function (err, response) {
+        if (err) {
+          return (0, _common.log)(err);
+        }
+        // add offices to scope
+        $scope.offices = response.data;
+      });
+    } else {
+      // fetch offices and floorplans from the API
+      $scope.api.fetchOffices(function (err, response) {
+        if (err) {
+          return (0, _common.log)(err);
+        }
+        // add offices to scope
+        $scope.offices = response.data;
+      });
     }
-    // add offices to scope
-    $scope.offices = response.data;
   });
 
   // set default form data
@@ -66762,6 +66774,39 @@ var createApi = exports.createApi = function createApi($http, apiRoot, token) {
     },
 
     //
+    // GET offices for company
+    //
+    fetchOfficesForCompany: function fetchOfficesForCompany(callback) {
+      $http({
+        method: 'GET',
+        url: apiRoot + '/Api/Verify',
+        headers: headers
+      }).then(function (response) {
+        var employee = response.data[0];
+        $http({
+          method: 'GET',
+          url: apiRoot + '/Api/CompaniesForAdmin/' + employee.employeeID,
+          headers: headers
+        }).then(function (response) {
+          var company = response.data[0];
+          $http({
+            method: 'GET',
+            url: apiRoot + '/Api/CompanyOffices/' + company.companyID,
+            headers: headers
+          }).then(function (response) {
+            return callback(null, response);
+          }, function (err) {
+            return callback(err);
+          });
+        }, function (err) {
+          return callback(err);
+        });
+      }, function (err) {
+        return callback(err);
+      });
+    },
+
+    //
     // GET floor plans
     //
     fetchFloorPlans: function fetchFloorPlans(callback) {
@@ -66849,6 +66894,9 @@ var initScope = exports.initScope = function initScope($scope, $http, $location,
   };
   $scope.goToList = function () {
     $location.path('/floor-plans');
+  };
+  $scope.goBack = function () {
+    $window.history.back();
   };
   // add api methods
   $scope.api = createApi($http, _env2.default.api.root, $window.sessionStorage.token);
@@ -66983,7 +67031,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         'x-access-token': $window.sessionStorage.token
       }
     }).then(function (response) {
-      if (response.data[0].permissionLevel == 'superadmin') {
+      if (response.data[0].permissionLevel == 'superadmin' && $scope.officeID == 0) {
         $window.location.href = '/offices';
       } else {
         $window.location.href = '/office-detail/' + companyID + '/' + officeID;
@@ -66991,7 +67039,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     }, function (err) {});
   };
   if ($scope.officeID == 0) {
-    $location.path('/my-info');
+    $window.history.back();
   }
   $http({
     method: 'GET',
@@ -68505,7 +68553,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         'x-access-token': $window.sessionStorage.token
       }
     }).then(function (response) {
-      if (response.data[0].permissionLevel == 'superadmin') {
+      if (response.data[0].permissionLevel == 'superadmin' && $scope.officeID == 0) {
         $window.location.href = '/offices';
       } else {
         $window.location.href = '/office-detail/' + companyID + '/' + officeID;
@@ -68513,7 +68561,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     }, function (err) {});
   };
   if ($scope.officeID == 0) {
-    $location.path('/my-info');
+    $window.history.back();
   }
   $http({
     method: 'GET',
@@ -68575,27 +68623,55 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   // set up the $scope object with nav settings,
   //  routes, api endpoints, and check permissions
   (0, _shared.initScope)($scope, $http, $location, $window);
-
-  // fetch offices and seating charts from the API
-  $scope.api.fetchOffices(function (err, response) {
-    if (err) {
-      return (0, _common.log)(err);
-    }
-    var offices = response.data;
-    // next, fetch floor plans
-    $scope.api.fetchFloorPlans(function (err, response) {
-      if (err) {
-        return (0, _common.log)(err);
-      }
-      // add floor plans to scope
-      $scope.floorPlans = response.data.map(function (floorPlan) {
-        var office = _lodash2.default.find(offices, { officeID: floorPlan.office_id });
-        if (office) {
-          floorPlan.officeName = office.officeName;
+  (0, _common.isViewerAdmin)($http, _env2.default.api.root, $window.sessionStorage.token, function (answer) {
+    if (answer) {
+      // fetch offices and seating charts from the API
+      $scope.api.fetchOfficesForCompany(function (err, response) {
+        if (err) {
+          return (0, _common.log)(err);
         }
-        return floorPlan;
+        var offices = response.data;
+        // next, fetch floor plans
+        $scope.api.fetchFloorPlans(function (err, response) {
+          if (err) {
+            return (0, _common.log)(err);
+          }
+          // add floor plans to scope
+          $scope.floorPlans = response.data.map(function (floorPlan) {
+            var office = _lodash2.default.find(offices, { officeID: floorPlan.office_id });
+            if (office) {
+              floorPlan.officeName = office.officeName;
+              return floorPlan;
+            }
+          });
+          if ($scope.floorPlans[0] == null) {
+            $scope.floorPlans = null;
+          }
+        });
       });
-    });
+    } else {
+      // fetch offices and seating charts from the API
+      $scope.api.fetchOffices(function (err, response) {
+        if (err) {
+          return (0, _common.log)(err);
+        }
+        var offices = response.data;
+        // next, fetch floor plans
+        $scope.api.fetchFloorPlans(function (err, response) {
+          if (err) {
+            return (0, _common.log)(err);
+          }
+          // add floor plans to scope
+          $scope.floorPlans = response.data.map(function (floorPlan) {
+            var office = _lodash2.default.find(offices, { officeID: floorPlan.office_id });
+            if (office) {
+              floorPlan.officeName = office.officeName;
+            }
+            return floorPlan;
+          });
+        });
+      });
+    }
   });
 
   // set default form data
@@ -68756,12 +68832,10 @@ exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', fu
         var seating_chart_JSON = $scope.seatingChart.seating_chart ? JSON.parse($scope.seatingChart.seating_chart) : [];
         $scope.officeEmployees = result.data;
         for (var i in seating_chart_JSON) {
-          //console.log(seating_chart_JSON[i]);
           for (var j in seating_chart_JSON[i]) {
             for (var k = 0; k < $scope.officeEmployees.length; k++) {
               if ($scope.officeEmployees[k].employeeID == seating_chart_JSON[i][j].userId) {
-                seating_chart_JSON[i][j].name = $scope.officeEmployees[k].firstName + ' ' + $scope.officeEmployees[k].lastName;
-                console.log(seating_chart_JSON[i][j]);
+                seating_chart_JSON[i][j].userName = $scope.officeEmployees[k].firstName + ' ' + $scope.officeEmployees[k].lastName;
               }
             }
           }
@@ -68783,7 +68857,7 @@ exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', fu
             cols: $scope.seatingChart.base_floor_plan_cols,
             name: $scope.seatingChart.name,
             rows: $scope.seatingChart.base_floor_plan_rows,
-            spots: $scope.seatingChart.seating_chart ? JSON.parse($scope.seatingChart.seating_chart) : $scope.seatingChart.base_floor_plan ? JSON.parse($scope.seatingChart.base_floor_plan) : undefined
+            spots: $scope.seatingChart.seating_chart ? seating_chart_JSON : $scope.seatingChart.base_floor_plan ? JSON.parse($scope.seatingChart.base_floor_plan) : undefined
           },
           settings: {
             readOnly: true
@@ -68888,6 +68962,39 @@ var createApi = exports.createApi = function createApi($http, apiRoot, token) {
         headers: headers
       }).then(function (response) {
         return callback(null, response);
+      }, function (err) {
+        return callback(err);
+      });
+    },
+
+    //
+    // GET offices for company
+    //
+    fetchOfficesForCompany: function fetchOfficesForCompany(callback) {
+      $http({
+        method: 'GET',
+        url: apiRoot + '/Api/Verify',
+        headers: headers
+      }).then(function (response) {
+        var employee = response.data[0];
+        $http({
+          method: 'GET',
+          url: apiRoot + '/Api/CompaniesForAdmin/' + employee.employeeID,
+          headers: headers
+        }).then(function (response) {
+          var company = response.data[0];
+          $http({
+            method: 'GET',
+            url: apiRoot + '/Api/CompanyOffices/' + company.companyID,
+            headers: headers
+          }).then(function (response) {
+            return callback(null, response);
+          }, function (err) {
+            return callback(err);
+          });
+        }, function (err) {
+          return callback(err);
+        });
       }, function (err) {
         return callback(err);
       });
@@ -69038,6 +69145,9 @@ var initScope = exports.initScope = function initScope($scope, $http, $location,
   };
   $scope.goToView = function (id) {
     $location.path('/seating-charts/' + id + '/view');
+  };
+  $scope.goBack = function () {
+    $window.history.back();
   };
   // add api methods
   $scope.api = createApi($http, _env2.default.api.root, $window.sessionStorage.token);
@@ -70379,7 +70489,7 @@ var _arguments = arguments;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createMessage = exports._initScope = exports.log = exports.debug = exports.createHeaders = undefined;
+exports.createMessage = exports._initScope = exports.isViewerAdmin = exports.log = exports.debug = exports.createHeaders = undefined;
 
 var _env = require('../core/env');
 
@@ -70438,6 +70548,30 @@ var log = exports.log = function log() {
 };
 
 /**
+ * @param {object} token - The token containing the permission level of the employee
+ */
+var isViewerAdmin = exports.isViewerAdmin = function isViewerAdmin($http, apiRoot, token, callback) {
+  $http({
+    method: 'GET',
+    url: apiRoot + '/Api/Verify',
+    headers: {
+      'x-access-token': token
+    }
+  }).then(function (response) {
+    var check = response.data[0];
+    if (check.permissionLevel == 'admin') {
+      //console.log(true);
+      callback(true);
+    } else {
+      //console.log(false);
+      callback(false);
+    }
+  }, function (err) {
+    callback(false);
+  });
+};
+
+/**
  * Initialize the $scope object
  *
  * NOTE: no need to return, since it's an object (passed by reference)
@@ -70453,7 +70587,7 @@ var _initScope = exports._initScope = function _initScope($scope, $http, $locati
   $scope.accountNavItems = _account_nav_items2.default;
   $scope.showAccountInfo = _account_info2.default;
   // check permissions
-  $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
+  $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   // add extra utility methods
   $scope.addCssToHead = function (href) {
     if (typeof href !== 'string' && href.length > 0) {

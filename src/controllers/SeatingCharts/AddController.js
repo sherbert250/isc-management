@@ -1,6 +1,6 @@
 import env from '../../core/env';
 import _ from 'lodash';
-import {createMessage, log} from '../_common';
+import {createMessage, log, isViewerAdmin} from '../_common';
 import {initScope} from './_shared';
 
 //
@@ -14,27 +14,55 @@ export default ['$scope', '$http', '$location', '$window', ($scope, $http, $loca
   // set up the $scope object with nav settings,
   //  routes, api endpoints, and check permissions
   initScope($scope, $http, $location, $window);
-
-  // fetch offices and seating charts from the API
-  $scope.api.fetchOffices(function(err, response) {
-    if (err) {
-      return log(err);
-    }
-    const offices = response.data;
-    // next, fetch floor plans
-    $scope.api.fetchFloorPlans(function(err, response) {
-      if (err) {
-        return log(err);
-      }
-      // add floor plans to scope
-      $scope.floorPlans = response.data.map(floorPlan => {
-        const office = _.find(offices, {officeID: floorPlan.office_id});
-        if (office) {
-          floorPlan.officeName = office.officeName;
+  isViewerAdmin($http, env.api.root, $window.sessionStorage.token, function(answer){
+    if (answer) {
+      // fetch offices and seating charts from the API
+      $scope.api.fetchOfficesForCompany(function(err, response) {
+        if (err) {
+          return log(err);
         }
-        return floorPlan;
+        const offices = response.data;
+        // next, fetch floor plans
+        $scope.api.fetchFloorPlans(function(err, response) {
+          if (err) {
+            return log(err);
+          }
+          // add floor plans to scope
+          $scope.floorPlans = response.data.map(floorPlan => {
+            const office = _.find(offices, {officeID: floorPlan.office_id});
+            if (office) {
+              floorPlan.officeName = office.officeName;
+              return floorPlan;
+            }
+          });
+          if ($scope.floorPlans[0] == null) {
+            $scope.floorPlans = null;
+          }
+        });
       });
-    });
+    } else {
+      // fetch offices and seating charts from the API
+      $scope.api.fetchOffices(function(err, response) {
+        if (err) {
+          return log(err);
+        }
+        const offices = response.data;
+        // next, fetch floor plans
+        $scope.api.fetchFloorPlans(function(err, response) {
+          if (err) {
+            return log(err);
+          }
+          // add floor plans to scope
+          $scope.floorPlans = response.data.map(floorPlan => {
+            const office = _.find(offices, {officeID: floorPlan.office_id});
+            if (office) {
+              floorPlan.officeName = office.officeName;
+            }
+            return floorPlan;
+          });
+        });
+      });
+    }
   });
 
   // set default form data
