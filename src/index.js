@@ -60,6 +60,7 @@ import SeatingCharts_AddController from './controllers/SeatingCharts/AddControll
 import SeatingCharts_ListController from './controllers/SeatingCharts/ListController';
 import SeatingCharts_ViewController from './controllers/SeatingCharts/ViewController';
 
+import SeatingChartController from './controllers/SeatingChartController';
 import SignOutController from './controllers/MyAccount/SignOutController';
 import TeamMembersController from './controllers/TeamMembersController';
 import TemperatureRangesController from './controllers/TemperatureRangesController';
@@ -118,6 +119,7 @@ iscApp.controller('SeatingCharts_AddController', SeatingCharts_AddController);
 iscApp.controller('SeatingCharts_ListController', SeatingCharts_ListController);
 iscApp.controller('SeatingCharts_ViewController', SeatingCharts_ViewController);
 
+iscApp.controller('SeatingChartController', SeatingChartController);
 iscApp.controller('SignOutController', SignOutController);
 iscApp.controller('TeamMembersController', TeamMembersController);
 iscApp.controller('TemperatureRangesController', TemperatureRangesController);
@@ -301,6 +303,10 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   .when('/password-reset', {
     templateUrl: 'views/password-reset.html',
     controller: 'PasswordResetController'
+  })
+  .when('/seating-chart/:id', {
+    templateUrl: 'views/seating-chart.html',
+    controller: 'SeatingChartController'
   })
   //
   // Section: /seating-charts

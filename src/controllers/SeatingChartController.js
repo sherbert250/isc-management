@@ -6,9 +6,9 @@ import showAccountInfo from '../settings/account_info';
 import _ from 'lodash';
 
 //
-// Floorplan Controller
+// Seating Chart Controller
 //
-// Display a list of created seating charts
+// Display a list of created seating charts for an office
 // Provide actions to create/modify charts
 //
 
@@ -18,23 +18,20 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope.showAccountInfo = showAccountInfo;
   $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
   $scope.officeID = $routeParams.id;
-  $scope.header = 'View Floorplans for ';
+  $scope.header = 'View Seating Charts for ';
   $scope.goToAdd = function() {
-    $location.path('/floor-plans/add');
-  };
-  $scope.goToDesign = function(id) {
-    $location.path(`/floor-plans/${id}/design`);
-  };
-  $scope.goToEdit = function(id) {
-    $location.path(`/floor-plans/${id}/edit`);
+    $location.path('/seating-charts/add');
   };
   $scope.goToList = function() {
-    $location.path('/floor-plans');
+    $location.path('/seating-charts');
   };
-  $scope.removeFloorPlan = function(id, callback) {
+  $scope.goToView = function(id) {
+    $location.path(`/seating-charts/${id}/view`);
+  };
+  $scope.removeSeatingChart = function(id, callback) {
     $http({
       method: 'DELETE',
-      url: `${env.api.root}/Api/FloorPlans/${id}`,
+      url: `${env.api.root}/Api/SeatingCharts/${id}`,
       headers: {
         'x-access-token': $window.sessionStorage.token
       }
@@ -44,25 +41,61 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     );
   };
   $scope.openDelete = function(id) {
-    if (confirm('Are you sure you want to delete this floor plan? This cannot be undone.')) {
-      $scope.removeFloorPlan(id, function(err, response) {
+    if (confirm('Are you sure you want to delete this seating chart? This cannot be undone.')) {
+      $scope.removeSeatingChart(id, function(err, response) {
         if (err) {
           log(err);
           return $scope.message = {
-            text: 'Something went wrong, and we weren\'t able to delete the floor plan.',
+            text: 'Something went wrong, and we weren\'t able to delete the seating chart.',
             type: 'danger'
           };
         }
-        // remove floor plan from view collection
+        // remove seating chart from view collection
         //  and show success message
         return _.assign($scope, {
           message: {
-            text: `Floor plan #${id} was deleted successfully.`,
+            text: `Seating chart #${id} was deleted successfully.`,
             type: 'success'
           },
-          floorPlans: _.filter($scope.floorPlans, floorPlan => {
-            return floorPlan.id !== id;
+          seatingCharts: _.filter($scope.seatingCharts, seatingChart => {
+            return seatingChart.id !== id;
           })
+        });
+      });
+    }
+  };
+  $scope.populateSeatingChart = function(id, callback) {
+    $http({
+      method: 'GET',
+      url: `${env.api.root}/Api/SeatingCharts/${id}/Populate`,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(
+      response => callback(null, response),
+      err => callback(err)
+    );
+  };
+  // add populate method
+  $scope.populateChart = function(id) {
+    if (confirm('Are you sure you want to populate this seating chart? Any previous results will be overriden.')) {
+      $scope.isFetching = true;
+      $scope.populateSeatingChart(id, function(err, response) {
+        $scope.isFetching = false;
+        if (err) {
+          log(err);
+          return $scope.message = {
+            text: 'Something went wrong, and we weren\'t able to populate the seating chart.',
+            type: 'danger'
+          };
+        }
+        // remove seating chart from view collection
+        //  and show success message
+        return _.assign($scope, {
+          message: {
+            text: `Seating chart #${id} was populated successfully.`,
+            type: 'success'
+          }
         });
       });
     }
@@ -102,13 +135,13 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   });
   $http({
     method: 'GET',
-    url: `${env.api.root}/Api/FloorPlansOfOffice/` + $scope.officeID,
+    url: `${env.api.root}/Api/SeatingChartsOfOffice/` + $scope.officeID,
     headers: {
       'x-access-token': $window.sessionStorage.token
     }
   }).then(response => {
     //console.log('response: ', response);
-    $scope.floorPlans = response.data;
+    $scope.seatingCharts = response.data;
   }, err => {
     //console.log('err: ', err);
   });

@@ -10,8 +10,8 @@
     <ul class="nav nav-tabs">
       <li><a data-toggle="tab" ng-click="officeDetail(companyID, officeID)">Details</a></li>
       <li><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
-      <li class="active"><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplans</a></li>
-      <li><a data-toggle="tab" href="/seating-chart/{{officeID}}">Seating Charts</a></li>
+      <li><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplans</a></li>
+      <li class="active"><a data-toggle="tab" href="/seating-chart/{{officeID}}">Seating Charts</a></li>
     </ul>
  </div>
   <!-- alert message -->
@@ -31,34 +31,41 @@
     </div>
     <div class="add-button-section">
       <button class="btn btn-success btn-md"  ng-click="goToAdd()">
-        + Add Floor Plan
+        + Add Seating Chart
       </button>
     </div>
   </div>
   <table class="table table-striped view-items-table">
     <thead>
-      <th>Design Name</th>
-      <th>Rows</th>
-      <th>Columns</th>
+      <th>Base Floor Plan</th>
+      <th>Name</th>
       <th colspan="3" class="action-header">Actions</th>
     </thead>
-    <tbody ng-repeat="floorPlan in floorPlans | filter: query">
+    <tbody ng-repeat="seatingChart in seatingCharts | filter: query">
       <tr>
-        <td><a ng-click="goToDesign(floorPlan.id)">{{floorPlan.name}}</a></td>
-        <td>{{floorPlan.rows}}</td>
-        <td>{{floorPlan.cols}}</td>
+        <td>{{seatingChart.base_floor_plan_name}}</td>
+        <td><a ng-click="goToView(seatingChart.id)">{{seatingChart.name}}</a></td>
         <td class="action-header">
-          <button class="btn btn-info btn-sm" ng-click="goToEdit(floorPlan.id)">
-            Edit
+          <button class="btn btn-info btn-sm" ng-click="goToView(seatingChart.id)">
+            View
           </button>
         </td>
         <td class="action-header">
-          <button class="btn btn-primary btn-sm" ng-click="goToDesign(floorPlan.id)">
-            Design
-          </button>
+          <div ng-hide="isFetching == true">
+            <button class="btn btn-primary btn-sm" ng-click="populateChart(seatingChart.id)">
+              <span ng-if="seatingChart.seating_chart">Re-populate Seating Chart</span>
+              <span ng-if="!seatingChart.seating_chart">Populate Seating Chart</span>
+            </button>
+          </div>
+          <div ng-show="isFetching == true">
+            <button class="btn btn-primary btn-sm">
+              <i class="fa fa-spinner fa-spin"></i>
+              Populating Seating Chart
+            </button>
+          </div>
         </td>
         <td class="action-header">
-          <button class="btn btn-danger btn-sm" ng-click="openDelete(floorPlan.id)">
+          <button class="btn btn-danger btn-sm" ng-click="openDelete(seatingChart.id)">
             Delete
           </button>
         </td>

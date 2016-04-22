@@ -6,16 +6,63 @@
     </div>
   </div>
   <hr />
-  <ul class="nav nav-tabs">
-    <li><a data-toggle="tab" ng-click="officeDetail(companyID, officeID)">Details</a></li>
-    <li><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
-    <li  class="active"><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplan</a></li>
-  </ul>
-  <div class="row">
-    <div class="col-md-12">
-      <form name="floorplanForm" ng-submit="submit()">
-        <input class="btn btn-success md" type="submit" name="submit" value="Submit" required />
-      </form>
+  <div class-"row">
+    <ul class="nav nav-tabs">
+      <li><a data-toggle="tab" ng-click="officeDetail(companyID, officeID)">Details</a></li>
+      <li><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
+      <li class="active"><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplans</a></li>
+      <li><a data-toggle="tab" href="/seating-chart/{{officeID}}">Seating Charts</a></li>
+    </ul>
+ </div>
+  <!-- alert message -->
+  <div ng-if="message.text">
+    <div class="alert alert-{{ message.type }}">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {{ message.text }}
     </div>
   </div>
+  <div class="utilitySection">
+    <div class="searchbox-section">
+      <form class="form-inline">
+        <input ng-model="query" type="text" class="form-control" placeholder="Search for">
+      </form>
+    </div>
+    <div class="add-button-section">
+      <button class="btn btn-success btn-md"  ng-click="goToAdd()">
+        + Add Floor Plan
+      </button>
+    </div>
+  </div>
+  <table class="table table-striped view-items-table">
+    <thead>
+      <th>Design Name</th>
+      <th>Rows</th>
+      <th>Columns</th>
+      <th colspan="3" class="action-header">Actions</th>
+    </thead>
+    <tbody ng-repeat="floorPlan in floorPlans | filter: query">
+      <tr>
+        <td><a ng-click="goToDesign(floorPlan.id)">{{floorPlan.name}}</a></td>
+        <td>{{floorPlan.rows}}</td>
+        <td>{{floorPlan.cols}}</td>
+        <td class="action-header">
+          <button class="btn btn-info btn-sm" ng-click="goToEdit(floorPlan.id)">
+            Edit
+          </button>
+        </td>
+        <td class="action-header">
+          <button class="btn btn-primary btn-sm" ng-click="goToDesign(floorPlan.id)">
+            Design
+          </button>
+        </td>
+        <td class="action-header">
+          <button class="btn btn-danger btn-sm" ng-click="openDelete(floorPlan.id)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

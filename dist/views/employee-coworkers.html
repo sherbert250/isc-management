@@ -8,7 +8,8 @@
   <ul class="nav nav-tabs" ng-show="adminAccess">
     <li ng-show="adminAccess"><a data-toggle="tab" ng-click="officeDetail(companyID, officeID)">Details</a></li>
     <li ng-show="adminAccess" class="active"><a data-toggle="tab" href="/office-employees/{{officeID}}">Employees</a></li>
-    <li ng-show="adminAccess"><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplan</a></li>
+    <li ng-show="adminAccess"><a data-toggle="tab" href="/floorplan/{{officeID}}">Floorplans</a></li>
+    <li ng-show="adminAccess"><a data-toggle="tab" href="/seating-chart/{{officeID}}">Seating Charts</a></li>
   </ul>
   <div class="row">
     <div class="col-md-3">

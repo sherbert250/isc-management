@@ -63240,7 +63240,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],140:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],140:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63383,7 +63383,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],141:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],141:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63566,7 +63566,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],142:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],142:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63626,7 +63626,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],143:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],143:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63745,7 +63745,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   }
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],144:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],144:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63830,7 +63830,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   };
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],145:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],145:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63956,7 +63956,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],146:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],146:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64033,7 +64033,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   }
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],147:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],147:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64147,7 +64147,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198,"../settings/states":199}],148:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199,"../settings/states":200}],148:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64257,7 +64257,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],149:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],149:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64319,7 +64319,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],150:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],150:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64586,7 +64586,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],151:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],151:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64696,7 +64696,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],152:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],152:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64785,7 +64785,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],153:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],153:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64914,7 +64914,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],154:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],154:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64984,7 +64984,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],155:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],155:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65135,7 +65135,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'U
   }, function (err) {});
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],156:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],156:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65239,7 +65239,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],157:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],157:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65352,7 +65352,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],158:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],158:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65431,7 +65431,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198,"../settings/states":199}],159:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199,"../settings/states":200}],159:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65502,7 +65502,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],160:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],160:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65732,7 +65732,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],161:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],161:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65900,7 +65900,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],162:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],162:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66071,7 +66071,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],163:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],163:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66338,7 +66338,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],164:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],164:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66359,7 +66359,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {}];
 
-},{"../../core/env":193}],165:[function(require,module,exports){
+},{"../../core/env":194}],165:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66447,7 +66447,7 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   };
 }];
 
-},{"../../core/env":193,"../_common":192,"./_shared":169,"lodash":118}],166:[function(require,module,exports){
+},{"../../core/env":194,"../_common":193,"./_shared":169,"lodash":118}],166:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66531,7 +66531,7 @@ exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../../core/env":193,"../_common":192,"./_shared":169,"lodash":118}],167:[function(require,module,exports){
+},{"../../core/env":194,"../_common":193,"./_shared":169,"lodash":118}],167:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66626,7 +66626,7 @@ exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../../core/env":193,"../_common":192,"./_shared":169,"lodash":118}],168:[function(require,module,exports){
+},{"../../core/env":194,"../_common":193,"./_shared":169,"lodash":118}],168:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66680,7 +66680,7 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   });
 }];
 
-},{"../../core/env":193,"../_common":192,"./_shared":169,"lodash":118}],169:[function(require,module,exports){
+},{"../../core/env":194,"../_common":193,"./_shared":169,"lodash":118}],169:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66867,7 +66867,7 @@ var initScope = exports.initScope = function initScope($scope, $http, $location,
         //  and show success message
         return _lodash2.default.assign($scope, {
           message: {
-            text: 'Seating chart #' + id + ' was deleted successfully.',
+            text: 'Floor plan #' + id + ' was deleted successfully.',
             type: 'success'
           },
           floorPlans: _lodash2.default.filter($scope.floorPlans, function (floorPlan) {
@@ -66879,7 +66879,7 @@ var initScope = exports.initScope = function initScope($scope, $http, $location,
   };
 };
 
-},{"../../core/env":193,"../../settings/account_info":195,"../../settings/account_nav_items":196,"../../settings/permissions":197,"../../settings/primary_nav_items":198,"../_common":192,"lodash":118}],170:[function(require,module,exports){
+},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/permissions":198,"../../settings/primary_nav_items":199,"../_common":193,"lodash":118}],170:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66906,6 +66906,10 @@ var _account_info = require('../settings/account_info');
 
 var _account_info2 = _interopRequireDefault(_account_info);
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -66921,7 +66925,56 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.officeID = $routeParams.id;
-  $scope.header = 'View Current FloorPLan';
+  $scope.header = 'View Floorplans for ';
+  $scope.goToAdd = function () {
+    $location.path('/floor-plans/add');
+  };
+  $scope.goToDesign = function (id) {
+    $location.path('/floor-plans/' + id + '/design');
+  };
+  $scope.goToEdit = function (id) {
+    $location.path('/floor-plans/' + id + '/edit');
+  };
+  $scope.goToList = function () {
+    $location.path('/floor-plans');
+  };
+  $scope.removeFloorPlan = function (id, callback) {
+    $http({
+      method: 'DELETE',
+      url: _env2.default.api.root + '/Api/FloorPlans/' + id,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      return callback(null, response);
+    }, function (err) {
+      return callback(err);
+    });
+  };
+  $scope.openDelete = function (id) {
+    if (confirm('Are you sure you want to delete this floor plan? This cannot be undone.')) {
+      $scope.removeFloorPlan(id, function (err, response) {
+        if (err) {
+          log(err);
+          return $scope.message = {
+            text: 'Something went wrong, and we weren\'t able to delete the floor plan.',
+            type: 'danger'
+          };
+        }
+        // remove floor plan from view collection
+        //  and show success message
+        return _lodash2.default.assign($scope, {
+          message: {
+            text: 'Floor plan #' + id + ' was deleted successfully.',
+            type: 'success'
+          },
+          floorPlans: _lodash2.default.filter($scope.floorPlans, function (floorPlan) {
+            return floorPlan.id !== id;
+          })
+        });
+      });
+    }
+  };
   $scope.officeDetail = function (companyID, officeID) {
     $http({
       method: 'GET',
@@ -66937,26 +66990,6 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
       }
     }, function (err) {});
   };
-  $scope.submit = function () {
-    var adder = {
-      chartFile: 'c32.json',
-      employeeFile: 'e32.json',
-      similarityFile: 's32.json',
-      output: 'office' + $scope.officeID + '_output.json'
-    };
-    $http({
-      method: 'POST',
-      url: _env2.default.api.root + '/Api/Algorithm/Execute',
-      data: adder,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(function (response) {
-      console.log(response);
-    }, function (err) {
-      //console.log(err);
-    });
-  };
   if ($scope.officeID == 0) {
     $location.path('/my-info');
   }
@@ -66969,26 +67002,26 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }).then(function (response) {
     //console.log(response);
     $scope.office = response.data[0];
-    $scope.header = response.data[0].companyName;
+    $scope.header += response.data[0].officeName;
     $scope.companyID = response.data[0].companyID;
   }, function (err) {
     //console.log(err);
   });
   $http({
     method: 'GET',
-    url: _env2.default.api.root + '/Api/FloorPlanOfOffice/' + $scope.officeID,
+    url: _env2.default.api.root + '/Api/FloorPlansOfOffice/' + $scope.officeID,
     headers: {
       'x-access-token': $window.sessionStorage.token
     }
   }).then(function (response) {
-    //console.log(response);
-    $scope.floor_plan = response.data[0];
+    //console.log('response: ', response);
+    $scope.floorPlans = response.data;
   }, function (err) {
-    //console.log(err);
+    //console.log('err: ', err);
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],171:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199,"lodash":118}],171:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67197,7 +67230,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/primary_nav_items":198}],172:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/primary_nav_items":199}],172:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67236,7 +67269,7 @@ exports.default = ['$scope', '$route', '$routeParams', '$location', function ($s
   $scope.showAccountInfo = _account_info2.default;
 }];
 
-},{"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/primary_nav_items":198}],173:[function(require,module,exports){
+},{"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/primary_nav_items":199}],173:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67484,7 +67517,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   }
 }];
 
-},{"../../core/env":193,"../../settings/account_info":195,"../../settings/account_nav_items":196,"../../settings/primary_nav_items":198}],174:[function(require,module,exports){
+},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/primary_nav_items":199}],174:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67510,7 +67543,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $location.path('/login');
 }];
 
-},{"../../core/env":193}],175:[function(require,module,exports){
+},{"../../core/env":194}],175:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67623,7 +67656,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],176:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],176:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67964,7 +67997,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],177:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],177:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68093,7 +68126,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],178:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],178:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68214,7 +68247,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
 }];
 //import permissions from '../settings/permissions';
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/primary_nav_items":198}],179:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/primary_nav_items":199}],179:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68334,7 +68367,183 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/primary_nav_items":198}],180:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/primary_nav_items":199}],180:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _permissions = require('../settings/permissions');
+
+var _permissions2 = _interopRequireDefault(_permissions);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Seating Chart Controller
+//
+// Display a list of created seating charts for an office
+// Provide actions to create/modify charts
+//
+
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
+  $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
+  $scope.officeID = $routeParams.id;
+  $scope.header = 'View Seating Charts for ';
+  $scope.goToAdd = function () {
+    $location.path('/seating-charts/add');
+  };
+  $scope.goToList = function () {
+    $location.path('/seating-charts');
+  };
+  $scope.goToView = function (id) {
+    $location.path('/seating-charts/' + id + '/view');
+  };
+  $scope.removeSeatingChart = function (id, callback) {
+    $http({
+      method: 'DELETE',
+      url: _env2.default.api.root + '/Api/SeatingCharts/' + id,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      return callback(null, response);
+    }, function (err) {
+      return callback(err);
+    });
+  };
+  $scope.openDelete = function (id) {
+    if (confirm('Are you sure you want to delete this seating chart? This cannot be undone.')) {
+      $scope.removeSeatingChart(id, function (err, response) {
+        if (err) {
+          log(err);
+          return $scope.message = {
+            text: 'Something went wrong, and we weren\'t able to delete the seating chart.',
+            type: 'danger'
+          };
+        }
+        // remove seating chart from view collection
+        //  and show success message
+        return _lodash2.default.assign($scope, {
+          message: {
+            text: 'Seating chart #' + id + ' was deleted successfully.',
+            type: 'success'
+          },
+          seatingCharts: _lodash2.default.filter($scope.seatingCharts, function (seatingChart) {
+            return seatingChart.id !== id;
+          })
+        });
+      });
+    }
+  };
+  $scope.populateSeatingChart = function (id, callback) {
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/SeatingCharts/' + id + '/Populate',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      return callback(null, response);
+    }, function (err) {
+      return callback(err);
+    });
+  };
+  // add populate method
+  $scope.populateChart = function (id) {
+    if (confirm('Are you sure you want to populate this seating chart? Any previous results will be overriden.')) {
+      $scope.isFetching = true;
+      $scope.populateSeatingChart(id, function (err, response) {
+        $scope.isFetching = false;
+        if (err) {
+          log(err);
+          return $scope.message = {
+            text: 'Something went wrong, and we weren\'t able to populate the seating chart.',
+            type: 'danger'
+          };
+        }
+        // remove seating chart from view collection
+        //  and show success message
+        return _lodash2.default.assign($scope, {
+          message: {
+            text: 'Seating chart #' + id + ' was populated successfully.',
+            type: 'success'
+          }
+        });
+      });
+    }
+  };
+  $scope.officeDetail = function (companyID, officeID) {
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      if (response.data[0].permissionLevel == 'superadmin') {
+        $window.location.href = '/offices';
+      } else {
+        $window.location.href = '/office-detail/' + companyID + '/' + officeID;
+      }
+    }, function (err) {});
+  };
+  if ($scope.officeID == 0) {
+    $location.path('/my-info');
+  }
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(function (response) {
+    //console.log(response);
+    $scope.office = response.data[0];
+    $scope.header += response.data[0].officeName;
+    $scope.companyID = response.data[0].companyID;
+  }, function (err) {
+    //console.log(err);
+  });
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/SeatingChartsOfOffice/' + $scope.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(function (response) {
+    //console.log('response: ', response);
+    $scope.seatingCharts = response.data;
+  }, function (err) {
+    //console.log('err: ', err);
+  });
+}];
+
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199,"lodash":118}],181:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68438,7 +68647,7 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   };
 }];
 
-},{"../../core/env":193,"../_common":192,"./_shared":183,"lodash":118}],181:[function(require,module,exports){
+},{"../../core/env":194,"../_common":193,"./_shared":184,"lodash":118}],182:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68493,7 +68702,7 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   });
 }];
 
-},{"../../core/env":193,"../_common":192,"./_shared":183,"lodash":118}],182:[function(require,module,exports){
+},{"../../core/env":194,"../_common":193,"./_shared":184,"lodash":118}],183:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68603,7 +68812,7 @@ exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../../core/env":193,"../_common":192,"./_shared":183,"lodash":118}],183:[function(require,module,exports){
+},{"../../core/env":194,"../_common":193,"./_shared":184,"lodash":118}],184:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68883,7 +69092,7 @@ var initScope = exports.initScope = function initScope($scope, $http, $location,
   };
 };
 
-},{"../../core/env":193,"../../settings/account_info":195,"../../settings/account_nav_items":196,"../../settings/permissions":197,"../../settings/primary_nav_items":198,"../_common":192,"lodash":118}],184:[function(require,module,exports){
+},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/permissions":198,"../../settings/primary_nav_items":199,"../_common":193,"lodash":118}],185:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69070,7 +69279,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../../core/env":193,"../../settings/account_info":195,"../../settings/account_nav_items":196,"../../settings/primary_nav_items":198}],185:[function(require,module,exports){
+},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/primary_nav_items":199}],186:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69249,7 +69458,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../../core/env":193,"../../settings/account_info":195,"../../settings/account_nav_items":196,"../../settings/primary_nav_items":198,"../../settings/states":199}],186:[function(require,module,exports){
+},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/primary_nav_items":199,"../../settings/states":200}],187:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69362,7 +69571,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../../core/env":193,"../../settings/account_info":195,"../../settings/account_nav_items":196,"../../settings/primary_nav_items":198}],187:[function(require,module,exports){
+},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/primary_nav_items":199}],188:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69493,7 +69702,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../../core/env":193,"../../settings/account_info":195,"../../settings/account_nav_items":196,"../../settings/primary_nav_items":198}],188:[function(require,module,exports){
+},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/primary_nav_items":199}],189:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69713,7 +69922,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],189:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],190:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69817,7 +70026,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],190:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],191:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69927,7 +70136,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],191:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],192:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -70163,7 +70372,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198}],192:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],193:[function(require,module,exports){
 'use strict';
 
 var _arguments = arguments;
@@ -70286,7 +70495,7 @@ var createMessage = exports.createMessage = function createMessage(message) {
   return '<div class="alert alert-' + type + '">' + message + '</div>';
 };
 
-},{"../core/env":193,"../settings/account_info":195,"../settings/account_nav_items":196,"../settings/permissions":197,"../settings/primary_nav_items":198,"lodash":118}],193:[function(require,module,exports){
+},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199,"lodash":118}],194:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -70319,7 +70528,7 @@ var env = _lodash2.default.assign({}, _env2.default, _env4.default);
 
 exports.default = env;
 
-},{"../../env":2,"../../env.default":1,"browserify-fs":14,"lodash":118}],194:[function(require,module,exports){
+},{"../../env":2,"../../env.default":1,"browserify-fs":14,"lodash":118}],195:[function(require,module,exports){
 'use strict';
 
 var _AddAdminController = require('./controllers/AddAdminController');
@@ -70506,6 +70715,10 @@ var _ViewController = require('./controllers/SeatingCharts/ViewController');
 
 var _ViewController2 = _interopRequireDefault(_ViewController);
 
+var _SeatingChartController = require('./controllers/SeatingChartController');
+
+var _SeatingChartController2 = _interopRequireDefault(_SeatingChartController);
+
 var _SignOutController = require('./controllers/MyAccount/SignOutController');
 
 var _SignOutController2 = _interopRequireDefault(_SignOutController);
@@ -70595,6 +70808,7 @@ iscApp.controller('SeatingCharts_AddController', _AddController4.default);
 iscApp.controller('SeatingCharts_ListController', _ListController4.default);
 iscApp.controller('SeatingCharts_ViewController', _ViewController2.default);
 
+iscApp.controller('SeatingChartController', _SeatingChartController2.default);
 iscApp.controller('SignOutController', _SignOutController2.default);
 iscApp.controller('TeamMembersController', _TeamMembersController2.default);
 iscApp.controller('TemperatureRangesController', _TemperatureRangesController2.default);
@@ -70743,6 +70957,9 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   }).when('/password-reset', {
     templateUrl: 'views/password-reset.html',
     controller: 'PasswordResetController'
+  }).when('/seating-chart/:id', {
+    templateUrl: 'views/seating-chart.html',
+    controller: 'SeatingChartController'
   })
   //
   // Section: /seating-charts
@@ -70796,7 +71013,7 @@ iscApp.factory('addService', function () {
   };
 });
 
-},{"./controllers/AddAdminController":139,"./controllers/AddAdminToCompanyController":140,"./controllers/AddAdminToOfficeController":141,"./controllers/AddCompanyController":142,"./controllers/AddEmployeeCoworkersController":143,"./controllers/AddEmployeeIndividualInfoController":144,"./controllers/AddEmployeeNewController":145,"./controllers/AddEmployeePreferencesController":146,"./controllers/AddOfficeController":147,"./controllers/AddOfficeEmployeeController":148,"./controllers/AddTemperatureRangeController":149,"./controllers/AdminManagementController":150,"./controllers/AdminReassignToCompanyController":151,"./controllers/CompaniesController":152,"./controllers/CompanyOfficesController":153,"./controllers/EditCompanyController":154,"./controllers/EditEmployeeController":155,"./controllers/EditEmployeePermissionsController":156,"./controllers/EditEmployeePreferencesController":157,"./controllers/EditOfficeController":158,"./controllers/EditTemperatureRangeController":159,"./controllers/EmployeeCoworkersController":160,"./controllers/EmployeeDetailController":161,"./controllers/EmployeePreferencesController":162,"./controllers/EmployeeReassignToOfficeController":163,"./controllers/Errors/InitializationErrorController":164,"./controllers/FloorPlans/AddController":165,"./controllers/FloorPlans/DesignController":166,"./controllers/FloorPlans/EditController":167,"./controllers/FloorPlans/ListController":168,"./controllers/FloorplanController":170,"./controllers/LoginController":171,"./controllers/MainController":172,"./controllers/MyAccount/MyInfoController":173,"./controllers/MyAccount/SignOutController":174,"./controllers/OfficeDetailController":175,"./controllers/OfficeEmployeesController":176,"./controllers/OfficesController":177,"./controllers/PasswordResetController":178,"./controllers/PasswordResetTokenController":179,"./controllers/SeatingCharts/AddController":180,"./controllers/SeatingCharts/ListController":181,"./controllers/SeatingCharts/ViewController":182,"./controllers/StartUp/AddInitialCompanyController":184,"./controllers/StartUp/AddInitialOfficeController":185,"./controllers/StartUp/AddInitialTemperatureRangeController":186,"./controllers/StartUp/AddSuperAdminToOfficeController":187,"./controllers/TeamMembersController":188,"./controllers/TemperatureRangesController":189,"./controllers/UpdatePasswordController":190,"./controllers/ViewEmployeesController":191,"angular":12,"angular-dragula":7}],195:[function(require,module,exports){
+},{"./controllers/AddAdminController":139,"./controllers/AddAdminToCompanyController":140,"./controllers/AddAdminToOfficeController":141,"./controllers/AddCompanyController":142,"./controllers/AddEmployeeCoworkersController":143,"./controllers/AddEmployeeIndividualInfoController":144,"./controllers/AddEmployeeNewController":145,"./controllers/AddEmployeePreferencesController":146,"./controllers/AddOfficeController":147,"./controllers/AddOfficeEmployeeController":148,"./controllers/AddTemperatureRangeController":149,"./controllers/AdminManagementController":150,"./controllers/AdminReassignToCompanyController":151,"./controllers/CompaniesController":152,"./controllers/CompanyOfficesController":153,"./controllers/EditCompanyController":154,"./controllers/EditEmployeeController":155,"./controllers/EditEmployeePermissionsController":156,"./controllers/EditEmployeePreferencesController":157,"./controllers/EditOfficeController":158,"./controllers/EditTemperatureRangeController":159,"./controllers/EmployeeCoworkersController":160,"./controllers/EmployeeDetailController":161,"./controllers/EmployeePreferencesController":162,"./controllers/EmployeeReassignToOfficeController":163,"./controllers/Errors/InitializationErrorController":164,"./controllers/FloorPlans/AddController":165,"./controllers/FloorPlans/DesignController":166,"./controllers/FloorPlans/EditController":167,"./controllers/FloorPlans/ListController":168,"./controllers/FloorplanController":170,"./controllers/LoginController":171,"./controllers/MainController":172,"./controllers/MyAccount/MyInfoController":173,"./controllers/MyAccount/SignOutController":174,"./controllers/OfficeDetailController":175,"./controllers/OfficeEmployeesController":176,"./controllers/OfficesController":177,"./controllers/PasswordResetController":178,"./controllers/PasswordResetTokenController":179,"./controllers/SeatingChartController":180,"./controllers/SeatingCharts/AddController":181,"./controllers/SeatingCharts/ListController":182,"./controllers/SeatingCharts/ViewController":183,"./controllers/StartUp/AddInitialCompanyController":185,"./controllers/StartUp/AddInitialOfficeController":186,"./controllers/StartUp/AddInitialTemperatureRangeController":187,"./controllers/StartUp/AddSuperAdminToOfficeController":188,"./controllers/TeamMembersController":189,"./controllers/TemperatureRangesController":190,"./controllers/UpdatePasswordController":191,"./controllers/ViewEmployeesController":192,"angular":12,"angular-dragula":7}],196:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -70810,7 +71027,7 @@ exports.default = {
   show: true
 };
 
-},{}],196:[function(require,module,exports){
+},{}],197:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -70834,7 +71051,7 @@ exports.default = [{
   show: true
 }];
 
-},{}],197:[function(require,module,exports){
+},{}],198:[function(require,module,exports){
 'use strict';
 
 var _env = require('../core/env');
@@ -71153,7 +71370,7 @@ exports.userPermissionCheck = function ($http, $scope, $location, $window) {
   return $scope;
 };
 
-},{"../core/env":193}],198:[function(require,module,exports){
+},{"../core/env":194}],199:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -71197,7 +71414,7 @@ exports.default = [{
   show: false
 }];
 
-},{}],199:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -71209,7 +71426,7 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
 
-},{}]},{},[194])
+},{}]},{},[195])
 
 
 //# sourceMappingURL=bundle.js.map

@@ -145,7 +145,7 @@ export const initScope = ($scope, $http, $location, $window) => {
         //  and show success message
         return _.assign($scope, {
           message: {
-            text: `Seating chart #${id} was deleted successfully.`,
+            text: `Floor plan #${id} was deleted successfully.`,
             type: 'success'
           },
           floorPlans: _.filter($scope.floorPlans, floorPlan => {
