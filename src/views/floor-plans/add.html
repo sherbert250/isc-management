@@ -31,6 +31,7 @@
         <div class="form-group">
           <label for="xoffice_id">Office</label>
           <select class="form-control" id="xoffice_id" ng-model="formData.office_id">
+            <option value="">Please select an office</option>
             <option ng-repeat="office in offices" value="{{ office.officeID }}">
               {{ office.officeName }}
             </option>
