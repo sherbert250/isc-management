@@ -118,45 +118,47 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
     }
   };
   $scope.delete = function(employeeID) {
-    $http({
-      method: 'GET',
-      url: `${env.api.root}/Api/IsEmployeeLastSuperadmin/` + employeeID,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(response => {
-      //console.log(response);
-      $scope.isEmployeeLastSuperadmin = response.data[0];
-      if ($scope.isEmployeeLastSuperadmin.result === 0) {
-        alert('Error: Cannot delete only superadmin');
-      } else {
-        $http({
-          method: 'GET',
-          url: `${env.api.root}/Api/DeleteEmployee/` + employeeID,
-          headers: {
-            'x-access-token': $window.sessionStorage.token
-          }
-        }).then(response => {
-          //console.log(response);
+    if (confirm('Are you sure you want to delete this employee? This cannot be undone.')) {
+      $http({
+        method: 'GET',
+        url: `${env.api.root}/Api/IsEmployeeLastSuperadmin/` + employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(response => {
+        //console.log(response);
+        $scope.isEmployeeLastSuperadmin = response.data[0];
+        if ($scope.isEmployeeLastSuperadmin.result === 0) {
+          alert('Error: Cannot delete only superadmin');
+        } else {
           $http({
             method: 'GET',
-            url: `${env.api.root}/Api/AllEmployeesNotSuperadmin`,
+            url: `${env.api.root}/Api/DeleteEmployee/` + employeeID,
             headers: {
               'x-access-token': $window.sessionStorage.token
             }
           }).then(response => {
             //console.log(response);
-            $scope.emps = response.data;
+            $http({
+              method: 'GET',
+              url: `${env.api.root}/Api/AllEmployeesNotSuperadmin`,
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
+            }).then(response => {
+              //console.log(response);
+              $scope.emps = response.data;
+            }, err => {
+              //console.log(err);
+            });
           }, err => {
             //console.log(err);
           });
-        }, err => {
-          //console.log(err);
-        });
-      }
-    }, err => {
-      //console.log(err);
-    });
+        }
+      }, err => {
+        //console.log(err);
+      });
+    }
   };
   $scope.edit = function(employeeID) {
     $location.path('/edit-employee/' + employeeID);

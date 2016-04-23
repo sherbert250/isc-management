@@ -63240,7 +63240,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],140:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],140:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63383,7 +63383,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],141:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],141:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63566,7 +63566,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],142:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],142:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63626,7 +63626,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],143:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],143:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63745,7 +63745,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   }
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],144:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],144:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63830,7 +63830,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   };
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],145:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],145:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63956,7 +63956,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],146:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],146:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64033,7 +64033,7 @@ exports.default = ['$http', '$scope', '$location', '$window', 'addService', func
   }
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],147:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],147:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64147,7 +64147,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199,"../settings/states":200}],148:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200,"../settings/states":201}],148:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64257,7 +64257,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],149:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],149:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64319,7 +64319,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],150:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],150:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64406,42 +64406,44 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     }
   };
   $scope.removeFromCompany = function (employeeID, permissionLevel) {
-    var companyID;
-    var existsCompanyForAdmin;
-    if (permissionLevel === "superadmin") {
-      $scope.message = "Superadmins must be assigned to all companies";
-    } else {
-      $http({
-        method: 'GET',
-        url: _env2.default.api.root + '/Api/existsCompanyForAdmin/' + employeeID,
-        headers: {
-          'x-access-token': $window.sessionStorage.token
-        }
-      }).then(function (response) {
-        existsCompanyForAdmin = response.data[0];
-        if (existsCompanyForAdmin.result === 1) {
-          $http({
-            method: 'GET',
-            url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + employeeID,
-            headers: {
-              'x-access-token': $window.sessionStorage.token
-            }
-          }).then(function (response) {
-            companyID = response.data[0].companyID;
+    if (confirm('Are you sure you want to delete the admin from this company? This cannot be undone.')) {
+      var companyID;
+      var existsCompanyForAdmin;
+      if (permissionLevel === "superadmin") {
+        $scope.message = "Superadmins must be assigned to all companies";
+      } else {
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/existsCompanyForAdmin/' + employeeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(function (response) {
+          existsCompanyForAdmin = response.data[0];
+          if (existsCompanyForAdmin.result === 1) {
             $http({
               method: 'GET',
-              url: _env2.default.api.root + '/Api/DeleteAdminFromCompany/' + employeeID + "/" + companyID,
+              url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + employeeID,
               headers: {
                 'x-access-token': $window.sessionStorage.token
               }
             }).then(function (response) {
-              $location.path('/add-admin-to-company/' + employeeID);
+              companyID = response.data[0].companyID;
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/DeleteAdminFromCompany/' + employeeID + "/" + companyID,
+                headers: {
+                  'x-access-token': $window.sessionStorage.token
+                }
+              }).then(function (response) {
+                $location.path('/add-admin-to-company/' + employeeID);
+              });
             });
-          });
-        } else {
-          $scope.message = "No company to delete for admin #" + employeeID;
-        }
-      });
+          } else {
+            $scope.message = "No company to delete for admin #" + employeeID;
+          }
+        });
+      }
     }
   };
   $scope.addToOffice = function (employeeID, permissionLevel) {
@@ -64487,78 +64489,82 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     }
   };
   $scope.removeFromOffice = function (employeeID, permissionLevel) {
-    var companyID;
-    var existsEmployeeInOffice;
-    if (permissionLevel === "superadmin") {
-      $scope.message = "Superadmins cannot be removed from offices since they are not associated with offices";
-    } else {
-      $http({
-        method: 'GET',
-        url: _env2.default.api.root + '/Api/existsEmployeeInOffice/' + employeeID,
-        headers: {
-          'x-access-token': $window.sessionStorage.token
-        }
-      }).then(function (response) {
-        existsEmployeeInOffice = response.data[0];
-        if (existsEmployeeInOffice.result === 1) {
-          $http({
-            method: 'GET',
-            url: _env2.default.api.root + '/Api/DeleteEmployeeFromOffice/' + employeeID,
-            headers: {
-              'x-access-token': $window.sessionStorage.token
-            }
-          }).then(function (response) {
-            $scope.message = "Deleted office for admin #" + employeeID;
-          });
-        } else {
-          $scope.message = "No office to delete for admin #" + employeeID;
-        }
-      });
+    if (confirm('Are you sure you want to delete the admin from this office? This cannot be undone.')) {
+      var companyID;
+      var existsEmployeeInOffice;
+      if (permissionLevel === "superadmin") {
+        $scope.message = "Superadmins cannot be removed from offices since they are not associated with offices";
+      } else {
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/existsEmployeeInOffice/' + employeeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(function (response) {
+          existsEmployeeInOffice = response.data[0];
+          if (existsEmployeeInOffice.result === 1) {
+            $http({
+              method: 'GET',
+              url: _env2.default.api.root + '/Api/DeleteEmployeeFromOffice/' + employeeID,
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
+            }).then(function (response) {
+              $scope.message = "Deleted office for admin #" + employeeID;
+            });
+          } else {
+            $scope.message = "No office to delete for admin #" + employeeID;
+          }
+        });
+      }
     }
   };
   $scope.viewAdmin = function (employeeID) {
     $location.path('/employee-detail/' + employeeID);
   };
   $scope.deleteAdmin = function (employeeID) {
-    $http({
-      method: 'GET',
-      url: _env2.default.api.root + '/Api/IsEmployeeLastSuperadmin/' + employeeID,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(function (response) {
-      //console.log(response);
-      $scope.isEmployeeLastSuperadmin = response.data[0];
-      if ($scope.isEmployeeLastSuperadmin.result === 0) {
-        alert('Error: Cannot delete only superadmin');
-      } else {
-        $http({
-          method: 'GET',
-          url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID,
-          headers: {
-            'x-access-token': $window.sessionStorage.token
-          }
-        }).then(function (response) {
-          //console.log(response);
+    if (confirm('Are you sure you want to delete this admin? This cannot be undone.')) {
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/IsEmployeeLastSuperadmin/' + employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(function (response) {
+        //console.log(response);
+        $scope.isEmployeeLastSuperadmin = response.data[0];
+        if ($scope.isEmployeeLastSuperadmin.result === 0) {
+          alert('Error: Cannot delete only superadmin');
+        } else {
           $http({
             method: 'GET',
-            url: _env2.default.api.root + '/Api/AllAdminEmployees',
+            url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID,
             headers: {
               'x-access-token': $window.sessionStorage.token
             }
           }).then(function (response) {
             //console.log(response);
-            $scope.admins = response.data;
+            $http({
+              method: 'GET',
+              url: _env2.default.api.root + '/Api/AllAdminEmployees',
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
+            }).then(function (response) {
+              //console.log(response);
+              $scope.admins = response.data;
+            }, function (err) {
+              //console.log(err);
+            });
           }, function (err) {
             //console.log(err);
           });
-        }, function (err) {
-          //console.log(err);
-        });
-      }
-    }, function (err) {
-      //console.log(err);
-    });
+        }
+      }, function (err) {
+        //console.log(err);
+      });
+    }
   };
   $http({
     method: 'GET',
@@ -64586,7 +64592,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],151:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],151:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64696,7 +64702,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],152:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],152:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64741,29 +64747,31 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     $location.path('/add-company');
   };
   $scope.delete = function (companyID) {
-    $http({
-      method: 'GET',
-      url: _env2.default.api.root + '/Api/DeleteCompany/' + companyID,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(function (response) {
-      //console.log(response);
+    if (confirm('Are you sure you want to delete this company? This cannot be undone.')) {
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/AllCompanies',
+        url: _env2.default.api.root + '/Api/DeleteCompany/' + companyID,
         headers: {
           'x-access-token': $window.sessionStorage.token
         }
       }).then(function (response) {
         //console.log(response);
-        $scope.companies = response.data;
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/AllCompanies',
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(function (response) {
+          //console.log(response);
+          $scope.companies = response.data;
+        }, function (err) {
+          //console.log(err);
+        });
       }, function (err) {
         //console.log(err);
       });
-    }, function (err) {
-      //console.log(err);
-    });
+    }
   };
   $scope.edit = function (companyID) {
     $location.path('/edit-company/' + companyID);
@@ -64785,7 +64793,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],153:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],153:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64832,29 +64840,31 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $location.path('/add-office');
   };
   $scope.delete = function (officeID) {
-    $http({
-      method: 'GET',
-      url: _env2.default.api.root + '/Api/DeleteOffice/' + officeID,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(function (response) {
-      //console.log(response);
-    }, function (err) {
-      //console.log(err);
-    });
-    $http({
-      method: 'GET',
-      url: _env2.default.api.root + '/Api/AllCompaniesForAllOffices',
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(function (response) {
-      //console.log(response);
-      $scope.offices = response.data;
-    }, function (err) {
-      //console.log(err);
-    });
+    if (confirm('Are you sure you want to delete this company office? This cannot be undone.')) {
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/DeleteOffice/' + officeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(function (response) {
+        //console.log(response);
+      }, function (err) {
+        //console.log(err);
+      });
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/AllCompaniesForAllOffices',
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(function (response) {
+        //console.log(response);
+        $scope.offices = response.data;
+      }, function (err) {
+        //console.log(err);
+      });
+    }
   };
   $scope.edit = function (officeID) {
     $location.path('/edit-office/' + officeID);
@@ -64914,7 +64924,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],154:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],154:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64984,7 +64994,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],155:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],155:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65135,7 +65145,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', 'U
   }, function (err) {});
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],156:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],156:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65239,7 +65249,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],157:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],157:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65352,7 +65362,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],158:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],158:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65423,7 +65433,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
           'x-access-token': $window.sessionStorage.token
         }
       }).then(function (response) {
-        $window.location.href = '/offices';
+        $window.history.back();
       }, function (err) {
         //console.log(err);
       });
@@ -65431,7 +65441,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199,"../settings/states":200}],159:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200,"../settings/states":201}],159:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65502,7 +65512,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],160:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],160:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65732,7 +65742,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],161:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],161:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65807,6 +65817,9 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.viewBlacklist = function (employeeID) {
     $location.path('/employee-coworkers/' + employeeID + '/' + $scope.officeID);
   };
+  $scope.viewSeat = function () {
+    $location.path('/seating-charts/' + $scope.seatingChartID + '/view');
+  };
   $scope.viewTeamMembers = function (employeeID) {
     $location.path('/team-members/' + employeeID);
   };
@@ -65879,6 +65892,21 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
         $scope.officeID = response.data[0].officeID;
         $http({
           method: 'GET',
+          url: _env2.default.api.root + '/Api/ActiveSeatingChartOfOffice/' + $scope.officeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(function (response) {
+          //console.log(response.data);
+          if ($scope.isEmpty(response.data)) {
+            $scope.existActiveSeatingChart = false;
+          } else {
+            $scope.existActiveSeatingChart = true;
+            $scope.seatingChartID = response.data[0].id_seating_chart;
+          }
+        }, function (err) {});
+        $http({
+          method: 'GET',
           url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID,
           headers: {
             'x-access-token': $window.sessionStorage.token
@@ -65900,7 +65928,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],162:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],162:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66071,7 +66099,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],163:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],163:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66338,7 +66366,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],164:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],164:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66359,7 +66387,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = ['$http', '$scope', '$location', '$window', function ($http, $scope, $location, $window) {}];
 
-},{"../../core/env":194}],165:[function(require,module,exports){
+},{"../../core/env":195}],165:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66459,7 +66487,7 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   };
 }];
 
-},{"../../core/env":194,"../_common":193,"./_shared":169,"lodash":118}],166:[function(require,module,exports){
+},{"../../core/env":195,"../_common":194,"./_shared":169,"lodash":118}],166:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66543,7 +66571,7 @@ exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../../core/env":194,"../_common":193,"./_shared":169,"lodash":118}],167:[function(require,module,exports){
+},{"../../core/env":195,"../_common":194,"./_shared":169,"lodash":118}],167:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66638,7 +66666,7 @@ exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../../core/env":194,"../_common":193,"./_shared":169,"lodash":118}],168:[function(require,module,exports){
+},{"../../core/env":195,"../_common":194,"./_shared":169,"lodash":118}],168:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -66668,7 +66696,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = ['$scope', '$http', '$location', '$window', function ($scope, $http, $location, $window) {
   // set up the $scope object with nav settings,
   //  routes, api endpoints, and check permissions
-  (0, _shared.initScope)($scope, $http, $location, $window);
+  (0, _shared.initScopeSuperAdminAccess)($scope, $http, $location, $window);
 
   // fetch offices and floor plans from the API
   $scope.api.fetchOffices(function (err, response) {
@@ -66692,13 +66720,13 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   });
 }];
 
-},{"../../core/env":194,"../_common":193,"./_shared":169,"lodash":118}],169:[function(require,module,exports){
+},{"../../core/env":195,"../_common":194,"./_shared":169,"lodash":118}],169:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.initScope = exports.createApi = undefined;
+exports.initScopeSuperAdminAccess = exports.initScope = exports.createApi = undefined;
 
 var _env = require('../../core/env');
 
@@ -66927,7 +66955,65 @@ var initScope = exports.initScope = function initScope($scope, $http, $location,
   };
 };
 
-},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/permissions":198,"../../settings/primary_nav_items":199,"../_common":193,"lodash":118}],170:[function(require,module,exports){
+/**
+ * Initialize the $scope object
+ *
+ * NOTE: no need to return, since it's an object (passed by reference)
+ *
+ * @param {object} $scope - The scope object
+ * @param {object} $http - The http object
+ * @param {object} $location - The location object
+ * @param {object} $window - The window object
+ */
+var initScopeSuperAdminAccess = exports.initScopeSuperAdminAccess = function initScopeSuperAdminAccess($scope, $http, $location, $window) {
+  // add utils from ../common
+  (0, _common._initScopeSuperAdminAccess)($scope, $http, $location, $window);
+  // add routes
+  $scope.goToAdd = function () {
+    $location.path('/floor-plans/add');
+  };
+  $scope.goToDesign = function (id) {
+    $location.path('/floor-plans/' + id + '/design');
+  };
+  $scope.goToEdit = function (id) {
+    $location.path('/floor-plans/' + id + '/edit');
+  };
+  $scope.goToList = function () {
+    $location.path('/floor-plans');
+  };
+  $scope.goBack = function () {
+    $window.history.back();
+  };
+  // add api methods
+  $scope.api = createApi($http, _env2.default.api.root, $window.sessionStorage.token);
+  // add delete method
+  $scope.openDelete = function (id) {
+    if (confirm('Are you sure you want to delete this floor plan? This cannot be undone.')) {
+      $scope.api.removeFloorPlan(id, function (err, response) {
+        if (err) {
+          log(err);
+          return $scope.message = {
+            text: 'Something went wrong, and we weren\'t able to delete the floor plan.',
+            type: 'danger'
+          };
+        }
+        // remove floor plan from view collection
+        //  and show success message
+        return _lodash2.default.assign($scope, {
+          message: {
+            text: 'Floor plan #' + id + ' was deleted successfully.',
+            type: 'success'
+          },
+          floorPlans: _lodash2.default.filter($scope.floorPlans, function (floorPlan) {
+            return floorPlan.id !== id;
+          })
+        });
+      });
+    }
+  };
+};
+
+},{"../../core/env":195,"../../settings/account_info":197,"../../settings/account_nav_items":198,"../../settings/permissions":199,"../../settings/primary_nav_items":200,"../_common":194,"lodash":118}],170:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67039,7 +67125,19 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     }, function (err) {});
   };
   if ($scope.officeID == 0) {
-    $window.history.back();
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      if (response.data[0].permissionLevel == 'superadmin') {
+        $window.location.href = '/floor-plans';
+      } else {
+        $window.history.back();
+      }
+    }, function (err) {});
   }
   $http({
     method: 'GET',
@@ -67069,7 +67167,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199,"lodash":118}],171:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200,"lodash":118}],171:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67278,7 +67376,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/primary_nav_items":199}],172:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/primary_nav_items":200}],172:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67317,7 +67415,7 @@ exports.default = ['$scope', '$route', '$routeParams', '$location', function ($s
   $scope.showAccountInfo = _account_info2.default;
 }];
 
-},{"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/primary_nav_items":199}],173:[function(require,module,exports){
+},{"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/primary_nav_items":200}],173:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67384,6 +67482,9 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
   $scope.viewBlacklist = function (employeeID) {
     $location.path('/employee-coworkers/' + employeeID + '/' + $scope.officeID);
+  };
+  $scope.viewSeat = function () {
+    $location.path('/seating-charts/' + $scope.seatingChartID + '/view');
   };
   $scope.viewTeamMembers = function (employeeID) {
     $location.path('/team-members/' + employeeID);
@@ -67540,6 +67641,21 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
             $scope.officeID = response.data[0].officeID;
             $http({
               method: 'GET',
+              url: _env2.default.api.root + '/Api/ActiveSeatingChartOfOffice/' + $scope.officeID,
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
+            }).then(function (response) {
+              //console.log(response.data);
+              if ($scope.isEmpty(response.data)) {
+                $scope.existActiveSeatingChart = false;
+              } else {
+                $scope.existActiveSeatingChart = true;
+                $scope.seatingChartID = response.data[0].id_seating_chart;
+              }
+            }, function (err) {});
+            $http({
+              method: 'GET',
               url: _env2.default.api.root + '/Api/CompanyForOffice/' + $scope.officeID,
               headers: {
                 'x-access-token': $window.sessionStorage.token
@@ -67565,7 +67681,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   }
 }];
 
-},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/primary_nav_items":199}],174:[function(require,module,exports){
+},{"../../core/env":195,"../../settings/account_info":197,"../../settings/account_nav_items":198,"../../settings/primary_nav_items":200}],174:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67591,7 +67707,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   $location.path('/login');
 }];
 
-},{"../../core/env":194}],175:[function(require,module,exports){
+},{"../../core/env":195}],175:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67704,7 +67820,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],176:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],176:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67754,38 +67870,69 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $location.path('/add-office-employee/' + $scope.officeID);
   };
   $scope.delete = function (employeeID) {
-    $http({
-      method: 'GET',
-      url: _env2.default.api.root + '/Api/IsEmployeeLastSuperadmin/' + employeeID,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(function (response) {
-      //console.log(response);
-      $scope.isEmployeeLastSuperadmin = response.data[0];
-      if ($scope.isEmployeeLastSuperadmin.result === 0) {
-        alert('Error: Cannot delete only superadmin');
-      } else {
-        $http({
-          method: 'GET',
-          url: _env2.default.api.root + '/Api/IsEmployeeSuperAdmin/' + employeeID,
-          headers: {
-            'x-access-token': $window.sessionStorage.token
-          }
-        }).then(function (response) {
-          //console.log(response);
-          $scope.isCurrentEmployeeSuperAdmin = response.data[0];
-          if ($scope.isCurrentEmployeeSuperAdmin.result === 1) {
-            $http({
-              method: 'GET',
-              url: _env2.default.api.root + '/Api/IsEmployeeSuperAdmin/' + $scope.masterID,
-              headers: {
-                'x-access-token': $window.sessionStorage.token
-              }
-            }).then(function (response) {
-              //console.log(response);
-              $scope.isDeleterSuperAdmin = response.data[0];
-              if ($scope.isDeleterSuperAdmin.result === 1) {
+    if (confirm('Are you sure you want to delete this office employee? This cannot be undone.')) {
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/IsEmployeeLastSuperadmin/' + employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(function (response) {
+        //console.log(response);
+        $scope.isEmployeeLastSuperadmin = response.data[0];
+        if ($scope.isEmployeeLastSuperadmin.result === 0) {
+          alert('Error: Cannot delete only superadmin');
+        } else {
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/IsEmployeeSuperAdmin/' + employeeID,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
+          }).then(function (response) {
+            //console.log(response);
+            $scope.isCurrentEmployeeSuperAdmin = response.data[0];
+            if ($scope.isCurrentEmployeeSuperAdmin.result === 1) {
+              $http({
+                method: 'GET',
+                url: _env2.default.api.root + '/Api/IsEmployeeSuperAdmin/' + $scope.masterID,
+                headers: {
+                  'x-access-token': $window.sessionStorage.token
+                }
+              }).then(function (response) {
+                //console.log(response);
+                $scope.isDeleterSuperAdmin = response.data[0];
+                if ($scope.isDeleterSuperAdmin.result === 1) {
+                  $http({
+                    method: 'GET',
+                    url: _env2.default.api.root + '/Api/DeleteOfficeEmployee/' + employeeID,
+                    headers: {
+                      'x-access-token': $window.sessionStorage.token
+                    }
+                  }).then(function (response) {
+                    //console.log(response);
+                    $http({
+                      method: 'GET',
+                      url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.officeID,
+                      headers: {
+                        'x-access-token': $window.sessionStorage.token
+                      }
+                    }).then(function (response) {
+                      //console.log(response);
+                      $scope.emps = response.data;
+                    }, function (err) {
+                      //console.log(err);
+                    });
+                  }, function (err) {
+                    //console.log(err);
+                  });
+                } else {
+                    alert('Error: Only a superadmin can delete a superadmin');
+                  }
+              }, function (err) {
+                //console.log(err);
+              });
+            } else {
                 $http({
                   method: 'GET',
                   url: _env2.default.api.root + '/Api/DeleteOfficeEmployee/' + employeeID,
@@ -67809,44 +67956,15 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
                 }, function (err) {
                   //console.log(err);
                 });
-              } else {
-                  alert('Error: Only a superadmin can delete a superadmin');
-                }
-            }, function (err) {
-              //console.log(err);
-            });
-          } else {
-              $http({
-                method: 'GET',
-                url: _env2.default.api.root + '/Api/DeleteOfficeEmployee/' + employeeID,
-                headers: {
-                  'x-access-token': $window.sessionStorage.token
-                }
-              }).then(function (response) {
-                //console.log(response);
-                $http({
-                  method: 'GET',
-                  url: _env2.default.api.root + '/Api/EmployeesOfOffice/' + $scope.officeID,
-                  headers: {
-                    'x-access-token': $window.sessionStorage.token
-                  }
-                }).then(function (response) {
-                  //console.log(response);
-                  $scope.emps = response.data;
-                }, function (err) {
-                  //console.log(err);
-                });
-              }, function (err) {
-                //console.log(err);
-              });
-            }
-        }, function (err) {
-          //console.log(err);
-        });
-      }
-    }, function (err) {
-      //console.log(err);
-    });
+              }
+          }, function (err) {
+            //console.log(err);
+          });
+        }
+      }, function (err) {
+        //console.log(err);
+      });
+    }
   };
   $scope.officeDetail = function (companyID, officeID) {
     $http({
@@ -67970,7 +68088,19 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     $location.path('/employee-detail/' + employeeID);
   };
   if ($scope.officeID == 0) {
-    $location.path('/offices');
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      if (response.data[0].permissionLevel == 'superadmin') {
+        $window.location.href = '/view-employees';
+      } else {
+        $window.history.back();
+      }
+    }, function (err) {});
   } else {
     $http({
       method: 'GET',
@@ -68045,7 +68175,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],177:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],177:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68090,29 +68220,31 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     $location.path('/add-office');
   };
   $scope.delete = function (officeID) {
-    $http({
-      method: 'GET',
-      url: _env2.default.api.root + '/Api/DeleteOffice/' + officeID,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(function (response) {
-      //console.log(response);
+    if (confirm('Are you sure you want to delete this office? This cannot be undone.')) {
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/AllCompaniesForAllOffices',
+        url: _env2.default.api.root + '/Api/DeleteOffice/' + officeID,
         headers: {
           'x-access-token': $window.sessionStorage.token
         }
       }).then(function (response) {
         //console.log(response);
-        $scope.offices = response.data;
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/AllCompaniesForAllOffices',
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(function (response) {
+          //console.log(response);
+          $scope.offices = response.data;
+        }, function (err) {
+          //console.log(err);
+        });
       }, function (err) {
         //console.log(err);
       });
-    }, function (err) {
-      //console.log(err);
-    });
+    }
   };
   $scope.edit = function (officeID) {
     $location.path('/edit-office/' + officeID);
@@ -68174,7 +68306,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],178:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],178:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68295,7 +68427,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
 }];
 //import permissions from '../settings/permissions';
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/primary_nav_items":199}],179:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/primary_nav_items":200}],179:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68415,7 +68547,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/primary_nav_items":199}],180:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/primary_nav_items":200}],180:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68470,6 +68602,15 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
   $scope.goToView = function (id) {
     $location.path('/seating-charts/' + id + '/view');
+  };
+  $scope.isEmpty = function (obj) {
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) return false;
+    }
+    return true;
+  };
+  $scope.selectActiveSeatingChart = function (id) {
+    $location.path('/select-active-seating-chart/' + id);
   };
   $scope.removeSeatingChart = function (id, callback) {
     $http({
@@ -68561,7 +68702,19 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
     }, function (err) {});
   };
   if ($scope.officeID == 0) {
-    $window.history.back();
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/Verify',
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      if (response.data[0].permissionLevel == 'superadmin') {
+        $window.location.href = '/seating-charts';
+      } else {
+        $window.history.back();
+      }
+    }, function (err) {});
   }
   $http({
     method: 'GET',
@@ -68579,6 +68732,15 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
   $http({
     method: 'GET',
+    url: _env2.default.api.root + '/Api/ExistsSeatingChartForOffice/' + $scope.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(function (response) {
+    $scope.existsSeatingChart = response.data[0].result == 1 ? true : false;
+  }, function (err) {});
+  $http({
+    method: 'GET',
     url: _env2.default.api.root + '/Api/SeatingChartsOfOffice/' + $scope.officeID,
     headers: {
       'x-access-token': $window.sessionStorage.token
@@ -68586,12 +68748,32 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }).then(function (response) {
     //console.log('response: ', response);
     $scope.seatingCharts = response.data;
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/ActiveSeatingChartOfOffice/' + $scope.officeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      if (!$scope.isEmpty(response.data[0])) {
+        $scope.activeSeatingChart = response.data[0];
+        for (var i in $scope.seatingCharts) {
+          if ($scope.seatingCharts[i].id == $scope.activeSeatingChart.id_seating_chart) {
+            $scope.seatingCharts[i].isActive = true;
+          } else {
+            $scope.seatingCharts[i].isActive = false;
+          }
+        }
+      }
+    }, function (err) {
+      //console.log('err: ', err);
+    });
   }, function (err) {
     //console.log('err: ', err);
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199,"lodash":118}],181:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200,"lodash":118}],181:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68632,7 +68814,7 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
         }
         var offices = response.data;
         // next, fetch floor plans
-        $scope.api.fetchFloorPlans(function (err, response) {
+        $scope.api.fetchFloorPlansForCompany(function (err, response) {
           if (err) {
             return (0, _common.log)(err);
           }
@@ -68641,12 +68823,9 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
             var office = _lodash2.default.find(offices, { officeID: floorPlan.office_id });
             if (office) {
               floorPlan.officeName = office.officeName;
-              return floorPlan;
             }
+            return floorPlan;
           });
-          if ($scope.floorPlans[0] == null) {
-            $scope.floorPlans = null;
-          }
         });
       });
     } else {
@@ -68723,7 +68902,7 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   };
 }];
 
-},{"../../core/env":194,"../_common":193,"./_shared":184,"lodash":118}],182:[function(require,module,exports){
+},{"../../core/env":195,"../_common":194,"./_shared":184,"lodash":118}],182:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68754,8 +68933,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = ['$scope', '$http', '$location', '$window', function ($scope, $http, $location, $window) {
   // set up the $scope object with nav settings,
   //  routes, api endpoints, and check permissions
-  (0, _shared.initScope)($scope, $http, $location, $window);
-
+  (0, _shared.initScopeSuperAdminAccess)($scope, $http, $location, $window);
+  $scope.officeID;
   // fetch offices and seating charts from the API
   $scope.api.fetchOffices(function (err, response) {
     if (err) {
@@ -68764,12 +68943,17 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
     // add offices to scope
     $scope.offices = response.data;
     // now that we have offices, get seating charts
-    $scope.api.fetchSeatingCharts(function (err, response) {
+    $scope.api.fetchActiveSeatingCharts(function (err, response) {
       if (err) {
         return (0, _common.log)(err);
       }
+      if ($scope.isEmpty(response)) {
+        $scope.existsSeatingChart = false;
+      } else {
+        $scope.existsSeatingChart = true;
+      }
       // add seating charts to scope
-      $scope.seatingCharts = response.data.map(function (seatingChart) {
+      $scope.seatingCharts = response.map(function (seatingChart) {
         var office = _lodash2.default.find($scope.offices, { officeID: seatingChart.office_id });
         seatingChart.office_name = _lodash2.default.get(office, 'officeName');
         return seatingChart;
@@ -68778,7 +68962,7 @@ exports.default = ['$scope', '$http', '$location', '$window', function ($scope, 
   });
 }];
 
-},{"../../core/env":194,"../_common":193,"./_shared":184,"lodash":118}],183:[function(require,module,exports){
+},{"../../core/env":195,"../_common":194,"./_shared":184,"lodash":118}],183:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68808,7 +68992,87 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', function ($scope, $http, $location, $routeParams, $window) {
   // set up the $scope object with nav settings,
   //  routes, api endpoints, and check permissions
-  (0, _shared.initScope)($scope, $http, $location, $window);
+  (0, _shared.initScopeUserAccess)($scope, $http, $location, $window);
+
+  // Check to see if the logged in employee can properly access this seating chart
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/Verify',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(function (response) {
+    // Get the employee
+    var employee = response.data[0];
+    //console.log('Got employee',employee);
+    if (employee.permissionLevel == 'user') {
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + employee.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(function (response) {
+        var office = response.data[0];
+        //console.log('Got office',office);
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/ActiveSeatingChartOfOffice/' + office.officeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(function (response) {
+          //console.log('Got active seating chart', response.data);
+          if ($scope.isEmpty(response.data)) {
+            $window.history.back();
+          } else if (response.data[0].id_seating_chart != $routeParams.id) {
+            $window.history.back();
+          }
+        }, function (err) {});
+      }, function (err) {});
+    } else if (employee.permissionLevel == 'admin') {
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + employee.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(function (response) {
+        var company = response.data[0];
+        //console.log('Got company', company);
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/CompanyOffices/' + company.companyID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(function (response) {
+          //console.log('Company offices', response.data);
+          var offices = response.data;
+          $http({
+            method: 'GET',
+            url: _env2.default.api.root + '/Api/SeatingCharts/' + $routeParams.id,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
+          }).then(function (response) {
+            //console.log('Seating Chart', response.data);
+            var seatingChart = response.data[0];
+            var validate = false;
+            for (var j in offices) {
+              if (seatingChart.office_id == offices[j].officeID) {
+                validate = true;
+              }
+            }
+            if (validate == false) {
+              ;
+              $window.history.back();
+            }
+          }, function (err) {});
+        }, function (err) {});
+      });
+    }
+  }, function (err) {});
 
   // get the id from url params
   var id = $routeParams.id;
@@ -68886,13 +69150,13 @@ exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../../core/env":194,"../_common":193,"./_shared":184,"lodash":118}],184:[function(require,module,exports){
+},{"../../core/env":195,"../_common":194,"./_shared":184,"lodash":118}],184:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.initScope = exports.createApi = undefined;
+exports.initScopeUserAccess = exports.initScopeSuperAdminAccess = exports.initScope = exports.createApi = undefined;
 
 var _env = require('../../core/env');
 
@@ -69031,6 +69295,39 @@ var createApi = exports.createApi = function createApi($http, apiRoot, token) {
     },
 
     //
+    // GET floor plans for a company
+    //
+    fetchFloorPlansForCompany: function fetchFloorPlansForCompany(callback) {
+      $http({
+        method: 'GET',
+        url: apiRoot + '/Api/Verify',
+        headers: headers
+      }).then(function (response) {
+        var employee = response.data[0];
+        $http({
+          method: 'GET',
+          url: apiRoot + '/Api/CompaniesForAdmin/' + employee.employeeID,
+          headers: headers
+        }).then(function (response) {
+          var company = response.data[0];
+          $http({
+            method: 'GET',
+            url: apiRoot + '/Api/FloorPlansForCompany/' + company.companyID,
+            headers: headers
+          }).then(function (response) {
+            return callback(null, response);
+          }, function (err) {
+            return callback(err);
+          });
+        }, function (err) {
+          return callback(err);
+        });
+      }, function (err) {
+        return callback(err);
+      });
+    },
+
+    //
     // GET floor plan
     //
     fetchFloorPlan: function fetchFloorPlan(id, callback) {
@@ -69055,6 +69352,39 @@ var createApi = exports.createApi = function createApi($http, apiRoot, token) {
         headers: headers
       }).then(function (response) {
         return callback(null, response);
+      }, function (err) {
+        return callback(err);
+      });
+    },
+
+    //
+    // GET seating-charts
+    //
+    fetchActiveSeatingCharts: function fetchActiveSeatingCharts(callback) {
+      $http({
+        method: 'GET',
+        url: apiRoot + '/Api/IsActive',
+        headers: headers
+      }).then(function (response) {
+        var activeCharts = response.data;
+        $http({
+          method: 'GET',
+          url: apiRoot + '/Api/SeatingCharts',
+          headers: headers
+        }).then(function (response) {
+          var seatingCharts = response.data;
+          for (var i in seatingCharts) {
+            seatingCharts[i].isActive = false;
+            for (var j in activeCharts) {
+              if (seatingCharts[i].id == activeCharts[j].id_seating_chart) {
+                seatingCharts[i].isActive = true;
+              }
+            }
+          }
+          callback(null, seatingCharts);
+        }, function (err) {
+          return callback(err);
+        });
       }, function (err) {
         return callback(err);
       });
@@ -69149,6 +69479,19 @@ var initScope = exports.initScope = function initScope($scope, $http, $location,
   $scope.goBack = function () {
     $window.history.back();
   };
+  $scope.selectActiveSeatingChart = function (officeID) {
+    if (officeID) {
+      $location.path('/select-active-seating-chart/' + officeID);
+    } else {
+      alert("Please select an office for choosing the active seating chart");
+    }
+  };
+  $scope.isEmpty = function (obj) {
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) return false;
+    }
+    return true;
+  };
   // add api methods
   $scope.api = createApi($http, _env2.default.api.root, $window.sessionStorage.token);
   // add delete method
@@ -69202,7 +69545,300 @@ var initScope = exports.initScope = function initScope($scope, $http, $location,
   };
 };
 
-},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/permissions":198,"../../settings/primary_nav_items":199,"../_common":193,"lodash":118}],185:[function(require,module,exports){
+/**
+ * Initialize the $scope object
+ *
+ * NOTE: no need to return, since it's an object (passed by reference)
+ *
+ * @param {object} $scope - The scope object
+ * @param {object} $http - The http object
+ * @param {object} $location - The location object
+ * @param {object} $window - The window object
+ */
+var initScopeSuperAdminAccess = exports.initScopeSuperAdminAccess = function initScopeSuperAdminAccess($scope, $http, $location, $window) {
+  // add utils from ../common
+  (0, _common._initScopeSuperAdminAccess)($scope, $http, $location, $window);
+  // add routes
+  $scope.goToAdd = function () {
+    $location.path('/seating-charts/add');
+  };
+  $scope.goToList = function () {
+    $location.path('/seating-charts');
+  };
+  $scope.goToView = function (id) {
+    $location.path('/seating-charts/' + id + '/view');
+  };
+  $scope.goBack = function () {
+    $window.history.back();
+  };
+  $scope.selectActiveSeatingChart = function (officeID) {
+    if (officeID) {
+      $location.path('/select-active-seating-chart/' + officeID);
+    } else {
+      alert("Please select an office for choosing the active seating chart");
+    }
+  };
+  $scope.isEmpty = function (obj) {
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) return false;
+    }
+    return true;
+  };
+  // add api methods
+  $scope.api = createApi($http, _env2.default.api.root, $window.sessionStorage.token);
+  // add delete method
+  $scope.openDelete = function (id) {
+    if (confirm('Are you sure you want to delete this seating chart? This cannot be undone.')) {
+      $scope.api.removeSeatingChart(id, function (err, response) {
+        if (err) {
+          (0, _common.log)(err);
+          return $scope.message = {
+            text: 'Something went wrong, and we weren\'t able to delete the seating chart.',
+            type: 'danger'
+          };
+        }
+        // remove seating chart from view collection
+        //  and show success message
+        return _lodash2.default.assign($scope, {
+          message: {
+            text: 'Seating chart #' + id + ' was deleted successfully.',
+            type: 'success'
+          },
+          seatingCharts: _lodash2.default.filter($scope.seatingCharts, function (seatingChart) {
+            return seatingChart.id !== id;
+          })
+        });
+      });
+    }
+  };
+  // add populate method
+  $scope.populateChart = function (id) {
+    if (confirm('Are you sure you want to populate this seating chart? Any previous results will be overriden.')) {
+      $scope.isFetching = true;
+      $scope.api.populateSeatingChart(id, function (err, response) {
+        $scope.isFetching = false;
+        if (err) {
+          (0, _common.log)(err);
+          return $scope.message = {
+            text: 'Something went wrong, and we weren\'t able to populate the seating chart.',
+            type: 'danger'
+          };
+        }
+        // remove seating chart from view collection
+        //  and show success message
+        return _lodash2.default.assign($scope, {
+          message: {
+            text: 'Seating chart #' + id + ' was populated successfully.',
+            type: 'success'
+          }
+        });
+      });
+    }
+  };
+};
+
+/**
+ * Initialize the $scope object
+ *
+ * NOTE: no need to return, since it's an object (passed by reference)
+ *
+ * @param {object} $scope - The scope object
+ * @param {object} $http - The http object
+ * @param {object} $location - The location object
+ * @param {object} $window - The window object
+ */
+var initScopeUserAccess = exports.initScopeUserAccess = function initScopeUserAccess($scope, $http, $location, $window) {
+  // add utils from ../common
+  (0, _common._initScopeUserAccess)($scope, $http, $location, $window);
+  // add routes
+  $scope.goToAdd = function () {
+    $location.path('/seating-charts/add');
+  };
+  $scope.goToList = function () {
+    $location.path('/seating-charts');
+  };
+  $scope.goToView = function (id) {
+    $location.path('/seating-charts/' + id + '/view');
+  };
+  $scope.goBack = function () {
+    $window.history.back();
+  };
+  $scope.selectActiveSeatingChart = function (officeID) {
+    if (officeID) {
+      $location.path('/select-active-seating-chart/' + officeID);
+    } else {
+      alert("Please select an office for choosing the active seating chart");
+    }
+  };
+  $scope.isEmpty = function (obj) {
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) return false;
+    }
+    return true;
+  };
+  // add api methods
+  $scope.api = createApi($http, _env2.default.api.root, $window.sessionStorage.token);
+  // add delete method
+  $scope.openDelete = function (id) {
+    if (confirm('Are you sure you want to delete this seating chart? This cannot be undone.')) {
+      $scope.api.removeSeatingChart(id, function (err, response) {
+        if (err) {
+          (0, _common.log)(err);
+          return $scope.message = {
+            text: 'Something went wrong, and we weren\'t able to delete the seating chart.',
+            type: 'danger'
+          };
+        }
+        // remove seating chart from view collection
+        //  and show success message
+        return _lodash2.default.assign($scope, {
+          message: {
+            text: 'Seating chart #' + id + ' was deleted successfully.',
+            type: 'success'
+          },
+          seatingCharts: _lodash2.default.filter($scope.seatingCharts, function (seatingChart) {
+            return seatingChart.id !== id;
+          })
+        });
+      });
+    }
+  };
+  // add populate method
+  $scope.populateChart = function (id) {
+    if (confirm('Are you sure you want to populate this seating chart? Any previous results will be overriden.')) {
+      $scope.isFetching = true;
+      $scope.api.populateSeatingChart(id, function (err, response) {
+        $scope.isFetching = false;
+        if (err) {
+          (0, _common.log)(err);
+          return $scope.message = {
+            text: 'Something went wrong, and we weren\'t able to populate the seating chart.',
+            type: 'danger'
+          };
+        }
+        // remove seating chart from view collection
+        //  and show success message
+        return _lodash2.default.assign($scope, {
+          message: {
+            text: 'Seating chart #' + id + ' was populated successfully.',
+            type: 'success'
+          }
+        });
+      });
+    }
+  };
+};
+
+},{"../../core/env":195,"../../settings/account_info":197,"../../settings/account_nav_items":198,"../../settings/permissions":199,"../../settings/primary_nav_items":200,"../_common":194,"lodash":118}],185:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _env = require('../core/env');
+
+var _env2 = _interopRequireDefault(_env);
+
+var _permissions = require('../settings/permissions');
+
+var _permissions2 = _interopRequireDefault(_permissions);
+
+var _primary_nav_items = require('../settings/primary_nav_items');
+
+var _primary_nav_items2 = _interopRequireDefault(_primary_nav_items);
+
+var _account_nav_items = require('../settings/account_nav_items');
+
+var _account_nav_items2 = _interopRequireDefault(_account_nav_items);
+
+var _account_info = require('../settings/account_info');
+
+var _account_info2 = _interopRequireDefault(_account_info);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//
+// Select Active Seating Chart for Office Controller
+//
+// Select a different active seating chart for an office
+//
+
+exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', function ($http, $scope, $location, $routeParams, $window) {
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
+  $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
+  $scope.header = 'Select Active Seating Chart for ';
+  $scope.officeID = $routeParams.id;
+  $scope.seatingChartID;
+  $scope.goBack = function () {
+    $window.history.back();
+  };
+  $scope.isEmpty = function (obj) {
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) return false;
+    }
+    return true;
+  };
+  $scope.submit = function () {
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/ActiveSeatingChartOfOffice/' + $scope.officeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      if ($scope.isEmpty(response.data)) {
+        $http({
+          method: 'POST',
+          url: _env2.default.api.root + '/Api/IsActive/',
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          },
+          data: { id_office: $scope.officeID, id_seating_chart: $scope.seatingChartID }
+        }).then(function (response) {
+          $window.history.back();
+        }, function (err) {});
+      } else {
+        $http({
+          method: 'PUT',
+          url: _env2.default.api.root + '/Api/IsActive/' + $scope.officeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          },
+          data: { id_office: $scope.officeID, id_seating_chart: $scope.seatingChartID }
+        }).then(function (response) {
+          $window.history.back();
+        }, function (err) {});
+      }
+    }, function (err) {});
+  };
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/Office/' + $scope.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(function (response) {
+    //console.log('response: ', response);
+    $scope.office = response.data[0];
+    $scope.header += $scope.office.officeName;
+    $http({
+      method: 'GET',
+      url: _env2.default.api.root + '/Api/SeatingChartsOfOffice/' + $scope.officeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(function (response) {
+      $scope.seatingCharts = response.data;
+    }, function (err) {});
+  }, function (err) {
+    //console.log('err: ', err);
+  });
+}];
+
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],186:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69389,7 +70025,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/primary_nav_items":199}],186:[function(require,module,exports){
+},{"../../core/env":195,"../../settings/account_info":197,"../../settings/account_nav_items":198,"../../settings/primary_nav_items":200}],187:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69568,7 +70204,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
 }];
 
-},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/primary_nav_items":199,"../../settings/states":200}],187:[function(require,module,exports){
+},{"../../core/env":195,"../../settings/account_info":197,"../../settings/account_nav_items":198,"../../settings/primary_nav_items":200,"../../settings/states":201}],188:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69681,7 +70317,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/primary_nav_items":199}],188:[function(require,module,exports){
+},{"../../core/env":195,"../../settings/account_info":197,"../../settings/account_nav_items":198,"../../settings/primary_nav_items":200}],189:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69812,7 +70448,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   };
 }];
 
-},{"../../core/env":194,"../../settings/account_info":196,"../../settings/account_nav_items":197,"../../settings/primary_nav_items":199}],189:[function(require,module,exports){
+},{"../../core/env":195,"../../settings/account_info":197,"../../settings/account_nav_items":198,"../../settings/primary_nav_items":200}],190:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -70032,7 +70668,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],190:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],191:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -70078,29 +70714,31 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     $location.path('/add-temperature-range');
   };
   $scope.delete = function (rangeID) {
-    $http({
-      method: 'GET',
-      url: _env2.default.api.root + '/Api/DeleteTemperatureRange/' + rangeID,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(function (response) {
-      //console.log(response);
+    if (confirm('Are you sure you want to delete this temperature range? This cannot be undone.')) {
       $http({
         method: 'GET',
-        url: _env2.default.api.root + '/Api/AllTempRanges',
+        url: _env2.default.api.root + '/Api/DeleteTemperatureRange/' + rangeID,
         headers: {
           'x-access-token': $window.sessionStorage.token
         }
       }).then(function (response) {
         //console.log(response);
-        $scope.temperatureRanges = response.data;
+        $http({
+          method: 'GET',
+          url: _env2.default.api.root + '/Api/AllTempRanges',
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(function (response) {
+          //console.log(response);
+          $scope.temperatureRanges = response.data;
+        }, function (err) {
+          //console.log(err);
+        });
       }, function (err) {
         //console.log(err);
       });
-    }, function (err) {
-      //console.log(err);
-    });
+    }
   };
   $scope.edit = function (rangeID) {
     $location.path('/edit-temperature-range/' + rangeID);
@@ -70136,7 +70774,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],191:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],192:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -70246,7 +70884,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],192:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],193:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -70387,45 +71025,47 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
     }
   };
   $scope.delete = function (employeeID) {
-    $http({
-      method: 'GET',
-      url: _env2.default.api.root + '/Api/IsEmployeeLastSuperadmin/' + employeeID,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(function (response) {
-      //console.log(response);
-      $scope.isEmployeeLastSuperadmin = response.data[0];
-      if ($scope.isEmployeeLastSuperadmin.result === 0) {
-        alert('Error: Cannot delete only superadmin');
-      } else {
-        $http({
-          method: 'GET',
-          url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID,
-          headers: {
-            'x-access-token': $window.sessionStorage.token
-          }
-        }).then(function (response) {
-          //console.log(response);
+    if (confirm('Are you sure you want to delete this employee? This cannot be undone.')) {
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/IsEmployeeLastSuperadmin/' + employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(function (response) {
+        //console.log(response);
+        $scope.isEmployeeLastSuperadmin = response.data[0];
+        if ($scope.isEmployeeLastSuperadmin.result === 0) {
+          alert('Error: Cannot delete only superadmin');
+        } else {
           $http({
             method: 'GET',
-            url: _env2.default.api.root + '/Api/AllEmployeesNotSuperadmin',
+            url: _env2.default.api.root + '/Api/DeleteEmployee/' + employeeID,
             headers: {
               'x-access-token': $window.sessionStorage.token
             }
           }).then(function (response) {
             //console.log(response);
-            $scope.emps = response.data;
+            $http({
+              method: 'GET',
+              url: _env2.default.api.root + '/Api/AllEmployeesNotSuperadmin',
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
+            }).then(function (response) {
+              //console.log(response);
+              $scope.emps = response.data;
+            }, function (err) {
+              //console.log(err);
+            });
           }, function (err) {
             //console.log(err);
           });
-        }, function (err) {
-          //console.log(err);
-        });
-      }
-    }, function (err) {
-      //console.log(err);
-    });
+        }
+      }, function (err) {
+        //console.log(err);
+      });
+    }
   };
   $scope.edit = function (employeeID) {
     $location.path('/edit-employee/' + employeeID);
@@ -70482,14 +71122,14 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
   });
 }];
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199}],193:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],194:[function(require,module,exports){
 'use strict';
 
 var _arguments = arguments;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createMessage = exports._initScope = exports.isViewerAdmin = exports.log = exports.debug = exports.createHeaders = undefined;
+exports.createMessage = exports._initScopeUserAccess = exports._initScopeSuperAdminAccess = exports._initScope = exports.isViewerAdmin = exports.log = exports.debug = exports.createHeaders = undefined;
 
 var _env = require('../core/env');
 
@@ -70614,6 +71254,90 @@ var _initScope = exports._initScope = function _initScope($scope, $http, $locati
 };
 
 /**
+ * Initialize the $scope object
+ *
+ * NOTE: no need to return, since it's an object (passed by reference)
+ *
+ * @param {object} $scope - The scope object
+ * @param {object} $http - The http object
+ * @param {object} $location - The location object
+ * @param {object} $window - The window object
+ */
+var _initScopeSuperAdminAccess = exports._initScopeSuperAdminAccess = function _initScopeSuperAdminAccess($scope, $http, $location, $window) {
+  // add info from settings
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
+  // check permissions
+  $scope = _permissions2.default.superadminPermissionCheck($http, $scope, $location, $window);
+  // add extra utility methods
+  $scope.addCssToHead = function (href) {
+    if (typeof href !== 'string' && href.length > 0) {
+      return href.forEach(function (singleHref) {
+        $scope.addCssToHead(singleHref);
+      });
+    }
+    var linkTag = document.createElement('link');
+    linkTag.rel = 'stylesheet';
+    linkTag.href = href;
+    document.getElementsByTagName('head')[0].appendChild(linkTag);
+  };
+  // add extra utility methods
+  $scope.addJsToBodyClose = function (src) {
+    if (typeof src !== 'string' && src.length > 0) {
+      return src.forEach(function (singleSrc) {
+        $scope.addJsToBodyClose(singleSrc);
+      });
+    }
+    var scriptTag = document.createElement('script');
+    scriptTag.src = src;
+    document.body.appendChild(scriptTag);
+  };
+};
+
+/**
+ * Initialize the $scope object
+ *
+ * NOTE: no need to return, since it's an object (passed by reference)
+ *
+ * @param {object} $scope - The scope object
+ * @param {object} $http - The http object
+ * @param {object} $location - The location object
+ * @param {object} $window - The window object
+ */
+var _initScopeUserAccess = exports._initScopeUserAccess = function _initScopeUserAccess($scope, $http, $location, $window) {
+  // add info from settings
+  $scope.primaryNavItems = _primary_nav_items2.default;
+  $scope.accountNavItems = _account_nav_items2.default;
+  $scope.showAccountInfo = _account_info2.default;
+  // check permissions
+  $scope = _permissions2.default.userPermissionCheck($http, $scope, $location, $window);
+  // add extra utility methods
+  $scope.addCssToHead = function (href) {
+    if (typeof href !== 'string' && href.length > 0) {
+      return href.forEach(function (singleHref) {
+        $scope.addCssToHead(singleHref);
+      });
+    }
+    var linkTag = document.createElement('link');
+    linkTag.rel = 'stylesheet';
+    linkTag.href = href;
+    document.getElementsByTagName('head')[0].appendChild(linkTag);
+  };
+  // add extra utility methods
+  $scope.addJsToBodyClose = function (src) {
+    if (typeof src !== 'string' && src.length > 0) {
+      return src.forEach(function (singleSrc) {
+        $scope.addJsToBodyClose(singleSrc);
+      });
+    }
+    var scriptTag = document.createElement('script');
+    scriptTag.src = src;
+    document.body.appendChild(scriptTag);
+  };
+};
+
+/**
  * Create alert markup
  *
  * @param {string} message - The message to show
@@ -70629,7 +71353,7 @@ var createMessage = exports.createMessage = function createMessage(message) {
   return '<div class="alert alert-' + type + '">' + message + '</div>';
 };
 
-},{"../core/env":194,"../settings/account_info":196,"../settings/account_nav_items":197,"../settings/permissions":198,"../settings/primary_nav_items":199,"lodash":118}],194:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200,"lodash":118}],195:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -70662,7 +71386,7 @@ var env = _lodash2.default.assign({}, _env2.default, _env4.default);
 
 exports.default = env;
 
-},{"../../env":2,"../../env.default":1,"browserify-fs":14,"lodash":118}],195:[function(require,module,exports){
+},{"../../env":2,"../../env.default":1,"browserify-fs":14,"lodash":118}],196:[function(require,module,exports){
 'use strict';
 
 var _AddAdminController = require('./controllers/AddAdminController');
@@ -70853,6 +71577,10 @@ var _SeatingChartController = require('./controllers/SeatingChartController');
 
 var _SeatingChartController2 = _interopRequireDefault(_SeatingChartController);
 
+var _SelectActiveSeatingChartController = require('./controllers/SelectActiveSeatingChartController');
+
+var _SelectActiveSeatingChartController2 = _interopRequireDefault(_SelectActiveSeatingChartController);
+
 var _SignOutController = require('./controllers/MyAccount/SignOutController');
 
 var _SignOutController2 = _interopRequireDefault(_SignOutController);
@@ -70943,6 +71671,7 @@ iscApp.controller('SeatingCharts_ListController', _ListController4.default);
 iscApp.controller('SeatingCharts_ViewController', _ViewController2.default);
 
 iscApp.controller('SeatingChartController', _SeatingChartController2.default);
+iscApp.controller('SelectActiveSeatingChartController', _SelectActiveSeatingChartController2.default);
 iscApp.controller('SignOutController', _SignOutController2.default);
 iscApp.controller('TeamMembersController', _TeamMembersController2.default);
 iscApp.controller('TemperatureRangesController', _TemperatureRangesController2.default);
@@ -71107,6 +71836,9 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   }).when('/seating-charts/:id/view', {
     templateUrl: 'views/seating-charts/view.html',
     controller: 'SeatingCharts_ViewController'
+  }).when('/select-active-seating-chart/:id', {
+    templateUrl: 'views/select-active-seating-chart.html',
+    controller: 'SelectActiveSeatingChartController'
   }).when('/sign-out', {
     templateUrl: 'views/my-account/sign-out.html',
     controller: 'SignOutController'
@@ -71147,7 +71879,7 @@ iscApp.factory('addService', function () {
   };
 });
 
-},{"./controllers/AddAdminController":139,"./controllers/AddAdminToCompanyController":140,"./controllers/AddAdminToOfficeController":141,"./controllers/AddCompanyController":142,"./controllers/AddEmployeeCoworkersController":143,"./controllers/AddEmployeeIndividualInfoController":144,"./controllers/AddEmployeeNewController":145,"./controllers/AddEmployeePreferencesController":146,"./controllers/AddOfficeController":147,"./controllers/AddOfficeEmployeeController":148,"./controllers/AddTemperatureRangeController":149,"./controllers/AdminManagementController":150,"./controllers/AdminReassignToCompanyController":151,"./controllers/CompaniesController":152,"./controllers/CompanyOfficesController":153,"./controllers/EditCompanyController":154,"./controllers/EditEmployeeController":155,"./controllers/EditEmployeePermissionsController":156,"./controllers/EditEmployeePreferencesController":157,"./controllers/EditOfficeController":158,"./controllers/EditTemperatureRangeController":159,"./controllers/EmployeeCoworkersController":160,"./controllers/EmployeeDetailController":161,"./controllers/EmployeePreferencesController":162,"./controllers/EmployeeReassignToOfficeController":163,"./controllers/Errors/InitializationErrorController":164,"./controllers/FloorPlans/AddController":165,"./controllers/FloorPlans/DesignController":166,"./controllers/FloorPlans/EditController":167,"./controllers/FloorPlans/ListController":168,"./controllers/FloorplanController":170,"./controllers/LoginController":171,"./controllers/MainController":172,"./controllers/MyAccount/MyInfoController":173,"./controllers/MyAccount/SignOutController":174,"./controllers/OfficeDetailController":175,"./controllers/OfficeEmployeesController":176,"./controllers/OfficesController":177,"./controllers/PasswordResetController":178,"./controllers/PasswordResetTokenController":179,"./controllers/SeatingChartController":180,"./controllers/SeatingCharts/AddController":181,"./controllers/SeatingCharts/ListController":182,"./controllers/SeatingCharts/ViewController":183,"./controllers/StartUp/AddInitialCompanyController":185,"./controllers/StartUp/AddInitialOfficeController":186,"./controllers/StartUp/AddInitialTemperatureRangeController":187,"./controllers/StartUp/AddSuperAdminToOfficeController":188,"./controllers/TeamMembersController":189,"./controllers/TemperatureRangesController":190,"./controllers/UpdatePasswordController":191,"./controllers/ViewEmployeesController":192,"angular":12,"angular-dragula":7}],196:[function(require,module,exports){
+},{"./controllers/AddAdminController":139,"./controllers/AddAdminToCompanyController":140,"./controllers/AddAdminToOfficeController":141,"./controllers/AddCompanyController":142,"./controllers/AddEmployeeCoworkersController":143,"./controllers/AddEmployeeIndividualInfoController":144,"./controllers/AddEmployeeNewController":145,"./controllers/AddEmployeePreferencesController":146,"./controllers/AddOfficeController":147,"./controllers/AddOfficeEmployeeController":148,"./controllers/AddTemperatureRangeController":149,"./controllers/AdminManagementController":150,"./controllers/AdminReassignToCompanyController":151,"./controllers/CompaniesController":152,"./controllers/CompanyOfficesController":153,"./controllers/EditCompanyController":154,"./controllers/EditEmployeeController":155,"./controllers/EditEmployeePermissionsController":156,"./controllers/EditEmployeePreferencesController":157,"./controllers/EditOfficeController":158,"./controllers/EditTemperatureRangeController":159,"./controllers/EmployeeCoworkersController":160,"./controllers/EmployeeDetailController":161,"./controllers/EmployeePreferencesController":162,"./controllers/EmployeeReassignToOfficeController":163,"./controllers/Errors/InitializationErrorController":164,"./controllers/FloorPlans/AddController":165,"./controllers/FloorPlans/DesignController":166,"./controllers/FloorPlans/EditController":167,"./controllers/FloorPlans/ListController":168,"./controllers/FloorplanController":170,"./controllers/LoginController":171,"./controllers/MainController":172,"./controllers/MyAccount/MyInfoController":173,"./controllers/MyAccount/SignOutController":174,"./controllers/OfficeDetailController":175,"./controllers/OfficeEmployeesController":176,"./controllers/OfficesController":177,"./controllers/PasswordResetController":178,"./controllers/PasswordResetTokenController":179,"./controllers/SeatingChartController":180,"./controllers/SeatingCharts/AddController":181,"./controllers/SeatingCharts/ListController":182,"./controllers/SeatingCharts/ViewController":183,"./controllers/SelectActiveSeatingChartController":185,"./controllers/StartUp/AddInitialCompanyController":186,"./controllers/StartUp/AddInitialOfficeController":187,"./controllers/StartUp/AddInitialTemperatureRangeController":188,"./controllers/StartUp/AddSuperAdminToOfficeController":189,"./controllers/TeamMembersController":190,"./controllers/TemperatureRangesController":191,"./controllers/UpdatePasswordController":192,"./controllers/ViewEmployeesController":193,"angular":12,"angular-dragula":7}],197:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -71161,7 +71893,7 @@ exports.default = {
   show: true
 };
 
-},{}],197:[function(require,module,exports){
+},{}],198:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -71185,7 +71917,7 @@ exports.default = [{
   show: true
 }];
 
-},{}],198:[function(require,module,exports){
+},{}],199:[function(require,module,exports){
 'use strict';
 
 var _env = require('../core/env');
@@ -71271,10 +72003,10 @@ exports.superadminPermissionCheck = function ($http, $scope, $location, $window)
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
-          $location.path('/my-info');
+          $window.history.back();
         } else if (permissionLevel === 'user') {
           // Redirect them to their info page
-          $location.path('/my-info');
+          $window.history.back();
         } else {
           alert('Invalid permission level');
           $location.path('/');
@@ -71376,7 +72108,7 @@ exports.adminPermissionCheck = function ($http, $scope, $location, $window) {
           }
         } else if (permissionLevel === 'user') {
           // Redirect them to their info page
-          $location.path('/my-info');
+          $window.history.back();
         } else {
           alert('Invalid permission level');
           $location.path('/');
@@ -71504,7 +72236,7 @@ exports.userPermissionCheck = function ($http, $scope, $location, $window) {
   return $scope;
 };
 
-},{"../core/env":194}],199:[function(require,module,exports){
+},{"../core/env":195}],200:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -71548,7 +72280,7 @@ exports.default = [{
   show: false
 }];
 
-},{}],200:[function(require,module,exports){
+},{}],201:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -71560,7 +72292,7 @@ Object.defineProperty(exports, "__esModule", {
 
 exports.default = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
 
-},{}]},{},[195])
+},{}]},{},[196])
 
 
 //# sourceMappingURL=bundle.js.map

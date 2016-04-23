@@ -32,13 +32,28 @@
     </div>
   </div>
   <hr /> -->
-  <div class="utilitySection">
-    <div class="searchbox-section">
+  <div class="row">
+    <div class="col-md-3">
       <form class="form-inline">
         <input ng-model="query" type="text" class="form-control" placeholder="Search for">
       </form>
     </div>
-    <div class="add-button-section">
+    <div class="col-md-3">
+      <div class="form-group" ng-if="existsSeatingChart">
+        <select class="form-control" id="officeID" ng-model="officeID" required>
+          <option value="">Select office for active seating chart</option>
+          <option ng-repeat="office in offices" value="{{ office.officeID }}">
+            {{office.officeName}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-success btn-md" ng-if="existsSeatingChart" ng-click="selectActiveSeatingChart(officeID)">
+        Select Active Seating Chart
+      </button>
+    </div>
+    <div class="col-md-3">
       <button class="btn btn-success btn-md"  ng-click="goToAdd()">
         + Add Seating Chart
       </button>
@@ -46,12 +61,15 @@
   </div>
   <table class="table table-striped view-items-table">
     <thead>
+      <th>Active</th>
       <th>Base Floor Plan</th>
       <th>Name</th>
       <th colspan="3" class="action-header">Actions</th>
     </thead>
     <tbody ng-repeat="seatingChart in seatingCharts | filter: query">
       <tr>
+        <td ng-if="seatingChart.isActive">Yes</td>
+        <td ng-if="!seatingChart.isActive">No</td>
         <td>{{seatingChart.base_floor_plan_name}}</td>
         <td><a ng-click="goToView(seatingChart.id)">{{seatingChart.name}}</a></td>
         <td class="action-header">

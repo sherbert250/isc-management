@@ -21,29 +21,31 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
     $location.path('/add-temperature-range');
   };
   $scope.delete = function(rangeID) {
-    $http({
-      method: 'GET',
-      url: `${env.api.root}/Api/DeleteTemperatureRange/` + rangeID,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(response => {
-      //console.log(response);
+    if (confirm('Are you sure you want to delete this temperature range? This cannot be undone.')) {
       $http({
         method: 'GET',
-        url: `${env.api.root}/Api/AllTempRanges`,
+        url: `${env.api.root}/Api/DeleteTemperatureRange/` + rangeID,
         headers: {
           'x-access-token': $window.sessionStorage.token
         }
       }).then(response => {
         //console.log(response);
-        $scope.temperatureRanges = response.data;
+        $http({
+          method: 'GET',
+          url: `${env.api.root}/Api/AllTempRanges`,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(response => {
+          //console.log(response);
+          $scope.temperatureRanges = response.data;
+        }, err => {
+          //console.log(err);
+        });
       }, err => {
         //console.log(err);
       });
-    }, err => {
-      //console.log(err);
-    });
+    }
   };
   $scope.edit = function(rangeID) {
     $location.path('/edit-temperature-range/' + rangeID);

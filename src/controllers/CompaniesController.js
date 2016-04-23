@@ -20,29 +20,31 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
     $location.path('/add-company');
   };
   $scope.delete = function(companyID) {
-    $http({
-      method: 'GET',
-      url: `${env.api.root}/Api/DeleteCompany/` + companyID,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(response => {
-      //console.log(response);
+    if (confirm('Are you sure you want to delete this company? This cannot be undone.')) {
       $http({
         method: 'GET',
-        url: `${env.api.root}/Api/AllCompanies`,
+        url: `${env.api.root}/Api/DeleteCompany/` + companyID,
         headers: {
           'x-access-token': $window.sessionStorage.token
         }
       }).then(response => {
         //console.log(response);
-        $scope.companies = response.data;
+        $http({
+          method: 'GET',
+          url: `${env.api.root}/Api/AllCompanies`,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(response => {
+          //console.log(response);
+          $scope.companies = response.data;
+        }, err => {
+          //console.log(err);
+        });
       }, err => {
         //console.log(err);
       });
-    }, err => {
-      //console.log(err);
-    });
+    }
   };
   $scope.edit = function(companyID) {
     $location.path('/edit-company/' + companyID);

@@ -1,7 +1,7 @@
 import env from '../../core/env';
 import _ from 'lodash';
 import {createMessage, log} from '../_common';
-import {initScope} from './_shared';
+import {initScopeSuperAdminAccess} from './_shared';
 
 //
 // Seating Charts (List) Controller
@@ -13,8 +13,8 @@ import {initScope} from './_shared';
 export default ['$scope', '$http', '$location', '$window', ($scope, $http, $location, $window) => {
   // set up the $scope object with nav settings,
   //  routes, api endpoints, and check permissions
-  initScope($scope, $http, $location, $window);
-
+  initScopeSuperAdminAccess($scope, $http, $location, $window);
+  $scope.officeID;
   // fetch offices and seating charts from the API
   $scope.api.fetchOffices(function(err, response) {
     if (err) {
@@ -23,12 +23,17 @@ export default ['$scope', '$http', '$location', '$window', ($scope, $http, $loca
     // add offices to scope
     $scope.offices = response.data;
     // now that we have offices, get seating charts
-    $scope.api.fetchSeatingCharts(function(err, response) {
+    $scope.api.fetchActiveSeatingCharts(function(err, response) {
       if (err) {
         return log(err);
       }
+      if ($scope.isEmpty(response)) {
+        $scope.existsSeatingChart = false;
+      } else {
+        $scope.existsSeatingChart = true;
+      }
       // add seating charts to scope
-      $scope.seatingCharts = response.data.map(seatingChart => {
+      $scope.seatingCharts = response.map(seatingChart => {
         const office = _.find($scope.offices, {officeID: seatingChart.office_id});
         seatingChart.office_name = _.get(office, 'officeName');
         return seatingChart;

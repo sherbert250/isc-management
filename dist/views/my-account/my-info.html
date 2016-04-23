@@ -49,6 +49,10 @@
             <th>Department</th>
             <td>{{item.department}}</td>
           </tr>
+          <tr ng-if="existActiveSeatingChart">
+            <th>Assigned Seat in Seating Chart</th>
+            <td><button class="btn btn-info btn-sm" ng-click="viewSeat()">View</button></td>
+          </tr>
           <tr>
             <th>Black List</th>
             <td><button class="btn btn-info btn-sm" ng-click="viewBlacklist(item.employeeID)">View</button></td>

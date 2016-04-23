@@ -23,7 +23,7 @@ export default ['$scope', '$http', '$location', '$window', ($scope, $http, $loca
         }
         const offices = response.data;
         // next, fetch floor plans
-        $scope.api.fetchFloorPlans(function(err, response) {
+        $scope.api.fetchFloorPlansForCompany(function(err, response) {
           if (err) {
             return log(err);
           }
@@ -32,12 +32,9 @@ export default ['$scope', '$http', '$location', '$window', ($scope, $http, $loca
             const office = _.find(offices, {officeID: floorPlan.office_id});
             if (office) {
               floorPlan.officeName = office.officeName;
-              return floorPlan;
             }
+            return floorPlan;
           });
-          if ($scope.floorPlans[0] == null) {
-            $scope.floorPlans = null;
-          }
         });
       });
     } else {

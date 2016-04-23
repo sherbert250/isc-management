@@ -61,6 +61,7 @@ import SeatingCharts_ListController from './controllers/SeatingCharts/ListContro
 import SeatingCharts_ViewController from './controllers/SeatingCharts/ViewController';
 
 import SeatingChartController from './controllers/SeatingChartController';
+import SelectActiveSeatingChartController from './controllers/SelectActiveSeatingChartController';
 import SignOutController from './controllers/MyAccount/SignOutController';
 import TeamMembersController from './controllers/TeamMembersController';
 import TemperatureRangesController from './controllers/TemperatureRangesController';
@@ -120,6 +121,7 @@ iscApp.controller('SeatingCharts_ListController', SeatingCharts_ListController);
 iscApp.controller('SeatingCharts_ViewController', SeatingCharts_ViewController);
 
 iscApp.controller('SeatingChartController', SeatingChartController);
+iscApp.controller('SelectActiveSeatingChartController', SelectActiveSeatingChartController);
 iscApp.controller('SignOutController', SignOutController);
 iscApp.controller('TeamMembersController', TeamMembersController);
 iscApp.controller('TemperatureRangesController', TemperatureRangesController);
@@ -322,6 +324,10 @@ iscApp.config(function ($routeProvider, $locationProvider) {
   .when('/seating-charts/:id/view', {
     templateUrl: 'views/seating-charts/view.html',
     controller: 'SeatingCharts_ViewController'
+  })
+  .when('/select-active-seating-chart/:id', {
+    templateUrl: 'views/select-active-seating-chart.html',
+    controller: 'SelectActiveSeatingChartController'
   })
   .when('/sign-out', {
     templateUrl: 'views/my-account/sign-out.html',

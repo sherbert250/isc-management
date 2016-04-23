@@ -62,42 +62,44 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
     }
   };
   $scope.removeFromCompany = function(employeeID, permissionLevel) {
-    var companyID;
-    var existsCompanyForAdmin;
-    if (permissionLevel === "superadmin") {
-      $scope.message = "Superadmins must be assigned to all companies";
-    } else {
-      $http({
-        method: 'GET',
-        url: `${env.api.root}/Api/existsCompanyForAdmin/` + employeeID,
-        headers: {
-          'x-access-token': $window.sessionStorage.token
-        }
-      }).then(response => {
-        existsCompanyForAdmin = response.data[0];
-        if (existsCompanyForAdmin.result === 1) {
-          $http({
-            method: 'GET',
-            url: `${env.api.root}/Api/CompaniesForAdmin/` + employeeID,
-            headers: {
-              'x-access-token': $window.sessionStorage.token
-            }
-          }).then(response => {
-            companyID = response.data[0].companyID;
+    if (confirm('Are you sure you want to delete the admin from this company? This cannot be undone.')) {
+      var companyID;
+      var existsCompanyForAdmin;
+      if (permissionLevel === "superadmin") {
+        $scope.message = "Superadmins must be assigned to all companies";
+      } else {
+        $http({
+          method: 'GET',
+          url: `${env.api.root}/Api/existsCompanyForAdmin/` + employeeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(response => {
+          existsCompanyForAdmin = response.data[0];
+          if (existsCompanyForAdmin.result === 1) {
             $http({
               method: 'GET',
-              url: `${env.api.root}/Api/DeleteAdminFromCompany/` + employeeID + "/" + companyID,
+              url: `${env.api.root}/Api/CompaniesForAdmin/` + employeeID,
               headers: {
                 'x-access-token': $window.sessionStorage.token
               }
             }).then(response => {
-              $location.path('/add-admin-to-company/' + employeeID);
+              companyID = response.data[0].companyID;
+              $http({
+                method: 'GET',
+                url: `${env.api.root}/Api/DeleteAdminFromCompany/` + employeeID + "/" + companyID,
+                headers: {
+                  'x-access-token': $window.sessionStorage.token
+                }
+              }).then(response => {
+                $location.path('/add-admin-to-company/' + employeeID);
+              });
             });
-          });
-        } else {
-          $scope.message = "No company to delete for admin #" + employeeID;
-        }
-      });
+          } else {
+            $scope.message = "No company to delete for admin #" + employeeID;
+          }
+        });
+      }
     }
   };
   $scope.addToOffice = function(employeeID, permissionLevel) {
@@ -143,78 +145,82 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
     }
   };
   $scope.removeFromOffice = function(employeeID, permissionLevel) {
-    var companyID;
-    var existsEmployeeInOffice;
-    if (permissionLevel === "superadmin") {
-      $scope.message = "Superadmins cannot be removed from offices since they are not associated with offices";
-    } else {
-      $http({
-        method: 'GET',
-        url: `${env.api.root}/Api/existsEmployeeInOffice/` + employeeID,
-        headers: {
-          'x-access-token': $window.sessionStorage.token
-        }
-      }).then(response => {
-        existsEmployeeInOffice = response.data[0];
-        if (existsEmployeeInOffice.result === 1) {
-          $http({
-            method: 'GET',
-            url: `${env.api.root}/Api/DeleteEmployeeFromOffice/` + employeeID,
-            headers: {
-              'x-access-token': $window.sessionStorage.token
-            }
-          }).then(response => {
-            $scope.message = "Deleted office for admin #" + employeeID;
-          });
-        } else {
-          $scope.message = "No office to delete for admin #" + employeeID;
-        }
-      });
+    if (confirm('Are you sure you want to delete the admin from this office? This cannot be undone.')) {
+      var companyID;
+      var existsEmployeeInOffice;
+      if (permissionLevel === "superadmin") {
+        $scope.message = "Superadmins cannot be removed from offices since they are not associated with offices";
+      } else {
+        $http({
+          method: 'GET',
+          url: `${env.api.root}/Api/existsEmployeeInOffice/` + employeeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(response => {
+          existsEmployeeInOffice = response.data[0];
+          if (existsEmployeeInOffice.result === 1) {
+            $http({
+              method: 'GET',
+              url: `${env.api.root}/Api/DeleteEmployeeFromOffice/` + employeeID,
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
+            }).then(response => {
+              $scope.message = "Deleted office for admin #" + employeeID;
+            });
+          } else {
+            $scope.message = "No office to delete for admin #" + employeeID;
+          }
+        });
+      }
     }
   };
   $scope.viewAdmin = function(employeeID) {
     $location.path('/employee-detail/' + employeeID);
   };
   $scope.deleteAdmin = function(employeeID) {
-    $http({
-      method: 'GET',
-      url: `${env.api.root}/Api/IsEmployeeLastSuperadmin/` + employeeID,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(response => {
-      //console.log(response);
-      $scope.isEmployeeLastSuperadmin = response.data[0];
-      if ($scope.isEmployeeLastSuperadmin.result === 0) {
-        alert('Error: Cannot delete only superadmin');
-      } else {
-        $http({
-          method: 'GET',
-          url: `${env.api.root}/Api/DeleteEmployee/` + employeeID,
-          headers: {
-            'x-access-token': $window.sessionStorage.token
-          }
-        }).then(response => {
-          //console.log(response);
+    if (confirm('Are you sure you want to delete this admin? This cannot be undone.')) {
+      $http({
+        method: 'GET',
+        url: `${env.api.root}/Api/IsEmployeeLastSuperadmin/` + employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(response => {
+        //console.log(response);
+        $scope.isEmployeeLastSuperadmin = response.data[0];
+        if ($scope.isEmployeeLastSuperadmin.result === 0) {
+          alert('Error: Cannot delete only superadmin');
+        } else {
           $http({
             method: 'GET',
-            url: `${env.api.root}/Api/AllAdminEmployees`,
+            url: `${env.api.root}/Api/DeleteEmployee/` + employeeID,
             headers: {
               'x-access-token': $window.sessionStorage.token
             }
           }).then(response => {
             //console.log(response);
-            $scope.admins = response.data;
+            $http({
+              method: 'GET',
+              url: `${env.api.root}/Api/AllAdminEmployees`,
+              headers: {
+                'x-access-token': $window.sessionStorage.token
+              }
+            }).then(response => {
+              //console.log(response);
+              $scope.admins = response.data;
+            }, err => {
+              //console.log(err);
+            });
           }, err => {
             //console.log(err);
           });
-        }, err => {
-          //console.log(err);
-        });
-      }
-    }, err => {
-      //console.log(err);
-    });
+        }
+      }, err => {
+        //console.log(err);
+      });
+    }
   };
   $http({
     method: 'GET',

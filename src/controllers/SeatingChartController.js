@@ -28,6 +28,16 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope.goToView = function(id) {
     $location.path(`/seating-charts/${id}/view`);
   };
+  $scope.isEmpty = function (obj) {
+    for(var prop in obj) {
+      if(obj.hasOwnProperty(prop))
+      return false;
+    }
+    return true;
+  };
+  $scope.selectActiveSeatingChart = function(id) {
+    $location.path(`/select-active-seating-chart/${id}`);
+  };
   $scope.removeSeatingChart = function(id, callback) {
     $http({
       method: 'DELETE',
@@ -117,7 +127,20 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     });
   };
   if ($scope.officeID == 0) {
-    $window.history.back();
+    $http({
+      method: 'GET',
+      url : `${env.api.root}/Api/Verify`,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(response => {
+      if (response.data[0].permissionLevel == 'superadmin') {
+        $window.location.href = '/seating-charts';
+      } else {
+        $window.history.back();
+      }
+    }, err => {
+    });
   }
   $http({
     method: 'GET',
@@ -135,6 +158,16 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   });
   $http({
     method: 'GET',
+    url: `${env.api.root}/Api/ExistsSeatingChartForOffice/` + $scope.officeID,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(response => {
+    $scope.existsSeatingChart = (response.data[0].result == 1) ? true : false;
+  }, err => {
+  });
+  $http({
+    method: 'GET',
     url: `${env.api.root}/Api/SeatingChartsOfOffice/` + $scope.officeID,
     headers: {
       'x-access-token': $window.sessionStorage.token
@@ -142,6 +175,26 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   }).then(response => {
     //console.log('response: ', response);
     $scope.seatingCharts = response.data;
+    $http({
+      method: 'GET',
+      url: `${env.api.root}/Api/ActiveSeatingChartOfOffice/` + $scope.officeID,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(response => {
+      if (!$scope.isEmpty(response.data[0])) {
+        $scope.activeSeatingChart = response.data[0];
+        for (var i in $scope.seatingCharts) {
+          if ($scope.seatingCharts[i].id == $scope.activeSeatingChart.id_seating_chart) {
+            $scope.seatingCharts[i].isActive = true;
+          } else {
+            $scope.seatingCharts[i].isActive = false;
+          }
+        }
+      }
+    }, err => {
+      //console.log('err: ', err);
+    });
   }, err => {
     //console.log('err: ', err);
   });

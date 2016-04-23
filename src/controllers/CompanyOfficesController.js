@@ -22,29 +22,31 @@ export default ['$http', '$scope', '$location','$routeParams', '$window', ($http
     $location.path('/add-office');
   };
   $scope.delete = function(officeID) {
-    $http({
-      method: 'GET',
-      url: `${env.api.root}/Api/DeleteOffice/` + officeID,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(response => {
-      //console.log(response);
-    }, err => {
-      //console.log(err);
-    });
-    $http({
-      method: 'GET',
-      url: `${env.api.root}/Api/AllCompaniesForAllOffices`,
-      headers: {
-        'x-access-token': $window.sessionStorage.token
-      }
-    }).then(response => {
-      //console.log(response);
-      $scope.offices= response.data;
-    }, err => {
-      //console.log(err);
-    });
+    if (confirm('Are you sure you want to delete this company office? This cannot be undone.')) {
+      $http({
+        method: 'GET',
+        url: `${env.api.root}/Api/DeleteOffice/` + officeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(response => {
+        //console.log(response);
+      }, err => {
+        //console.log(err);
+      });
+      $http({
+        method: 'GET',
+        url: `${env.api.root}/Api/AllCompaniesForAllOffices`,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(response => {
+        //console.log(response);
+        $scope.offices= response.data;
+      }, err => {
+        //console.log(err);
+      });
+    }
   };
   $scope.edit = function(officeID) {
     $location.path('/edit-office/' + officeID);

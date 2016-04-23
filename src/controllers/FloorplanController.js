@@ -84,7 +84,20 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     });
   };
   if ($scope.officeID == 0) {
-    $window.history.back();
+    $http({
+      method: 'GET',
+      url : `${env.api.root}/Api/Verify`,
+      headers: {
+        'x-access-token': $window.sessionStorage.token
+      }
+    }).then(response => {
+      if (response.data[0].permissionLevel == 'superadmin') {
+        $window.location.href = '/floor-plans';
+      } else {
+        $window.history.back();
+      }
+    }, err => {
+    });
   }
   $http({
     method: 'GET',

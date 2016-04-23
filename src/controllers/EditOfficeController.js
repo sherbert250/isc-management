@@ -44,7 +44,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
         }
       })
       .then(response => {
-        $window.location.href = '/offices';
+        $window.history.back();
       }, err => {
         //console.log(err);
       });

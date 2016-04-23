@@ -77,10 +77,10 @@ exports.superadminPermissionCheck = function($http, $scope, $location, $window) 
       if (permissionLevel !== 'superadmin') {
         if (permissionLevel === 'admin') {
           // Redirect them to their info page
-          $location.path('/my-info');
+          $window.history.back();
         } else if (permissionLevel === 'user') {
           // Redirect them to their info page
-          $location.path('/my-info');
+          $window.history.back();
         } else {
           alert('Invalid permission level');
           $location.path('/')
@@ -182,7 +182,7 @@ exports.adminPermissionCheck = function($http, $scope, $location, $window) {
           }
         } else if (permissionLevel === 'user') {
           // Redirect them to their info page
-          $location.path('/my-info');
+          $window.history.back();
         } else {
           alert('Invalid permission level');
           $location.path('/')

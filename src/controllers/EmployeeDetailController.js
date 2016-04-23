@@ -52,6 +52,9 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope.viewBlacklist = function(employeeID) {
     $location.path('/employee-coworkers/' + employeeID + '/' + $scope.officeID);
   };
+  $scope.viewSeat = function() {
+    $location.path('/seating-charts/' + $scope.seatingChartID + '/view');
+  };
   $scope.viewTeamMembers = function(employeeID) {
     $location.path('/team-members/' + employeeID);
   };
@@ -123,6 +126,22 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
     } else {
       //console.log(response.data);
       $scope.officeID = response.data[0].officeID;
+      $http({
+        method: 'GET',
+        url : `${env.api.root}/Api/ActiveSeatingChartOfOffice/` + $scope.officeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(response => {
+        //console.log(response.data);
+        if($scope.isEmpty(response.data)) {
+          $scope.existActiveSeatingChart = false;
+        } else {
+          $scope.existActiveSeatingChart = true;
+          $scope.seatingChartID = response.data[0].id_seating_chart;
+        }
+      }, err => {
+      });
       $http({
         method: 'GET',
         url: `${env.api.root}/Api/CompanyForOffice/` + $scope.officeID,

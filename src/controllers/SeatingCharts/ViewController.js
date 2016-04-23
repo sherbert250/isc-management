@@ -1,7 +1,7 @@
 import env from '../../core/env';
 import _ from 'lodash';
 import {createMessage, log} from '../_common';
-import {initScope} from './_shared';
+import {initScopeUserAccess} from './_shared';
 
 //
 // Floor Plans (Views) Controller
@@ -12,7 +12,91 @@ import {initScope} from './_shared';
 export default ['$scope', '$http', '$location', '$routeParams', '$window', ($scope, $http, $location, $routeParams, $window) => {
   // set up the $scope object with nav settings,
   //  routes, api endpoints, and check permissions
-  initScope($scope, $http, $location, $window);
+  initScopeUserAccess($scope, $http, $location, $window);
+
+  // Check to see if the logged in employee can properly access this seating chart
+  $http({
+    method: 'GET',
+    url : `${env.api.root}/Api/Verify`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(response => {
+    // Get the employee
+    var employee = response.data[0];
+    //console.log('Got employee',employee);
+    if (employee.permissionLevel == 'user') {
+      $http({
+        method: 'GET',
+        url : `${env.api.root}/Api/OfficeOfEmployee/` + employee.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(response => {
+        var office = response.data[0];
+        //console.log('Got office',office);
+        $http({
+          method: 'GET',
+          url : `${env.api.root}/Api/ActiveSeatingChartOfOffice/` + office.officeID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(response => {
+          //console.log('Got active seating chart', response.data);
+          if ($scope.isEmpty(response.data)) {
+            $window.history.back();
+          } else if (response.data[0].id_seating_chart != $routeParams.id) {
+            $window.history.back();
+          }
+        }, err => {
+        });
+      }, err => {
+      });
+    } else if (employee.permissionLevel == 'admin') {
+      $http({
+        method: 'GET',
+        url : `${env.api.root}/Api/CompaniesForAdmin/` + employee.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(response => {
+        var company = response.data[0];
+        //console.log('Got company', company);
+        $http({
+          method: 'GET',
+          url : `${env.api.root}/Api/CompanyOffices/` + company.companyID,
+          headers: {
+            'x-access-token': $window.sessionStorage.token
+          }
+        }).then(response => {
+          //console.log('Company offices', response.data);
+          var offices = response.data;
+          $http({
+            method: 'GET',
+            url : `${env.api.root}/Api/SeatingCharts/` + $routeParams.id,
+            headers: {
+              'x-access-token': $window.sessionStorage.token
+            }
+          }).then(response => {
+            //console.log('Seating Chart', response.data);
+            var seatingChart = response.data[0];
+            var validate = false;
+            for (var j in offices) {
+              if (seatingChart.office_id == offices[j].officeID) {
+                validate = true;
+              }
+            }
+            if (validate == false) {;
+              $window.history.back();
+            }
+          }, err => {
+          });
+        }, err => {
+        });
+      });
+    }
+  }, err => {
+  });
 
   // get the id from url params
   const id = $routeParams.id;

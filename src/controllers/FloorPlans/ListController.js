@@ -1,7 +1,7 @@
 import env from '../../core/env';
 import _ from 'lodash';
 import {createMessage, log} from '../_common';
-import {initScope} from './_shared';
+import {initScopeSuperAdminAccess} from './_shared';
 
 //
 // Floor Plans (List) Controller
@@ -12,7 +12,7 @@ import {initScope} from './_shared';
 export default ['$scope', '$http', '$location', '$window', ($scope, $http, $location, $window) => {
   // set up the $scope object with nav settings,
   //  routes, api endpoints, and check permissions
-  initScope($scope, $http, $location, $window);
+  initScopeSuperAdminAccess($scope, $http, $location, $window);
 
   // fetch offices and floor plans from the API
   $scope.api.fetchOffices(function(err, response) {

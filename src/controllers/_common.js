@@ -106,6 +106,91 @@ export const _initScope = ($scope, $http, $location, $window) => {
 };
 
 /**
+ * Initialize the $scope object
+ *
+ * NOTE: no need to return, since it's an object (passed by reference)
+ *
+ * @param {object} $scope - The scope object
+ * @param {object} $http - The http object
+ * @param {object} $location - The location object
+ * @param {object} $window - The window object
+ */
+export const _initScopeSuperAdminAccess = ($scope, $http, $location, $window) => {
+  // add info from settings
+  $scope.primaryNavItems = primaryNavItems;
+  $scope.accountNavItems = accountNavItems;
+  $scope.showAccountInfo = showAccountInfo;
+  // check permissions
+  $scope = permissions.superadminPermissionCheck($http, $scope, $location, $window);
+  // add extra utility methods
+  $scope.addCssToHead = href => {
+    if (typeof href !== 'string' && href.length > 0) {
+      return href.forEach(singleHref => {
+        $scope.addCssToHead(singleHref);
+      });
+    }
+    const linkTag = document.createElement('link');
+    linkTag.rel = 'stylesheet';
+    linkTag.href = href;
+    document.getElementsByTagName('head')[0].appendChild(linkTag);
+  };
+  // add extra utility methods
+  $scope.addJsToBodyClose = src => {
+    if (typeof src !== 'string' && src.length > 0) {
+      return src.forEach(singleSrc => {
+        $scope.addJsToBodyClose(singleSrc);
+      });
+    }
+    const scriptTag = document.createElement('script');
+    scriptTag.src = src;
+    document.body.appendChild(scriptTag);
+  };
+};
+
+/**
+ * Initialize the $scope object
+ *
+ * NOTE: no need to return, since it's an object (passed by reference)
+ *
+ * @param {object} $scope - The scope object
+ * @param {object} $http - The http object
+ * @param {object} $location - The location object
+ * @param {object} $window - The window object
+ */
+export const _initScopeUserAccess = ($scope, $http, $location, $window) => {
+  // add info from settings
+  $scope.primaryNavItems = primaryNavItems;
+  $scope.accountNavItems = accountNavItems;
+  $scope.showAccountInfo = showAccountInfo;
+  // check permissions
+  $scope = permissions.userPermissionCheck($http, $scope, $location, $window);
+  // add extra utility methods
+  $scope.addCssToHead = href => {
+    if (typeof href !== 'string' && href.length > 0) {
+      return href.forEach(singleHref => {
+        $scope.addCssToHead(singleHref);
+      });
+    }
+    const linkTag = document.createElement('link');
+    linkTag.rel = 'stylesheet';
+    linkTag.href = href;
+    document.getElementsByTagName('head')[0].appendChild(linkTag);
+  };
+  // add extra utility methods
+  $scope.addJsToBodyClose = src => {
+    if (typeof src !== 'string' && src.length > 0) {
+      return src.forEach(singleSrc => {
+        $scope.addJsToBodyClose(singleSrc);
+      });
+    }
+    const scriptTag = document.createElement('script');
+    scriptTag.src = src;
+    document.body.appendChild(scriptTag);
+  };
+};
+
+
+/**
  * Create alert markup
  *
  * @param {string} message - The message to show
