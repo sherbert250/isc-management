@@ -3,6 +3,7 @@ import permissions from '../settings/permissions';
 import primaryNavItems from '../settings/primary_nav_items';
 import accountNavItems from '../settings/account_nav_items';
 import showAccountInfo from '../settings/account_info';
+import {verifyOfficeAdmin} from './_common';
 
 //
 // Office Details Controller
@@ -21,11 +22,12 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   };
   $scope.companyID = $routeParams.companyID;
   $scope.officeID = $routeParams.officeID;
+  verifyOfficeAdmin($scope, $http, $location, $window, $scope.officeID);
   $scope.officeDetail = function(companyID, officeID) {
     $window.location.href = '/office-detail/' + companyID + '/' + officeID;
   };
   if ($scope.officeID == 0) {
-    $location.path('/company-offices/' + $scope.companyID);
+    $window.location.href= '/company-offices/' + $scope.companyID;
   } else {
     $http({
       method: 'GET',

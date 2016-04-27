@@ -2,7 +2,8 @@ import env from '../core/env';
 import permissions from '../settings/permissions';
 import primaryNavItems from '../settings/primary_nav_items';
 import accountNavItems from '../settings/account_nav_items';
-import showAccountInfo from '../settings/account_info';;
+import showAccountInfo from '../settings/account_info';
+import {verifyOfficeAdmin} from './_common';
 
 //
 // Office Employees Controller
@@ -18,6 +19,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope.emps = [];
   $scope.canAddEditDelete = false;
   $scope.officeID = $routeParams.id;
+  verifyOfficeAdmin($scope, $http, $location, $window, $scope.officeID);
   $scope.errorMessage = "";
   $scope.add = function() {
     $location.path('/add-office-employee/' + $scope.officeID);

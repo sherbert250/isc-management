@@ -3,6 +3,7 @@ import permissions from '../settings/permissions';
 import primaryNavItems from '../settings/primary_nav_items';
 import accountNavItems from '../settings/account_nav_items';
 import showAccountInfo from '../settings/account_info';
+import {verifyOfficeAdmin} from './_common';
 
 //
 // Select Active Seating Chart for Office Controller
@@ -17,6 +18,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
   $scope.header = 'Select Active Seating Chart for ';
   $scope.officeID = $routeParams.id;
+  verifyOfficeAdmin($scope, $http, $location, $window, $scope.officeID);
   $scope.seatingChartID;
   $scope.goBack = function() {
     $window.history.back();

@@ -83,7 +83,7 @@ export default ['$http', '$scope', '$location', '$window', ($http, $scope, $loca
               headers: {
                 'x-access-token': $window.sessionStorage.token
               }
-            }).then(response => {
+            }).then(response => {;
               companyID = response.data[0].companyID;
               $http({
                 method: 'GET',

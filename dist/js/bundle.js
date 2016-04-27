@@ -64428,6 +64428,7 @@ exports.default = ['$http', '$scope', '$location', '$window', function ($http, $
                 'x-access-token': $window.sessionStorage.token
               }
             }).then(function (response) {
+              ;
               companyID = response.data[0].companyID;
               $http({
                 method: 'GET',
@@ -64820,6 +64821,8 @@ var _account_info = require('../settings/account_info');
 
 var _account_info2 = _interopRequireDefault(_account_info);
 
+var _common = require('./_common');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -64834,6 +64837,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.companyID = $routeParams.id;
+  (0, _common.verifyCompanyAdmin)($scope, $http, $location, $window, $scope.companyID);
   $scope.controlCompanies = false;
   $scope.canAddEditDelete = false;
   $scope.add = function () {
@@ -64924,7 +64928,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],154:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200,"./_common":194}],154:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67044,6 +67048,8 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
+var _common = require('./_common');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -67059,6 +67065,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.officeID = $routeParams.id;
+  (0, _common.verifyOfficeAdmin)($scope, $http, $location, $window, $scope.officeID);
   $scope.header = 'View Floorplans for ';
   $scope.goToAdd = function () {
     $location.path('/floor-plans/add');
@@ -67167,7 +67174,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200,"lodash":118}],171:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200,"./_common":194,"lodash":118}],171:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67734,6 +67741,8 @@ var _account_info = require('../settings/account_info');
 
 var _account_info2 = _interopRequireDefault(_account_info);
 
+var _common = require('./_common');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -67753,11 +67762,12 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   };
   $scope.companyID = $routeParams.companyID;
   $scope.officeID = $routeParams.officeID;
+  (0, _common.verifyOfficeAdmin)($scope, $http, $location, $window, $scope.officeID);
   $scope.officeDetail = function (companyID, officeID) {
     $window.location.href = '/office-detail/' + companyID + '/' + officeID;
   };
   if ($scope.officeID == 0) {
-    $location.path('/company-offices/' + $scope.companyID);
+    $window.location.href = '/company-offices/' + $scope.companyID;
   } else {
     $http({
       method: 'GET',
@@ -67820,7 +67830,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }
 }];
 
-},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],176:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200,"./_common":194}],176:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -67847,9 +67857,9 @@ var _account_info = require('../settings/account_info');
 
 var _account_info2 = _interopRequireDefault(_account_info);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _common = require('./_common');
 
-;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
 // Office Employees Controller
@@ -67865,6 +67875,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.emps = [];
   $scope.canAddEditDelete = false;
   $scope.officeID = $routeParams.id;
+  (0, _common.verifyOfficeAdmin)($scope, $http, $location, $window, $scope.officeID);
   $scope.errorMessage = "";
   $scope.add = function () {
     $location.path('/add-office-employee/' + $scope.officeID);
@@ -68175,7 +68186,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   }
 }];
 
-},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],177:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200,"./_common":194}],177:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -68578,6 +68589,8 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
+var _common = require('./_common');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -68593,6 +68606,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope.showAccountInfo = _account_info2.default;
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.officeID = $routeParams.id;
+  (0, _common.verifyOfficeAdmin)($scope, $http, $location, $window, $scope.officeID);
   $scope.header = 'View Seating Charts for ';
   $scope.goToAdd = function () {
     $location.path('/seating-charts/add');
@@ -68773,7 +68787,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200,"lodash":118}],181:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200,"./_common":194,"lodash":118}],181:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -69756,6 +69770,8 @@ var _account_info = require('../settings/account_info');
 
 var _account_info2 = _interopRequireDefault(_account_info);
 
+var _common = require('./_common');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -69771,6 +69787,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   $scope = _permissions2.default.adminPermissionCheck($http, $scope, $location, $window);
   $scope.header = 'Select Active Seating Chart for ';
   $scope.officeID = $routeParams.id;
+  (0, _common.verifyOfficeAdmin)($scope, $http, $location, $window, $scope.officeID);
   $scope.seatingChartID;
   $scope.goBack = function () {
     $window.history.back();
@@ -69838,7 +69855,7 @@ exports.default = ['$http', '$scope', '$location', '$routeParams', '$window', fu
   });
 }];
 
-},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200}],186:[function(require,module,exports){
+},{"../core/env":195,"../settings/account_info":197,"../settings/account_nav_items":198,"../settings/permissions":199,"../settings/primary_nav_items":200,"./_common":194}],186:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -71129,7 +71146,7 @@ var _arguments = arguments;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createMessage = exports._initScopeUserAccess = exports._initScopeSuperAdminAccess = exports._initScope = exports.isViewerAdmin = exports.log = exports.debug = exports.createHeaders = undefined;
+exports.createMessage = exports._initScopeUserAccess = exports._initScopeSuperAdminAccess = exports._initScope = exports.verifyOfficeAdmin = exports.verifyCompanyAdmin = exports.isViewerAdmin = exports.log = exports.debug = exports.isEmpty = exports.createHeaders = undefined;
 
 var _env = require('../core/env');
 
@@ -71174,6 +71191,20 @@ var createHeaders = exports.createHeaders = function createHeaders(token) {
 };
 
 /**
+ * Check to see if an object is empty
+ *
+ * @param {object} - Object
+ * @return {boolean} - True if empty, false if not empty
+ */
+
+var isEmpty = exports.isEmpty = function isEmpty(obj) {
+  for (var prop in obj) {
+    if (obj.hasOwnProperty(prop)) return false;
+  }
+  return true;
+};
+
+/**
  * @var {boolean} - Is app in debug mode?
  */
 var debug = exports.debug = true;
@@ -71209,6 +71240,90 @@ var isViewerAdmin = exports.isViewerAdmin = function isViewerAdmin($http, apiRoo
   }, function (err) {
     callback(false);
   });
+};
+
+/**
+ * Initialize the $scope object
+ *
+ * NOTE: no need to return, since it's an object (passed by reference)
+ *
+ * @param {object} $scope - The scope object
+ * @param {object} $http - The http object
+ * @param {object} $location - The location object
+ * @param {object} $window - The window object
+ */
+var verifyCompanyAdmin = exports.verifyCompanyAdmin = function verifyCompanyAdmin($scope, $http, $location, $window, companyID) {
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/Verify',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(function (response) {
+    //console.log('employee: ', response.data);
+    var employee = response.data[0];
+    if (employee.permissionLevel == 'admin') {
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/CompaniesForAdmin/' + employee.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(function (response) {
+        //console.log('office of employee: ', response.data);
+        var company = response.data[0];
+        if (!isEmpty(company)) {
+          if (company.companyID != companyID) {
+            $window.history.back();
+          }
+        } else {
+          $window.history.back();
+        }
+      }, function (err) {});
+    }
+  }, function (err) {});
+};
+
+/**
+ * Initialize the $scope object
+ *
+ * NOTE: no need to return, since it's an object (passed by reference)
+ *
+ * @param {object} $scope - The scope object
+ * @param {object} $http - The http object
+ * @param {object} $location - The location object
+ * @param {object} $window - The window object
+ */
+var verifyOfficeAdmin = exports.verifyOfficeAdmin = function verifyOfficeAdmin($scope, $http, $location, $window, officeID) {
+  $http({
+    method: 'GET',
+    url: _env2.default.api.root + '/Api/Verify',
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(function (response) {
+    //console.log('employee: ', response.data);
+    var employee = response.data[0];
+    if (employee.permissionLevel == 'admin') {
+      $http({
+        method: 'GET',
+        url: _env2.default.api.root + '/Api/OfficeOfEmployee/' + employee.employeeID,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(function (response) {
+        //console.log('office of employee: ', response.data);
+        var office = response.data[0];
+        if (!isEmpty(office)) {
+          if (office.officeID != officeID) {
+            $window.history.back();
+          }
+        } else {
+          $window.history.back();
+        }
+      }, function (err) {});
+    }
+  }, function (err) {});
 };
 
 /**

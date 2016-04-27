@@ -22,6 +22,21 @@ export const createHeaders = token => {
 }
 
 /**
+ * Check to see if an object is empty
+ *
+ * @param {object} - Object
+ * @return {boolean} - True if empty, false if not empty
+ */
+
+export const isEmpty = function (obj) {
+  for(var prop in obj) {
+    if(obj.hasOwnProperty(prop))
+    return false;
+  }
+  return true;
+};
+
+/**
  * @var {boolean} - Is app in debug mode?
  */
 export const debug = true;
@@ -61,6 +76,94 @@ export const isViewerAdmin = ($http, apiRoot, token, callback) => {
       callback(false);
     }
   );
+};
+
+/**
+ * Initialize the $scope object
+ *
+ * NOTE: no need to return, since it's an object (passed by reference)
+ *
+ * @param {object} $scope - The scope object
+ * @param {object} $http - The http object
+ * @param {object} $location - The location object
+ * @param {object} $window - The window object
+ */
+export const verifyCompanyAdmin = ($scope, $http, $location, $window, companyID) => {
+  $http({
+    method: 'GET',
+    url : `${env.api.root}/Api/Verify`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(response => {
+    //console.log('employee: ', response.data);
+    var employee = response.data[0];
+    if (employee.permissionLevel == 'admin') {
+      $http({
+        method: 'GET',
+        url : `${env.api.root}/Api/CompaniesForAdmin/${employee.employeeID}`,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(response => {
+        //console.log('office of employee: ', response.data);
+        var company = response.data[0];
+        if (!isEmpty(company)) {
+          if(company.companyID != companyID) {
+            $window.history.back();
+          }
+        } else {
+          $window.history.back();
+        }
+      }, err => {
+      });
+    }
+  }, err => {
+  });
+};
+
+/**
+ * Initialize the $scope object
+ *
+ * NOTE: no need to return, since it's an object (passed by reference)
+ *
+ * @param {object} $scope - The scope object
+ * @param {object} $http - The http object
+ * @param {object} $location - The location object
+ * @param {object} $window - The window object
+ */
+export const verifyOfficeAdmin = ($scope, $http, $location, $window, officeID) => {
+  $http({
+    method: 'GET',
+    url : `${env.api.root}/Api/Verify`,
+    headers: {
+      'x-access-token': $window.sessionStorage.token
+    }
+  }).then(response => {
+    //console.log('employee: ', response.data);
+    var employee = response.data[0];
+    if (employee.permissionLevel == 'admin') {
+      $http({
+        method: 'GET',
+        url : `${env.api.root}/Api/OfficeOfEmployee/${employee.employeeID}`,
+        headers: {
+          'x-access-token': $window.sessionStorage.token
+        }
+      }).then(response => {
+        //console.log('office of employee: ', response.data);
+        var office = response.data[0];
+        if (!isEmpty(office)) {
+          if(office.officeID != officeID) {
+            $window.history.back();
+          }
+        } else {
+          $window.history.back();
+        }
+      }, err => {
+      });
+    }
+  }, err => {
+  });
 };
 
 /**

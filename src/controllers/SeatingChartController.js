@@ -4,6 +4,7 @@ import primaryNavItems from '../settings/primary_nav_items';
 import accountNavItems from '../settings/account_nav_items';
 import showAccountInfo from '../settings/account_info';
 import _ from 'lodash';
+import {verifyOfficeAdmin} from './_common';
 
 //
 // Seating Chart Controller
@@ -18,6 +19,7 @@ export default ['$http', '$scope', '$location', '$routeParams', '$window', ($htt
   $scope.showAccountInfo = showAccountInfo;
   $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
   $scope.officeID = $routeParams.id;
+  verifyOfficeAdmin($scope, $http, $location, $window, $scope.officeID);
   $scope.header = 'View Seating Charts for ';
   $scope.goToAdd = function() {
     $location.path('/seating-charts/add');

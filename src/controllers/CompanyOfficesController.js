@@ -3,6 +3,7 @@ import permissions from '../settings/permissions';
 import primaryNavItems from '../settings/primary_nav_items';
 import accountNavItems from '../settings/account_nav_items';
 import showAccountInfo from '../settings/account_info';
+import {verifyCompanyAdmin} from './_common';
 
 //
 // View Company Offices Controller
@@ -16,6 +17,7 @@ export default ['$http', '$scope', '$location','$routeParams', '$window', ($http
   $scope.showAccountInfo = showAccountInfo;
   $scope = permissions.adminPermissionCheck($http, $scope, $location, $window);
   $scope.companyID = $routeParams.id;
+  verifyCompanyAdmin($scope, $http, $location, $window, $scope.companyID)
   $scope.controlCompanies = false;
   $scope.canAddEditDelete = false;
   $scope.add = function() {
