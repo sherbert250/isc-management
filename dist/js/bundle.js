@@ -66559,6 +66559,8 @@ exports.default = ['$scope', '$http', '$location', '$routeParams', '$window', fu
       onSave: function onSave(newDesign) {
         console.log(newDesign);
         newDesign.spots = JSON.stringify(newDesign.spots);
+        newDesign.office_id = $scope.floorPlan.office_id;
+        console.log(newDesign.office_id);
         $scope.api.updateFloorPlan(id, newDesign, function (err, response) {
           if (err) {
             (0, _common.log)(err);
