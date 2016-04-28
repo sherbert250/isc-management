@@ -44,7 +44,7 @@ export default ['$scope', '$http', '$location', '$routeParams', '$window', ($sco
         }
       },
       onDone() {
-        window.location.replace(window.location.origin + '/floor-plans');
+        window.location.replace(window.history.back());
         // $window.history.back();
       },
       onSave(newDesign) {

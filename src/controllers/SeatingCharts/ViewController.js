@@ -152,7 +152,7 @@ export default ['$scope', '$http', '$location', '$routeParams', '$window', ($sco
           }
         },
         onExit() {
-          window.location.replace(window.location.origin + '/seating-charts');
+          window.location.replace(window.history.back());
           // $window.history.back();
         }
       };
